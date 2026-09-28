@@ -3,6 +3,17 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 [[ "$(uname -s)" == Darwin ]] || { echo 'Simulator requires macOS'; exit 2; }
 mkdir -p artifacts
+# Preserve earlier native evidence outside this invocation's evidence directory.
+# xcodebuild requires a new result bundle; a failed run must not inherit old passes.
+previous_evidence=".nidaa-simulator-history/$(uuidgen)"
+for previous in artifacts/LocalExperience.xcresult artifacts/screenshots artifacts/ui-summary.json \
+  artifacts/xcode-ui-tests.log artifacts/xcode-release.log artifacts/simulator-result.txt \
+  artifacts/ui-test-names.txt artifacts/ui-selection.txt artifacts/disposable-simulator.txt artifacts/simulator-template.txt; do
+  if [[ -e "$previous" ]]; then
+    mkdir -p "$previous_evidence"
+    mv "$previous" "$previous_evidence/"
+  fi
+done
 proof_bundle_id='com.example.nidaa.simulatorproof'
 xcrun simctl list devices available -j > artifacts/devices.json
 python3 Scripts/select_simulator.py artifacts/devices.json --template > artifacts/simulator-template.txt
