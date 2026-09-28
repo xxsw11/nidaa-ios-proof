@@ -19,6 +19,8 @@ final class LocalExperienceUITests: XCTestCase {
     }
     func tab(_ name: String) { app.tabBars.buttons[name].tap() }
     func shot(_ name: String) {
+        // Wait for the sheet presentation animation so evidence is a settled screen.
+        sleep(1)
         let attachment = XCTAttachment(screenshot: app.screenshot());attachment.name = name;attachment.lifetime = .keepAlways;add(attachment)
     }
     func begin() { tap("startAlert");tap("authenticateSend");XCTAssertTrue(app.buttons["confirmAlert"].waitForExistence(timeout: 6)) }
@@ -29,7 +31,8 @@ final class LocalExperienceUITests: XCTestCase {
         XCTAssertTrue(app.buttons["acceptResponse"].exists);XCTAssertFalse(app.staticTexts["قبولك لا يغلق الحالة. أكمل المتابعة ثم أنهِ الحالة صراحةً."].exists)
         tap("incomingSilence");XCTAssertTrue(app.buttons["acceptResponse"].exists)
         tap("acceptResponse");shot("06-human-response");tap("incomingDetails");tap("resolveAlert");tap("confirmCloseAlert")
-        XCTAssertTrue(app.staticTexts["انتهت الحالة بتأكيد صريح"].firstMatch.waitForExistence(timeout: 5));shot("07-resolved")
+        XCTAssertTrue(app.staticTexts["انتهت الحالة بتأكيد صريح"].firstMatch.waitForExistence(timeout: 5))
+        XCTAssertEqual(app.staticTexts["detailMessage"].label,"انتهت الحالة بتأكيد صريح");shot("07-resolved")
         tap("closeScreen");tab("السجل");shot("08-history")
         XCTAssertFalse(app.staticTexts["emptyHistory"].exists)
     }
@@ -66,8 +69,9 @@ final class LocalExperienceUITests: XCTestCase {
         field.tap()
         // Use text-field value deletion instead of localization-dependent Select All menus.
         let old = field.value as? String ?? "";field.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue,count: old.count)+"#99CCFF")
-        tap("saveAppearance");app.terminate();launch(reset: false);tab("الإعدادات");tap("appearanceSettings")
-        XCTAssertEqual(app.textFields["buttonHex"].value as? String,"#99CCFF");tap("closeScreen")
+        tap("saveAppearance");app.terminate();launch(reset: false);shot("20-custom-button-home");tab("الإعدادات");tap("appearanceSettings")
+        XCTAssertEqual(app.textFields["buttonHex"].value as? String,"#99CCFF")
+        app.segmentedControls.buttons["فاتح"].tap();shot("21-light-preview");tap("closeScreen")
         tap("terms");shot("11-terms");tap("closeScreen");tap("privacy");shot("12-privacy");tap("closeScreen")
         tap("settingsReadiness");shot("13-readiness");tap("closeScreen")
     }
@@ -78,7 +82,9 @@ final class LocalExperienceUITests: XCTestCase {
         tap("declineResponse");XCTAssertTrue(app.staticTexts["لا يستطيع الاستجابة"].firstMatch.exists)
     }
     func testLargeTextHomeAndSettingsRemainNavigable() {
-        launch(large: true);shot("15-large-text-home");tap("startAlert");shot("16-large-text-selection");tap("closeScreen")
+        launch(large: true);shot("15-large-text-home")
+        for _ in 0..<10 { if app.buttons["startAlert"].isHittable { break };app.swipeUp() }
+        shot("19-large-text-action");tap("startAlert");shot("16-large-text-selection");tap("closeScreen")
         tab("الإعدادات");shot("17-large-text-settings");tap("appearanceSettings");shot("18-large-text-appearance")
     }
 }

@@ -15,6 +15,7 @@ import ProofCore
             .sheet(isPresented: Binding(get: { store.screen != nil }, set: { if !$0 { store.cancelCompose() } })) {
                 NavigationStack {
                     RoutedScreen(store: store)
+                        .navigationBarTitleDisplayMode(.inline)
                         .toolbar { ToolbarItem(placement: .cancellationAction) { Button("إغلاق") { store.cancelCompose() }.accessibilityIdentifier("closeScreen") } }
                 }
                 .environment(\.nidaaPalette, store.palette).environment(\.layoutDirection, .rightToLeft)

@@ -102,11 +102,11 @@ enum AppScreen: Equatable { case compose, alert(UUID), incoming(UUID), editConta
     func silence(_ id: UUID, dismiss: Bool = false) {
         simulation.silence(id, dismiss: dismiss, at: now)
         if dismiss { screen = nil }
-        message = "إسكات محاكى؛ الحالة لم تنتهِ ولا يوجد صوت فعلي."
+        message = "الإسكات وحده لا يعني قبول الاستجابة أو إنهاء الحالة؛ لا صوت فعلي."
     }
     func closeAlert(_ id: UUID, state: LocalAlertState) {
         guard !locked else { return }
-        run { try simulation.close(id, state: state, at: now);releaseIfFinished() }
+        run { try simulation.close(id, state: state, at: now);message = state.title;releaseIfFinished() }
     }
     func retry(_ id: UUID) { guard !locked else { return };run { try simulation.retry(id, at: now) } }
     func alternative(_ id: UUID, contact: UUID) { guard !locked else { return };run { try simulation.addAlternative(id, contactID: contact, at: now) } }

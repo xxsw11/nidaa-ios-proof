@@ -53,9 +53,10 @@ struct SimulationNotice: View {
 }
 struct Avatar: View {
     @Environment(\.nidaaPalette) private var palette
+    @ScaledMetric(relativeTo: .title2) private var size: CGFloat = 52
     let name: String
     var body: some View {
-        Text(String(name.prefix(1))).font(.title2.bold()).frame(width: 52,height: 52)
+        Text(String(name.prefix(1))).font(.title2.bold()).frame(width: size,height: size)
             .foregroundStyle(palette.buttonInk.color).background(Color(hex: palette.button)).clipShape(RoundedRectangle(cornerRadius: 18))
             .accessibilityHidden(true)
     }

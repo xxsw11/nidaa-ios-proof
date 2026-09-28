@@ -75,7 +75,7 @@ def main():
     output = io.StringIO()
     result = unittest.TextTestRunner(stream=output, verbosity=2).run(unittest.defaultTestLoader.loadTestsFromModule(tests))
     check("Offline APNs payload behavioral tests pass", result.wasSuccessful() and result.testsRun == 8)
-    (ROOT / "QA/python-test-output.txt").write_text(output.getvalue(), encoding="utf-8")
+    (ROOT / "QA/python-test-output.txt").write_text(output.getvalue(), encoding="utf-8", newline="\n")
     broken = []
     for p in ROOT.rglob("*.md"):
         for link in re.findall(r"\]\(([^)]+)\)", p.read_text(encoding="utf-8")):
@@ -97,7 +97,7 @@ def main():
         "physicalDeviceTests": "Not tested", "APNs": "Not tested", "criticalAlerts": "Awaiting approval",
         "limits": "Structural validation is not Swift parsing, compilation, SDK linking or runtime verification. Python checks only the offline payload helper."
     }
-    (ROOT / "QA/windows-checks.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+    (ROOT / "QA/windows-checks.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
     print(json.dumps({"structuralChecksPassed": len(checks), "pythonTestsPassed": result.testsRun, "swiftTestsPreparedNotRun": report["swiftUnitTests"]["prepared"], "iOSBuild": "Not tested"}, indent=2))
 
 

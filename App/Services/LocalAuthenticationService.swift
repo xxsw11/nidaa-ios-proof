@@ -8,6 +8,7 @@ enum AuthenticationOutcome { case success, cancelled, failed(String) }
     private(set) var lastMethod = "لم يُجرَ تحقق"
     func authenticate(reason: String) async -> AuthenticationOutcome {
         cancel()
+        lastMethod = "جارٍ التحقق بوسيلة النظام"
         let context = LAContext();current = context
         context.localizedCancelTitle = "إلغاء"
         context.localizedFallbackTitle = "وسيلة النظام البديلة"
@@ -26,7 +27,10 @@ enum AuthenticationOutcome { case success, cancelled, failed(String) }
         }
         guard current === context else { return .cancelled }
         var fallbackError: NSError?
-        guard context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &fallbackError) else { return .failed(Self.explain(fallbackError)) }
+        guard context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &fallbackError) else {
+            lastMethod = "لا تتوفر وسيلة تحقق للنظام"
+            return .failed(Self.explain(fallbackError))
+        }
         // iOS owns this fallback and may choose the available system method. No app PIN field.
         lastMethod = "وسيلة النظام البديلة؛ قد تشمل رمز الجهاز"
         let (success, error) = await evaluate(context, .deviceOwnerAuthentication, reason)

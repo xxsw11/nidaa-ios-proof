@@ -301,6 +301,8 @@
 				<string>singlefile</string>
 				<key>DEBUG_INFORMATION_FORMAT</key>
 				<string>dwarf</string>
+				<key>ONLY_ACTIVE_ARCH</key>
+				<string>YES</string>
 			</dict>
 		</dict>
 		<key>20D16222A5CB9C5786FEB6B3</key>
@@ -330,6 +332,8 @@
 				<string>YES</string>
 				<key>SUPPORTED_PLATFORMS</key>
 				<string>iphoneos iphonesimulator</string>
+				<key>ONLY_ACTIVE_ARCH</key>
+				<string>YES</string>
 			</dict>
 		</dict>
 		<key>0CC31A010A9EAFED2597BEBC</key>
@@ -403,6 +407,8 @@
 				<string>singlefile</string>
 				<key>DEBUG_INFORMATION_FORMAT</key>
 				<string>dwarf</string>
+				<key>ONLY_ACTIVE_ARCH</key>
+				<string>YES</string>
 			</dict>
 		</dict>
 		<key>11818935F2B39E94CACA2384</key>
@@ -432,6 +438,8 @@
 				<string>YES</string>
 				<key>SUPPORTED_PLATFORMS</key>
 				<string>iphoneos iphonesimulator</string>
+				<key>ONLY_ACTIVE_ARCH</key>
+				<string>YES</string>
 			</dict>
 		</dict>
 		<key>C631E4B921CE4474D0AB93BD</key>
@@ -818,6 +826,8 @@
 				</array>
 				<key>SWIFT_ACTIVE_COMPILATION_CONDITIONS</key>
 				<string>DEBUG</string>
+				<key>ONLY_ACTIVE_ARCH</key>
+				<string>YES</string>
 			</dict>
 		</dict>
 		<key>23E2D460E0A0626257522466</key>
@@ -894,6 +904,8 @@
 				</array>
 				<key>SWIFT_ACTIVE_COMPILATION_CONDITIONS</key>
 				<string>DEBUG</string>
+				<key>ONLY_ACTIVE_ARCH</key>
+				<string>YES</string>
 			</dict>
 		</dict>
 		<key>E0E81123A997D116271FDC33</key>
