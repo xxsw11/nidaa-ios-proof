@@ -1,0 +1,10 @@
+# Stabilization validation history
+
+| Run | Executable source | Actual result | Resolution / role |
+|---|---|---|---|
+| [36377112569](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36377112569) | `2a95338764a909844828aa21dc27f9877a2b24c5` | Python 13 pass; Swift 44 pass; UI 9 pass / 7 fail; Release skipped | Count assertions expected Latin digits while Arabic UI rendered Arabic digits; explicit accessibility values preserve localized labels. Reset assertion now waits for completed UI update and checks process relaunch. Visual review also found and fixed root storage-banner overlap. |
+| [36378693006](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36378693006) | `958b2174e085fbbc5410f508c6e0cc107530fbbb` | Python 13 pass; Swift 45 pass; UI 16 pass / 1 fail; Release skipped | The test write fault hit a nonresponse timer save before the intended retry. Fault injection now targets the retry archive transaction. Failed-save UI metadata is rolled back; auth is disabled during storage failure. Review found a stale alternative prompt after expiry. |
+| [36380412780](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36380412780) | `e415895361c6a8ce655d039b1e8bc0f6ad836c95` | Python 13, Swift 45, UI 17 all pass; Debug and Release pass | Confirms retry-save failure preserves the previous persisted attempt. This run predates the final visual fix and is not used instead of final-source validation. |
+| [36381069313](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36381069313) | `8edd1385b118f01e266ee5c1633d33c201a26be4` | Python 13, Swift 45, UI 17 all pass; Debug and Release pass | Final executable source. Includes terminal/nonresponse hint fix, expiry UI assertion, unambiguous storage-banner queries, and large-text action capture. All 31 images opened. |
+
+The final delivery commit adds only documentation, reports and source inventory to the tested executable source. GitHub compare and the delivery provenance record identify these changes. No failed result is represented as passed. Cloud tests use the standard public runner with no notifications, signing secrets or physical devices.

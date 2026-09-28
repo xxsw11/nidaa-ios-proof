@@ -1,0 +1,11 @@
+# Stabilization source review
+
+Reviewed AlertPersistence, AlertActionGate, LocalSimulation, ExperienceStore, ExperienceRoot, AlertScreens, native authentication, test fault hooks, the coverage map and actual UI tests. No blocking source finding remained after the recorded fixes and final test run.
+
+- The archive contains contacts and domain records, not authentication outcomes or gates. Schema validation rejects corrupt/unsupported records; failed loading blocks writes. Atomic replacement is delegated to Foundation, with complete file protection on iOS and backup exclusion. Physical data-protection behavior is not established by macOS/Simulator tests.
+- Restoration recalculates expiry before publishing a saved snapshot; it never invokes notification or retry services. A failed expiry write preserves terminal state in memory and blocks new actions until storage recovery. Failed user mutations restore the prior in-memory domain and route/review metadata while consuming the authorization.
+- Retry/addition details bind alert ID, action, recipients and current progress/deadline. They expire after 15 seconds, cannot be reused, and are revalidated at execution. Store generation checks reject authentication completed after contact changes, backgrounding or locking. Restart creates empty gates. Retry excludes both acceptance and refusal; addition does not extend expiry.
+- Native authentication uses a fresh LAContext with system fallback and cancellation; test outcomes and storage/clock fault hooks are restricted to Debug Simulator. Runtime notification scheduling/registration remains disabled in every configuration.
+- The UI tests drive actual SwiftUI controls and real app repository storage, including process termination/relaunch, failed storage and explicit reset. The ordinary application namespace is independent from the test namespace. Unit tests supplement these paths with migration, invalid archive, deadline and capability invariants.
+
+Scope stays local and fictional. Hardware, remote delivery, official submissions, and the next implementation stage are not part of this review. Results and exact tested commit: stabilization-results.json. Manual checks: ../Docs/LOCAL_STABILIZATION.md.
