@@ -48,6 +48,20 @@ class IntegrationCase(unittest.TestCase):
 
 
 class DomainIntegration(IntegrationCase):
+    def test_uppercase_swift_uuids_work_and_case_duplicates_reject_atomically(self):
+        consent(self.a, self.b)
+        aid = self.a.accepted("create_alert", recipient_ids=[self.b.user_id.upper()], expires_at=int(time.time())+600)["resource_id"]
+        self.b.accepted("acknowledge", alert_id=aid.upper(), event_id=str(uuid4()).upper(), kind="opened")
+        self.b.accepted("respond", alert_id=aid.upper(), expected_version=1, response="responding")
+        self.assertEqual(self.a.alert(aid)["recipients"][0]["response"], "responding")
+        self.assertEqual(self.a.command("add_recipients", alert_id=aid.upper(), expected_version=2,
+                                       recipient_ids=[self.b.user_id.upper()])["error"], "conflict")
+        duplicate = self.a.command("create_alert", recipient_ids=[self.b.user_id.lower(),self.b.user_id.upper()],
+                                   expires_at=int(time.time())+600)
+        self.assertEqual(duplicate["status"], "rejected")
+        self.assertEqual(duplicate["error"], "invalid_request")
+        self.assertEqual(sql("SELECT count(*) AS n FROM nidaa.alerts WHERE sender_id=%s", (self.a.user_id,))[0]["n"], 1)
+
     def test_duplicate_operation_and_conflicting_payload(self):
         consent(self.a, self.b)
         request = envelope("create_alert", recipient_ids=[self.b.user_id], expires_at=int(time.time()) + 600)
@@ -279,6 +293,21 @@ class DomainIntegration(IntegrationCase):
             self.assertEqual(connection.execute("SELECT count(*) AS n FROM nidaa.alerts").fetchone()["n"], 0)
             with self.assertRaises(psycopg.errors.InsufficientPrivilege):
                 connection.execute("UPDATE nidaa.alerts SET state='resolved',closed_at=1 WHERE alert_id=%s", (aid,))
+
+    def test_runtime_role_cannot_read_provider_passwords_refresh_tokens_or_full_sessions(self):
+        claims = jwt.decode(self.a.session["access_token"], options={"verify_signature":False})
+        with psycopg.connect(os.environ["DATABASE_URL"]) as connection:
+            verified = connection.execute("""SELECT u.id,s.id FROM auth.users u
+                JOIN auth.sessions s ON s.user_id=u.id
+                WHERE u.id=%s AND s.id=%s AND u.email_confirmed_at IS NOT NULL""",
+                (claims["sub"],claims["session_id"])).fetchone()
+            self.assertTrue(verified is not None, "runtime role cannot perform its required identity/session check")
+            for statement in ("SELECT encrypted_password FROM auth.users LIMIT 0",
+                              "SELECT token FROM auth.refresh_tokens LIMIT 0",
+                              "SELECT * FROM auth.sessions LIMIT 0"):
+                with self.assertRaises(psycopg.errors.InsufficientPrivilege):
+                    with connection.transaction():
+                        connection.execute(statement)
 
     def test_sync_is_account_scoped_ordered_and_tombstones_remove(self):
         aid = self.create()

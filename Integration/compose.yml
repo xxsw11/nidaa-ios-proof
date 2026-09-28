@@ -120,6 +120,18 @@ services:
       <<: *env
       AUTH_ADMIN_TOKEN: ${AUTH_ADMIN_TOKEN}
     command: ['python', '-m', 'Integration.service.worker', 'dispatch']
+  swift-trial:
+    profiles: [swift]
+    build:
+      context: ..
+      dockerfile: Integration/Dockerfile.swift
+    image: nidaa-integration-swift:local
+    networks: [isolated]
+    security_opt: [no-new-privileges:true]
+    cap_drop: [ALL]
+    environment:
+      NIDAA_BASE_URL: http://gateway:8080
+      NIDAA_MAIL_URL: http://mail:8025
 networks:
   isolated:
     internal: true

@@ -3,6 +3,10 @@
 **/__pycache__
 **/.build
 **/PrivateEvidence
+**/.private
+**/evidence-local
+**/.venv-integration
+**/.swiftpm
 **/artifacts
 **/*.p8
 **/*.p12

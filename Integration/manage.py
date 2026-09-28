@@ -112,7 +112,7 @@ def diagnostics():
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('action', choices=['start', 'health', 'stop', 'reset', 'test', 'worker', 'versions'])
+    parser.add_argument('action', choices=['start', 'health', 'stop', 'reset', 'test', 'swift-test', 'worker', 'versions'])
     parser.add_argument('--confirm-nidaa-reset', action='store_true')
     args = parser.parse_args()
     if not shutil.which('docker'):
@@ -158,6 +158,14 @@ def main():
         run('run', '--rm', 'tests')
     elif args.action == 'worker':
         run('run', '--rm', 'worker')
+    elif args.action == 'swift-test':
+        run('build', 'swift-trial')
+        evidence = ROOT.parent / 'artifacts'
+        evidence.mkdir(exist_ok=True)
+        for name in ('unit-tests.log', 'swift-version.txt', 'Package.resolved'):
+            output = run('run', '--rm', 'swift-trial', 'cat', '/swifttrial/' + name, capture=True).stdout
+            (evidence / ('swift-' + name)).write_text(output, encoding='utf-8')
+        run('run', '--rm', 'swift-trial')
 
 
 if __name__ == '__main__':

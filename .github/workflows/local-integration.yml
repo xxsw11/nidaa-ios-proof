@@ -2,7 +2,7 @@ name: NIDAA - Local Auth and PostgreSQL integration
 on:
   push:
     branches: ['codex/local-supabase-integration']
-    paths: ['Integration/**', 'SharedRules/**', '.github/workflows/local-integration.yml']
+    paths: ['Integration/**', 'IntegrationClient/**', 'SharedRules/**', '.github/workflows/local-integration.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -10,7 +10,7 @@ jobs:
   backend:
     if: ${{ github.event.repository.private == false }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
@@ -32,6 +32,10 @@ jobs:
           set -o pipefail
           /tmp/nidaa-tools/bin/python -m unittest discover -s SharedRules/tests -v 2>&1 | tee artifacts/reference-tests.log
           python3 -m unittest discover -s QA -p 'test_*.py' -v 2>&1 | tee artifacts/existing-python.log
+      - name: Swift adapter unit tests and actual two-account HTTP journey
+        run: |
+          set -o pipefail
+          /tmp/nidaa-tools/bin/python Integration/manage.py swift-test 2>&1 | tee artifacts/swift-integration.log
       - name: Record isolation and image versions
         if: ${{ always() }}
         run: |

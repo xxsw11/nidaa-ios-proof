@@ -203,7 +203,16 @@ class Domain:
             # Nested transaction is a SAVEPOINT: rejected commands roll back all changes,
             # while their durable receipt and rate accounting remain in the outer transaction.
             with self.conn.transaction():
-                resource, token = self.apply(s,request['command'],request['payload'])
+                # UUID wire spelling is case-insensitive. Preserve the original
+                # envelope fingerprint, but compare canonical IDs against SQL rows.
+                payload = dict(request['payload'])
+                for key in ('sender_id','user_id','alert_id','invitation_id','event_id'):
+                    if key in payload:
+                        payload[key] = str(UUID(payload[key]))
+                if 'recipient_ids' in payload:
+                    payload['recipient_ids'] = [str(UUID(value)) for value in payload['recipient_ids']]
+                    require(len(set(payload['recipient_ids'])) == len(payload['recipient_ids']), 'invalid_request')
+                resource, token = self.apply(s,request['command'],payload)
         except RuleError as exc:
             status,error = 'rejected',exc.code
         encrypted = Fernet(os.environ['RECEIPT_KEY'].encode()).encrypt(token.encode()).decode() if token else None
@@ -338,7 +347,8 @@ class Domain:
             i = self.one('SELECT * FROM nidaa.invitations WHERE invitation_id=%s AND sender_id=%s', (p['invitation_id'],uid))
             require(i,'not_found'); require(i['state']=='pending','conflict')
             self.run("UPDATE nidaa.invitations SET state='cancelled' WHERE invitation_id=%s", (i['invitation_id'],))
-            self.touch(uid)
+            target = self.one('SELECT user_id FROM nidaa.accounts WHERE email=%s AND active', (i['intended_email'],))
+            self.touch(uid, target['user_id'] if target else None)
             return i['invitation_id'],None
         if name=='withdraw':
             require(self.one("SELECT 1 FROM nidaa.grants WHERE sender_id=%s AND recipient_id=%s AND state='accepted'", (p['sender_id'],uid)),'not_found')

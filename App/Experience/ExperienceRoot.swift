@@ -77,6 +77,12 @@ import ProofCore
         case .terms: PolicyView(privacy: false)
         case .privacy: PolicyView(privacy: true)
         case .technical: ProofView(store: ProofStore.shared).safeAreaInset(edge: .top) { Text("أدوات منفصلة · إرسال إشعارات النظام وAPNs معطّل في هذه المرحلة").font(.footnote).padding().background(.regularMaterial) }
+        case .integration:
+            #if DEBUG
+            IntegrationRoot(store: store.integrationStore)
+            #else
+            Text("تجربة الربط المحلي غير مفعّلة في هذا الإصدار")
+            #endif
         case nil: EmptyView()
         }
     }
