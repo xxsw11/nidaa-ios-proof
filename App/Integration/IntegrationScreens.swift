@@ -115,9 +115,9 @@ import NidaaIntegration
         NidaaCard {
             Text("حساب خيالي مستقل").font(.title2.bold())
             Text("استخدم بريدًا ينتهي بـ ‎.invalid. التحقق يصل إلى صندوق محلي معزول؛ لا تستخدم بيانات شخصية.").font(.footnote)
-            TextField("البريد الخيالي", text: $email).keyboardType(.emailAddress).textInputAutocapitalization(.never).autocorrectionDisabled()
+            TextField("البريد الخيالي", text: $email).textContentType(.username).keyboardType(.emailAddress).textInputAutocapitalization(.never).autocorrectionDisabled()
                 .textFieldStyle(.roundedBorder).environment(\.layoutDirection, .leftToRight).accessibilityIdentifier("integrationEmail")
-            SecureField("كلمة المرور", text: $password).textContentType(.password).textFieldStyle(.roundedBorder).accessibilityIdentifier("integrationPassword")
+            SecureField("كلمة المرور", text: $password).textContentType(.password).textInputAutocapitalization(.never).autocorrectionDisabled().textFieldStyle(.roundedBorder).accessibilityIdentifier("integrationPassword")
             NidaaButton(title: "تسجيل الدخول", icon: "person.crop.circle", id: "integrationLogin") {
                 let value = password; password = ""; Task { await store.signIn(email: email, password: value) }
             }.disabled(!emailValid || password.isEmpty || store.busy)
@@ -133,7 +133,7 @@ import NidaaIntegration
             if store.verifying { Text("بانتظار تحقق البريد؛ لم نفترض وصول رسالة أو نجاح تفعيل.").accessibilityIdentifier("integrationAwaitingVerification") }
             Text("افتح Mailpit على المضيف عبر ‎127.0.0.1:55424، وانسخ قيمة token من رابط التحقق المحلي. لا تُشارك الرمز أو صورته.").font(.footnote)
             Toggle("هذا رمز استعادة كلمة المرور", isOn: $recovery).accessibilityIdentifier("integrationRecoveryKind")
-            SecureField("رمز التحقق المحلي", text: $token).textInputAutocapitalization(.never).autocorrectionDisabled().textFieldStyle(.roundedBorder).accessibilityIdentifier("integrationVerificationToken")
+            SecureField("رمز التحقق المحلي", text: $token).textContentType(.oneTimeCode).textInputAutocapitalization(.never).autocorrectionDisabled().textFieldStyle(.roundedBorder).accessibilityIdentifier("integrationVerificationToken")
             NidaaButton(title: "التحقق من البريد", icon: "checkmark.seal", secondary: true, id: "integrationVerify") {
                 let value = token; token = ""; Task { await store.verify(token: value, recovery: recovery) }
             }.disabled(token.isEmpty || store.busy)

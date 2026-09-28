@@ -5,6 +5,14 @@ import XCTest
 final class IntegrationUITests: XCTestCase {
     private var app: XCUIApplication!
     override func setUpWithError() throws { continueAfterFailure = false }
+    override func tearDownWithError() throws {
+        if (testRun?.failureCount ?? 0) > 0, let app, app.state == .runningForeground {
+            let attachment = XCTAttachment(screenshot: app.screenshot())
+            attachment.name = "integration-mock-failure"
+            attachment.lifetime = .keepAlways
+            add(attachment)
+        }
+    }
     private func launch(extra: [String] = [], large: Bool = false) {
         app = XCUIApplication()
         app.launchArguments = ["-nidaa-ui-testing", "-reset-demo", "-nidaa-integration-mock", "-AppleLanguages", "(ar)", "-AppleLocale", "ar_SA"] + extra
@@ -63,7 +71,22 @@ final class IntegrationUITests: XCTestCase {
     private func fill(_ id: String, _ value: String, secure: Bool = false) {
         let element = secure ? app.secureTextFields[id] : app.textFields[id]
         reveal(element); element.tap(); element.typeText(value)
+        let beforeDone = id == "integrationPassword" ? authDraftReadiness() : nil
         dismissKeyboard(after: element)
+        if let beforeDone {
+            let attachment = XCTAttachment(string: "before_keyboard_done: \(beforeDone)\nafter_keyboard_done: \(authDraftReadiness())")
+            attachment.name = "integration-mock-draft-readiness"
+            attachment.lifetime = .keepAlways
+            add(attachment)
+        }
+    }
+    private func authDraftReadiness() -> String {
+        let login = app.buttons["integrationLogin"]
+        let signup = app.buttons["integrationSignup"]
+        let busy = app.descendants(matching: .any).matching(identifier: "integrationBusy").firstMatch
+        let loginExists = login.exists, signupExists = signup.exists
+        // UI booleans only: no secure-field value, character count or text dump.
+        return "login_exists=\(loginExists), login_enabled=\(loginExists && login.isEnabled), signup_exists=\(signupExists), signup_enabled=\(signupExists && signup.isEnabled), busy=\(busy.exists)"
     }
     private func shot(_ name: String) {
         let item = XCTAttachment(screenshot: app.screenshot()); item.name = "integration-mock-" + name; item.lifetime = .keepAlways; add(item)
