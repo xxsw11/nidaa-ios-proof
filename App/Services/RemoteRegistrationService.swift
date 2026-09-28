@@ -10,6 +10,7 @@ import UIKit
         #endif
     }
     func register() {
+        guard ExecutionScope.allowsSystemNotifications else { return }
         #if APNS_ENABLED
         UIApplication.shared.registerForRemoteNotifications()
         #endif

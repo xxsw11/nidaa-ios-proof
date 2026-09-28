@@ -63,6 +63,7 @@ import ProofCore
         _ = await authenticate("فحص Face ID أو Touch ID أو رمز الجهاز دون إرسال إشعار.")
     }
     func scheduleLocalTest() async {
+        guard ExecutionScope.allowsSystemNotifications else { message = "Not enabled — هذه المرحلة محاكاة محلية بلا إشعارات نظام";return }
         guard !busy else { return };busy = true;defer { busy = false }
         let ticket = generation
         guard window?.allows(at: Date(), scheduledFor: Date().addingTimeInterval(20)) == true else {
@@ -86,6 +87,7 @@ import ProofCore
         } catch { record("فشلت الجدولة المحلية؛ لم يثبت وصول أي إشعار.") }
     }
     func registerRemote() async {
+        guard ExecutionScope.allowsSystemNotifications else { message = "Not enabled — APNs معطل في هذه المرحلة";return }
         guard !busy, RemoteRegistrationService.compiledIn else { return }
         busy = true;defer { busy = false };let ticket = generation
         guard window?.allows(at: Date()) == true else { message = "يلزم تأكيد جهاز ونافذة الاختبار.";return }

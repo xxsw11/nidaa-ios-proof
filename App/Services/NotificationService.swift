@@ -20,7 +20,7 @@ final class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
     @MainActor var mayPresent: ((ProofEnvelope) -> Bool)?
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification,
         withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        guard let envelope = Self.envelope(notification) else { completionHandler([]); return }
+        guard ExecutionScope.allowsSystemNotifications, let envelope = Self.envelope(notification) else { completionHandler([]); return }
         Task { @MainActor in
             self.onObservation?(envelope, .foregroundCallback)
             completionHandler(self.mayPresent?(envelope) == true ? [.banner, .list, .sound] : [])
@@ -46,6 +46,8 @@ final class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
     private let center = UNUserNotificationCenter.current()
     func installDelegate() { center.delegate = delegate }
     func requestPermission() async throws {
+        let current = await center.notificationSettings()
+        guard current.authorizationStatus == .notDetermined else { return }
         _ = try await center.requestAuthorization(options: [.alert, .sound, .badge])
     }
     func settings() async -> PermissionSnapshot {
@@ -70,6 +72,7 @@ final class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         case .notSupported: return "غير مدعوم"; @unknown default: return "غير معروف" }
     }
     func schedule(_ envelope: ProofEnvelope, after delay: TimeInterval) async throws {
+        guard ExecutionScope.allowsSystemNotifications else { throw NSError(domain: "NIDAA.LocalSimulationOnly", code: 1) }
         let content = UNMutableNotificationContent()
         content.title = "نداء — اختبار محلي فقط"
         content.body = "اختبار عرض وصوت على هذا الجهاز؛ لا طلب مساعدة حقيقي."

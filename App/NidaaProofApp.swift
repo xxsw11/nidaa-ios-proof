@@ -16,18 +16,5 @@ import UIKit
 
 @main @MainActor struct NidaaProofApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @StateObject private var store = ProofStore.shared
-    @Environment(\.scenePhase) private var scenePhase
-    var body: some Scene {
-        WindowGroup {
-            ProofView(store: store)
-                .environment(\.layoutDirection, .rightToLeft)
-                .preferredColorScheme(.dark)
-                .task { await store.refresh() }
-                .onChange(of: scenePhase) { phase in
-                    if phase == .active { Task { await store.refresh() } }
-                    if phase == .background { store.backgrounded() }
-                }
-        }
-    }
+    var body: some Scene { WindowGroup { ExperienceRoot() } }
 }

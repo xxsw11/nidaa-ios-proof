@@ -194,6 +194,7 @@
 			<key>children</key>
 			<array>
 				<string>A172CEDCAE47474B615C54D5</string>
+				<string>78636E0DBA42FC3D337D6D88</string>
 			</array>
 			<key>name</key>
 			<string>Products</string>
@@ -216,6 +217,15 @@
 				<string>CAE662172FD450BB0CD710A7</string>
 				<string>ADC5877FB1DA7D50EEC1C7B3</string>
 				<string>0A3E27B8CA818264D75C8D81</string>
+				<string>79A8A6A6884CC5FDE72FEA6C</string>
+				<string>945556147EFD51EB2EAF87C9</string>
+				<string>EC4CFE32FCB35957B2623862</string>
+				<string>EDC9ED0B1BA3F6B180A49831</string>
+				<string>E56E2AE7AC16A5598F6667E9</string>
+				<string>91172332A65DD05E910AF1CD</string>
+				<string>3C43497DA3F4B4134A3CFD93</string>
+				<string>4677577A882D0A64A399D344</string>
+				<string>54176D157F0056FDB39816AE</string>
 			</array>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
@@ -234,6 +244,13 @@
 				<string>FD3DEDEC4EAFAC1361960809</string>
 				<string>747812EEBB82067539DAAF72</string>
 				<string>1A3A61315CCF6ACA78BE974A</string>
+				<string>33E07460DFCD50BF67C473DA</string>
+				<string>518048F7ED03E56E3EBEC862</string>
+				<string>9B06B500B4E9826CE38EB2C2</string>
+				<string>0E686C9E5100B24FF8243D4F</string>
+				<string>A77DE2C7BB27DCB3103DCD23</string>
+				<string>A03B7D36EC9F7E323207C4B7</string>
+				<string>433FB30A2ED4408E0054226B</string>
 			</array>
 			<key>runOnlyForDeploymentPostprocessing</key>
 			<integer>0</integer>
@@ -258,7 +275,9 @@
 			<key>buildActionMask</key>
 			<integer>2147483647</integer>
 			<key>files</key>
-			<array/>
+			<array>
+				<string>67D6A23011F8CEA52B3B44D9</string>
+			</array>
 			<key>runOnlyForDeploymentPostprocessing</key>
 			<integer>0</integer>
 		</dict>
@@ -491,6 +510,13 @@
 						<key>CreatedOnToolsVersion</key>
 						<string>16.0</string>
 					</dict>
+					<key>29F61BA124BD16CEB708C698</key>
+					<dict>
+						<key>CreatedOnToolsVersion</key>
+						<string>16.0</string>
+						<key>TestTargetID</key>
+						<string>34A04005BCAF206EEC990BD9</string>
+					</dict>
 				</dict>
 			</dict>
 			<key>buildConfigurationList</key>
@@ -521,7 +547,398 @@
 			<key>targets</key>
 			<array>
 				<string>34A04005BCAF206EEC990BD9</string>
+				<string>29F61BA124BD16CEB708C698</string>
 			</array>
+		</dict>
+		<key>79A8A6A6884CC5FDE72FEA6C</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>App/Experience/AlertScreens.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>33E07460DFCD50BF67C473DA</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>fileRef</key>
+			<string>79A8A6A6884CC5FDE72FEA6C</string>
+		</dict>
+		<key>945556147EFD51EB2EAF87C9</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>App/Experience/DesignSystem.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>518048F7ED03E56E3EBEC862</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>fileRef</key>
+			<string>945556147EFD51EB2EAF87C9</string>
+		</dict>
+		<key>EC4CFE32FCB35957B2623862</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>App/Experience/ExperienceRoot.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>9B06B500B4E9826CE38EB2C2</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>fileRef</key>
+			<string>EC4CFE32FCB35957B2623862</string>
+		</dict>
+		<key>EDC9ED0B1BA3F6B180A49831</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>App/Experience/ExperienceStore.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0E686C9E5100B24FF8243D4F</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>fileRef</key>
+			<string>EDC9ED0B1BA3F6B180A49831</string>
+		</dict>
+		<key>E56E2AE7AC16A5598F6667E9</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>App/Experience/HomeContacts.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>A77DE2C7BB27DCB3103DCD23</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>fileRef</key>
+			<string>E56E2AE7AC16A5598F6667E9</string>
+		</dict>
+		<key>91172332A65DD05E910AF1CD</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>App/Experience/SettingsScreens.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>A03B7D36EC9F7E323207C4B7</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>fileRef</key>
+			<string>91172332A65DD05E910AF1CD</string>
+		</dict>
+		<key>3C43497DA3F4B4134A3CFD93</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>App/Services/ExecutionScope.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>433FB30A2ED4408E0054226B</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>fileRef</key>
+			<string>3C43497DA3F4B4134A3CFD93</string>
+		</dict>
+		<key>4677577A882D0A64A399D344</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xml</string>
+			<key>path</key>
+			<string>App/PrivacyInfo.xcprivacy</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>67D6A23011F8CEA52B3B44D9</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>fileRef</key>
+			<string>4677577A882D0A64A399D344</string>
+		</dict>
+		<key>54176D157F0056FDB39816AE</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>UITests/LocalExperienceUITests.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>EF20ADDCE161025C889D5F4D</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>fileRef</key>
+			<string>54176D157F0056FDB39816AE</string>
+		</dict>
+		<key>8176357872C6D2671EDDD482</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXSourcesBuildPhase</string>
+			<key>buildActionMask</key>
+			<integer>2147483647</integer>
+			<key>files</key>
+			<array>
+				<string>EF20ADDCE161025C889D5F4D</string>
+			</array>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<integer>0</integer>
+		</dict>
+		<key>E75DA43076C3D9BB6D3173CB</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFrameworksBuildPhase</string>
+			<key>buildActionMask</key>
+			<integer>2147483647</integer>
+			<key>files</key>
+			<array/>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<integer>0</integer>
+		</dict>
+		<key>D6466C72DBF29EC3D1082B5F</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXResourcesBuildPhase</string>
+			<key>buildActionMask</key>
+			<integer>2147483647</integer>
+			<key>files</key>
+			<array/>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<integer>0</integer>
+		</dict>
+		<key>78636E0DBA42FC3D337D6D88</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>explicitFileType</key>
+			<string>wrapper.cfbundle</string>
+			<key>includeInIndex</key>
+			<integer>0</integer>
+			<key>path</key>
+			<string>NidaaUITests.xctest</string>
+			<key>sourceTree</key>
+			<string>BUILT_PRODUCTS_DIR</string>
+		</dict>
+		<key>4C131E38FD877E64691102FB</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXContainerItemProxy</string>
+			<key>containerPortal</key>
+			<string>244210E48437B6556980A702</string>
+			<key>proxyType</key>
+			<integer>1</integer>
+			<key>remoteGlobalIDString</key>
+			<string>34A04005BCAF206EEC990BD9</string>
+			<key>remoteInfo</key>
+			<string>NidaaProof</string>
+		</dict>
+		<key>F6892274054FCFB0E0594D86</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXTargetDependency</string>
+			<key>target</key>
+			<string>34A04005BCAF206EEC990BD9</string>
+			<key>targetProxy</key>
+			<string>4C131E38FD877E64691102FB</string>
+		</dict>
+		<key>E1C2E37156FCF63212D4222B</key>
+		<dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Debug</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>PRODUCT_NAME</key>
+				<string>NidaaUITests</string>
+				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
+				<string>$(NIDAA_BUNDLE_ID).uitests</string>
+				<key>GENERATE_INFOPLIST_FILE</key>
+				<string>YES</string>
+				<key>SWIFT_VERSION</key>
+				<string>5.0</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>16.0</string>
+				<key>TARGETED_DEVICE_FAMILY</key>
+				<string>1</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SUPPORTED_PLATFORMS</key>
+				<string>iphoneos iphonesimulator</string>
+				<key>CODE_SIGN_STYLE</key>
+				<string>Automatic</string>
+				<key>TEST_TARGET_NAME</key>
+				<string>NidaaProof</string>
+				<key>LD_RUNPATH_SEARCH_PATHS</key>
+				<array>
+					<string>$(inherited)</string>
+					<string>@executable_path/Frameworks</string>
+					<string>@loader_path/Frameworks</string>
+				</array>
+				<key>SWIFT_ACTIVE_COMPILATION_CONDITIONS</key>
+				<string>DEBUG</string>
+			</dict>
+		</dict>
+		<key>23E2D460E0A0626257522466</key>
+		<dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Release</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>PRODUCT_NAME</key>
+				<string>NidaaUITests</string>
+				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
+				<string>$(NIDAA_BUNDLE_ID).uitests</string>
+				<key>GENERATE_INFOPLIST_FILE</key>
+				<string>YES</string>
+				<key>SWIFT_VERSION</key>
+				<string>5.0</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>16.0</string>
+				<key>TARGETED_DEVICE_FAMILY</key>
+				<string>1</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SUPPORTED_PLATFORMS</key>
+				<string>iphoneos iphonesimulator</string>
+				<key>CODE_SIGN_STYLE</key>
+				<string>Automatic</string>
+				<key>TEST_TARGET_NAME</key>
+				<string>NidaaProof</string>
+				<key>LD_RUNPATH_SEARCH_PATHS</key>
+				<array>
+					<string>$(inherited)</string>
+					<string>@executable_path/Frameworks</string>
+					<string>@loader_path/Frameworks</string>
+				</array>
+				<key>SWIFT_ACTIVE_COMPILATION_CONDITIONS</key>
+				<string></string>
+			</dict>
+		</dict>
+		<key>04ABC7638B23A40241420DBB</key>
+		<dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>APNs-Debug</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>PRODUCT_NAME</key>
+				<string>NidaaUITests</string>
+				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
+				<string>$(NIDAA_BUNDLE_ID).uitests</string>
+				<key>GENERATE_INFOPLIST_FILE</key>
+				<string>YES</string>
+				<key>SWIFT_VERSION</key>
+				<string>5.0</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>16.0</string>
+				<key>TARGETED_DEVICE_FAMILY</key>
+				<string>1</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SUPPORTED_PLATFORMS</key>
+				<string>iphoneos iphonesimulator</string>
+				<key>CODE_SIGN_STYLE</key>
+				<string>Automatic</string>
+				<key>TEST_TARGET_NAME</key>
+				<string>NidaaProof</string>
+				<key>LD_RUNPATH_SEARCH_PATHS</key>
+				<array>
+					<string>$(inherited)</string>
+					<string>@executable_path/Frameworks</string>
+					<string>@loader_path/Frameworks</string>
+				</array>
+				<key>SWIFT_ACTIVE_COMPILATION_CONDITIONS</key>
+				<string>DEBUG</string>
+			</dict>
+		</dict>
+		<key>E0E81123A997D116271FDC33</key>
+		<dict>
+			<key>isa</key>
+			<string>XCConfigurationList</string>
+			<key>buildConfigurations</key>
+			<array>
+				<string>E1C2E37156FCF63212D4222B</string>
+				<string>23E2D460E0A0626257522466</string>
+				<string>04ABC7638B23A40241420DBB</string>
+			</array>
+			<key>defaultConfigurationIsVisible</key>
+			<integer>0</integer>
+			<key>defaultConfigurationName</key>
+			<string>Debug</string>
+		</dict>
+		<key>29F61BA124BD16CEB708C698</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXNativeTarget</string>
+			<key>buildConfigurationList</key>
+			<string>E0E81123A997D116271FDC33</string>
+			<key>buildPhases</key>
+			<array>
+				<string>8176357872C6D2671EDDD482</string>
+				<string>E75DA43076C3D9BB6D3173CB</string>
+				<string>D6466C72DBF29EC3D1082B5F</string>
+			</array>
+			<key>buildRules</key>
+			<array/>
+			<key>dependencies</key>
+			<array>
+				<string>F6892274054FCFB0E0594D86</string>
+			</array>
+			<key>name</key>
+			<string>NidaaUITests</string>
+			<key>packageProductDependencies</key>
+			<array/>
+			<key>productName</key>
+			<string>NidaaUITests</string>
+			<key>productReference</key>
+			<string>78636E0DBA42FC3D337D6D88</string>
+			<key>productType</key>
+			<string>com.apple.product-type.bundle.ui-testing</string>
 		</dict>
 	</dict>
 	<key>rootObject</key>

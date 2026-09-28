@@ -5,41 +5,51 @@ enum AuthenticationOutcome { case success, cancelled, failed(String) }
 
 @MainActor final class LocalAuthenticationService {
     private var current: LAContext?
+    private(set) var lastMethod = "لم يُجرَ تحقق"
     func authenticate(reason: String) async -> AuthenticationOutcome {
         cancel()
-        let context = LAContext()
+        let context = LAContext();current = context
         context.localizedCancelTitle = "إلغاء"
-        context.localizedFallbackTitle = "استخدام رمز الجهاز"
+        context.localizedFallbackTitle = "وسيلة النظام البديلة"
         context.touchIDAuthenticationAllowableReuseDuration = 0
-        current = context
-        var error: NSError?
-        guard context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) else {
-            current = nil
-            return .failed(Self.explain(error))
-        }
-        let result: AuthenticationOutcome = await withCheckedContinuation { continuation in
-            context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, error in
-                if success { continuation.resume(returning: .success) }
-                else if let e = error as? LAError, [.userCancel, .appCancel, .systemCancel].contains(e.code) {
-                    continuation.resume(returning: .cancelled)
-                } else { continuation.resume(returning: .failed(Self.explain(error))) }
+        defer { if current === context { current = nil };context.invalidate() }
+        var availability: NSError?
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &availability) {
+            let (success, error) = await evaluate(context, .deviceOwnerAuthenticationWithBiometrics, reason)
+            guard current === context else { return .cancelled }
+            if success {
+                lastMethod = context.biometryType == .faceID ? "نجح Face ID" : "نجحت المصادقة الحيوية"
+                return .success
             }
+            let code = (error as? LAError)?.code
+            if code != .userFallback && code != .biometryLockout { return outcome(error) }
         }
-        if current === context { current = nil }
-        context.invalidate()
-        return result
+        guard current === context else { return .cancelled }
+        var fallbackError: NSError?
+        guard context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &fallbackError) else { return .failed(Self.explain(fallbackError)) }
+        // iOS owns this fallback and may choose the available system method. No app PIN field.
+        lastMethod = "وسيلة النظام البديلة؛ قد تشمل رمز الجهاز"
+        let (success, error) = await evaluate(context, .deviceOwnerAuthentication, reason)
+        guard current === context else { return .cancelled }
+        return success ? .success : outcome(error)
     }
-    func cancel() { current?.invalidate(); current = nil }
+    private func evaluate(_ context: LAContext, _ policy: LAPolicy, _ reason: String) async -> (Bool, Error?) {
+        await withCheckedContinuation { continuation in
+            context.evaluatePolicy(policy, localizedReason: reason) { success, error in continuation.resume(returning: (success,error)) }
+        }
+    }
+    private func outcome(_ error: Error?) -> AuthenticationOutcome {
+        if let error = error as? LAError, [.userCancel,.appCancel,.systemCancel].contains(error.code) { lastMethod = "أُلغي التحقق";return .cancelled }
+        lastMethod = "لم ينجح التحقق";return .failed(Self.explain(error))
+    }
+    func cancel() { current?.invalidate();current = nil }
     nonisolated private static func explain(_ error: Error?) -> String {
         guard let e = error as? LAError else { return "تعذّر التحقق؛ لم يُسمح بالإجراء." }
         switch e.code {
-        case .passcodeNotSet: return "يلزم تفعيل رمز الجهاز في إعدادات iPhone."
-        case .biometryNotAvailable: return "الحيوية غير متاحة؛ استخدم وسيلة النظام المتاحة."
-        case .biometryNotEnrolled: return "لم تُسجّل حيوية؛ يتيح النظام رمز الجهاز عند توفره."
-        case .biometryLockout: return "الحيوية مقفلة؛ افتح الجهاز برمز النظام ثم أعد المحاولة."
-        case .authenticationFailed: return "لم ينجح التحقق. لم يُنفّذ الإجراء."
-        case .notInteractive: return "التحقق يتطلب ظهور التطبيق."
-        default: return "تعذّر التحقق أو أبطله النظام. أعد المحاولة يدويًا."
+        case .passcodeNotSet: return "يلزم رمز جهاز من إعدادات iPhone. لا يوجد رمز داخل التطبيق."
+        case .biometryLockout: return "الحيوية مقفلة؛ استخدم وسيلة النظام المتاحة."
+        case .authenticationFailed: return "فشل التحقق. لم يُنشأ نداء."
+        default: return "التحقق غير متاح أو أبطله النظام؛ أعد المحاولة يدويًا."
         }
     }
 }
