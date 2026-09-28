@@ -106,7 +106,7 @@ public struct SendGate: Sendable {
 public struct LocalSimulation: Sendable {
     public private(set) var contacts: [TrustedContact]
     public private(set) var alerts: [LocalAlert] = []
-    public init(contacts: [TrustedContact] = TrustedContact.samples) { self.contacts = contacts }
+    public init(contacts: [TrustedContact] = TrustedContact.samples, restoredAlerts: [LocalAlert] = []) { self.contacts = contacts; self.alerts = restoredAlerts }
     public var hasActive: Bool { alerts.contains(where: \.isActive) }
     public mutating func saveContact(_ contact: TrustedContact) throws {
         let name = contact.name.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -160,19 +160,41 @@ public struct LocalSimulation: Sendable {
         alerts[n].silenced = true; alerts[n].dismissed = dismiss
         alerts[n].events.append(.init(at: now, text: "إسكات/إخفاء محاكى فقط؛ لا قبول ولا حل للحالة"))
     }
-    public mutating func retry(_ id: UUID, at now: Date) throws {
-        tick(at: now)
-        guard let n = alerts.firstIndex(where: { $0.id == id }), alerts[n].isActive, !alerts[n].incoming else { throw SimulationError.invalidTransition }
-        guard alerts[n].recipients.contains(where: { recipient in contacts.contains { $0.id == recipient.id && $0.canSend } }) else { throw SimulationError.noConsent }
-        alerts[n].attempts += 1;alerts[n].events.append(.init(at: now, text: "إعادة محاولة محاكاة بنفس المعرّف؛ حالات الاستجابة محفوظة"))
+    public func actionDetails(_ id: UUID, action: AlertAction, at now: Date) throws -> AlertActionDetails {
+        guard let alert = alerts.first(where: { $0.id == id }), alert.isActive, !alert.incoming,
+              now < alert.expiresAt else { throw SimulationError.invalidTransition }
+        let ids: Set<UUID>
+        switch action {
+        case .retry:
+            ids = Set(alert.recipients.filter { $0.stage != .responding && $0.stage != .declined }.map(\.id))
+        case .addRecipient(let newID):
+            guard !alert.recipients.contains(where: { $0.id == newID }) else { throw SimulationError.invalidTransition }
+            ids = [newID]
+        }
+        let chosen = contacts.filter { ids.contains($0.id) && $0.canSend }
+        guard !chosen.isEmpty else { throw SimulationError.noRecipients }
+        if case .addRecipient = action, chosen.count != ids.count { throw SimulationError.noConsent }
+        return AlertActionDetails(alertID: id, action: action, recipients: chosen,
+                                  existingProgress: alert.recipients, attempts: alert.attempts, expiresAt: alert.expiresAt)
     }
-    public mutating func addAlternative(_ id: UUID, contactID: UUID, at now: Date) throws {
+    public mutating func perform(_ details: AlertActionDetails, gate: inout AlertActionGate, at now: Date) throws {
+        // Every attempted execution consumes the capability, even if consent or state changed.
+        defer { gate.invalidate() }
         tick(at: now)
-        guard let n = alerts.firstIndex(where: { $0.id == id }), alerts[n].isActive, !alerts[n].incoming,
-              !alerts[n].recipients.contains(where: { $0.id == contactID }) else { throw SimulationError.invalidTransition }
-        guard let c = contacts.first(where: { $0.id == contactID && $0.canSend }) else { throw SimulationError.noConsent }
-        alerts[n].recipients.append(RecipientProgress(contact: c))
-        alerts[n].events.append(.init(at: now, text: "إضافة بديل بإذن ساري في المحاكاة: \(c.name)"))
+        let current = try actionDetails(details.alertID, action: details.action, at: now)
+        guard current == details else { throw SimulationError.authenticationRequired }
+        try gate.consume(current, at: now)
+        guard let n = alerts.firstIndex(where: { $0.id == details.alertID }) else { throw SimulationError.missingAlert }
+        switch details.action {
+        case .retry:
+            alerts[n].attempts += 1
+            let names = details.recipients.map(\.name).joined(separator: "، ")
+            alerts[n].events.append(.init(at: now, text: "إعادة محاولة محاكاة بنفس المعرّف إلى: \(names)؛ الردود السابقة محفوظة"))
+        case .addRecipient:
+            let c = details.recipients[0]
+            alerts[n].recipients.append(RecipientProgress(contact: c))
+            alerts[n].events.append(.init(at: now, text: "إضافة بديل بعد تحقق وتأكيد: \(c.name)؛ المهلة الأصلية محفوظة"))
+        }
     }
     public mutating func close(_ id: UUID, state: LocalAlertState, at now: Date) throws {
         tick(at: now)

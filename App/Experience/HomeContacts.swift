@@ -87,7 +87,7 @@ import ProofCore
         .alert("حذف الشخص من الدائرة؟", isPresented: $showDelete) {
             Button("حذف", role: .destructive) { store.deleteContact(contact.id) }.accessibilityIdentifier("confirmDelete")
             Button("إلغاء", role: .cancel) {}
-        } message: { Text("لن يمكن تنبيهه مجددًا. قد تبقى لقطة اسمه في سجل الجلسة حتى إعادة ضبط البيانات.") }
+        } message: { Text("لن يمكن تنبيهه مجددًا. قد تبقى لقطة اسمه في السجل المحلي حتى إعادة ضبط البيانات.") }
     }
 }
 @MainActor struct HistoryView: View {
@@ -95,8 +95,8 @@ import ProofCore
     var body: some View {
         ScreenBody {
             SimulationNotice(authSimulation: store.simulationAuthentication)
-            Text("سجل هذه الجلسة فقط؛ يختفي عند إعادة تشغيل التطبيق.").font(.footnote)
-            if store.simulation.alerts.isEmpty { Label("لا نداءات في هذه الجلسة", systemImage: "clock").accessibilityIdentifier("emptyHistory") }
+            Text("يُحفظ السجل على هذا الجهاز ويُستعاد بعد إعادة التشغيل دون إرسال تلقائي.").font(.footnote)
+            if store.simulation.alerts.isEmpty { Label("لا نداءات محفوظة", systemImage: "clock").accessibilityIdentifier("emptyHistory") }
             ForEach(store.simulation.alerts) { a in
                 NidaaCard { Label(a.incoming ? "وارد محاكى" : "صادر محاكى", systemImage: a.incoming ? "arrow.down.left" : "arrow.up.right").font(.headline)
                     Text(a.state.title);Text(a.createdAt.formatted()).font(.footnote)

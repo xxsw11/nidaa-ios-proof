@@ -8,6 +8,14 @@ import ProofCore
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     var body: some View {
         rootContent
+            .safeAreaInset(edge: .top) {
+                if !store.storageIssue.isEmpty {
+                    VStack(alignment: .leading) {
+                        Text(store.storageIssue).font(.footnote).accessibilityIdentifier("storageIssue")
+                        Button("إعادة محاولة الاستعادة") { store.reloadStorage() }.accessibilityIdentifier("reloadStorage")
+                    }.padding().background(.regularMaterial)
+                }
+            }
             .environment(\.nidaaPalette, store.palette)
             .environment(\.layoutDirection, .rightToLeft)
             .tint(store.palette.accentInk.color)
@@ -53,6 +61,7 @@ import ProofCore
     @ObservedObject var store: ExperienceStore
     @ViewBuilder var body: some View {
         switch store.screen {
+        case .action: AlertActionView(store: store)
         case .compose: ComposeView(store: store)
         case .alert(let id): AlertDetailView(store: store, id: id)
         case .incoming(let id): IncomingView(store: store, id: id)

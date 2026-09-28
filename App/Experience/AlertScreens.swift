@@ -47,7 +47,8 @@ import ProofCore
             if let a = alert {
                 Text(a.state.title).font(.title.bold()).accessibilityIdentifier("alertState")
                 Text(a.kind.title).font(.headline)
-                Text(a.id.uuidString).font(.caption.monospaced()).textSelection(.enabled)
+                Text(a.id.uuidString).font(.caption.monospaced()).textSelection(.enabled).accessibilityIdentifier("alertIdentifier")
+                Text("عدد المحاولات: \(a.attempts)").accessibilityIdentifier("attemptCount")
                 Text("الإنشاء: \(a.createdAt.formatted())").font(.footnote)
                 Text("الصلاحية: \(a.expiresAt.formatted())").font(.footnote)
                 Text("قبول خدمة إرسال حقيقية: غير مفعّل").font(.footnote)
@@ -86,9 +87,9 @@ import ProofCore
         NidaaButton(title: "إنهاء الحالة بتأكيد صريح", icon: "checkmark.seal", id: "resolveAlert") { closeState = .resolved }
         if !a.incoming {
             NidaaButton(title: "إلغاء النداء", icon: "xmark.circle", secondary: true, id: "cancelAlert") { closeState = .cancelled }
-            NidaaButton(title: "محاكاة إعادة المحاولة بنفس المعرّف", icon: "arrow.clockwise", secondary: true, id: "retryAlert") { store.retry(id) }
+            NidaaButton(title: "محاكاة إعادة المحاولة بنفس المعرّف", icon: "arrow.clockwise", secondary: true, id: "retryAlert") { store.selectAction(id, action: .retry) }
             ForEach(store.eligible.filter { c in !a.recipients.contains(where: { $0.id == c.id }) }) { c in
-                NidaaButton(title: "استخدام \(c.name) كبديل محاكى", icon: "person.badge.plus", secondary: true, id: "alternative-\(c.id.uuidString)") { store.alternative(id, contact: c.id) }
+                NidaaButton(title: "استخدام \(c.name) كبديل محاكى", icon: "person.badge.plus", secondary: true, id: "alternative-\(c.id.uuidString)") { store.selectAction(id, action: .addRecipient(c.id)) }
             }
         }
         DisclosureGroup("أدوات وقت المحاكاة") {
@@ -136,5 +137,33 @@ import ProofCore
     }
     private func markOpened() {
         if !store.locked, let p = recipient, p.stage == .received { store.transition(id,recipient: p.id,to: .opened) }
+    }
+}
+
+@MainActor struct AlertActionView: View {
+    @ObservedObject var store: ExperienceStore
+    var body: some View {
+        ScreenBody {
+            SimulationNotice(authSimulation: store.simulationAuthentication)
+            if let details = store.actionDetails {
+                Text(details.action == .retry ? "إعادة محاولة محاكية" : "إضافة مستقبِل محاكى").font(.title.bold())
+                Text(details.alertID.uuidString).font(.caption.monospaced()).accessibilityIdentifier("actionIdentifier")
+                NidaaCard {
+                    Text("المستقبِلون المؤهلون لهذا الإجراء").font(.headline)
+                    ForEach(details.recipients) { person in Text(person.name).accessibilityIdentifier("actionRecipient-\(person.id.uuidString)") }
+                    Text("لا تُعاد المحاولة لمن استجاب أو رفض. المعرّف والردود والمهلة الأصلية لا تتغير.").font(.footnote)
+                    Text("الصلاحية الأصلية: \(details.expiresAt.formatted())").font(.footnote)
+                }
+                if store.actionReady {
+                    Label("تحقق جديد ناجح · راجع ثم أكّد خلال ١٥ ثانية", systemImage: "checkmark.shield")
+                    Text(store.authLabel).font(.footnote)
+                    NidaaButton(title: "أؤكد تنفيذ هذا الإجراء مرة واحدة", icon: "checkmark", id: "confirmAction") { store.confirmAction() }
+                } else {
+                    NidaaButton(title: store.busy ? "جارٍ التحقق…" : "تحقق جديد لهذا الإجراء", icon: "faceid", id: "authenticateAction") { Task { await store.prepareAction() } }.disabled(store.busy)
+                }
+                NidaaButton(title: "تراجع دون تنفيذ", icon: "xmark", secondary: true, id: "cancelAction") { store.cancelAction() }
+            }
+            if !store.message.isEmpty { Text(store.message).accessibilityIdentifier("actionMessage") }
+        }.navigationTitle("مراجعة الإجراء")
     }
 }

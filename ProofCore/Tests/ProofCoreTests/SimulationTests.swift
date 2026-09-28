@@ -10,6 +10,12 @@ final class SimulationTests: XCTestCase {
         var gate = SendGate();gate.authorize(success: true, recipients: recipients, kind: .urgent, at: now)
         return try model.create(recipients: recipients, kind: .urgent, gate: &gate, at: now)
     }
+    func act(_ model: inout LocalSimulation, id: UUID, action: AlertAction, at time: Date? = nil) throws {
+        let time = time ?? t
+        let details = try model.actionDetails(id,action: action,at: time)
+        var gate = AlertActionGate();gate.authorize(success: true,details: details,at: time)
+        try model.perform(details,gate: &gate,at: time)
+    }
     func testCreationRequiresFreshAuthenticationNotAnUnlockedApp() {
         var model = LocalSimulation(), gate = SendGate()
         XCTAssertThrowsError(try model.create(recipients: [sara], kind: .urgent, gate: &gate, at: t))
@@ -62,7 +68,7 @@ final class SimulationTests: XCTestCase {
         var model = LocalSimulation();let id = try create(&model)
         model.deleteContact(sara)
         XCTAssertEqual(model.alerts[0].recipients[0].name,"سارة")
-        XCTAssertThrowsError(try model.retry(id,at: t))
+        XCTAssertThrowsError(try act(&model,id: id,action: .retry))
         XCTAssertThrowsError(try create(&model))
     }
     func testReceiptOpeningAndResponseAreDifferentTransitions() throws {
@@ -81,10 +87,10 @@ final class SimulationTests: XCTestCase {
         try model.transition(id,recipient: sara,to: .received,at: t)
         try model.transition(id,recipient: sara,to: .declined,at: t)
         XCTAssertTrue(model.alerts[0].isActive)
-        try model.addAlternative(id,contactID: ahmad,at: t)
+        try act(&model,id: id,action: .addRecipient(ahmad))
         XCTAssertEqual(model.alerts[0].recipients.count,2)
-        XCTAssertThrowsError(try model.addAlternative(id,contactID: ahmad,at: t))
-        XCTAssertThrowsError(try model.addAlternative(id,contactID: TrustedContact.samples[2].id,at: t))
+        XCTAssertThrowsError(try act(&model,id: id,action: .addRecipient(ahmad)))
+        XCTAssertThrowsError(try act(&model,id: id,action: .addRecipient(TrustedContact.samples[2].id)))
     }
     func testSilenceAndDismissDoNotRespondResolveOrDisableNonresponse() throws {
         var model = LocalSimulation();let id = try create(&model)
@@ -94,10 +100,10 @@ final class SimulationTests: XCTestCase {
         let events = model.alerts[0].events.count;model.tick(at: t.addingTimeInterval(27));XCTAssertEqual(model.alerts[0].events.count,events)
     }
     func testRetryKeepsIdentityAndResponse() throws {
-        var model = LocalSimulation();let id = try create(&model)
+        var model = LocalSimulation();let id = try create(&model,ids: [sara, ahmad])
         try model.transition(id,recipient: sara,to: .received,at: t)
         try model.transition(id,recipient: sara,to: .responding,at: t)
-        try model.retry(id,at: t)
+        try act(&model,id: id,action: .retry)
         XCTAssertEqual(model.alerts.count,1);XCTAssertEqual(model.alerts[0].id,id)
         XCTAssertEqual(model.alerts[0].recipients[0].stage,.responding)
     }
@@ -106,7 +112,7 @@ final class SimulationTests: XCTestCase {
             var model = LocalSimulation();let id = try create(&model)
             if state == .expired { model.tick(at: t.addingTimeInterval(300)) } else { try model.close(id,state: state,at: t) }
             XCTAssertEqual(model.alerts[0].state,state)
-            XCTAssertThrowsError(try model.retry(id,at: t.addingTimeInterval(301)))
+            XCTAssertThrowsError(try act(&model,id: id,action: .retry,at: t.addingTimeInterval(301)))
             XCTAssertThrowsError(try model.transition(id,recipient: sara,to: .received,at: t.addingTimeInterval(301)))
         }
     }
