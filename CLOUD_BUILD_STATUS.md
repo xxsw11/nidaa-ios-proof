@@ -1,4 +1,28 @@
-# Cloud verification — native local experience
+# Cloud verification — complete local stage
+
+Final executable source: `0412c2404bb4bcce3ed462504d93689264aef0a7`.
+[Verified run 36370598960](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36370598960) — **Passed** on 2026-09-28.
+
+| Check | Actual result |
+|---|---|
+| Python packaging and offline-payload tests on runner | 13 passed |
+| Swift core tests on macOS | 30 passed, zero failures |
+| XCTest UI on iPhone 16 Pro / iOS 18.5 Simulator | 8 passed, zero failures/skips |
+| Debug app and UI-test build | Passed |
+| Release app build | Passed |
+| Native screenshots reviewed | 22 original XCTest PNGs; see QA/NATIVE_VISUAL_REVIEW.md |
+
+Environment: standard public macos-15 runner, macOS 15.7.9, Xcode 16.4, Swift 6.1.2, iPhoneSimulator SDK 18.5, arm64. No signing account or secrets. AppIntents metadata and XCTest support-library stripping warnings are nonblocking; no AppIntents feature was added.
+
+The later delivery commit updates documentation, the inventory and local QA records only; executable app, project, tests, scripts and configuration remain identical to the tested commit above. No extra runtime success is inferred from documentation changes.
+
+Physical iPhone validation is deferred because no Apple devices are available. No notification was sent. APNs, real biometric hardware, audio/Bluetooth, Focus, silent-mode bypass, flashlight and Critical Alerts remain untested/not enabled. Debug Simulator authentication is simulated and clearly labeled.
+
+Artifacts are retained for seven days on GitHub; delivery includes original screenshots and relevant logs locally. Screenshots are exported from XCTest, renamed without pixel changes, and have recorded SHA-256 values in the delivery provenance file.
+
+## Earlier attempts and preparation history
+
+### Earlier native-stage record
 
 Current branch: `codex/native-local-experience`, based on latest inspected main `113fc4daf93f6ee7400e08976b2bd7369ad13580`.
 

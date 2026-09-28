@@ -1,0 +1,10 @@
+{
+  "stage": "native-local-v02",
+  "v06FilesVerified": 66,
+  "v06Mismatches": [],
+  "v06ArchiveSHA256": "5595a1f754d9b3f901256eca5fcd82cbb0394b2d81b11f012b8a2d54efee4294",
+  "v06ArchiveMatchesPriorProofRecord": true,
+  "upstreamBase": "113fc4daf93f6ee7400e08976b2bd7369ad13580",
+  "branch": "codex/native-local-experience",
+  "historicalProofDirectory": "preserved separately; no edits to previous delivery"
+}
