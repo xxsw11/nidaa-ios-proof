@@ -1,0 +1,107 @@
+"""NIDAA-scoped Docker Compose lifecycle. Does not prune or touch other projects."""
+import argparse
+import base64
+import json
+import os
+from pathlib import Path
+import secrets
+import shutil
+import socket
+import subprocess
+import time
+import urllib.request
+
+ROOT = Path(__file__).resolve().parent
+ENV = ROOT / '.runtime.env'
+COMPOSE = ['docker', 'compose', '--project-name', 'nidaa-integration', '--env-file', str(ENV), '-f', str(ROOT / 'compose.yml')]
+
+
+def run(*args, capture=False):
+    return subprocess.run(COMPOSE + list(args), check=True, text=True, capture_output=capture)
+
+
+def initialize():
+    if ENV.exists():
+        return
+    import jwt
+    secret = secrets.token_hex(32)
+    values = {name: secrets.token_hex(24) for name in ['DB_PASSWORD', 'AUTH_DB_PASSWORD', 'SERVICE_DB_PASSWORD']}
+    values.update(JWT_SECRET=secret, RECEIPT_KEY=base64.urlsafe_b64encode(secrets.token_bytes(32)).decode())
+    values['AUTH_ADMIN_TOKEN'] = jwt.encode({'role': 'service_role', 'iss': 'supabase', 'iat': int(time.time()), 'exp': int(time.time()) + 86400 * 7}, secret, algorithm='HS256')
+    ENV.write_text(''.join(f'{k}={v}\n' for k, v in values.items()), encoding='utf-8')
+    if os.name != 'nt':
+        ENV.chmod(0o600)
+    print('Created ephemeral local credentials (not displayed).')
+
+
+def check_ports():
+    if run('ps', '-q', capture=True).stdout.strip():
+        return
+    for port in (55421, 55424, 55432):
+        with socket.socket() as sock:
+            try:
+                sock.bind(('127.0.0.1', port))
+            except OSError:
+                raise SystemExit(f'NIDAA port {port} is occupied; no existing service was changed.')
+
+
+def health():
+    for path in ('/auth/v1/health', '/health'):
+        with urllib.request.urlopen('http://127.0.0.1:55421' + path, timeout=5) as response:
+            assert response.status == 200
+    ids = run('ps', '-q', capture=True).stdout.split()
+    for cid in ids:
+        row = json.loads(subprocess.check_output(['docker', 'inspect', cid]))[0]
+        for bindings in row['NetworkSettings']['Ports'].values():
+            for binding in bindings or []:
+                assert binding['HostIp'] == '127.0.0.1', 'Non-loopback publication detected'
+        for net in row['NetworkSettings']['Networks']:
+            network = json.loads(subprocess.check_output(['docker', 'network', 'inspect', net]))[0]
+            assert network['Internal'] is True, 'Egress network detected'
+    print('Auth + domain health passed; published ports loopback-only; all runtime networks internal.')
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('action', choices=['start', 'health', 'stop', 'reset', 'test', 'worker', 'versions'])
+    parser.add_argument('--confirm-nidaa-reset', action='store_true')
+    args = parser.parse_args()
+    if not shutil.which('docker'):
+        raise SystemExit('Docker-compatible CLI/runtime unavailable. Use the container-capable CI trial; no local execution claimed.')
+    if args.action == 'versions':
+        subprocess.run(['docker', 'version', '--format', '{{.Server.Version}}'], check=True)
+        subprocess.run(['docker', 'compose', 'version'], check=True)
+        print('Supabase CLI:', shutil.which('supabase') or 'not installed; pinned Auth containers used directly')
+        return
+    initialize()
+    if args.action == 'start':
+        check_ports()
+        run('build')
+        run('up', '-d', '--wait', 'db', 'mail', 'auth')
+        run('run', '--rm', 'bootstrap')
+        run('up', '-d', 'service', 'gateway')
+        for attempt in range(30):
+            try:
+                health()
+                break
+            except Exception:
+                if attempt == 29:
+                    raise SystemExit('NIDAA startup health failed; inspect local service errors without exporting secrets.')
+                time.sleep(2)
+    elif args.action == 'health':
+        health()
+    elif args.action == 'stop':
+        run('down')
+    elif args.action == 'reset':
+        if not args.confirm_nidaa_reset:
+            raise SystemExit('Reset deletes ONLY the nidaa-integration trial volume. Re-run with --confirm-nidaa-reset.')
+        run('down', '--volumes')
+        ENV.unlink(missing_ok=True)
+    elif args.action == 'test':
+        run('run', '--rm', 'tests')
+    elif args.action == 'worker':
+        run('run', '--rm', 'worker')
+
+
+if __name__ == '__main__':
+    main()

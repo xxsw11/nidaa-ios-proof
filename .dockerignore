@@ -1,0 +1,8 @@
+**/.git
+**/.runtime.env
+**/__pycache__
+**/.build
+**/PrivateEvidence
+**/artifacts
+**/*.p8
+**/*.p12

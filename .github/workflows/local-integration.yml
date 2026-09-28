@@ -1,0 +1,48 @@
+name: NIDAA - Local Auth and PostgreSQL integration
+on:
+  push:
+    branches: ['codex/local-supabase-integration']
+    paths: ['Integration/**', 'SharedRules/**', '.github/workflows/local-integration.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  backend:
+    if: ${{ github.event.repository.private == false }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Prepare isolated tooling
+        run: |
+          python3 -m venv /tmp/nidaa-tools
+          /tmp/nidaa-tools/bin/pip install -r Integration/requirements.txt
+          mkdir -p artifacts
+          /tmp/nidaa-tools/bin/python Integration/manage.py versions > artifacts/runtime.txt
+      - name: Start private container stack
+        run: /tmp/nidaa-tools/bin/python Integration/manage.py start
+      - name: Real local Auth, HTTP and database integration tests
+        run: |
+          set -o pipefail
+          /tmp/nidaa-tools/bin/python Integration/manage.py test 2>&1 | tee artifacts/integration-tests.log
+      - name: Existing reference and local regression tests
+        run: |
+          set -o pipefail
+          /tmp/nidaa-tools/bin/python -m unittest discover -s SharedRules/tests -v 2>&1 | tee artifacts/reference-tests.log
+          python3 -m unittest discover -s QA -p 'test_*.py' -v 2>&1 | tee artifacts/existing-python.log
+      - name: Record isolation and image versions
+        if: ${{ always() }}
+        run: |
+          /tmp/nidaa-tools/bin/python Integration/manage.py health > artifacts/isolation.txt || true
+          docker image ls --digests --format '{{.Repository}} {{.Tag}} {{.Digest}}' > artifacts/images.txt
+      - name: Stop only NIDAA trial resources
+        if: ${{ always() }}
+        run: /tmp/nidaa-tools/bin/python Integration/manage.py reset --confirm-nidaa-reset
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: ${{ always() }}
+        with:
+          name: nidaa-local-integration-evidence
+          path: artifacts/
+          retention-days: 7

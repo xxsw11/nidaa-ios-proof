@@ -13,3 +13,6 @@ __pycache__/
 # Cloud build outputs (not source)
 artifacts/
 .swiftpm/
+Integration/.runtime.env
+Integration/.private/
+Integration/evidence-local/
