@@ -21,20 +21,11 @@ final class LocalExperienceUITests: XCTestCase {
         // SwiftUI may omit an offscreen button from the accessibility snapshot.
         // Discover it by scrolling before asserting existence, including on sheets.
         _ = element.waitForExistence(timeout: 6)
-        for _ in 0..<12 {
+        for _ in 0..<10 {
             if element.exists && element.isHittable { break }
-            let containing = app.scrollViews.containing(.button, identifier: id).firstMatch
-            let scroll = containing.exists ? containing : app.scrollViews.allElementsBoundByIndex.last(where: { $0.isHittable })
-            if let scroll {
-                // Short content gestures cannot skip a whole action row, and can
-                // recover if a preceding gesture placed the target above the viewport.
-                let towardTop = element.exists && element.frame.maxY < scroll.frame.minY
-                let start = scroll.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: towardTop ? 0.35 : 0.7))
-                let end = scroll.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: towardTop ? 0.7 : 0.35))
-                start.press(forDuration: 0.05, thenDragTo: end)
-            } else {
-                app.swipeUp()
-            }
+            // Preserve the full swipe that reaches actions at accessibility XXXL.
+            // Short coordinate drags regressed that previously passing path.
+            app.swipeUp()
         }
         XCTAssertTrue(element.exists, id, file: file, line: line)
         XCTAssertTrue(element.isHittable, id, file: file, line: line)
