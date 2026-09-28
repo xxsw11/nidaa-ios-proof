@@ -1,6 +1,6 @@
 {
   "version": "cloud-public-v03",
-  "note": "Integrity inventory, not build evidence",
+  "note": "Source inventory at tested commit 7064472506873bab449449921f1d129b308793b9. Status documentation subsequently updated; see Git history.",
   "files": [
     {
       "path": ".github/workflows/ios-simulator.yml",
@@ -37,10 +37,6 @@
     {
       "path": "App/Services/RemoteRegistrationService.swift",
       "sha256": "b6db00af769ad5d08bbcad051bb8ddbbc69da127fd26d4ae441b9c89a9c54083"
-    },
-    {
-      "path": "CLOUD_BUILD_STATUS.md",
-      "sha256": "3268a249f3e163c75656cd2cd35c1855eab6a79ab3a15c93d88112654dfff96b"
     },
     {
       "path": "Config/APNs.entitlements",
@@ -97,10 +93,6 @@
     {
       "path": "Manifest.original.json",
       "sha256": "b89b90c2293dccf473b8bc8c293c665b1df72b117888c6f8d6b4d8e26375ebc9"
-    },
-    {
-      "path": "NEXT_REVIEW.md",
-      "sha256": "8b1178a3cb2466b36fcc5411e6820b3ee6565e522a0929c9dc39f67eb093194b"
     },
     {
       "path": "NidaaProof.xcodeproj/project.pbxproj",
