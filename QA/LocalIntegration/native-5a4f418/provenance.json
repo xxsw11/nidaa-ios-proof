@@ -1,0 +1,88 @@
+{
+  "commit": "5a4f418b81b54ed69757d342965100ecf41e8598",
+  "run": "https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36454477295",
+  "scope": "Actual iOS Simulator Debug/Release; new UI uses explicit MOCK; no Simulator/backend E2E",
+  "jobs": [
+    {
+      "suite": "integration",
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "debug": "Passed",
+      "release": "Passed",
+      "origin": {
+        "run": 36454477295,
+        "attempt": 1,
+        "job": 109037470438,
+        "artifact": 10986730207,
+        "sha256": "a5315fedaae84deb8285f377d325335fedceeac9000db03a2a508562f09b8a53",
+        "commit": "5a4f418b81b54ed69757d342965100ecf41e8598"
+      },
+      "device": {
+        "architecture": "arm64",
+        "deviceId": "6C723116-71F4-4134-813F-6E73AEDB88BF",
+        "deviceName": "NIDAA-Disposable-E084B940-D682-4112-AFDC-193ED2E71DC7",
+        "modelName": "iPhone 16 Pro",
+        "osBuildNumber": "22F77",
+        "osVersion": "18.5",
+        "platform": "iOS Simulator"
+      },
+      "artifactZIPBytes": 10981475,
+      "artifactZIPSHA256": "a5315fedaae84deb8285f377d325335fedceeac9000db03a2a508562f09b8a53"
+    },
+    {
+      "suite": "local-a",
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "debug": "Passed",
+      "release": "Passed",
+      "origin": {
+        "run": 36454477295,
+        "attempt": 1,
+        "job": 109037470469,
+        "artifact": 10986535286,
+        "sha256": "1375bc985acc58889da450c899a4eb946a4405f8b09aaba499dc81f3662f2044",
+        "commit": "5a4f418b81b54ed69757d342965100ecf41e8598"
+      },
+      "device": {
+        "architecture": "arm64",
+        "deviceId": "98419013-C9D5-46BF-9C9B-C0D099BF237E",
+        "deviceName": "NIDAA-Disposable-F94A3EA9-567D-43BD-B587-8643C9EAE3CA",
+        "modelName": "iPhone 16 Pro",
+        "osBuildNumber": "22F77",
+        "osVersion": "18.5",
+        "platform": "iOS Simulator"
+      },
+      "artifactZIPBytes": 11507524,
+      "artifactZIPSHA256": "1375bc985acc58889da450c899a4eb946a4405f8b09aaba499dc81f3662f2044"
+    },
+    {
+      "suite": "local-b",
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "debug": "Passed",
+      "release": "Passed",
+      "origin": {
+        "run": 36454477295,
+        "attempt": 2,
+        "job": 109046792140,
+        "artifact": 10986952573,
+        "sha256": "2bfa00fa7fe29488105c86166186132575b567344e72bb8c3264e95215c4de76",
+        "commit": "5a4f418b81b54ed69757d342965100ecf41e8598"
+      },
+      "device": {
+        "architecture": "arm64",
+        "deviceId": "62EFBDB5-D07B-4025-B5E4-C770CC631304",
+        "deviceName": "NIDAA-Disposable-E005A526-4B0A-45B2-9C1E-224141C152C0",
+        "modelName": "iPhone 16 Pro",
+        "osBuildNumber": "22F77",
+        "osVersion": "18.5",
+        "platform": "iOS Simulator"
+      },
+      "artifactZIPBytes": 13875473,
+      "artifactZIPSHA256": "2bfa00fa7fe29488105c86166186132575b567344e72bb8c3264e95215c4de76"
+    }
+  ]
+}

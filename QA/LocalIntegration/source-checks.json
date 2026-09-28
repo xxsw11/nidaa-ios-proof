@@ -1,0 +1,12 @@
+{
+  "date": "2026-09-28",
+  "scope": "Active App, ProofCore, UITests, Integration, IntegrationClient, Config and Scripts text files; includes handoff docs, excludes historical archives/runtime",
+  "filesScanned": 81,
+  "patterns": [
+    "familyDemoName",
+    "rawJWT",
+    "privateKey"
+  ],
+  "matches": [],
+  "note": "Limited source-pattern inspection, not a production security certification. No runtime credentials were opened."
+}

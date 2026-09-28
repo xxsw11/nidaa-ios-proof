@@ -1,0 +1,11 @@
+{
+  "scope": "Deliverable backend evidence and all three native root logs/JSON/text records; excludes runtime data, raw xcresult, mailbox and database dumps",
+  "nativeRun": "36454477295",
+  "filesScanned": 52,
+  "patterns": [
+    "rawJWT",
+    "privateKey"
+  ],
+  "matches": [],
+  "limitation": "Limited pattern check, not a comprehensive secret detector or production security certification."
+}

@@ -6,7 +6,14 @@ This is a real local Supabase Auth (GoTrue), PostgreSQL and HTTP service. Verifi
 
 Use Docker Engine with Compose v2, Git and Python 3.11+ on a machine capable of Linux containers. Windows needs a working Docker-compatible Linux runtime; the current authoring machine has none. The `local-integration.yml` workflow runs the same stack on a standard Ubuntu runner. No Supabase account, CLI, subscription, Apple hardware or signing certificate is required for backend tests.
 
-From the repository root, create a private tooling environment and install the pinned requirements:
+Use the delivery package's `Source` directory, or clone the implementation branch (it is deliberately not merged into main):
+
+```sh
+git clone --branch codex/local-supabase-integration https://github.com/xxsw11/nidaa-ios-proof.git nidaa-local-trial
+cd nidaa-local-trial
+```
+
+For an exact tested snapshot, use the executable commit recorded in `LOCAL_INTEGRATION_STATUS.md`. From that repository root, create a private tooling environment and install the pinned requirements:
 
 ```sh
 python -m venv .venv-integration
@@ -48,7 +55,21 @@ Register fictional addresses ending in `.invalid`, with test-only passwords of 8
 
 Use independent Simulator installations or the CLI for independent account sessions. A invites B; copy the invitation token locally and enter it as B, then explicitly accept that sending direction. A can select B, complete the local authentication prompt and separately confirm sending. A recipient acknowledgement or opening is distinct from a human response, and neither closes the case. A dropped reply stays unknown until a lookup of the original operation resolves it; reconnection does not resend. Logout/account changes isolate the local replica; sensitive sessions and pending operations use device-only Keychain in the Apple adapter, not UserDefaults. Simulator Keychain behavior is not physical-device security certification.
 
-The current CI uses Linux for the real Swift/backend journey and cloud macOS separately for mock-based SwiftUI tests. Its mock interface is labeled `MOCK`; it does not establish a Simulator-to-backend journey. To reproduce those UI tests and Debug/Release builds on a Mac, run `bash Scripts/ci_simulator.sh`. No public tunnel is required or authorized. See the status document for actual run results and remaining limits.
+The current CI uses Linux for the real Swift/backend journey and cloud macOS separately for mock-based SwiftUI tests. Its mock interface is labeled `MOCK`; it does not establish a Simulator-to-backend journey. No public tunnel is required or authorized. See the status document for actual run results and remaining limits.
+
+### Reproduce the native manual-entry fixture
+
+From a fresh checkout on a Mac with the required Xcode and installed Simulator runtime, run:
+
+```sh
+NIDAA_UI_SUITE=integration bash Scripts/ci_simulator.sh
+```
+
+Run `bash Scripts/ci_simulator.sh` without that selection to include all local UI regressions. The script creates a fresh `NIDAA-Disposable-<UUID>` Simulator from an available runtime/device-type template and records it in `artifacts/disposable-simulator.txt`. Its exit cleanup shuts down and deletes only the Simulator it created, including after a failed test. Existing destinations are not reused or erased. Debug tests run first; Release is compiled only after those tests pass. Before a repeat invocation, previous native result bundles, screenshots and result logs are moved into an ignored `.nidaa-simulator-history/<UUID>/` directory. This preserves the prior evidence and prevents an old pass or screenshot from being mistaken for the current result.
+
+The integration suite uses the native Settings UI in this disposable Simulator to turn **General → AutoFill & Passwords → AutoFill Passwords and Passkeys** off, following [Apple's documented setting](https://support.apple.com/en-sg/guide/iphone/iphf9219d8c9/ios). It verifies the actual Off value before testing, retains a cropped switch screenshot, then terminates Settings and launches NIDAA in Arabic. Setup failure fails the suite and retains separate Settings evidence. The fixture refuses physical devices and Simulators without the script's disposable-name prefix; launching this suite directly on an ordinary Xcode destination will therefore fail safely. No private defaults or application password-security bypass is used.
+
+Look for the retained `disposable-simulator-autofill-passwords-and-passkeys-off` attachment through `artifacts/screenshots/manifest.json`, together with `ui-summary.json` and the UI log. These are run-specific observations, not assumptions from the setup code. The app's password field remains secure and uses password semantics, with unchanged validation assertions. This suite validates **manual secure typing with AutoFill off**. Secure credential and token fields request Apple's [ASCII-capable keyboard](https://developer.apple.com/documentation/uikit/uikeyboardtype/asciicapable) with left-to-right entry while surrounding screens remain Arabic. This selects the input layout; it does not inject credentials, convert secure fields into plain text, or weaken validation. The AutoFill-enabled path remains unproven: earlier automated runs showed the system Automatic Strong Password overlay intercepting entry even after correct username/password/verification field semantics were added. A successful manual-entry fixture must not be described as successful AutoFill validation or physical-device validation.
 
 ## Service and data boundaries
 

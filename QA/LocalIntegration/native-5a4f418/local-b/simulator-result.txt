@@ -1,0 +1,1 @@
+Local simulation UI tests and Release build completed. No notifications sent. Physical-device validation deferred: no Apple devices.

@@ -16,6 +16,7 @@ This file maps requirements to executable checks. Actual outcomes, tested commit
 | Official Swift client against real backend | `IntegrationClient/Sources/IntegrationTrialCLI` | Real HTTP/Auth/database journey on isolated Linux; memory storage only in this test process |
 | Pending unknown/never-sent, account/environment generation isolation, strict newer snapshots | 19 `NidaaIntegrationTests` | Injected HTTP/storage/clock tests; these are mocks, separately labeled |
 | Arabic screens, consent, fresh local auth + confirmation, unknown lookup and logout | 8 `IntegrationUITests` plus 17 existing UI journeys | Debug Simulator mock; neither hardware biometrics nor native backend end-to-end |
+| Native credential-entry fixture | `IntegrationUITests.setUpWithError` and `Scripts/ci_simulator.sh` | Fresh owned Simulator; native Settings verifies password AutoFill off before manual typing; AutoFill-enabled path unproven |
 | Arabic RTL and accessibility text | Original XCTest attachment exports and visual review | Screen images from the tested Simulator run; no fabricated preview |
 | Existing behavior | 45 reference Python, 13 existing Python, 45 ProofCore Swift tests | Regression evidence separate from real integration |
 
