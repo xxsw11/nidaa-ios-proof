@@ -15,6 +15,8 @@
 - Newly required verification, post-authentication confirmation and unresolved-operation review steps scroll into view using stable anchors. Their appearance does not bypass authorization, explicit confirmation or the unresolved-operation barrier.
 - The integration form uses the existing explicit Close control; downward form scrolling cannot dismiss its sheet. Card-level accessibility identifiers are omitted so SwiftUI preserves each action's own identifier. Test taps require enabled controls, and login tests check password draft retention through the existing signup-length gate without reading secure values.
 - A visible Arabic keyboard Done control dismisses the keyboard without editing drafts; UI tests use that same control rather than keyboard gestures or inserted characters.
+- Auth and consent draft cleanup belongs to the owning stable form container, rather than the last scrolling card. Keyboard or card visibility changes must not discard a draft; submission and leaving the entire form still clear sensitive values.
+- Logout clears account-specific display before its first network await, then reports confirmed or uncertain server revocation. The existing large-text/logout UI test exercises a Debug Simulator-only delayed mock completion and asserts the old account and contact navigation are absent while logout remains in progress.
 
 ## Evidence boundary
 

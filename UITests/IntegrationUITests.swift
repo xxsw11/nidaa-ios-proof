@@ -70,7 +70,9 @@ final class IntegrationUITests: XCTestCase {
     }
     private func login() {
         fill("integrationEmail", "sara@example.invalid")
+        XCTAssertEqual(app.textFields["integrationEmail"].value as? String, "sara@example.invalid", "Fictional email draft changed")
         fill("integrationPassword", "Fictional-Only-29!", secure: true)
+        XCTAssertEqual(app.textFields["integrationEmail"].value as? String, "sara@example.invalid", "Fictional email changed while entering password")
         // Signup requires at least eight password characters. This checks draft
         // retention without reading or logging a secure field's value.
         XCTAssertTrue(app.buttons["integrationSignup"].isEnabled, "Password draft did not survive keyboard dismissal")
@@ -91,7 +93,9 @@ final class IntegrationUITests: XCTestCase {
     func testRegistrationRequiresExplicitVerification() {
         launch(); shot("01-auth-rtl")
         fill("integrationEmail", "sara@example.invalid")
+        XCTAssertEqual(app.textFields["integrationEmail"].value as? String, "sara@example.invalid", "Fictional email draft changed")
         fill("integrationPassword", "Fictional-Only-29!", secure: true)
+        XCTAssertEqual(app.textFields["integrationEmail"].value as? String, "sara@example.invalid", "Fictional email changed while entering password")
         tap("integrationSignup")
         XCTAssertTrue(app.staticTexts["integrationAwaitingVerification"].waitForExistence(timeout: 5))
         XCTAssertFalse(app.buttons["integrationAccountTab"].exists)
@@ -166,11 +170,17 @@ final class IntegrationUITests: XCTestCase {
         shot("08-human-response-keeps-case-open")
     }
     func testLargeArabicLayoutAndLogoutIsolation() {
-        launch(large: true); shot("09-large-arabic-auth"); login(); tap("integrationContactsTab")
+        launch(extra: ["-nidaa-integration-delayed-logout"], large: true); shot("09-large-arabic-auth"); login(); tap("integrationContactsTab")
         reveal(app.buttons["integrationAcceptInvite"]); shot("10-large-arabic-consent")
         tap("integrationAccountTab"); tap("integrationLogout")
+        let busy = app.descendants(matching: .any).matching(identifier: "integrationBusy").firstMatch
+        XCTAssertTrue(busy.waitForExistence(timeout: 2), "Delayed logout must still be in progress")
+        XCTAssertFalse(app.buttons["integrationAccountTab"].exists, "Old account display must disappear before revocation completes")
+        XCTAssertFalse(app.buttons["integrationContactsTab"].exists, "Old contacts must disappear before revocation completes")
         XCTAssertTrue(app.buttons["integrationLogin"].waitForExistence(timeout: 5))
         XCTAssertFalse(app.buttons["integrationAlertsTab"].exists)
         XCTAssertFalse(app.staticTexts["integrationAlertState"].exists)
+        let completed = XCTNSPredicateExpectation(predicate: NSPredicate(format: "exists == false"), object: busy)
+        XCTAssertEqual(XCTWaiter.wait(for: [completed], timeout: 12), .completed)
     }
 }

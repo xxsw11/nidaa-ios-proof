@@ -111,6 +111,7 @@ import NidaaIntegration
     @State private var recovery = false
     private var emailValid: Bool { email.lowercased().hasSuffix(".invalid") && email.contains("@") }
     var body: some View {
+        VStack(alignment: .leading, spacing: 22) {
         NidaaCard {
             Text("حساب خيالي مستقل").font(.title2.bold())
             Text("استخدم بريدًا ينتهي بـ ‎.invalid. التحقق يصل إلى صندوق محلي معزول؛ لا تستخدم بيانات شخصية.").font(.footnote)
@@ -138,6 +139,7 @@ import NidaaIntegration
             }.disabled(token.isEmpty || store.busy)
         }
         .id("integration-verification-step")
+        }
         .onDisappear { password = ""; token = "" }
     }
 }
@@ -174,6 +176,7 @@ import NidaaIntegration
     @State private var token = ""
     @State private var consent = false
     var body: some View {
+        VStack(alignment: .leading, spacing: 22) {
         NidaaCard {
             Text("دعوة بموافقة واضحة").font(.title2.bold())
             Text("قبول الدعوة يسمح لصاحبها بإرسال نداء إليك فقط. الاتجاه الآخر يحتاج دعوة وقبولًا مستقلين.")
@@ -225,6 +228,7 @@ import NidaaIntegration
         NidaaCard {
             Text("إلغاء الحظر لا يعيد الموافقة").font(.headline)
             Text("بعد سحب الموافقة أو الحظر، يلزم قبول دعوة جديدة لإتاحة الإرسال مجددًا. لا يكشف التطبيق أسباب عدم إتاحة حساب آخر.").font(.footnote)
+        }
         }.onDisappear { token = ""; consent = false; store.invitationToken = "" }
     }
 }

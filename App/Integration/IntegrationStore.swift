@@ -146,10 +146,23 @@ struct TrialConfirmation {
     func logout(allDevices: Bool) async {
         cancelAuthorization()
         await run {
-            var revoked = true
-            if !self.isMock { revoked = try await self.requireClient().logout(allDevices: allDevices).serverRevoked }
+            let logoutClient = self.client
+            // Remove account-specific display synchronously, before any network
+            // suspension. The retained adapter completes revocation separately.
             self.clearView()
-            self.message = revoked ? "انتهت الجلسة وأُزيلت بيانات العرض." : "انتهى عرض الجلسة؛ تعذر تأكيد محو بياناتها أو إلغائها على الخادم."
+            self.message = "أُخفيت بيانات الحساب فورًا. جارٍ التحقق من إلغاء الجلسة…"
+            var revoked = true
+            if !self.isMock {
+                guard let logoutClient else { throw TrialUIError.unavailable }
+                revoked = await logoutClient.logout(allDevices: allDevices).serverRevoked
+            }
+            #if targetEnvironment(simulator)
+            if self.isMock && ProcessInfo.processInfo.arguments.contains("-nidaa-integration-delayed-logout") {
+                try await Task.sleep(nanoseconds: 8_000_000_000)
+            }
+            #endif
+            if self.isMock { self.message = "اكتملت محاكاة إنهاء الجلسة وأُزيلت بيانات العرض." }
+            else { self.message = revoked ? "أُلغيت الجلسة على الخادم وأُزيلت بيانات العرض." : "انتهى عرض الجلسة؛ تعذر تأكيد محو بياناتها أو إلغائها على الخادم." }
         }
     }
     private func requireClient() throws -> any NidaaClientProtocol {
