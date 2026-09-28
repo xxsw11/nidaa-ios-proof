@@ -1,0 +1,260 @@
+[
+  {
+    "run": 36425227273,
+    "commit": "65e058b383d7785880cde33e8f4694b67cded384",
+    "scope": "Backend gate before native implementation",
+    "result": "Passed",
+    "realBackendTests": 45
+  },
+  {
+    "run": 36432898804,
+    "commit": "c27af69945f8074707cb7fa7796062371fc29123",
+    "scope": "Backend plus first live Swift candidate",
+    "result": "Failed",
+    "realBackendTestsPassed": 47,
+    "clientUnitTestsPassed": 19,
+    "cause": "Generated signup password exceeded provider maximum; no live Swift journey completion"
+  },
+  {
+    "run": 36434112612,
+    "commit": "528b9535fbb7f1b229bb0efa0724572f7262cf6c",
+    "scope": "Backend and actual official Swift Auth journey",
+    "result": "Passed",
+    "realBackendTests": 47,
+    "clientUnitTests": 19,
+    "liveSwiftJourney": "Passed"
+  },
+  {
+    "run": 36432898846,
+    "commit": "c27af69945f8074707cb7fa7796062371fc29123",
+    "scope": "First native UI candidate",
+    "result": "Cancelled after job timeout; native gate failed/incomplete",
+    "coreSwiftTestsPassed": 45,
+    "clientUnitTestsPassed": 19,
+    "integrationUITestsPassed": 2,
+    "integrationUITestsFailed": 6,
+    "releaseBuild": "Not reached",
+    "causes": [
+      "Parent accessibility ID overrode confirmation controls",
+      "Blind scrolling/input could dismiss sheet or tap disabled signup",
+      "Combined old/new suite exceeded job budget"
+    ]
+  },
+  {
+    "run": 36437636878,
+    "commit": "ce9b78a6a3e9f53169822e109770d222481af4fd",
+    "scope": "Repeat backend/client regression",
+    "result": "Passed",
+    "realBackendTests": 47,
+    "clientUnitTests": 19,
+    "liveSwiftJourney": "Passed"
+  },
+  {
+    "runs": [
+      36434112561,
+      36437636820,
+      36438374143
+    ],
+    "scope": "Superseded native candidates",
+    "result": "Cancelled for newer fixes; no final pass claimed"
+  },
+  {
+    "run": 36439035458,
+    "commit": "357d64fe41e939d0e04906c42b2c41f5378dabb0",
+    "scope": "Sharded native candidate",
+    "result": "Failed",
+    "integrationUI": {
+      "passed": 0,
+      "failed": 8,
+      "cause": "Signup readiness false after input; next candidate isolated email retention. Form lifetime cleanup alone did not resolve it."
+    },
+    "localA": {
+      "passed": 8,
+      "failed": 1,
+      "cause": "Offscreen alternative button rejected before helper attempted scrolling; authorization path not reached."
+    },
+    "releaseBuild": "Integration/local-a not reached; local-b Passed",
+    "localB": {
+      "passed": 8,
+      "failed": 0,
+      "debug": "Passed",
+      "release": "Passed"
+    }
+  },
+  {
+    "run": 36441961119,
+    "commit": "bde7b5eec539b7671d2c561a3c740bdefd24f7b9",
+    "scope": "Native candidate with form lifetime/logout/offscreen helper fixes",
+    "result": "Failed native UI gate; local-b job subsequently cancelled for corrected candidate",
+    "integrationUIPassed": 0,
+    "integrationUIFailed": 8,
+    "observation": "Exact fictional email survives before/after secure input; signup readiness stays false. Original Simulator video from prior run shows Automatic Strong Password cover view over password entry. Correct credential/verification content semantics prepared; outcome requires rerun.",
+    "releaseBuildIntegration": "Not reached",
+    "localA": {
+      "passed": 8,
+      "failed": 1,
+      "cause": "Short coordinate drags regressed large-text target discovery; original full swipe restored while retaining offscreen existence discovery."
+    },
+    "localB": {
+      "passed": 6,
+      "failed": 2,
+      "jobConclusion": "Cancelled after superseding source",
+      "cause": "Coordinate scrolling missed saveAppearance and retryAlert; original full swipe restored in next candidate",
+      "release": "Not reached"
+    }
+  },
+  {
+    "run": 36445117592,
+    "commit": "bf5b8693da2c1c96101d125a76e731e085a5a370",
+    "scope": "Native semantics and restored full-swipe candidate",
+    "result": "Integration UI Failed; all 17 existing UI tests and their Debug/Release builds Passed",
+    "integrationUI": {
+      "passed": 0,
+      "failed": 8,
+      "observation": "Native strong-password cover remains. Before/after keyboard Done both show login enabled, signup disabled, busy false; email preserved."
+    },
+    "localA": {
+      "passed": 9,
+      "failed": 0,
+      "debug": "Passed",
+      "release": "Passed"
+    },
+    "next": "Configure explicit manual-entry test fixture through disposable Simulator Settings; retain password security and assertions. AutoFill-enabled behavior remains unproven.",
+    "localB": {
+      "passed": 8,
+      "failed": 0,
+      "debug": "Passed",
+      "release": "Passed"
+    }
+  },
+  {
+    "run": 36448856659,
+    "commit": "1c3f74258d81adc07acdd4e87cd5d50e0c68ef5c",
+    "scope": "Disposable Simulator AutoFill fixture first candidate",
+    "result": "Superseded by repeat-run evidence isolation fix; not a passing gate",
+    "reason": "Read-only review found repeated local invocations could reuse an existing xcresult bundle and stale result files. Previous native evidence is now archived before each invocation."
+  },
+  {
+    "run": 36449300225,
+    "commit": "898749e207adb34fcb566e6bebdb41e116281adb",
+    "scope": "Disposable Simulator native AutoFill setup and repeat-run evidence isolation",
+    "result": "Integration fixture Failed; existing shards cancelled for corrected fixture candidate",
+    "integrationUI": {
+      "passed": 0,
+      "failed": 8,
+      "cause": "Native Settings routes and device guard succeeded, but row-wide switch midpoint tap left AutoFill on. Original screenshot and AX state1 verified; no NIDAA credential tests were treated as executed."
+    },
+    "artifact": {
+      "id": 10982723436,
+      "sha256": "1f9b1ffc1814cf60ce4738a0ddfe05251196b35192a8b05324cdcbfe2873998c"
+    },
+    "next": "Tap visible right-hand switch thumb using coordinate relative to observed switch frame, then retain actual Off assertion.",
+    "localB": {
+      "uiPassed": 8,
+      "uiFailed": 0,
+      "jobConclusion": "Cancelled",
+      "release": "Not reached"
+    },
+    "localA": {
+      "observedPassedBeforeCancellation": 5,
+      "jobConclusion": "Cancelled",
+      "release": "Not reached"
+    }
+  },
+  {
+    "run": 36451738013,
+    "commit": "bc602c2b0ce016a600e07705b8c491698d0d76ad",
+    "scope": "Native AutoFill thumb fixture and manual credential entry",
+    "result": "Integration Failed; local-a9/9 with Debug/Release Passed; local-b cancelled for corrected credential keyboard source",
+    "integrationUI": {
+      "passed": 0,
+      "failed": 8,
+      "fixture": "Native Settings AutoFill Off verified and screenshot retained",
+      "observation": "Yellow strong-password overlay absent. Original second-test video at24s shows Arabic secure keyboard and five masked characters after Latin fixture entry. Five non-letter characters are present in that fixture; inferred missing Latin keystrokes require verification after ASCII-capable keyboard correction. First case hit3s keyboard-dismiss timeout but tearDown screenshot shows keyboard gone."
+    },
+    "artifact": {
+      "id": 10984556666,
+      "sha256": "66bacaae7687f15211b3768633509202925a5085c5d8a2f03b8e5af12fb7221d"
+    },
+    "next": "Use documented ASCII-capable keyboard for credential/token fields, preserve secure semantics and assertions, allow bounded8s keyboard dismissal.",
+    "localA": {
+      "passed": 9,
+      "failed": 0,
+      "debug": "Passed",
+      "release": "Passed"
+    },
+    "localB": {
+      "jobConclusion": "Cancelled",
+      "release": "Not reached",
+      "observedPassedBeforeCancellation": 7
+    }
+  },
+  {
+    "run": 36454477295,
+    "attempt": 1,
+    "commit": "5a4f418b81b54ed69757d342965100ecf41e8598",
+    "scope": "ASCII-capable credential keyboards and complete native gate",
+    "result": "Integration 8/8 and local-a 9/9 passed with Debug/Release; local-b runner failed before UI test execution",
+    "integration": {
+      "passed": 8,
+      "failed": 0,
+      "debug": "Passed",
+      "release": "Passed",
+      "job": 109037470438
+    },
+    "localA": {
+      "passed": 9,
+      "failed": 0,
+      "debug": "Passed",
+      "release": "Passed",
+      "job": 109037470469
+    },
+    "localB": {
+      "job": 109037470010,
+      "uiTestsStarted": 0,
+      "debug": "Compiled; test runner bootstrapping failed",
+      "release": "Not reached",
+      "cause": "Early unexpected exit: test runner killed before starting test execution",
+      "next": "Same-source attempt 2 job 109046792140 accepted after entire run completed; no code changes. Initial request while other jobs were active was rejected by GitHub."
+    }
+  },
+  {
+    "run": 36454477295,
+    "commit": "5a4f418b81b54ed69757d342965100ecf41e8598",
+    "scope": "Final native UI and Debug/Release gate",
+    "result": "Passed",
+    "integrationUITests": 8,
+    "existingUITests": 17,
+    "coreSwiftTests": 45,
+    "clientSwiftTests": 19,
+    "pythonTests": 13,
+    "skipped": 0,
+    "artifactOrigins": [
+      {
+        "run": 36454477295,
+        "attempt": 1,
+        "job": 109037470438,
+        "artifact": 10986730207,
+        "sha256": "a5315fedaae84deb8285f377d325335fedceeac9000db03a2a508562f09b8a53",
+        "commit": "5a4f418b81b54ed69757d342965100ecf41e8598"
+      },
+      {
+        "run": 36454477295,
+        "attempt": 1,
+        "job": 109037470469,
+        "artifact": 10986535286,
+        "sha256": "1375bc985acc58889da450c899a4eb946a4405f8b09aaba499dc81f3662f2044",
+        "commit": "5a4f418b81b54ed69757d342965100ecf41e8598"
+      },
+      {
+        "run": 36454477295,
+        "attempt": 2,
+        "job": 109046792140,
+        "artifact": 10986952573,
+        "sha256": "2bfa00fa7fe29488105c86166186132575b567344e72bb8c3264e95215c4de76",
+        "commit": "5a4f418b81b54ed69757d342965100ecf41e8598"
+      }
+    ],
+    "note": "Integration/local-a passed attempt 1; local-b passed same-source attempt 2 after runner bootstrapping failure before any tests."
+  }
+]

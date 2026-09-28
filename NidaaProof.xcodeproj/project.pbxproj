@@ -226,6 +226,10 @@
 				<string>3C43497DA3F4B4134A3CFD93</string>
 				<string>4677577A882D0A64A399D344</string>
 				<string>54176D157F0056FDB39816AE</string>
+				<string>E341805315F826A4547F11C4</string>
+				<string>533730ED4FBB6078BB07FA4D</string>
+				<string>BFD4CA56913AD68A565B9966</string>
+				<string>3F470365DB43FAF1161163EF</string>
 			</array>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
@@ -251,6 +255,9 @@
 				<string>A77DE2C7BB27DCB3103DCD23</string>
 				<string>A03B7D36EC9F7E323207C4B7</string>
 				<string>433FB30A2ED4408E0054226B</string>
+				<string>88A4889F69D8981B26A5A2E0</string>
+				<string>AD4048EB4880190AA5822923</string>
+				<string>F6890270E77ACD7C461CA332</string>
 			</array>
 			<key>runOnlyForDeploymentPostprocessing</key>
 			<integer>0</integer>
@@ -264,6 +271,7 @@
 			<key>files</key>
 			<array>
 				<string>91596F6079D535D734C1642A</string>
+				<string>49735028B946D33845375B44</string>
 			</array>
 			<key>runOnlyForDeploymentPostprocessing</key>
 			<integer>0</integer>
@@ -334,6 +342,8 @@
 				<string>iphoneos iphonesimulator</string>
 				<key>ONLY_ACTIVE_ARCH</key>
 				<string>YES</string>
+				<key>INFOPLIST_FILE</key>
+				<string>Config/Integration-Debug-Info.plist</string>
 			</dict>
 		</dict>
 		<key>0CC31A010A9EAFED2597BEBC</key>
@@ -493,6 +503,7 @@
 			<key>packageProductDependencies</key>
 			<array>
 				<string>8473FB7C391915EE75DAD5DA</string>
+				<string>1DADDDBCA3548331685B01B9</string>
 			</array>
 			<key>productName</key>
 			<string>NidaaProof</string>
@@ -545,6 +556,7 @@
 			<key>packageReferences</key>
 			<array>
 				<string>BC4A71180870F7945155FBB0</string>
+				<string>F1DE612B83071990990C5573</string>
 			</array>
 			<key>productRefGroup</key>
 			<string>0A3E27B8CA818264D75C8D81</string>
@@ -729,6 +741,7 @@
 			<key>files</key>
 			<array>
 				<string>EF20ADDCE161025C889D5F4D</string>
+				<string>53118AF991FBD478BF33848C</string>
 			</array>
 			<key>runOnlyForDeploymentPostprocessing</key>
 			<integer>0</integer>
@@ -951,6 +964,101 @@
 			<string>78636E0DBA42FC3D337D6D88</string>
 			<key>productType</key>
 			<string>com.apple.product-type.bundle.ui-testing</string>
+		</dict>
+		<key>F1DE612B83071990990C5573</key>
+		<dict>
+			<key>isa</key>
+			<string>XCLocalSwiftPackageReference</string>
+			<key>relativePath</key>
+			<string>IntegrationClient</string>
+		</dict>
+		<key>1DADDDBCA3548331685B01B9</key>
+		<dict>
+			<key>isa</key>
+			<string>XCSwiftPackageProductDependency</string>
+			<key>package</key>
+			<string>F1DE612B83071990990C5573</string>
+			<key>productName</key>
+			<string>NidaaIntegration</string>
+		</dict>
+		<key>49735028B946D33845375B44</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>productRef</key>
+			<string>1DADDDBCA3548331685B01B9</string>
+		</dict>
+		<key>E341805315F826A4547F11C4</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>App/Integration/IntegrationAlerts.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>88A4889F69D8981B26A5A2E0</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>fileRef</key>
+			<string>E341805315F826A4547F11C4</string>
+		</dict>
+		<key>533730ED4FBB6078BB07FA4D</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>App/Integration/IntegrationScreens.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>AD4048EB4880190AA5822923</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>fileRef</key>
+			<string>533730ED4FBB6078BB07FA4D</string>
+		</dict>
+		<key>BFD4CA56913AD68A565B9966</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>App/Integration/IntegrationStore.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>F6890270E77ACD7C461CA332</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>fileRef</key>
+			<string>BFD4CA56913AD68A565B9966</string>
+		</dict>
+		<key>3F470365DB43FAF1161163EF</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>UITests/IntegrationUITests.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>53118AF991FBD478BF33848C</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>fileRef</key>
+			<string>3F470365DB43FAF1161163EF</string>
 		</dict>
 	</dict>
 	<key>rootObject</key>

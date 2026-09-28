@@ -4,9 +4,14 @@ import SwiftUI
 import ProofCore
 
 enum AppTab: String { case home, contacts, history, settings }
-enum AppScreen: Equatable { case compose, action, alert(UUID), incoming(UUID), editContact(UUID?), readiness, appearance, terms, privacy, technical }
+enum AppScreen: Equatable { case compose, action, alert(UUID), incoming(UUID), editContact(UUID?), readiness, appearance, terms, privacy, technical, integration }
 
 @MainActor final class ExperienceStore: ObservableObject {
+    #if DEBUG
+    // One live client owns this environment for the entire app lifetime, including
+    // sheet dismissal/reopening while a network operation is in flight.
+    lazy var integrationStore = IntegrationStore()
+    #endif
     @Published var simulation: LocalSimulation
     @Published var appearance: AppearancePreferences
     @Published var screen: AppScreen?
@@ -91,6 +96,9 @@ enum AppScreen: Equatable { case compose, action, alert(UUID), incoming(UUID), e
             freezeIfNeeded()
         } catch { storageIssue = "تعذرت قراءة أو حفظ السجل المحلي. لم تُستبدل البيانات؛ أعد المحاولة أو اضبط بيانات العرض صراحةً." }
         // All authorization gates are new empty values on every process launch.
+        #if DEBUG && targetEnvironment(simulator)
+        if ProcessInfo.processInfo.arguments.contains("-nidaa-integration-mock") { screen = .integration }
+        #endif
     }
     func startCompose() {
         guard !locked else { message = "افتح القفل أولًا"; return }

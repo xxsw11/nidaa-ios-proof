@@ -16,11 +16,20 @@ final class LocalExperienceUITests: XCTestCase {
             XCTAssertFalse(app.staticTexts["storageIssue"].firstMatch.exists, "Unexpected storage failure at launch")
         }
     }
-    func tap(_ id: String) {
+    func tap(_ id: String, file: StaticString = #filePath, line: UInt = #line) {
         let element = app.buttons[id].firstMatch
-        XCTAssertTrue(element.waitForExistence(timeout: 6),id)
-        for _ in 0..<10 { if element.isHittable { break };app.swipeUp() }
-        XCTAssertTrue(element.isHittable,id);element.tap()
+        // SwiftUI may omit an offscreen button from the accessibility snapshot.
+        // Discover it by scrolling before asserting existence, including on sheets.
+        _ = element.waitForExistence(timeout: 6)
+        for _ in 0..<10 {
+            if element.exists && element.isHittable { break }
+            // Preserve the full swipe that reaches actions at accessibility XXXL.
+            // Short coordinate drags regressed that previously passing path.
+            app.swipeUp()
+        }
+        XCTAssertTrue(element.exists, id, file: file, line: line)
+        XCTAssertTrue(element.isHittable, id, file: file, line: line)
+        element.tap()
     }
     func tab(_ name: String) { app.tabBars.buttons[name].tap() }
     func shot(_ name: String) {

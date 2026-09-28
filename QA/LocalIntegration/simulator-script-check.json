@@ -1,0 +1,50 @@
+{
+  "checkedAtUTC": "2026-09-28T16:14:39.043159+00:00",
+  "kind": "Windows Git Bash script control-flow test with mocked Apple commands",
+  "appleExecution": false,
+  "physicalDeviceExecution": false,
+  "sourceSHA256": {
+    "ci_simulator.sh": "546fe690ad3c21dcde995b752ab60001ce92b33bbf003876b6335c6f9d630a95",
+    "select_simulator.py": "898910f1f6e54914c6c701eaceafce4eaf747c5fe29720a07a9c7d4e79171a20"
+  },
+  "mockedCommands": [
+    "uname",
+    "uuidgen",
+    "xcrun",
+    "xcodebuild"
+  ],
+  "realExecution": [
+    "Git Bash executes unchanged copied ci_simulator.sh",
+    "Python executes unchanged copied select_simulator.py",
+    "filesystem archive/export routing and EXIT cleanup"
+  ],
+  "runs": [
+    {
+      "run": 1,
+      "exitCode": 0,
+      "output": "MOCK XCODE DEBUG TEST RUN 1\nMOCK XCODE RELEASE BUILD RUN 1",
+      "stderr": ""
+    },
+    {
+      "run": 2,
+      "exitCode": 65,
+      "output": "MOCK XCODE DEBUG TEST RUN 2",
+      "stderr": ""
+    }
+  ],
+  "checks": {
+    "first_mock_success_returns_zero": true,
+    "second_mock_failure_preserves_exit_65": true,
+    "previous_result_bundle_archived": true,
+    "previous_release_evidence_archived": true,
+    "previous_screenshots_and_summary_archived": true,
+    "current_bundle_is_second_run": true,
+    "current_summary_and_screenshot_are_second_run": true,
+    "failed_repeat_has_no_stale_release_or_success_marker": true,
+    "unrelated_evidence_preserved": true,
+    "owned_device_cleaned_on_success_and_failure": true,
+    "preexisting_device_never_targeted": true,
+    "release_only_after_passing_debug": true
+  },
+  "limitation": "Does not validate macOS, Xcode compilation, native Settings, Simulator UI, or physical-device behavior. Second run intentionally fails mocked Debug tests after producing its own new result bundle."
+}

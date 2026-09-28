@@ -8,6 +8,9 @@ import ProofCore
     var body: some View {
         ScreenBody {
             SimulationNotice(authSimulation: store.simulationAuthentication)
+            #if DEBUG
+            NidaaButton(title: "تجربة الربط المحلي المعزولة", icon: "network", secondary: true, id: "integrationSettings") { store.screen = .integration }
+            #endif
             NidaaButton(title: "المظهر والألوان",icon: "paintpalette",secondary: true,id: "appearanceSettings") { store.screen = .appearance }
             NidaaCard {
                 Toggle("قفل التطبيق بوسيلة النظام",isOn: Binding(get: { store.lockEnabled },set: { enabled in Task { await store.setAppLock(enabled) } })).disabled(store.busy).accessibilityIdentifier("appLockSetting")
@@ -32,7 +35,7 @@ import ProofCore
         .alert("إعادة ضبط النموذج المحلي؟",isPresented: $resetConfirmation) {
             Button("إعادة الضبط",role: .destructive) { store.resetDemo() }.accessibilityIdentifier("confirmReset")
             Button("إلغاء",role: .cancel) {}
-        } message: { Text("لن تُحذف بيانات من حساب خارجي؛ لا يوجد خادم أو حساب في هذه المرحلة.") }
+        } message: { Text("تُعاد بيانات العرض المحلية فقط. حسابات تجربة الربط المعزولة لا تتأثر.") }
     }
 }
 @MainActor struct ReadinessView: View {

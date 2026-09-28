@@ -12,4 +12,9 @@ __pycache__/
 
 # Cloud build outputs (not source)
 artifacts/
+.nidaa-simulator-history/
 .swiftpm/
+Integration/.runtime.env
+Integration/.private/
+Integration/evidence-local/
+.venv-integration/
