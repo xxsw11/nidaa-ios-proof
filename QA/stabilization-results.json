@@ -1,0 +1,64 @@
+{
+  "run": "https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36381069313",
+  "testedCommit": "8edd1385b118f01e266ee5c1633d33c201a26be4",
+  "python": {
+    "passed": 13,
+    "failed": 0
+  },
+  "swift": {
+    "passed": 45,
+    "failed": 0
+  },
+  "ui": {
+    "passed": 17,
+    "failed": 0,
+    "skipped": 0
+  },
+  "debugTestBuild": "Passed",
+  "releaseBuild": "Passed",
+  "environment": "ProductName:\t\tmacOS\nProductVersion:\t\t15.7.9\nBuildVersion:\t\t24G830\nXcode 16.4\nBuild version 16F6\nApple Swift version 6.1.2 (swiftlang-6.1.2.1.2 clang-1700.0.13.5)\nTarget: arm64-apple-macosx15.0\n",
+  "device": {
+    "architecture": "arm64",
+    "deviceId": "DC4CD8B3-4457-4153-9087-A0D7A2F9BFD9",
+    "deviceName": "iPhone 16 Pro",
+    "modelName": "iPhone 16 Pro",
+    "osBuildNumber": "22F77",
+    "osVersion": "18.5",
+    "platform": "iOS Simulator"
+  },
+  "reviewedScreenshots": [
+    "01-home.png",
+    "02-selection.png",
+    "03-confirmation.png",
+    "04-outgoing.png",
+    "05-incoming.png",
+    "06-human-response.png",
+    "07-resolved.png",
+    "08-history.png",
+    "09-trusted-circle.png",
+    "10-appearance.png",
+    "11-terms.png",
+    "12-privacy.png",
+    "13-readiness.png",
+    "14-locked-incoming.png",
+    "15-large-text-home.png",
+    "16-large-text-selection.png",
+    "17-large-text-settings.png",
+    "18-large-text-appearance.png",
+    "19-large-text-action.png",
+    "20-custom-button-home.png",
+    "21-light-preview.png",
+    "22-settings.png",
+    "23-restored-alert.png",
+    "24-retry-confirmation.png",
+    "25-addition-confirmation.png",
+    "26-restored-addition.png",
+    "27-expired-on-restore.png",
+    "28-storage-failure.png",
+    "29-corrupt-storage.png",
+    "30-reset-history.png",
+    "31-large-action-confirmation.png"
+  ],
+  "physicalDevice": "Not tested",
+  "limits": "Simulator only. Native biometric hardware, file-protection hardware behavior, APNs, audio, Bluetooth and silent-mode bypass are unproven."
+}

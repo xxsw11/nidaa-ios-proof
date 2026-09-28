@@ -1,7 +1,7 @@
 {
-  "version": "native-local-v02",
-  "testedCommit": "0412c2404bb4bcce3ed462504d93689264aef0a7",
-  "run": "https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36370598960",
+  "version": "native-stabilized-v03",
+  "testedCommit": "8edd1385b118f01e266ee5c1633d33c201a26be4",
+  "run": "https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36381069313",
   "note": "Delivery source inventory, excluding this manifest itself. Executable source was tested at testedCommit; subsequent changes contain documentation and evidence records only. Hashes provide integrity checks, not ownership guarantees.",
   "files": [
     {
@@ -16,8 +16,8 @@
     },
     {
       "path": "App/Experience/AlertScreens.swift",
-      "bytes": 11961,
-      "sha256": "13279352f1b0dfacad4dd23c42e1e9b0275a96ea3e6867003c839ce13729804c"
+      "bytes": 14430,
+      "sha256": "414decc7b4a972a97e54faf4b21e0ff6f66c04402f70b2c416326bfca24f77ce"
     },
     {
       "path": "App/Experience/DesignSystem.swift",
@@ -26,23 +26,23 @@
     },
     {
       "path": "App/Experience/ExperienceRoot.swift",
-      "bytes": 5872,
-      "sha256": "204f6949187044c1c8ab625005f1c6d63a72c1f42d5527448b4f0f013434686f"
+      "bytes": 6805,
+      "sha256": "09613579e2a39fdf576d2ddfa0e700e6f232fd02c683e9dcd266a8e3aca2353f"
     },
     {
       "path": "App/Experience/ExperienceStore.swift",
-      "bytes": 11028,
-      "sha256": "8c2cd522bf03d67d49485b9bac615d8d35ff00d0c3f467da6f9a315aa0c063ca"
+      "bytes": 18432,
+      "sha256": "d6328fe445f3ada999d5a92c37907dd779537869ff8b4f3d77fda74250fc2386"
     },
     {
       "path": "App/Experience/HomeContacts.swift",
-      "bytes": 8426,
-      "sha256": "446809428eddaabb3037a010442621bb2071a2dad62a252889f268062c793e96"
+      "bytes": 8457,
+      "sha256": "85961b45e305c61966feee43b39fff191e5df1f557b18afdb774d92f908b2f4c"
     },
     {
       "path": "App/Experience/SettingsScreens.swift",
-      "bytes": 16207,
-      "sha256": "3fae852c12ce832bfbe279a85e13672441a6e0f5b7ec2c7731e7539a924b9095"
+      "bytes": 16564,
+      "sha256": "cf85901164b9ca8d06e1bdd116b371d2da7db52a21cd0d371e5752d8e947b22f"
     },
     {
       "path": "App/Info.plist",
@@ -91,8 +91,8 @@
     },
     {
       "path": "CLOUD_BUILD_STATUS.md",
-      "bytes": 4334,
-      "sha256": "c5a1a17b4a49aa5065926b47d00ca36568fefcb956c7bcc6ca905384c767ff5a"
+      "bytes": 6461,
+      "sha256": "02cc8bab5030daca2dd2036124119240522cc3d1245a8327afb472393decdd92"
     },
     {
       "path": "Config/APNs.entitlements",
@@ -111,8 +111,8 @@
     },
     {
       "path": "DECISIONS.md",
-      "bytes": 3260,
-      "sha256": "f39ba47608971a03284caab0b18c1089a0cd31748229c20881146f300cd6013f"
+      "bytes": 4499,
+      "sha256": "444eee2bf9ff8bffcbc7aa31ccc9f1e38c049da7b05f5432a05da7b0c68ea083"
     },
     {
       "path": "Docs/APNS_SETUP.md",
@@ -126,8 +126,8 @@
     },
     {
       "path": "Docs/ARCHITECTURE.md",
-      "bytes": 6698,
-      "sha256": "c6016219ab9218941ff324f24e3f7876203c73b10c24b0b5c51e812bddf7cfe3"
+      "bytes": 7108,
+      "sha256": "0206151d9ee850a8991d99b23f5d0ab7e53f64e990e54f017eafb38dcfe5bc55"
     },
     {
       "path": "Docs/CRITICAL_ALERTS_DRAFT.md",
@@ -151,13 +151,18 @@
     },
     {
       "path": "Docs/IMPLEMENTATION_BOUNDARIES.md",
-      "bytes": 2540,
-      "sha256": "a26f116f53778f0b48e2b7fd8dca1423b5123f68a9cfe6ed5516995b82033b1e"
+      "bytes": 2657,
+      "sha256": "73fe0a8c6ef3a8c9cc4d790483d88e70e42eb97b11bd0f7b735d2092ace7e1ab"
     },
     {
       "path": "Docs/LOCAL_EXPERIENCE.md",
-      "bytes": 5014,
-      "sha256": "a7ea6b17b9478474d0dd917f483099c9b1b97201854088c34a0d63435477ec91"
+      "bytes": 5439,
+      "sha256": "cb66075aa7ad75de99dc57fd2e3fd8bfecd27787450877f62c9fdb5b2592aec2"
+    },
+    {
+      "path": "Docs/LOCAL_STABILIZATION.md",
+      "bytes": 7197,
+      "sha256": "4e0b91a41a87bd3149f517c0ed26b3a0e71abf28b660420032541125656082e4"
     },
     {
       "path": "Docs/MAC_IPHONE_SETUP.md",
@@ -166,8 +171,8 @@
     },
     {
       "path": "IOS_PROOF_STATUS.md",
-      "bytes": 3412,
-      "sha256": "898fd7b64d7a948984af4e5ee3b5cbed5f9125d4123d4ed2f00089b0288311d2"
+      "bytes": 5568,
+      "sha256": "ff09eb78c3bd031dfcd0771f8fbf3d1eb274c43d11adea20e69dffa5fa740d07"
     },
     {
       "path": "Manifest.original.json",
@@ -176,8 +181,8 @@
     },
     {
       "path": "NEXT_REVIEW.md",
-      "bytes": 1833,
-      "sha256": "ca8717a3e95640e8ee64b6c52dedd7398931d7ac8697dec26a81028f23b272df"
+      "bytes": 1792,
+      "sha256": "46ec3a42ee2d30ae58b4f2945c94d0f3f88207082c37c11a31b791c0e80c1f4d"
     },
     {
       "path": "NidaaProof.xcodeproj/project.pbxproj",
@@ -196,13 +201,23 @@
     },
     {
       "path": "PROJECT_STATUS.md",
-      "bytes": 1410,
-      "sha256": "8ee72af034d3e2389579bf20670e4eaff92deabd99ec4d5d29c6d83ab67cf687"
+      "bytes": 2063,
+      "sha256": "d85e061bedbea3658c10bd5f5cd390afcb075473e20497d941e9189c636caf72"
     },
     {
       "path": "ProofCore/Package.swift",
       "bytes": 330,
       "sha256": "0ac0244ef86cbe2af0167c7bb454e9adbf45a09bd572e8b6bd41bec2759be5c4"
+    },
+    {
+      "path": "ProofCore/Sources/ProofCore/AlertActionGate.swift",
+      "bytes": 1259,
+      "sha256": "620f2acfb12050e03bb0a870cc5a67c2b61c4614065ad63c3628be8e7a2e89e6"
+    },
+    {
+      "path": "ProofCore/Sources/ProofCore/AlertPersistence.swift",
+      "bytes": 6157,
+      "sha256": "d88314d340e19896adbcd964d9c090d6e185daaedca55888fb8a16927997945d"
     },
     {
       "path": "ProofCore/Sources/ProofCore/Appearance.swift",
@@ -216,8 +231,8 @@
     },
     {
       "path": "ProofCore/Sources/ProofCore/LocalSimulation.swift",
-      "bytes": 12554,
-      "sha256": "ed03bf3d11787d6a33f5ddc35d424a7fe97d8345f6bf752c1a2617214844bf82"
+      "bytes": 13762,
+      "sha256": "847126f96b54569bbcaee29ad9b5c2db245122193cf4c44e80e5ebd8d22021d0"
     },
     {
       "path": "ProofCore/Tests/ProofCoreTests/EvidenceTests.swift",
@@ -226,8 +241,13 @@
     },
     {
       "path": "ProofCore/Tests/ProofCoreTests/SimulationTests.swift",
-      "bytes": 10492,
-      "sha256": "4d9ce048f9e1b1e291c92428dc8f0087fee349dbc4a91dce9f4e5f81b4c482ab"
+      "bytes": 10918,
+      "sha256": "5ade92e40ffbe3b6c7452e1dd4eb0c8218d412ce06c24adf53928c4a61a73673"
+    },
+    {
+      "path": "ProofCore/Tests/ProofCoreTests/StabilizationTests.swift",
+      "bytes": 11195,
+      "sha256": "257734dd98671d91889d938a14e251c7abada46edbf5285bb99b9629a00772f7"
     },
     {
       "path": "QA/DEVICE_WINDOW_CONFIRMATION.md",
@@ -236,13 +256,28 @@
     },
     {
       "path": "QA/NATIVE_VISUAL_REVIEW.md",
-      "bytes": 1613,
-      "sha256": "e613ecfdd5e4303cf32de1650912b3080ea755c2c3c70cf998cc0007bdf95c4a"
+      "bytes": 3846,
+      "sha256": "43f5fd1bc3ad780814f0ac14db3f18a2754deac3b5200239ee2649b600f9f54c"
     },
     {
       "path": "QA/REVIEW.md",
       "bytes": 2278,
       "sha256": "50167b9a2ecd2112ab64be88792c0ed98e05e8138d0d64878355df7419555a83"
+    },
+    {
+      "path": "QA/STABILIZATION_CI_HISTORY.md",
+      "bytes": 2133,
+      "sha256": "e3db46f2038b80feafa42fbf46382aa226d49c8f0d25ae172b436ea7495ceb3d"
+    },
+    {
+      "path": "QA/STABILIZATION_COVERAGE.md",
+      "bytes": 3279,
+      "sha256": "bd8581f26703f33f25ab20c06ea0a99a61f9517a0ca56ad6e65c020fb66bab90"
+    },
+    {
+      "path": "QA/STABILIZATION_SOURCE_REVIEW.md",
+      "bytes": 2220,
+      "sha256": "fa62af63ad4dcb03973a13e2c9eedca2c560aab217412982ab3f3b7f946fb701"
     },
     {
       "path": "QA/additional-device-checks.csv",
@@ -261,13 +296,18 @@
     },
     {
       "path": "QA/native-preservation.json",
-      "bytes": 409,
-      "sha256": "c02ac28bef78772989116abc7be112e919ebfde0ddcca812e8c419ccabcd919b"
+      "bytes": 414,
+      "sha256": "17543880592d0fb589f8927840262a63a052412279dad06bcb94b38eefc213ff"
     },
     {
       "path": "QA/python-test-output.txt",
       "bytes": 1078,
       "sha256": "5622a4ea1c771a5b0f0942ed333c1babf220b3b24115f6afdcf02fa5569bc58b"
+    },
+    {
+      "path": "QA/stabilization-results.json",
+      "bytes": 1961,
+      "sha256": "f4410596b3ed54287a867c4cbeb0de2d5b9000ad7993e0f5d1e68728dda3081b"
     },
     {
       "path": "QA/test_native_stage.py",
@@ -292,12 +332,17 @@
     {
       "path": "QA/windows-checks.json",
       "bytes": 2984,
-      "sha256": "37c62d6feff78e786739891bfbb462d56975a9d425fedb47621677be717463b1"
+      "sha256": "05f47aa8ae9ce3db4e66d997f5a29a407025db4a17bdaa9545e52039a232e830"
     },
     {
       "path": "README.md",
-      "bytes": 2666,
-      "sha256": "36e233730f77b2add7feae548e989a70224a44236493821ce14c540d68b1952e"
+      "bytes": 2886,
+      "sha256": "318f06bc01471582d805fe2af7c5df5e268285af3f05d94993639e9b68d8b2e9"
+    },
+    {
+      "path": "STABILIZATION_STATUS.md",
+      "bytes": 2163,
+      "sha256": "aa5a1eab0258389bf209e5518b061c5d48b95281345f3d5c456af026876ad155"
     },
     {
       "path": "Scripts/ci_simulator.sh",
@@ -326,13 +371,13 @@
     },
     {
       "path": "TASKS.md",
-      "bytes": 1162,
-      "sha256": "2cc78813f66f0f11c228a5f5d59d3ca65f7544379a10d54a857fbc4b78a72cc9"
+      "bytes": 1221,
+      "sha256": "4ab3a41e70ed0bcd613026c3b18456fe74c5d12640f5421d4483f4fb55cf41b1"
     },
     {
       "path": "UITests/LocalExperienceUITests.swift",
-      "bytes": 6823,
-      "sha256": "b36369220da1d42277023fd3e9146ce2096d464bebdc73ad343f94b1e10d2916"
+      "bytes": 16107,
+      "sha256": "94f9c9a2b04338a7cddfd1975eb5ad415f32e6992432f12e0279d4a12b7168ed"
     }
   ]
 }
