@@ -82,6 +82,15 @@ class Server:
         for alert in self.alerts.values():
             if alert["state"] == "active" and self.now >= alert["expires"]:
                 self.finish(alert, "expired", alert["expires"])
+        self.erase_unusable_invitation_tokens()
+
+    def erase_unusable_invitation_tokens(self):
+        for operation in self.operations.values():
+            receipt = operation["receipt"]
+            if receipt["invitation_token"] is not None:
+                invitation = self.invites.get(receipt["resource_id"])
+                if not invitation or invitation["state"] != "pending":
+                    receipt["invitation_token"] = None
 
     def finish(self, alert, state, when=None):
         alert["state"], alert["closed"] = state, self.now if when is None else when
@@ -141,6 +150,7 @@ class Server:
                     setattr(self, name, value)
                 result.update(status="rejected", error=error.code)
             self.operations[key] = {"fingerprint": fingerprint, "receipt": deepcopy(result), "created": self.now}
+            self.erase_unusable_invitation_tokens()
             validate("Receipt", result)
             return result
 
@@ -434,9 +444,11 @@ class LocalReplica:
     def __init__(self):
         self.owner, self.cache, self.pending = None, {}, None
         self.cursor = -1
+        self.generation = 0
 
     def switch_account(self, uid):
         self.owner, self.cache, self.pending, self.cursor = uid, {}, None, -1
+        self.generation += 1
 
     def record_offline(self, request):
         self.pending = {"request": deepcopy(request), "state": "never_left"}
@@ -448,9 +460,10 @@ class LocalReplica:
     def reconnect(self):
         return "query_same_operation" if self.pending and self.pending["state"] == "outcome_unknown" else "renew_confirmation_and_local_auth"
 
-    def apply_sync(self, owner, snapshot):
+    def apply_sync(self, owner, snapshot, generation):
         validate("Sync", snapshot)
         require(owner == self.owner, "forbidden")
+        require(generation == self.generation, "conflict")
         if snapshot["cursor"] <= self.cursor:
             return
         self.cache = {a["alert_id"]: deepcopy(a) for a in snapshot["alerts"]}

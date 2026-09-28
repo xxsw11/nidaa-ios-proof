@@ -70,7 +70,7 @@ All IDs UUIDs; timestamps server UTC; all shared mutations transactional. Provid
 | deletion_ledger / opaque tombstone | scope, requested_at, completed_at, backup_expiry; no profile content |
 | sync_feed / (user_id, sequence) | opaque resource ID, version/tombstone; authorize every fetch; no cross-user sequence contents |
 
-The reference uses one process-wide monotonic sync sequence and full snapshots; production should allocate per-account cursors to avoid leaking unrelated activity and add pagination with stable snapshot isolation. The model exposes response and access facts solely for deterministic rule assertions. The app-facing adapter must map blocked/withdrawn/deleted to generic “permission unavailable” for senders. No other recipients' IDs or device acknowledgements are returned to a recipient.
+The reference uses one process-wide monotonic sync sequence and full snapshots; production should allocate per-account cursors to avoid leaking unrelated activity and add pagination with stable snapshot isolation. Wire views map blocked/withdrawn/deleted access to generic “unavailable” for senders, while internal rule state keeps the distinction. No other recipients' IDs or device acknowledgements are returned to a recipient.
 
 ## Permission matrix
 

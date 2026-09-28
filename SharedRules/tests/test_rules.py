@@ -327,13 +327,13 @@ class Rules(unittest.TestCase):
         replica = LocalReplica()
         replica.switch_account(self.b)
         snapshot = self.s.sync(self.sb)
-        replica.apply_sync(self.b, snapshot)
+        replica.apply_sync(self.b, snapshot, replica.generation)
         self.assertIn(aid, replica.cache)
         replica.record_offline(command(self.s, "delete_account"))
         replica.switch_account(self.c)
         self.assertFalse(replica.cache)
         self.assertIsNone(replica.pending)
-        self.assert_error("forbidden", replica.apply_sync, self.b, snapshot)
+        self.assert_error("forbidden", replica.apply_sync, self.b, snapshot, replica.generation)
 
     def test_out_of_order_snapshot_cannot_reopen_terminal(self):
         aid = self.alert()
@@ -341,8 +341,8 @@ class Rules(unittest.TestCase):
         self.run_command(self.sa, "close_alert", alert_id=aid, expected_version=1, state="resolved")
         replica = LocalReplica()
         replica.switch_account(self.b)
-        replica.apply_sync(self.b, self.s.sync(self.sb))
-        replica.apply_sync(self.b, old)
+        replica.apply_sync(self.b, self.s.sync(self.sb), replica.generation)
+        replica.apply_sync(self.b, old, replica.generation)
         self.assertEqual(replica.cache[aid]["state"], "resolved")
 
     def test_retention_purges_details_and_old_replay_cannot_resend(self):
@@ -367,6 +367,22 @@ class Rules(unittest.TestCase):
         self.s.advance(self.s.INVITE_TTL)
         session = self.s.fixture_session(self.a)
         self.assertIsNone(self.s.receipt(session, i["operation_id"])["invitation_token"])
+
+    def test_used_invitation_secret_erased_from_receipt_storage(self):
+        i = self.grant()
+        stored = self.s.operations[(self.a, i["operation_id"])]["receipt"]
+        self.assertIsNone(stored["invitation_token"])
+        self.assertIsNone(self.s.receipt(self.sa, i["operation_id"])["invitation_token"])
+
+    def test_logout_then_same_account_relogin_rejects_previous_generation(self):
+        self.alert()
+        replica = LocalReplica()
+        replica.switch_account(self.b)
+        generation, snapshot = replica.generation, self.s.sync(self.sb)
+        replica.switch_account(None)
+        replica.switch_account(self.b)
+        self.assert_error("conflict", replica.apply_sync, self.b, snapshot, generation)
+        self.assertFalse(replica.cache)
 
     def test_errors_and_empty_sync_are_contract_valid(self):
         validate("Sync", self.s.sync(self.sc))
