@@ -132,7 +132,12 @@ class Domain:
     def consent(self, a, b):
         return a != b and not self.blocked(a,b) and bool(self.one('''SELECT 1 FROM nidaa.grants g
           JOIN nidaa.accounts a ON a.user_id=g.sender_id JOIN nidaa.accounts b ON b.user_id=g.recipient_id
-          WHERE g.sender_id=%s AND g.recipient_id=%s AND g.state='accepted' AND a.active AND b.active''', (a,b)))
+          JOIN auth.users pa ON pa.id=a.subject JOIN auth.users pb ON pb.id=b.subject
+          WHERE g.sender_id=%s AND g.recipient_id=%s AND g.state='accepted' AND a.active AND b.active
+          AND pa.email_confirmed_at IS NOT NULL AND pb.email_confirmed_at IS NOT NULL
+          AND pa.deleted_at IS NULL AND pb.deleted_at IS NULL
+          AND (pa.banned_until IS NULL OR pa.banned_until<=to_timestamp(%s))
+          AND (pb.banned_until IS NULL OR pb.banned_until<=to_timestamp(%s))''', (a,b,self.now,self.now)))
 
     def erase_tokens(self):
         self.run('''UPDATE nidaa.operations o SET token_ciphertext=NULL WHERE token_ciphertext IS NOT NULL

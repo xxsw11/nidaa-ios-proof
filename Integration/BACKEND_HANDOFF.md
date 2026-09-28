@@ -24,6 +24,8 @@ Logout commits the domain barrier before a best-effort provider logout. Repeated
 
 ## Transaction and table contract
 
+Blocking command/logout work executes in the ASGI thread pool, permitting concurrent HTTP clients to contend through independent PostgreSQL connections. Consent and fake-worker checks also join both live provider users and deny unverified, deleted or currently banned provider accounts; a provider disable does not rely on a later recipient login to suppress queued work.
+
 Each HTTP invocation opens its own psycopg connection. `Domain(conn)` acquires PostgreSQL transaction advisory lock `790182453`, then reads the database clock. The initial isolated trial serializes reads, mutations, expiry, revocation, maintenance and fake worker handoff. This is a deliberate throughput limitation, not a distributed production scalability claim. Transactional savepoints roll back every partially applied domain command on rejection; the outer transaction durably records the rejected receipt and abuse accounting. Receipt, state, outbox and cursor updates commit together.
 
 Schema `nidaa` contains normalized `accounts`, `sessions`, `invitations`, `grants`, `blocks`, `alerts`, `recipients`, `acknowledgements`, `operations`, `outbox`, `fake_handoffs`, `history_hides`, `removals`, `rate_events`, and `deletion_ledger`. Columns and constraints are authoritative in `001_domain.sql`. All domain timestamps are integer UTC seconds; provider timestamps retain provider types. All tables force RLS. `authenticated` can SELECT but has no matching policy, so obtains zero rows; neither `anon` nor `authenticated` can write. Service-specific policies enable the trusted command service. No SQL RPC or security-definer bypass is exposed.

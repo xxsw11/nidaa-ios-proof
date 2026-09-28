@@ -16,3 +16,4 @@ artifacts/
 Integration/.runtime.env
 Integration/.private/
 Integration/evidence-local/
+.venv-integration/

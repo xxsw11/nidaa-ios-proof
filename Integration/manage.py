@@ -70,6 +70,9 @@ def diagnostics():
         for cid in ids:
             row = json.loads(subprocess.check_output(['docker', 'inspect', cid]))[0]
             print(json.dumps({'service': name, 'state': row['State']['Status'], 'exit': row['State']['ExitCode'], 'ports': row['NetworkSettings']['Ports']}))
+        probe = subprocess.run(COMPOSE + ['exec', '-T', name, 'python', '-c',
+            "import urllib.request; print(urllib.request.urlopen('http://127.0.0.1:" + ('8000' if name == 'service' else '8080') + "/health',timeout=3).status)"], text=True, capture_output=True)
+        print(json.dumps({'service': name, 'internal_health_exit': probe.returncode, 'internal_health_ok': probe.stdout.strip() == '200'}))
         output = subprocess.run(COMPOSE + ['logs', '--no-color', '--tail', '45', name], text=True, capture_output=True).stdout
         for secret in secrets_to_redact:
             if secret:
@@ -90,6 +93,9 @@ def main():
         subprocess.run(['docker', 'version', '--format', '{{.Server.Version}}'], check=True)
         subprocess.run(['docker', 'compose', 'version'], check=True)
         print('Supabase CLI:', shutil.which('supabase') or 'not installed; pinned Auth containers used directly')
+        return
+    if args.action in ('stop', 'reset') and not ENV.exists():
+        print('No generated NIDAA runtime credentials; no trial resources changed.')
         return
     initialize()
     if args.action == 'start':

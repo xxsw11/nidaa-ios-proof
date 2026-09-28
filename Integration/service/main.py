@@ -7,6 +7,7 @@ from uuid import UUID
 
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, Response
+from starlette.concurrency import run_in_threadpool
 
 from .domain import Domain, RuleError, connect, validate
 
@@ -82,7 +83,8 @@ async def commands(request:Request):
         validate('Command',body)
     except (ValueError,RuleError,UnicodeDecodeError):
         return JSONResponse({'error':'invalid_request'},status_code=400)
-    return invoke(request,lambda d,s:d.execute(s,body),'Receipt')
+    # Concurrent clients reach independent transactions; PostgreSQL serializes them.
+    return await run_in_threadpool(invoke,request,lambda d,s:d.execute(s,body),'Receipt')
 
 
 def valid_uuid(value):
@@ -126,9 +128,8 @@ def provider_logout(token,all_devices):
         return False
 
 
-async def logout_impl(request,all_devices):
+def logout_transaction(request,all_devices):
     try:
-        if await request.json()!={}: raise RuleError('invalid_request')
         token=bearer(request)
         with connect() as conn:
             d=Domain(conn)
@@ -155,3 +156,11 @@ async def logout(request:Request):
 @app.post('/v1/session/revoke-all')
 async def revoke_all(request:Request):
     return await logout_impl(request,True)
+
+
+async def logout_impl(request,all_devices):
+    try:
+        if await request.json()!={}: raise RuleError('invalid_request')
+    except (ValueError,UnicodeDecodeError,RuleError):
+        return error_response(RuleError('invalid_request'))
+    return await run_in_threadpool(logout_transaction,request,all_devices)

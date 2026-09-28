@@ -17,9 +17,9 @@ jobs:
           persist-credentials: false
       - name: Prepare isolated tooling
         run: |
-          python3 -m venv /tmp/nidaa-tools
-          /tmp/nidaa-tools/bin/pip install -r Integration/requirements.txt -c Integration/requirements-lock.txt
           mkdir -p artifacts
+          python3 -m venv /tmp/nidaa-tools
+          /tmp/nidaa-tools/bin/pip install --timeout 60 --retries 3 -r Integration/requirements.txt -c Integration/requirements-lock.txt
           /tmp/nidaa-tools/bin/python Integration/manage.py versions > artifacts/runtime.txt
       - name: Start private container stack
         run: /tmp/nidaa-tools/bin/python Integration/manage.py start
