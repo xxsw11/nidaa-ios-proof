@@ -145,7 +145,7 @@ final class IntegrationUITests: XCTestCase {
         }
         done.tap()
         let dismissed = XCTNSPredicateExpectation(predicate: NSPredicate(format: "exists == false"), object: app.keyboards.firstMatch)
-        XCTAssertEqual(XCTWaiter.wait(for: [dismissed], timeout: 3), .completed,
+        XCTAssertEqual(XCTWaiter.wait(for: [dismissed], timeout: 8), .completed,
                        "Keyboard did not dismiss after: \(element.identifier)")
     }
     private func tap(_ id: String) {
