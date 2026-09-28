@@ -47,7 +47,7 @@ import NidaaIntegration
                     Text("التأكيد صالح لمدة دقيقة لهذه العملية فقط. الانتقال للخلفية أو تغيير الاختيار يُبطله.").font(.footnote)
                     NidaaButton(title: "تأكيد الإجراء الآن", icon: "checkmark", id: "integrationConfirm") { Task { await store.confirm() } }
                     NidaaButton(title: "إلغاء التأكيد", icon: "xmark", secondary: true, id: "integrationCancelConfirm") { store.cancelAuthorization() }
-                }.accessibilityIdentifier("integrationConfirmation").id("integration-confirmation-step")
+                }.id("integration-confirmation-step")
             }
         }
         .onChange(of: store.confirmation?.deadline) { deadline in
@@ -67,7 +67,16 @@ import NidaaIntegration
         }
         }
         .navigationTitle("الربط المحلي · تجريبي")
+        .interactiveDismissDisabled()
         .scrollDismissesKeyboard(.interactively)
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("تم") {
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                }.accessibilityIdentifier("integrationKeyboardDone")
+            }
+        }
         .task { await store.restore() }
         .onChange(of: page) { _ in store.cancelAuthorization() }
         .onChange(of: phase) { if $0 == .background { store.backgrounded() } }
@@ -90,7 +99,7 @@ import NidaaIntegration
             } else {
                 NidaaButton(title: "استعلام عن العملية نفسها", icon: "magnifyingglass", id: "integrationLookup") { Task { await store.lookupPending() } }.disabled(store.busy)
             }
-        }.accessibilityIdentifier("integrationUnknown")
+        }
     }
 }
 

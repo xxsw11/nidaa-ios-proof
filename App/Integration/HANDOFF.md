@@ -13,6 +13,8 @@
 - Identity loss, new login and verification clear the prior invitation token, confirmation, selection and account display, and cancel local authorization. Pending operation persistence remains the client's responsibility and is restored only after the account is authenticated again. The startup banner describes local integration **mode**, without claiming a connection before a response. Uncertain logout explicitly avoids claiming either local credential erasure or server revocation.
 - Existing typography/cards/palette, RTL inheritance, scrolling, Dynamic Type and vertical navigation at accessibility sizes.
 - Newly required verification, post-authentication confirmation and unresolved-operation review steps scroll into view using stable anchors. Their appearance does not bypass authorization, explicit confirmation or the unresolved-operation barrier.
+- The integration form uses the existing explicit Close control; downward form scrolling cannot dismiss its sheet. Card-level accessibility identifiers are omitted so SwiftUI preserves each action's own identifier. Test taps require enabled controls, and login tests check password draft retention through the existing signup-length gate without reading secure values.
+- A visible Arabic keyboard Done control dismisses the keyboard without editing drafts; UI tests use that same control rather than keyboard gestures or inserted characters.
 
 ## Evidence boundary
 

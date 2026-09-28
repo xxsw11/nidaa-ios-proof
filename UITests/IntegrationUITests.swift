@@ -45,22 +45,21 @@ final class IntegrationUITests: XCTestCase {
     }
     private func dismissKeyboard(after element: XCUIElement) {
         guard app.keyboards.firstMatch.exists else { return }
-        let containingScroll = app.scrollViews.containing(.any, identifier: element.identifier).firstMatch
-        let scroll = containingScroll.exists ? containingScroll : app.scrollViews.firstMatch
-        for _ in 0..<2 {
-            guard app.keyboards.firstMatch.exists else { return }
-            let viewport = scroll.frame.intersection(app.windows.firstMatch.frame)
-            let keyboardTop = app.keyboards.firstMatch.frame.minY
-            let startY = min(viewport.maxY, keyboardTop) - 30
-            guard startY > viewport.minY + 20 else { break }
-            // Interactive dismissal drags the keyboard down from the actual
-            // scroll container. It neither types a newline nor edits the draft.
-            drag(from: CGPoint(x: viewport.midX, y: startY),
-                 to: CGPoint(x: viewport.midX, y: app.windows.firstMatch.frame.maxY - 25))
+        let done = app.buttons["integrationKeyboardDone"]
+        guard done.waitForExistence(timeout: 5), done.isHittable else {
+            XCTFail("Keyboard Done control missing after: \(element.identifier)"); return
         }
-        XCTAssertFalse(app.keyboards.firstMatch.exists, "Keyboard did not dismiss after: \(element.identifier)")
+        done.tap()
+        let dismissed = XCTNSPredicateExpectation(predicate: NSPredicate(format: "exists == false"), object: app.keyboards.firstMatch)
+        XCTAssertEqual(XCTWaiter.wait(for: [dismissed], timeout: 3), .completed,
+                       "Keyboard did not dismiss after: \(element.identifier)")
     }
-    private func tap(_ id: String) { let element = app.buttons[id].firstMatch; reveal(element); element.tap() }
+    private func tap(_ id: String) {
+        let element = app.buttons[id].firstMatch
+        reveal(element)
+        guard element.isEnabled else { XCTFail("Control is disabled: \(id)"); return }
+        element.tap()
+    }
     private func fill(_ id: String, _ value: String, secure: Bool = false) {
         let element = secure ? app.secureTextFields[id] : app.textFields[id]
         reveal(element); element.tap(); element.typeText(value)
@@ -72,6 +71,9 @@ final class IntegrationUITests: XCTestCase {
     private func login() {
         fill("integrationEmail", "sara@example.invalid")
         fill("integrationPassword", "Fictional-Only-29!", secure: true)
+        // Signup requires at least eight password characters. This checks draft
+        // retention without reading or logging a secure field's value.
+        XCTAssertTrue(app.buttons["integrationSignup"].isEnabled, "Password draft did not survive keyboard dismissal")
         tap("integrationLogin")
         XCTAssertTrue(app.buttons["integrationAccountTab"].waitForExistence(timeout: 8))
     }
