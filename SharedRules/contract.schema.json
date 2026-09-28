@@ -1,0 +1,1036 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:nidaa:shared-rules:v1",
+  "title": "NIDAA shared rules contract (design, no live service)",
+  "$defs": {
+    "Command": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "operation_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "issued_at": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "command": {
+              "const": "invite"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "recipient_email": {
+                  "type": "string",
+                  "format": "email",
+                  "maxLength": 254
+                }
+              },
+              "required": [
+                "recipient_email"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "operation_id",
+            "issued_at",
+            "command",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operation_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "issued_at": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "command": {
+              "const": "decide_invite"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "minLength": 32,
+                  "maxLength": 128,
+                  "pattern": "^[A-Za-z0-9_-]+$"
+                },
+                "decision": {
+                  "enum": [
+                    "accepted",
+                    "declined"
+                  ]
+                }
+              },
+              "required": [
+                "token",
+                "decision"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "operation_id",
+            "issued_at",
+            "command",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operation_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "issued_at": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "command": {
+              "const": "cancel_invite"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "invitation_id": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "required": [
+                "invitation_id"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "operation_id",
+            "issued_at",
+            "command",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operation_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "issued_at": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "command": {
+              "const": "withdraw"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "sender_id": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "required": [
+                "sender_id"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "operation_id",
+            "issued_at",
+            "command",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operation_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "issued_at": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "command": {
+              "const": "block"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "user_id": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "required": [
+                "user_id"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "operation_id",
+            "issued_at",
+            "command",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operation_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "issued_at": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "command": {
+              "const": "unblock"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "user_id": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "required": [
+                "user_id"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "operation_id",
+            "issued_at",
+            "command",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operation_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "issued_at": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "command": {
+              "const": "create_alert"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "recipient_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "minItems": 1,
+                  "maxItems": 5,
+                  "uniqueItems": true
+                },
+                "expires_at": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "recipient_ids",
+                "expires_at"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "operation_id",
+            "issued_at",
+            "command",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operation_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "issued_at": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "command": {
+              "const": "retry"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "alert_id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "expected_version": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "alert_id",
+                "expected_version"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "operation_id",
+            "issued_at",
+            "command",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operation_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "issued_at": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "command": {
+              "const": "add_recipients"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "alert_id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "expected_version": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "recipient_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "minItems": 1,
+                  "maxItems": 5,
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "alert_id",
+                "expected_version",
+                "recipient_ids"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "operation_id",
+            "issued_at",
+            "command",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operation_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "issued_at": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "command": {
+              "const": "respond"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "alert_id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "expected_version": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "response": {
+                  "enum": [
+                    "responding",
+                    "declined"
+                  ]
+                }
+              },
+              "required": [
+                "alert_id",
+                "expected_version",
+                "response"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "operation_id",
+            "issued_at",
+            "command",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operation_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "issued_at": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "command": {
+              "const": "acknowledge"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "alert_id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "event_id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "kind": {
+                  "enum": [
+                    "app_acknowledged",
+                    "opened"
+                  ]
+                }
+              },
+              "required": [
+                "alert_id",
+                "event_id",
+                "kind"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "operation_id",
+            "issued_at",
+            "command",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operation_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "issued_at": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "command": {
+              "const": "close_alert"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "alert_id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "expected_version": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "state": {
+                  "enum": [
+                    "cancelled",
+                    "resolved"
+                  ]
+                }
+              },
+              "required": [
+                "alert_id",
+                "expected_version",
+                "state"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "operation_id",
+            "issued_at",
+            "command",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operation_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "issued_at": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "command": {
+              "const": "hide_history"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {
+                "alert_id": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "required": [
+                "alert_id"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "operation_id",
+            "issued_at",
+            "command",
+            "payload"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "operation_id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "issued_at": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "command": {
+              "const": "delete_account"
+            },
+            "payload": {
+              "type": "object",
+              "properties": {},
+              "required": [],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "operation_id",
+            "issued_at",
+            "command",
+            "payload"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Receipt": {
+      "type": "object",
+      "properties": {
+        "operation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "status": {
+          "enum": [
+            "accepted",
+            "rejected"
+          ]
+        },
+        "resource_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uuid"
+        },
+        "error": {
+          "enum": [
+            null,
+            "invalid_request",
+            "unauthenticated",
+            "not_found",
+            "forbidden",
+            "conflict",
+            "expired",
+            "rate_limited",
+            "consent_required",
+            "terminal",
+            "limit_reached",
+            "reauthentication_required"
+          ]
+        },
+        "server_time": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "invitation_token": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "operation_id",
+        "status",
+        "resource_id",
+        "error",
+        "server_time",
+        "invitation_token"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "accepted"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "error": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "error": {
+                "enum": [
+                  "invalid_request",
+                  "unauthenticated",
+                  "not_found",
+                  "forbidden",
+                  "conflict",
+                  "expired",
+                  "rate_limited",
+                  "consent_required",
+                  "terminal",
+                  "limit_reached",
+                  "reauthentication_required"
+                ]
+              },
+              "resource_id": {
+                "type": "null"
+              },
+              "invitation_token": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "Alert": {
+      "type": "object",
+      "properties": {
+        "alert_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "sender_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "state": {
+          "enum": [
+            "active",
+            "cancelled",
+            "resolved",
+            "expired"
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "expires_at": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "closed_at": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "recipients": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "user_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "response": {
+                "enum": [
+                  "none",
+                  "responding",
+                  "declined"
+                ]
+              },
+              "response_version": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "access": {
+                "enum": [
+                  "active",
+                  "unavailable"
+                ]
+              },
+              "provider_accepted": {
+                "type": "boolean"
+              },
+              "app_acknowledged": {
+                "type": "boolean"
+              },
+              "opened": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "user_id",
+              "response",
+              "response_version",
+              "access",
+              "provider_accepted",
+              "app_acknowledged",
+              "opened"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 5
+        }
+      },
+      "required": [
+        "alert_id",
+        "sender_id",
+        "state",
+        "version",
+        "expires_at",
+        "closed_at",
+        "recipients"
+      ],
+      "additionalProperties": false
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "enum": [
+            "invalid_request",
+            "unauthenticated",
+            "not_found",
+            "forbidden",
+            "conflict",
+            "expired",
+            "rate_limited",
+            "consent_required",
+            "terminal",
+            "limit_reached",
+            "reauthentication_required"
+          ]
+        }
+      },
+      "required": [
+        "error"
+      ],
+      "additionalProperties": false
+    },
+    "Account": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "display_name": {
+          "type": "string",
+          "maxLength": 80
+        },
+        "email_verified": {
+          "const": true
+        }
+      },
+      "required": [
+        "user_id",
+        "display_name",
+        "email_verified"
+      ],
+      "additionalProperties": false
+    },
+    "Relationships": {
+      "type": "object",
+      "properties": {
+        "invitations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "invitation_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "sender_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "direction": {
+                "enum": [
+                  "incoming",
+                  "outgoing"
+                ]
+              },
+              "state": {
+                "enum": [
+                  "pending",
+                  "accepted",
+                  "declined",
+                  "expired",
+                  "cancelled",
+                  "blocked",
+                  "withdrawn",
+                  "unavailable"
+                ]
+              },
+              "expires_at": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "invitation_id",
+              "sender_id",
+              "direction",
+              "state",
+              "expires_at"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "grants": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "sender_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "recipient_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "state": {
+                "enum": [
+                  "accepted",
+                  "unavailable"
+                ]
+              }
+            },
+            "required": [
+              "sender_id",
+              "recipient_id",
+              "state"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "invitations",
+        "grants"
+      ],
+      "additionalProperties": false
+    },
+    "Sync": {
+      "type": "object",
+      "properties": {
+        "cursor": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "alerts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "alert_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "sender_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "state": {
+                "enum": [
+                  "active",
+                  "cancelled",
+                  "resolved",
+                  "expired"
+                ]
+              },
+              "version": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "expires_at": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "closed_at": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "recipients": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "user_id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "response": {
+                      "enum": [
+                        "none",
+                        "responding",
+                        "declined"
+                      ]
+                    },
+                    "response_version": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "access": {
+                      "enum": [
+                        "active",
+                        "unavailable"
+                      ]
+                    },
+                    "provider_accepted": {
+                      "type": "boolean"
+                    },
+                    "app_acknowledged": {
+                      "type": "boolean"
+                    },
+                    "opened": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "user_id",
+                    "response",
+                    "response_version",
+                    "access",
+                    "provider_accepted",
+                    "app_acknowledged",
+                    "opened"
+                  ],
+                  "additionalProperties": false
+                },
+                "maxItems": 5
+              }
+            },
+            "required": [
+              "alert_id",
+              "sender_id",
+              "state",
+              "version",
+              "expires_at",
+              "closed_at",
+              "recipients"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "removed_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "uniqueItems": true
+        },
+        "full_snapshot": {
+          "const": true
+        }
+      },
+      "required": [
+        "cursor",
+        "alerts",
+        "removed_ids",
+        "full_snapshot"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

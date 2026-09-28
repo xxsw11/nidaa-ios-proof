@@ -1,0 +1,48 @@
+name: NIDAA - Identity and consent rule simulations
+
+on:
+  push:
+    branches: ['codex/identity-consent-sync-design']
+    paths: ['SharedRules/**', '.github/workflows/shared-rules.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rules:
+    if: ${{ github.event.repository.private == false }}
+    runs-on: macos-15
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Isolated test dependencies
+        run: |
+          python3 -m venv /tmp/nidaa-rule-tests
+          /tmp/nidaa-rule-tests/bin/python -m pip install -r SharedRules/requirements-test.txt
+      - name: Contract and shared rule simulations
+        run: |
+          set -o pipefail
+          mkdir -p artifacts
+          /tmp/nidaa-rule-tests/bin/python -m unittest discover -s SharedRules/tests -v 2>&1 | tee artifacts/shared-rules.log
+      - name: Existing local Python tests
+        run: |
+          set -o pipefail
+          python3 -m unittest discover -s QA -p 'test_*.py' -v 2>&1 | tee artifacts/existing-python.log
+      - name: Existing Swift core regression tests
+        run: |
+          set -o pipefail
+          swift test --package-path ProofCore 2>&1 | tee artifacts/existing-swift.log
+      - name: Record scope and environment
+        if: ${{ always() }}
+        run: |
+          { sw_vers; xcodebuild -version; swift --version; python3 --version; } > artifacts/environment.txt
+          echo 'Rule simulations and existing local core tests only. No networked accounts, real notifications or physical-device validation.' >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: ${{ always() }}
+        with:
+          name: identity-rule-evidence
+          path: artifacts/
+          retention-days: 7
