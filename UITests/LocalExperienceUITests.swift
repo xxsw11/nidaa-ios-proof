@@ -63,7 +63,7 @@ final class LocalExperienceUITests: XCTestCase {
         XCTAssertFalse(app.buttons["edit-"+sara].exists)
     }
     func testAppearancePersistsAndPoliciesAndReadinessOpen() {
-        launch();tab("الإعدادات");tap("appearanceSettings");shot("10-appearance")
+        launch();tab("الإعدادات");shot("22-settings");tap("appearanceSettings");shot("10-appearance")
         let field = app.textFields["buttonHex"]
         for _ in 0..<8 { if field.isHittable { break };app.swipeUp() }
         field.tap()
@@ -84,6 +84,10 @@ final class LocalExperienceUITests: XCTestCase {
     func testLargeTextHomeAndSettingsRemainNavigable() {
         launch(large: true);shot("15-large-text-home")
         for _ in 0..<10 { if app.buttons["startAlert"].isHittable { break };app.swipeUp() }
+        for _ in 0..<4 {
+            if app.buttons["startAlert"].frame.maxY < app.tabBars.firstMatch.frame.minY - 8 { break }
+            app.swipeUp()
+        }
         shot("19-large-text-action");tap("startAlert");shot("16-large-text-selection");tap("closeScreen")
         tab("الإعدادات");shot("17-large-text-settings");tap("appearanceSettings");shot("18-large-text-appearance")
     }

@@ -5,6 +5,7 @@ import ProofCore
     @ObservedObject var store: ExperienceStore
     @Environment(\.nidaaPalette) private var palette
     var body: some View {
+        GeometryReader { geometry in
         ScreenBody {
             SimulationNotice(authSimulation: store.simulationAuthentication)
             HStack { Text("نداء  NIDAA").font(.title.bold()).foregroundStyle(palette.accentInk.color);Spacer()
@@ -34,6 +35,11 @@ import ProofCore
             }
             NidaaButton(title: "معاينة نداء وارد", icon: "bell.badge", secondary: true, id: "previewIncoming") { store.simulateIncoming() }
             if !store.message.isEmpty { Text(store.message).font(.footnote).accessibilityIdentifier("statusMessage") }
+        }.overlay(alignment: .top) {
+            // Keep scrolled content out of the status-bar reading area.
+            Color(hex: palette.background).frame(height: geometry.safeAreaInsets.top)
+                .offset(y: -geometry.safeAreaInsets.top).allowsHitTesting(false).accessibilityHidden(true)
+        }
         }.navigationBarHidden(true)
     }
 }

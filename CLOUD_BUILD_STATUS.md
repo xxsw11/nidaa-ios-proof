@@ -4,6 +4,9 @@ Current branch: `codex/native-local-experience`, based on latest inspected main 
 
 ## Current verification
 
+[Third run](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36369819686), source `857cf53cabca64fc4ac5bac9ef3fabc28876421c`: Passed (13 Python, 30 Swift, 8 iOS UI, Release build). Reviewed its refined screenshots; status-bar overlap during large-text scrolling and light-preview corner clipping prompted a final focused layout correction and new evidence capture.
+
+
 [Second run](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36368817158), source `c8386b7ccf2cca91667e219ec2fd9c7d47494dab`: Passed: 13 Python tests, 30 Swift core tests on macOS, 8 XCTest UI tests on iPhone 16 Pro / iOS 18.5 Simulator, and Release build. Xcode 16.4 / Swift 6.1.2 on macOS 15.7.9. All 18 screenshots reviewed. Found and corrected a stale silence message after closure and added a screenshot animation wait; final refinement verification is next.
 
 [First run](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36368351156), source `0ff422da4af5c0805e401d2640d88c60908371d1`: 13 Python and 30 Swift tests passed; iOS test build failed before UI execution because the app requested x86_64 and arm64 while its local Swift package produced the active arm64 slice. Fixed the simulator invocation to use the runner architecture consistently. Also corrected Arabic appearance-mode encoding and tightened fresh-auth clock handling before the second run.

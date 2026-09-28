@@ -23,7 +23,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSFaceIDUsageDescription</key>
-	<string>للتحقق قبل اختبار الإشعار أو تسجيل الاستجابة على جهازك، مع بديل رمز الجهاز من النظام.</string>
+	<string>لفتح تفاصيل التطبيق المقفلة والتحقق مجددًا قبل إنشاء نداء محاكى، مع وسيلة النظام البديلة عند توفرها.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

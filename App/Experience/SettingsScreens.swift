@@ -83,7 +83,7 @@ import ProofCore
                 Text("دائرتك قريبة.").font(.largeTitle.bold()).foregroundStyle(preview.ink.color)
                 NidaaButton(title: "طلب مساعدة · معاينة",icon: "bell",id: "previewButton") {}.allowsHitTesting(false)
                 Label("الحالة تُشرح بالنص والرمز",systemImage: "checkmark.circle").foregroundStyle(preview.ink.color)
-            }.padding(20).frame(maxWidth: .infinity,alignment: .leading).background(Color(hex: preview.background))
+            }.padding(20).frame(maxWidth: .infinity,alignment: .leading).background(Color(hex: preview.background)).clipShape(RoundedRectangle(cornerRadius: 22))
                 .overlay(RoundedRectangle(cornerRadius: 22).stroke(preview.ink.color)).environment(\.nidaaPalette,preview)
                 .accessibilityIdentifier("appearancePreview")
             colorField("لون الواجهة الأساسي",field: "primary",id: "primaryHex")
