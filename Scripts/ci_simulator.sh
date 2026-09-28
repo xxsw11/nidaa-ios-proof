@@ -15,9 +15,25 @@ common=(-project NidaaProof.xcodeproj -scheme NidaaProof-Local -sdk iphonesimula
   -destination "platform=iOS Simulator,id=$proof_udid" -derivedDataPath DerivedData
   ARCHS="$(uname -m)" ONLY_ACTIVE_ARCH=YES NIDAA_BUNDLE_ID="$proof_bundle_id" DEVELOPMENT_TEAM='' CODE_SIGNING_ALLOWED=NO
   CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY='' CODE_SIGN_ENTITLEMENTS='')
+test_selection=()
+case "${NIDAA_UI_SUITE:-all}" in
+  integration) test_selection=(-only-testing:NidaaUITests/IntegrationUITests) ;;
+  local-a|local-b)
+    python3 - "$NIDAA_UI_SUITE" > artifacts/ui-test-names.txt <<'PY'
+import pathlib, re, sys
+names = sorted(re.findall(r'func (test\w+)\(', pathlib.Path('UITests/LocalExperienceUITests.swift').read_text()))
+assert len(names) == 17, 'Update explicit UI shard inventory when tests change'
+print('\n'.join(names[0 if sys.argv[1] == 'local-a' else 1::2]))
+PY
+    while IFS= read -r name; do test_selection+=("-only-testing:NidaaUITests/LocalExperienceUITests/$name"); done < artifacts/ui-test-names.txt
+    ;;
+  all) ;;
+  *) echo 'Unknown UI test suite'; exit 2 ;;
+esac
+printf '%s\n' "UI suite: ${NIDAA_UI_SUITE:-all}" "${test_selection[@]}" > artifacts/ui-selection.txt
 set +e
 xcodebuild "${common[@]}" -configuration Debug -parallel-testing-enabled NO \
-  -resultBundlePath artifacts/LocalExperience.xcresult test 2>&1 | tee artifacts/xcode-ui-tests.log
+  "${test_selection[@]}" -resultBundlePath artifacts/LocalExperience.xcresult test 2>&1 | tee artifacts/xcode-ui-tests.log
 test_status=${PIPESTATUS[0]}
 set -e
 if [[ -d artifacts/LocalExperience.xcresult ]]; then

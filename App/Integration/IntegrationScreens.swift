@@ -9,6 +9,7 @@ import NidaaIntegration
     @Environment(\.dynamicTypeSize) private var textSize
     @State private var page = "account"
     var body: some View {
+        ScrollViewReader { reader in
         ScreenBody {
             Text("تجربة الربط المحلي").font(.largeTitle.bold())
             NidaaCard {
@@ -21,7 +22,7 @@ import NidaaIntegration
             if !store.message.isEmpty {
                 Text(store.message).font(.callout).accessibilityIdentifier("integrationMessage")
             }
-            if store.pending { unknownCard }
+            if store.pending { unknownCard.id("integration-pending-step") }
             if store.busy { ProgressView("جارٍ تنفيذ الطلب…").accessibilityIdentifier("integrationBusy") }
             if store.accountID != nil {
                 Picker("قسم تجربة الربط", selection: $page) {
@@ -46,8 +47,24 @@ import NidaaIntegration
                     Text("التأكيد صالح لمدة دقيقة لهذه العملية فقط. الانتقال للخلفية أو تغيير الاختيار يُبطله.").font(.footnote)
                     NidaaButton(title: "تأكيد الإجراء الآن", icon: "checkmark", id: "integrationConfirm") { Task { await store.confirm() } }
                     NidaaButton(title: "إلغاء التأكيد", icon: "xmark", secondary: true, id: "integrationCancelConfirm") { store.cancelAuthorization() }
-                }.accessibilityIdentifier("integrationConfirmation")
+                }.accessibilityIdentifier("integrationConfirmation").id("integration-confirmation-step")
             }
+        }
+        .onChange(of: store.confirmation?.deadline) { deadline in
+            if deadline != nil {
+                withAnimation(.easeInOut(duration: 0.2)) { reader.scrollTo("integration-confirmation-step", anchor: .top) }
+            }
+        }
+        .onChange(of: store.verifying) { verifying in
+            if verifying {
+                withAnimation(.easeInOut(duration: 0.2)) { reader.scrollTo("integration-verification-step", anchor: .top) }
+            }
+        }
+        .onChange(of: store.pending) { pending in
+            if pending {
+                withAnimation(.easeInOut(duration: 0.2)) { reader.scrollTo("integration-pending-step", anchor: .top) }
+            }
+        }
         }
         .navigationTitle("الربط المحلي · تجريبي")
         .scrollDismissesKeyboard(.interactively)
@@ -103,14 +120,15 @@ import NidaaIntegration
         }
         NidaaCard {
             Text("التحقق من البريد المحلي").font(.headline)
+            if store.verifying { Text("بانتظار تحقق البريد؛ لم نفترض وصول رسالة أو نجاح تفعيل.").accessibilityIdentifier("integrationAwaitingVerification") }
             Text("افتح Mailpit على المضيف عبر ‎127.0.0.1:55424، وانسخ قيمة token من رابط التحقق المحلي. لا تُشارك الرمز أو صورته.").font(.footnote)
             Toggle("هذا رمز استعادة كلمة المرور", isOn: $recovery).accessibilityIdentifier("integrationRecoveryKind")
             SecureField("رمز التحقق المحلي", text: $token).textInputAutocapitalization(.never).autocorrectionDisabled().textFieldStyle(.roundedBorder).accessibilityIdentifier("integrationVerificationToken")
             NidaaButton(title: "التحقق من البريد", icon: "checkmark.seal", secondary: true, id: "integrationVerify") {
                 let value = token; token = ""; Task { await store.verify(token: value, recovery: recovery) }
             }.disabled(token.isEmpty || store.busy)
-            if store.verifying { Text("بانتظار تحقق البريد؛ لم نفترض وصول رسالة أو نجاح تفعيل.").accessibilityIdentifier("integrationAwaitingVerification") }
         }
+        .id("integration-verification-step")
         .onDisappear { password = ""; token = "" }
     }
 }

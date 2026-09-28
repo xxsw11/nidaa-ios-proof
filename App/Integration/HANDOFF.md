@@ -12,6 +12,7 @@
 - Unknown outcomes block all new domain commands and offer only a same-operation lookup. Never-sent records offer explicit cancellation. Reconnection/refresh does not dispatch. Expired identity hides prior account data and asks for login. Refresh tokens do not claim recent account authentication.
 - Identity loss, new login and verification clear the prior invitation token, confirmation, selection and account display, and cancel local authorization. Pending operation persistence remains the client's responsibility and is restored only after the account is authenticated again. The startup banner describes local integration **mode**, without claiming a connection before a response. Uncertain logout explicitly avoids claiming either local credential erasure or server revocation.
 - Existing typography/cards/palette, RTL inheritance, scrolling, Dynamic Type and vertical navigation at accessibility sizes.
+- Newly required verification, post-authentication confirmation and unresolved-operation review steps scroll into view using stable anchors. Their appearance does not bypass authorization, explicit confirmation or the unresolved-operation barrier.
 
 ## Evidence boundary
 
