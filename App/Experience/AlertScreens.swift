@@ -52,7 +52,7 @@ import ProofCore
                 Text("الإنشاء: \(a.createdAt.formatted())").font(.footnote)
                 Text("الصلاحية: \(a.expiresAt.formatted())").font(.footnote)
                 Text("قبول خدمة إرسال حقيقية: غير مفعّل").font(.footnote)
-                if a.nonresponse { NidaaCard { Label("لا استجابة مؤكدة خلال المهلة", systemImage: "exclamationmark.triangle");Text("يمكن تجربة بديل موافق. لا تنتظر هذه المحاكاة للحصول على مساعدة حقيقية.").font(.footnote) } }
+                if a.nonresponse && a.isActive && !a.recipients.contains(where: { $0.stage == .responding }) { NidaaCard { Label("لا استجابة مؤكدة خلال المهلة", systemImage: "exclamationmark.triangle");Text("يمكن تجربة بديل موافق. لا تنتظر هذه المحاكاة للحصول على مساعدة حقيقية.").font(.footnote) } }
                 ForEach(a.recipients) { recipient in
                     NidaaCard {
                         HStack { Avatar(name: recipient.name);Text(recipient.name).font(.title2.bold());Spacer() }

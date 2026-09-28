@@ -13,7 +13,7 @@ final class LocalExperienceUITests: XCTestCase {
         for (key,value) in environment { app.launchEnvironment[key] = value };app.launch()
         XCTAssertTrue(app.buttons["startAlert"].waitForExistence(timeout: 10))
         if !extra.contains("-fail-read") && !extra.contains("-corrupt-archive") {
-            XCTAssertFalse(app.staticTexts["storageIssue"].exists, "Unexpected storage failure at launch")
+            XCTAssertFalse(app.staticTexts["storageIssue"].firstMatch.exists, "Unexpected storage failure at launch")
         }
     }
     func tap(_ id: String) {
@@ -143,29 +143,35 @@ final class LocalExperienceUITests: XCTestCase {
         XCTAssertTrue(app.buttons["confirmAction"].waitForExistence(timeout:5));sleep(16)
         XCTAssertFalse(app.buttons["confirmAction"].exists);tap("cancelAction");XCTAssertEqual(app.staticTexts["attemptCount"].value as? String,"1")
         app.terminate();launch(reset:false,environment:["NIDAA_TEST_CLOCK":"301"]);openSaved(id)
-        XCTAssertEqual(app.staticTexts["alertState"].label,"انتهت صلاحية النداء");XCTAssertFalse(app.buttons["retryAlert"].exists);shot("27-expired-on-restore")
+        XCTAssertEqual(app.staticTexts["alertState"].label,"انتهت صلاحية النداء");XCTAssertFalse(app.buttons["retryAlert"].exists)
+        XCTAssertFalse(app.staticTexts["لا استجابة مؤكدة خلال المهلة"].exists);shot("27-expired-on-restore")
         app.terminate();launch(reset:false);openSaved(id);XCTAssertEqual(app.staticTexts["alertState"].label,"انتهت صلاحية النداء")
         app.terminate();launch();sendToSara();let resolved = app.staticTexts["alertIdentifier"].label;tap("resolveAlert");tap("confirmCloseAlert")
         app.terminate();launch(reset:false);openSaved(resolved);XCTAssertEqual(app.staticTexts["alertState"].label,"انتهت الحالة بتأكيد صريح")
     }
     func testStorageFailuresAreVisibleAndRetainValidData() {
         launch();sendToSara();let id = app.staticTexts["alertIdentifier"].label;app.terminate()
-        launch(reset:false,extra:["-fail-read"]);XCTAssertTrue(app.staticTexts["storageIssue"].exists);app.terminate()
+        launch(reset:false,extra:["-fail-read"]);XCTAssertTrue(app.staticTexts["storageIssue"].firstMatch.exists);app.terminate()
         launch(reset:false);openSaved(id);app.terminate()
         launch(reset:false,extra:["-fail-write"]);openSaved(id);chooseAction(false);tap("authenticateAction");tap("confirmAction")
-        XCTAssertTrue(app.staticTexts["storageIssue"].waitForExistence(timeout:5));shot("28-storage-failure")
+        XCTAssertTrue(app.staticTexts["storageIssue"].firstMatch.waitForExistence(timeout:5));shot("28-storage-failure")
         XCTAssertFalse(app.buttons["authenticateAction"].isEnabled);tap("cancelAction")
         XCTAssertEqual(app.staticTexts["attemptCount"].value as? String,"1");app.terminate()
         launch(reset:false);openSaved(id);XCTAssertEqual(app.staticTexts["attemptCount"].value as? String,"1")
     }
     func testCorruptionIsNotOverwrittenAndExplicitResetClearsHistory() {
         launch();sendToSara();app.terminate();launch(reset:false,extra:["-corrupt-archive"])
-        XCTAssertTrue(app.staticTexts["storageIssue"].exists);tap("reloadStorage");XCTAssertTrue(app.staticTexts["storageIssue"].exists);shot("29-corrupt-storage")
-        tab("الإعدادات");tap("resetDemo");tap("confirmReset");XCTAssertEqual(XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: NSPredicate(format: "exists == false"), object: app.staticTexts["storageIssue"])], timeout: 5), .completed)
+        XCTAssertTrue(app.staticTexts["storageIssue"].firstMatch.exists);tap("reloadStorage");XCTAssertTrue(app.staticTexts["storageIssue"].firstMatch.exists);shot("29-corrupt-storage")
+        tab("الإعدادات");tap("resetDemo");tap("confirmReset");XCTAssertEqual(XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: NSPredicate(format: "exists == false"), object: app.staticTexts["storageIssue"].firstMatch)], timeout: 5), .completed)
         app.terminate();launch(reset:false);tab("السجل");XCTAssertTrue(app.staticTexts["emptyHistory"].exists);shot("30-reset-history")
     }
     func testLargeTextActionReviewRemainsUsable() {
-        launch(large:true);sendToSara();chooseAction(true);tap("authenticateAction");shot("31-large-action-confirmation");tap("confirmAction")
+        launch(large:true);sendToSara();chooseAction(true);tap("authenticateAction")
+        let confirmation = app.buttons["confirmAction"]
+        XCTAssertTrue(confirmation.waitForExistence(timeout:5))
+        for _ in 0..<10 { if confirmation.isHittable { break };app.swipeUp() }
+        for _ in 0..<4 { if confirmation.frame.maxY < app.frame.maxY - 40 { break };app.swipeUp() }
+        shot("31-large-action-confirmation");tap("confirmAction")
         XCTAssertTrue(app.staticTexts["alertIdentifier"].exists)
     }
     func testApplicationAndUITestStorageAreIsolated() {
