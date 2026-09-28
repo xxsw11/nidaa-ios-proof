@@ -1,0 +1,14 @@
+{
+  "review_date": "2026-09-28",
+  "tested_commit": "bcc5dceb4c576da91eefc55abf3e26ad026326b2",
+  "run_id": 36387113684,
+  "url": "https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36387113684",
+  "conclusion": "success",
+  "job_id": 108814718056,
+  "new_rule_tests": 45,
+  "existing_python_tests": 13,
+  "existing_swift_tests": 45,
+  "physical_device": "Not tested",
+  "provider_integration": "Not tested",
+  "scope": "In-process rule simulations and existing local core regressions; not inter-device communication."
+}

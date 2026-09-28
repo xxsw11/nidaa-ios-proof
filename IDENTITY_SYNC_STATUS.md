@@ -6,11 +6,15 @@ Delivered design: [decisions/data model/permissions/state diagrams](Docs/Identit
 
 Recommendation: local Supabase Auth + PostgreSQL trial behind a transactional command boundary, with fake email/push adapters and no connection to the existing application yet. Provider selection remains revisable after local transaction/RLS/revocation tests.
 
-## Evidence at preparation
+## Actual final evidence
 
-Windows: 40 reference/contract tests and 13 existing Python tests passed before the final review additions. The cloud check will rerun the full reference suite and the existing 45 Swift core tests; final results will be recorded here before delivery. No cloud success is claimed by this preparation entry.
+The tested reference/CI commit is `bcc5dceb4c576da91eefc55abf3e26ad026326b2`. [Cloud run 36387113684](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36387113684) passed on macOS-15: **45 reference/contract tests, 13 existing Python tests and 45 existing Swift core tests**, zero failures. Windows also passed 45 + 13 Python tests. Logs and machine-readable results are in [QA/IdentitySync](QA/IdentitySync/); see the [coverage and limitations](QA/IdentitySync/REVIEW.md).
 
-Existing application source, Swift core, UI tests, configuration and local persistence are preserved. The existing 17 UI tests and simulator Debug/Release build evidence remain the prior stage's results, not new network validation. Historical v06/v03 packages are unchanged.
+The initial cloud run on `ce183b8ba8d509b0eabda67acc33653146ff649f` also passed 43 + 13 + 45 tests. Final review added consumed-token erasure and stale account-generation callback tests; the later run above is authoritative for final code. Any subsequent delivery commit is restricted to documentation/evidence; no further code changes are claimed as tested without rerunning.
+
+[PR #2](https://github.com/xxsw11/nidaa-ios-proof/pull/2) is open for review and **not merged**. The branch does not enable automatic merge. No provider integration is enabled.
+
+All 54 pre-existing files under App, ProofCore, Config, Xcode project, Scripts, UITests, QA and the native CI workflow match baseline content. Windows checkout newline conversions are recorded separately; source packages preserve the original repository bytes for unchanged files. The existing 17 UI tests and simulator Debug/Release build evidence remain the prior stage's results; they were not rerun for this isolated, non-UI design change. Historical v06/v03 archive SHA-256 hashes are unchanged.
 
 ## Proven boundaries and remaining work
 
