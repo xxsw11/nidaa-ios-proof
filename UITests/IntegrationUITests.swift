@@ -4,7 +4,90 @@ import XCTest
 /// Linux integration runner; these screenshots never claim Simulator/server E2E.
 final class IntegrationUITests: XCTestCase {
     private var app: XCUIApplication!
-    override func setUpWithError() throws { continueAfterFailure = false }
+    private static var autoFillFixtureAttempted = false
+    private static var autoFillFixtureConfigured = false
+    private enum FixtureError: Error { case setupFailed(String) }
+    override func setUpWithError() throws {
+        continueAfterFailure = false
+        guard !Self.autoFillFixtureConfigured else { return }
+        guard !Self.autoFillFixtureAttempted else {
+            throw FixtureError.setupFailed("Disposable Simulator AutoFill setup failed earlier; not retrying or running with an unverified fixture")
+        }
+        Self.autoFillFixtureAttempted = true
+        try configureDisposableSimulatorAutoFill()
+        // Only mark the fixture ready after the actual native switch is read off.
+        Self.autoFillFixtureConfigured = true
+    }
+    private func configureDisposableSimulatorAutoFill() throws {
+        #if targetEnvironment(simulator)
+        guard ProcessInfo.processInfo.environment["SIMULATOR_DEVICE_NAME"]?.hasPrefix("NIDAA-Disposable-") == true else {
+            throw FixtureError.setupFailed("AutoFill fixture requires the disposable Simulator created by Scripts/ci_simulator.sh")
+        }
+        let settings = XCUIApplication(bundleIdentifier: "com.apple.Preferences")
+        settings.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
+        defer { settings.terminate() }
+        do {
+            settings.launch()
+            guard settings.navigationBars.firstMatch.waitForExistence(timeout: 12) else {
+                throw FixtureError.setupFailed("Native Settings did not open")
+            }
+            try openSettingsRow("General", in: settings)
+            try openSettingsRow("AutoFill & Passwords", in: settings)
+            let toggle = settings.switches["AutoFill Passwords and Passkeys"].firstMatch
+            guard toggle.waitForExistence(timeout: 6) else {
+                throw FixtureError.setupFailed("AutoFill Passwords and Passkeys switch missing")
+            }
+            let initial = (toggle.value as? String)?.lowercased()
+            guard initial == "0" || initial == "1" || initial == "off" || initial == "on" else {
+                throw FixtureError.setupFailed("AutoFill switch state could not be verified")
+            }
+            if initial == "1" || initial == "on" {
+                guard toggle.isHittable else { throw FixtureError.setupFailed("AutoFill switch is not accessible") }
+                toggle.tap()
+            }
+            let isOff = XCTNSPredicateExpectation(predicate: NSPredicate { object, _ in
+                guard let element = object as? XCUIElement, let value = element.value as? String else { return false }
+                return value == "0" || value.lowercased() == "off"
+            }, object: toggle)
+            guard XCTWaiter.wait(for: [isOff], timeout: 5) == .completed else {
+                throw FixtureError.setupFailed("AutoFill remained enabled; manual-typing fixture is not ready")
+            }
+            let attachment = XCTAttachment(screenshot: toggle.screenshot())
+            attachment.name = "disposable-simulator-autofill-passwords-and-passkeys-off"
+            attachment.lifetime = .keepAlways
+            add(attachment)
+        } catch {
+            // This runs before the NIDAA app is initialized, so preserve separate
+            // fixture evidence instead of relying on the app's tearDown capture.
+            if settings.state == .runningForeground {
+                let attachment = XCTAttachment(screenshot: settings.screenshot())
+                attachment.name = "disposable-simulator-autofill-fixture-failure"
+                attachment.lifetime = .keepAlways
+                add(attachment)
+            }
+            throw error
+        }
+        #else
+        throw FixtureError.setupFailed("Settings fixture is restricted to iOS Simulator; physical-device settings must not be changed")
+        #endif
+    }
+    private func openSettingsRow(_ title: String, in settings: XCUIApplication) throws {
+        for _ in 0..<8 {
+            let button = settings.buttons[title].firstMatch
+            let cell = settings.cells.containing(.staticText, identifier: title).firstMatch
+            let text = settings.staticTexts[title].firstMatch
+            let target = button.exists ? button : (cell.exists ? cell : text)
+            if target.exists && target.isHittable { target.tap(); return }
+            let scroll: XCUIElement
+            if settings.scrollViews.firstMatch.exists { scroll = settings.scrollViews.firstMatch }
+            else if settings.tables.firstMatch.exists { scroll = settings.tables.firstMatch }
+            else if settings.collectionViews.firstMatch.exists { scroll = settings.collectionViews.firstMatch }
+            else { throw FixtureError.setupFailed("Native Settings scroll container missing") }
+            if target.exists && target.frame.midY < settings.windows.firstMatch.frame.midY { scroll.swipeDown() }
+            else { scroll.swipeUp() }
+        }
+        throw FixtureError.setupFailed("Native Settings row unavailable after bounded discovery: " + title)
+    }
     override func tearDownWithError() throws {
         if (testRun?.failureCount ?? 0) > 0, let app, app.state == .runningForeground {
             let attachment = XCTAttachment(screenshot: app.screenshot())

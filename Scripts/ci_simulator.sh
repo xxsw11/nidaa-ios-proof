@@ -5,8 +5,17 @@ cd "$(dirname "$0")/.."
 mkdir -p artifacts
 proof_bundle_id='com.example.nidaa.simulatorproof'
 xcrun simctl list devices available -j > artifacts/devices.json
-proof_udid="$(python3 Scripts/select_simulator.py artifacts/devices.json)"
-cleanup() { xcrun simctl shutdown "$proof_udid" >/dev/null 2>&1 || true; }
+python3 Scripts/select_simulator.py artifacts/devices.json --template > artifacts/simulator-template.txt
+proof_device_type="$(sed -n '1p' artifacts/simulator-template.txt)"
+proof_runtime="$(sed -n '2p' artifacts/simulator-template.txt)"
+proof_device_name="NIDAA-Disposable-$(uuidgen)"
+proof_udid="$(xcrun simctl create "$proof_device_name" "$proof_device_type" "$proof_runtime")"
+printf '%s\n' "$proof_device_name" "$proof_udid" "$proof_device_type" "$proof_runtime" > artifacts/disposable-simulator.txt
+cleanup() {
+  # Only the device created by this invocation is owned by this script.
+  xcrun simctl shutdown "$proof_udid" >/dev/null 2>&1 || true
+  xcrun simctl delete "$proof_udid" >/dev/null 2>&1 || true
+}
 trap cleanup EXIT
 xcrun simctl boot "$proof_udid" 2>/dev/null || true
 xcrun simctl bootstatus "$proof_udid" -b
