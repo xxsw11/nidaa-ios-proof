@@ -342,6 +342,9 @@ class AuthenticationIntegration(IntegrationCase):
         self.a.password = "Nidaa!" + secrets.token_urlsafe(24)
         check(self.a.http.put(AUTH+"/user", headers={"Authorization":"Bearer "+recovered["access_token"]},
                              json={"password":self.a.password}), 200, "local recovery completion")
+        check(self.a.request("GET", "/v1/me"), 401, "old session after recovery password change")
+        check(self.a.http.post(AUTH+"/token?grant_type=refresh_token", json={"refresh_token":self.a.session["refresh_token"]}),
+              (400, 401), "old refresh token after recovery")
         check(self.a.http.post(AUTH+"/token?grant_type=password", json={"email":self.a.email,"password":old}), (400, 401), "old recovered password")
         self.a.login()
         self.assertTrue(self.a.me()["email_verified"])
@@ -396,6 +399,13 @@ class AuthenticationIntegration(IntegrationCase):
         self.b.me()
         mutate("DELETE FROM auth.sessions WHERE id=%s", (claims["session_id"],))
         check(self.b.request("GET", "/v1/me"), 401, "removed provider session with unexpired JWT")
+
+    def test_email_and_phone_changes_are_explicitly_disabled_at_trial_gateway(self):
+        for update in ({"email":f"nidaa-{uuid4().hex}@example.invalid"}, {"phone":""}):
+            check(self.a.request("PUT", "/auth/v1/user", json=update), 403, "deferred identity-attribute changes")
+        subject = jwt.decode(self.a.session["access_token"], options={"verify_signature":False})["sub"]
+        self.assertTrue(sql("SELECT email FROM auth.users WHERE id=%s", (subject,))[0]["email"] == self.a.email,
+                        "gateway changed a deferred identity attribute")
 
 
 if __name__ == "__main__":

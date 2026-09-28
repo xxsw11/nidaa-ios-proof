@@ -17,7 +17,6 @@ services:
   db:
     image: postgres:17.6-bookworm
     networks: [isolated]
-    ports: ['127.0.0.1:55432:5432']
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       AUTH_DB_PASSWORD: ${AUTH_DB_PASSWORD}
@@ -33,7 +32,6 @@ services:
   mail:
     image: axllent/mailpit:v1.31.3
     networks: [isolated]
-    ports: ['127.0.0.1:55424:8025']
     environment:
       MP_MAX_MESSAGES: 1000
       MP_SMTP_AUTH_ACCEPT_ANY: 'false'
@@ -95,7 +93,6 @@ services:
     <<: *client
     environment: {}
     command: ['python', '-m', 'uvicorn', 'Integration.gateway:app', '--host', '0.0.0.0', '--port', '8080', '--no-access-log', '--log-level', 'error']
-    ports: ['127.0.0.1:55421:8080']
     depends_on:
       service: {condition: service_started}
   bootstrap:

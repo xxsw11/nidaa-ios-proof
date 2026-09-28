@@ -12,14 +12,17 @@ from .domain import Domain, connect
 def export_ledger():
     with connect() as conn:
         d=Domain(conn)
-        return {'format':1,'deletions':d.all('SELECT * FROM nidaa.deletion_ledger ORDER BY requested_at,ledger_id')}
+        return {'format':1,'deletions':d.all('SELECT * FROM nidaa.deletion_ledger ORDER BY requested_at,ledger_id'),
+                'revocations':d.all('SELECT * FROM nidaa.revocation_ledger ORDER BY ordinal')}
 
 
 def replay_ledger(data):
-    if set(data)!={'format','deletions'} or data['format']!=1:
+    if set(data) not in ({'format','deletions'},{'format','deletions','revocations'}) or data['format']!=1:
         raise ValueError('invalid_ledger')
     with connect() as conn:
         d=Domain(conn)
+        for entry in sorted(data.get('revocations',[]),key=lambda e:e['ordinal']):
+            d.replay_revocation(entry)
         for entry in data['deletions']:
             # Ledger is trusted, administrator-owned backup input, not client-controlled.
             d.delete_account(entry['user_id'],entry['subject'],entry['requested_at'])
@@ -27,7 +30,7 @@ def replay_ledger(data):
               VALUES(%s,%s,%s,%s,false) ON CONFLICT(user_id) DO UPDATE SET provider_completed=false''',
               (entry['ledger_id'],entry['user_id'],entry['subject'],entry['requested_at']))
         d.erase_tokens()
-        return {'replayed':len(data['deletions'])}
+        return {'replayed':len(data['deletions']),'revocations_replayed':len(data.get('revocations',[]))}
 
 
 def cleanup_auth():

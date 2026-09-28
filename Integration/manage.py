@@ -9,6 +9,7 @@ import secrets
 import shutil
 import socket
 import subprocess
+import sys
 import time
 import urllib.request
 
@@ -26,7 +27,7 @@ def initialize():
         return
     import jwt
     secret = secrets.token_hex(32)
-    values = {name: secrets.token_hex(24) for name in ['DB_PASSWORD', 'AUTH_DB_PASSWORD', 'SERVICE_DB_PASSWORD']}
+    values = {name: secrets.token_hex(24) for name in ['DB_PASSWORD', 'AUTH_DB_PASSWORD', 'SERVICE_DB_PASSWORD', 'RELAY_CONTROL_KEY']}
     values.update(JWT_SECRET=secret, RECEIPT_KEY=base64.urlsafe_b64encode(secrets.token_bytes(32)).decode())
     values['AUTH_ADMIN_TOKEN'] = jwt.encode({'role': 'service_role', 'iss': 'supabase', 'iat': int(time.time()), 'exp': int(time.time()) + 86400 * 7}, secret, algorithm='HS256')
     ENV.write_text(''.join(f'{k}={v}\n' for k, v in values.items()), encoding='utf-8')
@@ -38,7 +39,7 @@ def initialize():
 def check_ports():
     if run('ps', '-q', capture=True).stdout.strip():
         return
-    for port in (55421, 55424, 55432):
+    for port in (55421, 55424):
         with socket.socket() as sock:
             try:
                 sock.bind(('127.0.0.1', port))
@@ -46,7 +47,34 @@ def check_ports():
                 raise SystemExit(f'NIDAA port {port} is occupied; no existing service was changed.')
 
 
+def relay_control(method='GET'):
+    values = dict(line.split('=',1) for line in ENV.read_text().splitlines() if '=' in line)
+    req = urllib.request.Request('http://127.0.0.1:55421/__nidaa_relay', method=method,
+                                 headers={'X-Nidaa-Control':values['RELAY_CONTROL_KEY']})
+    with urllib.request.urlopen(req,timeout=5) as result:
+        assert result.status == 204
+
+
+def start_relay():
+    try:
+        relay_control()
+        return
+    except Exception:
+        pass
+    options = {'creationflags': subprocess.CREATE_NO_WINDOW} if os.name == 'nt' else {'start_new_session': True}
+    subprocess.Popen([sys.executable,str(ROOT/'loopback.py')], stdin=subprocess.DEVNULL,
+                     stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,**options)
+
+
+def stop_relay():
+    try:
+        relay_control('DELETE')
+    except Exception:
+        pass
+
+
 def health():
+    relay_control()
     for path in ('/auth/v1/health', '/health'):
         with urllib.request.urlopen('http://127.0.0.1:55421' + path, timeout=5) as response:
             assert response.status == 200
@@ -59,7 +87,7 @@ def health():
         for net in row['NetworkSettings']['Networks']:
             network = json.loads(subprocess.check_output(['docker', 'network', 'inspect', net]))[0]
             assert network['Internal'] is True, 'Egress network detected'
-    print('Auth + domain health passed; published ports loopback-only; all runtime networks internal.')
+    print('Auth + domain health passed through loopback relay; no Docker published ports; all runtime networks internal.')
 
 
 def diagnostics():
@@ -104,6 +132,7 @@ def main():
         run('up', '-d', '--wait', 'db', 'mail', 'auth')
         run('run', '--rm', 'bootstrap')
         run('up', '-d', 'service', 'gateway')
+        start_relay()
         for attempt in range(30):
             try:
                 health()
@@ -116,10 +145,12 @@ def main():
     elif args.action == 'health':
         health()
     elif args.action == 'stop':
+        stop_relay()
         run('down')
     elif args.action == 'reset':
         if not args.confirm_nidaa_reset:
             raise SystemExit('Reset deletes ONLY the nidaa-integration trial volume. Re-run with --confirm-nidaa-reset.')
+        stop_relay()
         run('down', '--volumes')
         ENV.unlink(missing_ok=True)
     elif args.action == 'test':

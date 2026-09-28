@@ -19,7 +19,7 @@ python -m venv .venv-integration
 
 On Windows, replace `.venv-integration/bin/python` with `.venv-integration/Scripts/python.exe`. Initial image/package downloads require internet access. Running application containers share only an internal Docker network, with no external route. The lifecycle tool fails rather than reuse occupied ports on another project.
 
-Published addresses are `127.0.0.1:55421` (gateway), `127.0.0.1:55424` (local inbox) and `127.0.0.1:55432` (database). Nothing binds to the LAN. `start` creates ignored, ephemeral `Integration/.runtime.env` credentials; do not copy that file into an app or upload it. On Windows, keep the working directory under your private user profile. Never paste credentials into a conversation.
+Local addresses are `127.0.0.1:55421` (gateway) and `127.0.0.1:55424` (local inbox). Nothing binds to the LAN; the database has no host port. Internal-only Docker networks omit host publication on the observed runner, so a Python loopback relay transports each request through `docker compose exec` standard input into the isolated gateway. It does not add a network route or proxy arbitrary destinations. This deliberately favors isolation over throughput. `start` creates ignored, ephemeral `Integration/.runtime.env` credentials; do not copy that file into an app or upload it. On Windows, keep the working directory under your private user profile. Never paste credentials into a conversation.
 
 ```sh
 # Fake notification worker; performs no audio or real delivery:

@@ -136,6 +136,7 @@ class Domain:
           WHERE g.sender_id=%s AND g.recipient_id=%s AND g.state='accepted' AND a.active AND b.active
           AND pa.email_confirmed_at IS NOT NULL AND pb.email_confirmed_at IS NOT NULL
           AND pa.deleted_at IS NULL AND pb.deleted_at IS NULL
+          AND lower(btrim(pa.email))=a.email AND lower(btrim(pb.email))=b.email
           AND (pa.banned_until IS NULL OR pa.banned_until<=to_timestamp(%s))
           AND (pb.banned_until IS NULL OR pb.banned_until<=to_timestamp(%s))''', (a,b,self.now,self.now)))
 
@@ -151,6 +152,16 @@ class Domain:
             self.touch(i['sender_id'], target['user_id'] if target else None)
         for a in self.all("SELECT alert_id,expires_at FROM nidaa.alerts WHERE state='active' AND expires_at<=%s", (self.now,)):
             self.finish(a['alert_id'], 'expired', a['expires_at'])
+        # Reads enforce retention before the physical purge. Give each affected
+        # account one newer cursor when its detail becomes unavailable; otherwise
+        # a strict-newer full-snapshot client could retain stale cached detail.
+        removed=self.all('''INSERT INTO nidaa.removals(user_id,alert_id,created_at)
+          SELECT participants.user_id,a.alert_id,%s FROM nidaa.alerts a
+          CROSS JOIN LATERAL (
+            SELECT a.sender_id AS user_id UNION SELECT r.user_id FROM nidaa.recipients r WHERE r.alert_id=a.alert_id
+          ) participants WHERE a.closed_at<=%s
+          ON CONFLICT DO NOTHING RETURNING user_id''', (self.now,self.now-30*86400))
+        self.touch(*[r['user_id'] for r in removed])
         self.erase_tokens()
 
     def finish(self, aid, state, when=None):
@@ -224,6 +235,32 @@ class Domain:
         for other in others:
             self.restrict_pair(uid,other['user_id'],state)
             self.restrict_pair(other['user_id'],uid,state)
+
+    def record_revocation(self, actor, target, action):
+        # Advisory lock serializes ordinal allocation across independent connections.
+        self.run('''INSERT INTO nidaa.revocation_ledger(ledger_id,ordinal,actor_id,target_id,action,created_at)
+          SELECT %s,coalesce(max(ordinal),0)+1,%s,%s,%s,%s FROM nidaa.revocation_ledger''',
+          (str(uuid4()),actor,target,action,self.now))
+
+    def replay_revocation(self, entry):
+        actor,target,action=entry['actor_id'],entry['target_id'],entry['action']
+        require(action in ('withdraw','block','unblock'),'invalid_request')
+        both=self.one('SELECT count(*) AS n FROM nidaa.accounts WHERE user_id=ANY(%s::uuid[])', ([actor,target],))['n']==2
+        if both:
+            if action=='withdraw':
+                self.restrict_pair(target,actor,'withdrawn')
+            elif action=='block':
+                self.run('INSERT INTO nidaa.blocks VALUES(%s,%s,%s) ON CONFLICT DO NOTHING', (actor,target,entry['created_at']))
+                self.restrict_pair(actor,target,'blocked')
+                self.restrict_pair(target,actor,'blocked')
+            else:
+                self.run('DELETE FROM nidaa.blocks WHERE blocker_id=%s AND target_id=%s', (actor,target))
+                self.touch(actor,target)
+        # Ledger has no account FK: preserve a barrier even if an older backup
+        # predates one participant. Repeated replay keeps one durable event.
+        self.run('''INSERT INTO nidaa.revocation_ledger(ledger_id,ordinal,actor_id,target_id,action,created_at)
+          VALUES(%s,%s,%s,%s,%s,%s) ON CONFLICT(ledger_id) DO NOTHING''',
+          (entry['ledger_id'],entry['ordinal'],actor,target,action,entry['created_at']))
 
     def delete_account(self, uid, subject=None, requested_at=None):
         a = self.one('SELECT * FROM nidaa.accounts WHERE user_id=%s', (uid,))
@@ -306,6 +343,7 @@ class Domain:
         if name=='withdraw':
             require(self.one("SELECT 1 FROM nidaa.grants WHERE sender_id=%s AND recipient_id=%s AND state='accepted'", (p['sender_id'],uid)),'not_found')
             self.restrict_pair(p['sender_id'],uid,'withdrawn')
+            self.record_revocation(uid,p['sender_id'],'withdraw')
             return None,None
         if name in ('block','unblock'):
             target = p['user_id']
@@ -318,6 +356,7 @@ class Domain:
             else:
                 self.run('DELETE FROM nidaa.blocks WHERE blocker_id=%s AND target_id=%s', (uid,target))
                 self.touch(uid,target)
+            self.record_revocation(uid,target,name)
             return None,None
         if name=='create_alert':
             require(0<p['expires_at']-self.now<=900,'expired')

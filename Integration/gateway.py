@@ -1,5 +1,6 @@
 """Loopback-only trial gateway. Fixed upstreams, no admin/auth URL logging."""
 import httpx
+import json
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, Response
 
@@ -22,6 +23,13 @@ async def proxy(path: str, request: Request):
         body.extend(part)
         if len(body) > 16384:
             return JSONResponse({'error': 'invalid_request'}, status_code=413)
+    if path == 'auth/v1/user' and request.method == 'PUT':
+        try:
+            fields = json.loads(body)
+            if not isinstance(fields, dict) or 'email' in fields or 'phone' in fields:
+                return JSONResponse({'error':'not_enabled'},status_code=403)
+        except (ValueError, UnicodeDecodeError):
+            return JSONResponse({'error':'invalid_request'},status_code=400)
     headers = {k: v for k, v in request.headers.items() if k.lower() in ('authorization', 'content-type', 'apikey', 'x-client-info')}
     # Never trust client forwarded IP/host or permit an arbitrary proxy destination.
     try:

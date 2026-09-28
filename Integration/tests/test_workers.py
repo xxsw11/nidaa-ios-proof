@@ -13,7 +13,7 @@ import psycopg
 from psycopg.conninfo import conninfo_to_dict, make_conninfo
 from psycopg.rows import dict_row
 
-from harness import admin, check, consent, envelope, mutate, sql
+from harness import LocalAccount, admin, check, consent, envelope, mutate, sql
 from test_integration import IntegrationCase
 
 
@@ -77,6 +77,28 @@ class WorkerIntegration(IntegrationCase):
         check(self.b.request("GET", "/v1/me"), 401, "domain disabled account")
         worker("dispatch", "--job", job)
         self.assertEqual(self.row("outbox", aid)[0]["state"], "suppressed")
+
+    def test_provider_ban_suppresses_already_queued_work(self):
+        aid = self.create()
+        job = str(self.row("outbox", aid)[0]["job_id"])
+        subject = sql("SELECT subject FROM nidaa.accounts WHERE user_id=%s", (self.b.user_id,))[0]["subject"]
+        mutate("UPDATE auth.users SET banned_until=now()+interval '1 day' WHERE id=%s", (subject,))
+        worker("dispatch", "--job", job)
+        self.assertEqual(self.row("outbox", aid)[0]["state"], "suppressed")
+        self.assertEqual(sql("SELECT count(*) AS n FROM nidaa.fake_handoffs WHERE job_id=%s", (job,))[0]["n"], 0)
+
+    def test_provider_email_mismatch_suppresses_before_domain_session_refresh(self):
+        aid = self.create()
+        job = str(self.row("outbox", aid)[0]["job_id"])
+        subject = sql("SELECT subject FROM nidaa.accounts WHERE user_id=%s", (self.b.user_id,))[0]["subject"]
+        # Explicit admin fixture for an out-of-band provider identity change; not an
+        # email-change user journey (that feature is disabled at the trial gateway).
+        mutate("UPDATE auth.users SET email=%s WHERE id=%s", (f"nidaa-{uuid4().hex}@example.invalid",subject))
+        worker("dispatch", "--job", job)
+        self.assertEqual(self.row("outbox", aid)[0]["state"], "suppressed")
+        self.assertEqual(sql("SELECT count(*) AS n FROM nidaa.fake_handoffs WHERE job_id=%s", (job,))[0]["n"], 0)
+        self.b.me()
+        check(self.b.request("GET", "/v1/alerts/"+aid), 404, "old grant after provider identity transition")
 
     def test_worker_block_race_serializes_without_late_authorization(self):
         aid = self.create()
@@ -152,8 +174,28 @@ class WorkerIntegration(IntegrationCase):
         stale["issued_at"] -= 91*86400
         check(self.a.submit(stale), 410, "aged-out operation cannot be dispatched")
 
-    def test_backup_restore_replays_later_deletion_before_any_access(self):
+    def test_read_time_retention_publishes_one_new_cursor_before_sweeper(self):
         aid = self.create()
+        self.a.accepted("close_alert", alert_id=aid, expected_version=1, state="cancelled")
+        before = self.get(self.b, "/v1/sync")
+        self.assertIn(aid, {alert["alert_id"] for alert in before["alerts"]})
+        mutate("UPDATE nidaa.alerts SET closed_at=%s WHERE alert_id=%s", (int(time.time())-31*86400, aid))
+        after = self.get(self.b, "/v1/sync")
+        self.assertGreater(after["cursor"], before["cursor"])
+        self.assertNotIn(aid, {alert["alert_id"] for alert in after["alerts"]})
+        self.assertIn(aid, after["removed_ids"])
+        repeat = self.get(self.b, "/v1/sync")
+        self.assertEqual(repeat["cursor"], after["cursor"])
+
+    def test_backup_restore_replays_later_deletion_and_revocations_before_access(self):
+        aid = self.create()
+        d = LocalAccount("Lina")
+        self.clients.append(d)
+        d.signup()
+        d.me()
+        consent(self.a, self.c)
+        consent(self.a, d)
+        self.a.accepted("add_recipients", alert_id=aid, expected_version=1, recipient_ids=[self.c.user_id,d.user_id])
         restore_name = "nidaa_restore_" + uuid4().hex
         source = conninfo_to_dict(os.environ["DATABASE_ADMIN_URL"])
         restored_service = conninfo_to_dict(os.environ["DATABASE_URL"])
@@ -169,6 +211,8 @@ class WorkerIntegration(IntegrationCase):
                                   env=database_env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=60)
             self.assertEqual(dump.returncode, 0, "isolated backup failed; diagnostic output redacted")
             self.b.accepted("delete_account")
+            self.c.accepted("withdraw", sender_id=self.a.user_id)
+            d.accepted("block", user_id=self.a.user_id)
             worker("export-ledger", "--file", ledger)
             with psycopg.connect(os.environ["DATABASE_ADMIN_URL"], autocommit=True) as connection:
                 connection.execute(psycopg.sql.SQL("CREATE DATABASE {}").format(psycopg.sql.Identifier(restore_name)))
@@ -191,7 +235,16 @@ class WorkerIntegration(IntegrationCase):
                     account = connection.execute("SELECT active,email FROM nidaa.accounts WHERE user_id=%s", (self.b.user_id,)).fetchone()
                     self.assertFalse(account["active"])
                     self.assertEqual(account["email"], "")
-                    self.assertEqual(connection.execute("SELECT state FROM nidaa.outbox WHERE alert_id=%s", (aid,)).fetchone()["state"], "suppressed")
+                    self.assertTrue(all(row["state"] == "suppressed" for row in connection.execute("SELECT state FROM nidaa.outbox WHERE alert_id=%s", (aid,)).fetchall()))
+                    for client, expected in ((self.c,"withdrawn"), (d,"blocked")):
+                        self.assertEqual(connection.execute("SELECT state FROM nidaa.grants WHERE sender_id=%s AND recipient_id=%s",
+                            (self.a.user_id,client.user_id)).fetchone()["state"], expected)
+                        session = domain.principal(client.session["access_token"])
+                        self.assertFalse(domain.consent(self.a.user_id,session["user_id"]))
+                        with self.assertRaises(RuleError) as denied:
+                            domain.view(session["user_id"], aid)
+                        self.assertEqual(denied.exception.code, "not_found")
+                    self.assertTrue(domain.blocked(self.a.user_id,d.user_id))
             finally:
                 # Exact test-generated database only, no other project data is touched.
                 with psycopg.connect(os.environ["DATABASE_ADMIN_URL"], autocommit=True) as connection:
