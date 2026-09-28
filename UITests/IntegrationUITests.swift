@@ -33,7 +33,7 @@ final class IntegrationUITests: XCTestCase {
             }
             try openSettingsRow("General", in: settings)
             try openSettingsRow("AutoFill & Passwords", in: settings)
-            let toggle = settings.switches["AutoFill Passwords and Passkeys"].firstMatch
+            let toggle = settings.switches["AutoFillToggle"].firstMatch
             guard toggle.waitForExistence(timeout: 6) else {
                 throw FixtureError.setupFailed("AutoFill Passwords and Passkeys switch missing")
             }
@@ -43,7 +43,10 @@ final class IntegrationUITests: XCTestCase {
             }
             if initial == "1" || initial == "on" {
                 guard toggle.isHittable else { throw FixtureError.setupFailed("AutoFill switch is not accessible") }
-                toggle.tap()
+                // Run 36449300225 exposed a row-wide switch frame; its midpoint
+                // hits the label. English Settings places the native thumb at
+                // the observed trailing edge. Verify Off after this one tap.
+                toggle.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5)).tap()
             }
             let isOff = XCTNSPredicateExpectation(predicate: NSPredicate { object, _ in
                 guard let element = object as? XCUIElement, let value = element.value as? String else { return false }
