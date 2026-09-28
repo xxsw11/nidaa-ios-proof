@@ -12,6 +12,9 @@ final class LocalExperienceUITests: XCTestCase {
         app.launchArguments += extra
         for (key,value) in environment { app.launchEnvironment[key] = value };app.launch()
         XCTAssertTrue(app.buttons["startAlert"].waitForExistence(timeout: 10))
+        if !extra.contains("-fail-read") && !extra.contains("-corrupt-archive") {
+            XCTAssertFalse(app.staticTexts["storageIssue"].exists, "Unexpected storage failure at launch")
+        }
     }
     func tap(_ id: String) {
         let element = app.buttons[id].firstMatch
@@ -150,7 +153,9 @@ final class LocalExperienceUITests: XCTestCase {
         launch(reset:false,extra:["-fail-read"]);XCTAssertTrue(app.staticTexts["storageIssue"].exists);app.terminate()
         launch(reset:false);openSaved(id);app.terminate()
         launch(reset:false,extra:["-fail-write"]);openSaved(id);chooseAction(false);tap("authenticateAction");tap("confirmAction")
-        XCTAssertTrue(app.staticTexts["storageIssue"].waitForExistence(timeout:5));shot("28-storage-failure");app.terminate()
+        XCTAssertTrue(app.staticTexts["storageIssue"].waitForExistence(timeout:5));shot("28-storage-failure")
+        XCTAssertFalse(app.buttons["authenticateAction"].isEnabled);tap("cancelAction")
+        XCTAssertEqual(app.staticTexts["attemptCount"].value as? String,"1");app.terminate()
         launch(reset:false);openSaved(id);XCTAssertEqual(app.staticTexts["attemptCount"].value as? String,"1")
     }
     func testCorruptionIsNotOverwrittenAndExplicitResetClearsHistory() {

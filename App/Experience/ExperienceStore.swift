@@ -275,11 +275,13 @@ enum AppScreen: Equatable { case compose, action, alert(UUID), incoming(UUID), e
     private func run(_ action: () throws -> Void) {
         guard storageIssue.isEmpty else { message = "التخزين غير جاهز؛ لم يُنفذ الإجراء.";return }
         let before = simulation, oldScreen = screen
+        let oldPalette = frozenPalette, oldIncoming = incomingID, oldPreview = previewRecipient, oldDetails = actionDetails
         do {
             try action()
             if before.alerts != simulation.alerts || before.contacts != simulation.contacts { try repository.save(simulation) }
         } catch {
             simulation = before;screen = oldScreen
+            frozenPalette = oldPalette;incomingID = oldIncoming;previewRecipient = oldPreview;actionDetails = oldDetails
             if error is ArchiveError {
                 invalidateAuthorization();storageIssue = "فشل حفظ الإجراء؛ لم يُعتمد التغيير ولم تُستبدل النسخة السابقة. أعد محاولة الاستعادة."
                 message = storageIssue;return
@@ -300,16 +302,16 @@ enum AppScreen: Equatable { case compose, action, alert(UUID), incoming(UUID), e
 #if DEBUG && targetEnvironment(simulator)
 private final class UITestArchiveIO: ArchiveIO {
     let base: FileArchiveIO
-    var writes = 0
     init(base: FileArchiveIO) { self.base = base }
     func read() throws -> Data? {
         if ProcessInfo.processInfo.arguments.contains("-fail-read") { throw ArchiveError.unreadable }
         return try base.read()
     }
     func replace(with data: Data) throws {
-        writes += 1
-        // Tests first restore without resetting; the next attempted mutation fails.
-        if ProcessInfo.processInfo.arguments.contains("-fail-write"), writes > 1 { throw ArchiveError.writeFailed }
+        // Fail the intended retry transaction, not an unrelated nonresponse timer save.
+        if ProcessInfo.processInfo.arguments.contains("-fail-write"),
+           let archive = try? JSONDecoder().decode(AlertArchive.self, from: data),
+           archive.alerts.contains(where: { $0.attempts > 1 }) { throw ArchiveError.writeFailed }
         try base.replace(with: data)
     }
 }

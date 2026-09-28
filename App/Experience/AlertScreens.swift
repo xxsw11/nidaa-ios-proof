@@ -159,7 +159,7 @@ import ProofCore
                     Text(store.authLabel).font(.footnote)
                     NidaaButton(title: "أؤكد تنفيذ هذا الإجراء مرة واحدة", icon: "checkmark", id: "confirmAction") { store.confirmAction() }
                 } else {
-                    NidaaButton(title: store.busy ? "جارٍ التحقق…" : "تحقق جديد لهذا الإجراء", icon: "faceid", id: "authenticateAction") { Task { await store.prepareAction() } }.disabled(store.busy)
+                    NidaaButton(title: store.busy ? "جارٍ التحقق…" : "تحقق جديد لهذا الإجراء", icon: "faceid", id: "authenticateAction") { Task { await store.prepareAction() } }.disabled(store.busy || !store.storageIssue.isEmpty)
                 }
                 NidaaButton(title: "تراجع دون تنفيذ", icon: "xmark", secondary: true, id: "cancelAction") { store.cancelAction() }
             }
