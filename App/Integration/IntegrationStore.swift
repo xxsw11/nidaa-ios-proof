@@ -55,7 +55,7 @@ struct TrialConfirmation {
     @Published var confirmation: TrialConfirmation?
     @Published var mockAuthenticationPrompt = false
     let isMock: Bool
-    private var client: NidaaClient?
+    private var client: (any NidaaClientProtocol)?
     private var generation = 0
     private let authentication = LocalAuthenticationService()
     private var mockContinuation: CheckedContinuation<Bool, Never>?
@@ -65,14 +65,14 @@ struct TrialConfirmation {
     private static let fictionalB = UUID(uuidString: "00000000-0000-4000-8000-000000000002")!
     private static let fictionalC = UUID(uuidString: "00000000-0000-4000-8000-000000000003")!
 
-    init() {
+    init(injectedClient: (any NidaaClientProtocol)? = nil) {
         #if targetEnvironment(simulator)
         isMock = ProcessInfo.processInfo.arguments.contains("-nidaa-integration-mock")
         #else
         isMock = false
         #endif
         if !isMock {
-            do { client = try NidaaClient.live(environment: TrialEnvironment(baseURL: URL(string: "http://127.0.0.1:55421")!)) }
+            do { client = try injectedClient ?? NidaaClient.live(environment: TrialEnvironment(baseURL: URL(string: "http://127.0.0.1:55421")!)) }
             catch { message = "تعذر تجهيز الاتصال المحلي الآمن." }
         }
     }
@@ -101,7 +101,8 @@ struct TrialConfirmation {
         }
     }
     func signIn(email: String, password: String) async {
-        cancelAuthorization()
+        guard !busy else { return }
+        clearView()
         await run {
             if self.isMock { self.seedMock() }
             else { _ = try await self.requireClient().signIn(email: email, password: password); try await self.reload() }
@@ -110,6 +111,8 @@ struct TrialConfirmation {
         }
     }
     func verify(token: String, recovery: Bool) async {
+        guard !busy else { return }
+        clearView()
         await run {
             if self.isMock { self.seedMock() }
             else {
@@ -146,16 +149,20 @@ struct TrialConfirmation {
             var revoked = true
             if !self.isMock { revoked = try await self.requireClient().logout(allDevices: allDevices).serverRevoked }
             self.clearView()
-            self.message = revoked ? "انتهت الجلسة وأُزيلت بيانات العرض." : "أُزيلت الجلسة محليًا؛ لم يُثبت إلغاؤها على الخادم بسبب انقطاع الاتصال."
+            self.message = revoked ? "انتهت الجلسة وأُزيلت بيانات العرض." : "انتهى عرض الجلسة؛ تعذر تأكيد محو بياناتها أو إلغائها على الخادم."
         }
     }
-    private func requireClient() throws -> NidaaClient {
+    private func requireClient() throws -> any NidaaClientProtocol {
         guard let client else { throw TrialUIError.unavailable }; return client
     }
     private func reload() async throws {
         let epoch = generation
         let snapshot = try await requireClient().synchronize()
         guard epoch == generation else { return }
+        if accountID != snapshot.account?.userID {
+            cancelAuthorization()
+            invitationToken = ""
+        }
         accountID = snapshot.account?.userID
         accountName = snapshot.account?.displayName ?? ""
         invitations = snapshot.relationships.invitations.map { TrialInvite(id: $0.invitationID, sender: $0.senderID, incoming: $0.direction == "incoming", state: $0.state) }
@@ -241,8 +248,10 @@ struct TrialConfirmation {
     func backgrounded() { cancelAuthorization(); invitationToken = "" }
     func close() { cancelAuthorization(); invitationToken = "" }
     private func clearView() {
-        generation += 1; accountID = nil; accountName = ""; invitations = []; people = []; alerts = []
+        cancelAuthorization()
+        accountID = nil; accountName = ""; invitations = []; people = []; alerts = []
         selected = []; pending = false; neverSent = false; invitationToken = ""; confirmation = nil
+        pendingMockCommand = nil; pendingMockPayload = [:]
     }
     private func run(_ work: () async throws -> Void) async {
         guard !busy else { return }
@@ -258,7 +267,7 @@ struct TrialConfirmation {
     private func handle(_ error: ClientError) {
         switch error {
         case .unauthenticated, .server("unauthenticated"):
-            accountID = nil; accountName = ""; invitations = []; people = []; alerts = []; selected = []
+            clearView()
             message = "انتهت الجلسة. سجّل الدخول مجددًا؛ أُخفيت بيانات الحساب السابق."
         case .server(let code): message = Self.explain(code)
         case .neverSent: message = "لم تُرسل العملية. بقيت محفوظة بأمان؛ ألغها صراحةً قبل محاولة جديدة."

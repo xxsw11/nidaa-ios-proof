@@ -20,12 +20,13 @@ struct IntegrationTrialCLI {
             try await run()
         } catch {
             // Provider errors, URL queries, passwords and session values are never printed.
-            print("FAIL Swift integration trial; sensitive diagnostic details omitted")
+            print("FAIL Swift integration trial; category=" + safeCategory(error))
             exit(1)
         }
     }
 
     private static func run() async throws {
+        print("STAGE isolated_environment")
         let values = ProcessInfo.processInfo.environment
         guard let base = URL(string: values["NIDAA_BASE_URL"] ?? "http://gateway:8080"),
               let mail = URL(string: values["NIDAA_MAIL_URL"] ?? "http://mail:8025"),
@@ -37,10 +38,11 @@ struct IntegrationTrialCLI {
         #else
         let environment = try TrialEnvironment(baseURL: base)
         #endif
+        print("PASS isolated environment configuration")
         let mailbox = LocalMailbox(baseURL: mail)
-        let a = try await identity(environment: environment, mailbox: mailbox)
-        let b = try await identity(environment: environment, mailbox: mailbox)
-        let c = try await identity(environment: environment, mailbox: mailbox)
+        let a = try await identity(environment: environment, mailbox: mailbox, label: .a)
+        let b = try await identity(environment: environment, mailbox: mailbox, label: .b)
+        let c = try await identity(environment: environment, mailbox: mailbox, label: .c)
         print("PASS official Auth signup, local inbox verification and password login for three isolated accounts")
 
         let b2 = NidaaClient(environment: environment, storage: MemoryClientStorage())
@@ -123,16 +125,65 @@ struct IntegrationTrialCLI {
         #endif
     }
 
-    private static func identity(environment: TrialEnvironment, mailbox: LocalMailbox) async throws -> Identity {
+    private enum IdentityLabel: String { case a = "account_A", b = "account_B", c = "account_C" }
+
+    private static func identity(environment: TrialEnvironment, mailbox: LocalMailbox, label: IdentityLabel) async throws -> Identity {
         let client = NidaaClient(environment: environment, storage: MemoryClientStorage())
         let email = "nidaa-swift-" + UUID().uuidString.lowercased() + "@example.invalid"
-        let password = "Nidaa!" + UUID().uuidString + UUID().uuidString
+        // Pinned GoTrue v2.196.0 rejects passwords longer than 72 UTF-8 bytes.
+        // One UUID produces 42 ASCII bytes including the prefix; nothing is logged.
+        let password = "Nidaa!" + UUID().uuidString
+        try requireTrial(password.utf8.count <= 72, "fixture password exceeds provider bound")
+        print("STAGE " + label.rawValue + "_signup")
         try await client.signup(email: email, password: password)
+        print("PASS " + label.rawValue + "_signup")
+        print("STAGE " + label.rawValue + "_local_inbox")
         let token = try await mailbox.verificationHash(for: email)
+        print("PASS " + label.rawValue + "_local_inbox")
+        print("STAGE " + label.rawValue + "_sdk_email_verification")
         _ = try await client.verify(tokenHash: token, kind: .signup)
+        print("PASS " + label.rawValue + "_sdk_email_verification")
+        print("STAGE " + label.rawValue + "_sdk_password_login")
         let account = try await client.signIn(email: email, password: password)
         try requireTrial(account.emailVerified, "provider email verification")
+        print("PASS " + label.rawValue + "_sdk_password_login")
         return Identity(client: client, email: email, password: password, account: account)
+    }
+
+    /// Only fixed, allowlisted categories can reach CI output. Never describe an
+    /// arbitrary Error, request, URL, account identifier or provider response body.
+    private static func safeCategory(_ error: any Error) -> String {
+        if let clientError = error as? ClientError {
+            switch clientError {
+            case .invalidEnvironment: return "invalid_environment"
+            case .unauthenticated: return "unauthenticated"
+            case .staleGeneration: return "stale_generation"
+            case .invalidResponse: return "invalid_response"
+            case .storageUnavailable: return "storage_unavailable"
+            case .connectionFailed: return "connection_failed"
+            case .pendingUnresolved: return "pending_unresolved"
+            case .operationConflict: return "operation_conflict"
+            case .neverSent: return "never_sent"
+            case .outcomeUnknown: return "outcome_unknown"
+            case .server(let code):
+                let allowed: Set<String> = ["authentication_failed", "invalid_request", "unauthenticated",
+                    "not_found", "forbidden", "conflict", "expired", "rate_limited", "consent_required",
+                    "terminal", "limit_reached", "reauthentication_required"]
+                return allowed.contains(code) ? code : "server_error"
+            }
+        }
+        if let network = error as? URLError {
+            switch network.code {
+            case .timedOut: return "transport_timeout"
+            case .cannotFindHost, .dnsLookupFailed: return "transport_host_unavailable"
+            case .cannotConnectToHost: return "transport_connection_refused"
+            case .notConnectedToInternet, .networkConnectionLost: return "transport_disconnected"
+            default: return "transport_error"
+            }
+        }
+        if error is DecodingError { return "response_decode" }
+        if error is TrialFailure { return "trial_assertion" }
+        return "unexpected_error"
     }
 
     private static func accepted(_ client: any NidaaClientProtocol, _ command: String,

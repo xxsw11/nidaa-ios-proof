@@ -12,7 +12,7 @@ import NidaaIntegration
         ScreenBody {
             Text("تجربة الربط المحلي").font(.largeTitle.bold())
             NidaaCard {
-                Label(store.isMock ? "MOCK · محاكاة واجهة فقط" : "اتصال فعلي ببيئة محلية", systemImage: "testtube.2")
+                Label(store.isMock ? "MOCK · محاكاة واجهة فقط" : "وضع الربط المحلي", systemImage: "testtube.2")
                     .font(.headline).accessibilityIdentifier("integrationMode")
                 Text(store.isMock ? "الحسابات والنتائج التالية خيالية داخل الواجهة. لا يثبت هذا اختبارًا من المحاكي إلى الخادم." : "Supabase Auth وPostgreSQL على هذا المضيف فقط. شغّل البيئة المحلية أولًا؛ لا يوجد اتصال بخدمة مستضافة.")
                     .font(.footnote)

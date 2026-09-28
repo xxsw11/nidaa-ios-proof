@@ -171,7 +171,10 @@ class DomainIntegration(IntegrationCase):
         receipt = self.get(self.a, "/v1/operations/" + invite["operation_id"])
         self.assertTrue(receipt["invitation_token"] is None, "used invitation still returned a secret")
         pending = self.a.accepted("invite", recipient_email=self.c.email)
+        before_cancel = self.get(self.c, "/v1/sync")["cursor"]
         self.a.accepted("cancel_invite", invitation_id=pending["resource_id"])
+        self.assertGreater(self.get(self.c, "/v1/sync")["cursor"], before_cancel,
+                           "recipient must observe cancellation at a newer synchronization cursor")
         self.assertEqual(self.c.command("decide_invite", token=pending["invitation_token"], decision="accepted")["error"], "conflict")
 
     def test_invitation_receipt_token_encrypted_and_removed_after_use(self):

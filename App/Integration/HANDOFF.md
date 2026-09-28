@@ -10,6 +10,7 @@
 - Shared alert selection/create, fake-provider versus app acknowledgment versus human-response states, response/decline, explicit sender close, retry and add-recipient actions.
 - Create/retry/add use `LocalAuthenticationService`, then a separate one-minute confirmation. Selection change, cancellation, section change, background and dismissal invalidate the gate. The system's temporary inactive state is not treated as background, allowing its authentication sheet to function. No Face ID result is sent as account identity.
 - Unknown outcomes block all new domain commands and offer only a same-operation lookup. Never-sent records offer explicit cancellation. Reconnection/refresh does not dispatch. Expired identity hides prior account data and asks for login. Refresh tokens do not claim recent account authentication.
+- Identity loss, new login and verification clear the prior invitation token, confirmation, selection and account display, and cancel local authorization. Pending operation persistence remains the client's responsibility and is restored only after the account is authenticated again. The startup banner describes local integration **mode**, without claiming a connection before a response. Uncertain logout explicitly avoids claiming either local credential erasure or server revocation.
 - Existing typography/cards/palette, RTL inheritance, scrolling, Dynamic Type and vertical navigation at accessibility sizes.
 
 ## Evidence boundary

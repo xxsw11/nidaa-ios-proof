@@ -32,7 +32,25 @@ Local addresses are `127.0.0.1:55421` (gateway) and `127.0.0.1:55424` (local inb
 
 Resetting the trial is intentional data deletion. The tool never runs a global Docker prune. `start` reapplies only previously unseen migrations and rejects changes to an already applied migration. Start from reset for reproducible clean-state results. Accounts/passwords are randomized fictional fixtures; signup requires consuming a real message from the isolated inbox.
 
-## Boundaries and evidence
+## Swift client and Arabic interface
+
+After `start`, run the official Swift Auth adapter against the same private stack:
+
+```sh
+.venv-integration/bin/python Integration/manage.py swift-test
+```
+
+This builds the pinned Swift toolchain image, runs client unit tests, then starts a separate Swift process with only the gateway and local inbox addresses. Each fictional identity has its own in-memory session store. The live journey uses actual signup, local email verification, directional consent, shared alerts, acknowledgements, responses and session isolation. It neither needs nor receives database/admin credentials. Package dependencies are locked in `IntegrationClient/Package.resolved`.
+
+For the native interface, use a Mac with Xcode 16.4 or newer (Swift 6.1+) and an installed iOS Simulator. Open `NidaaProof.xcodeproj`, select `NidaaProof-Local`, use Debug and a Simulator destination. Start the container stack on that same Mac; the app only accepts a loopback endpoint. In the Arabic app, open Settings → the local integration trial. Release keeps the original local experience and excludes the trial screens. Debug alone uses the local-network transport exception. Do not point the app at a hosted or LAN service.
+
+Register fictional addresses ending in `.invalid`, with test-only passwords of 8–72 UTF-8 bytes. Open the local inbox at `http://127.0.0.1:55424`; copy the `token` value from the verification message into the app's secure verification field. Never share mailbox screenshots, tokens or credentials. Recovery uses the same inbox and its recovery toggle; explicitly sign in with the new password afterwards for fresh server authentication. Token refresh and local biometrics do not satisfy that requirement.
+
+Use independent Simulator installations or the CLI for independent account sessions. A invites B; copy the invitation token locally and enter it as B, then explicitly accept that sending direction. A can select B, complete the local authentication prompt and separately confirm sending. A recipient acknowledgement or opening is distinct from a human response, and neither closes the case. A dropped reply stays unknown until a lookup of the original operation resolves it; reconnection does not resend. Logout/account changes isolate the local replica; sensitive sessions and pending operations use device-only Keychain in the Apple adapter, not UserDefaults. Simulator Keychain behavior is not physical-device security certification.
+
+The current CI uses Linux for the real Swift/backend journey and cloud macOS separately for mock-based SwiftUI tests. Its mock interface is labeled `MOCK`; it does not establish a Simulator-to-backend journey. To reproduce those UI tests and Debug/Release builds on a Mac, run `bash Scripts/ci_simulator.sh`. No public tunnel is required or authorized. See the status document for actual run results and remaining limits.
+
+## Service and data boundaries
 
 The server derives identity and recent authentication from verified provider sessions and signed AMR evidence. Provider token refresh and local biometrics do not renew server authentication. SQL constraints, RLS and a scoped service role protect domain tables; application mutations, receipts and fake jobs share a transaction. A trial-wide transaction lock deliberately serializes decisions; this does not establish production throughput.
 
