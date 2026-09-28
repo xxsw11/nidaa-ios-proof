@@ -5,7 +5,8 @@ ENV PATH=/opt/nidaa-python/bin:$PATH
 WORKDIR /trial
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 COPY Integration/requirements.txt /trial/Integration/requirements.txt
-RUN pip install --no-cache-dir -r Integration/requirements.txt
+COPY Integration/requirements-lock.txt /trial/Integration/requirements-lock.txt
+RUN pip install --no-cache-dir -r Integration/requirements.txt -c Integration/requirements-lock.txt
 COPY SharedRules /trial/SharedRules
 COPY Integration /trial/Integration
 USER 10001:10001

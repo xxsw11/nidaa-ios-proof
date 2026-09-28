@@ -16,6 +16,14 @@ AUTH = os.environ.get("AUTH_URL", "http://auth:9999").rstrip("/")
 MAIL = os.environ.get("MAIL_URL", "http://mail:8025").rstrip("/")
 
 
+class SafeHTTPClient(httpx.Client):
+    def request(self, *args, **kwargs):
+        try:
+            return super().request(*args, **kwargs)
+        except httpx.HTTPError:
+            raise AssertionError("local HTTP transport failed; request details redacted") from None
+
+
 def check(response, expected, label):
     expected = (expected,) if isinstance(expected, int) else expected
     if response.status_code not in expected:
@@ -47,7 +55,7 @@ class LocalAccount:
     def __init__(self, name="Sara"):
         self.email = f"nidaa-{uuid4().hex}@example.invalid"
         self.password = "Nidaa!" + secrets.token_urlsafe(24)
-        self.http = httpx.Client(timeout=15, follow_redirects=False, trust_env=False)
+        self.http = SafeHTTPClient(timeout=15, follow_redirects=False, trust_env=False)
         self.name = name
         self.user_id = None
 

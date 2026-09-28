@@ -18,7 +18,7 @@ jobs:
       - name: Prepare isolated tooling
         run: |
           python3 -m venv /tmp/nidaa-tools
-          /tmp/nidaa-tools/bin/pip install -r Integration/requirements.txt
+          /tmp/nidaa-tools/bin/pip install -r Integration/requirements.txt -c Integration/requirements-lock.txt
           mkdir -p artifacts
           /tmp/nidaa-tools/bin/python Integration/manage.py versions > artifacts/runtime.txt
       - name: Start private container stack

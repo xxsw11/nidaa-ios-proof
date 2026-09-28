@@ -3,6 +3,7 @@ import argparse
 import base64
 import json
 import os
+import re
 from pathlib import Path
 import secrets
 import shutil
@@ -61,6 +62,23 @@ def health():
     print('Auth + domain health passed; published ports loopback-only; all runtime networks internal.')
 
 
+def diagnostics():
+    # Startup diagnostics only; never export Auth/mail/DB logs or container environment.
+    secrets_to_redact = [line.split('=', 1)[1] for line in ENV.read_text().splitlines() if '=' in line]
+    for name in ('service', 'gateway'):
+        ids = run('ps', '--all', '-q', name, capture=True).stdout.split()
+        for cid in ids:
+            row = json.loads(subprocess.check_output(['docker', 'inspect', cid]))[0]
+            print(json.dumps({'service': name, 'state': row['State']['Status'], 'exit': row['State']['ExitCode'], 'ports': row['NetworkSettings']['Ports']}))
+        output = subprocess.run(COMPOSE + ['logs', '--no-color', '--tail', '45', name], text=True, capture_output=True).stdout
+        for secret in secrets_to_redact:
+            if secret:
+                output = output.replace(secret, '[redacted]')
+        output = re.sub(r'eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+', '[redacted-token]', output)
+        output = re.sub(r'[\w.+-]+@[\w.-]+', '[redacted-address]', output)
+        print(output)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('action', choices=['start', 'health', 'stop', 'reset', 'test', 'worker', 'versions'])
@@ -86,6 +104,7 @@ def main():
                 break
             except Exception:
                 if attempt == 29:
+                    diagnostics()
                     raise SystemExit('NIDAA startup health failed; inspect local service errors without exporting secrets.')
                 time.sleep(2)
     elif args.action == 'health':

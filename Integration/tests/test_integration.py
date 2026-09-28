@@ -1,9 +1,12 @@
 """Real HTTP/PostgreSQL authorization and failure tests, using isolated local identities."""
 from concurrent.futures import ThreadPoolExecutor
 from copy import deepcopy
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
 import os
 import secrets
+import socket
+import threading
 import time
 import unittest
 from uuid import uuid4
@@ -60,12 +63,49 @@ class DomainIntegration(IntegrationCase):
     def test_lost_response_reconciles_same_receipt(self):
         consent(self.a, self.b)
         request = envelope("create_alert", recipient_ids=[self.b.user_id], expires_at=int(time.time()) + 600)
-        # Deliberately discard the HTTP body, emulating a caller without its successful result.
-        # Transport fault coverage is separate; this checks durable same-ID reconciliation.
-        check(self.a.submit(request), 200, "accepted command with discarded result")
+        upstream_status = []
+
+        class DropCommittedResponse(BaseHTTPRequestHandler):
+            def log_message(self, *args):
+                pass  # The test proxy never emits headers, URLs, credentials or bodies.
+
+            def do_POST(self):
+                try:
+                    body = self.rfile.read(int(self.headers.get("Content-Length", "0")))
+                    with httpx.Client(timeout=15, trust_env=False) as upstream:
+                        response = upstream.post(BASE+"/v1/commands", content=body,
+                            headers={"Content-Type":"application/json", "Authorization":self.headers.get("Authorization", "")})
+                        # API commits its transaction before returning HTTP 200. The proxy
+                        # receives that response but sends no status, headers or body onward.
+                        upstream_status.append(response.status_code)
+                except Exception:
+                    upstream_status.append(0)
+                finally:
+                    self.close_connection = True
+                    try:
+                        self.connection.shutdown(socket.SHUT_RDWR)
+                    except OSError:
+                        pass
+                    self.connection.close()
+
+        proxy = ThreadingHTTPServer(("127.0.0.1", 0), DropCommittedResponse)
+        thread = threading.Thread(target=proxy.serve_forever, daemon=True)
+        thread.start()
+        try:
+            with httpx.Client(timeout=20, trust_env=False) as downstream:
+                with self.assertRaises(httpx.RemoteProtocolError):
+                    downstream.post(f"http://127.0.0.1:{proxy.server_port}/v1/commands", json=request,
+                        headers={"Authorization":"Bearer "+self.a.session["access_token"]})
+        finally:
+            proxy.shutdown()
+            proxy.server_close()
+            thread.join(timeout=5)
+        self.assertEqual(upstream_status, [200], "test proxy did not observe committed acceptance")
         result = self.get(self.a, "/v1/operations/" + request["operation_id"])
         self.assertEqual(result["status"], "accepted")
         self.assertEqual(len(self.row("alerts", result["resource_id"])), 1)
+        self.assertEqual(len(self.row("outbox", result["resource_id"])), 1)
+        self.assertEqual(sql("SELECT count(*) AS n FROM nidaa.alerts WHERE sender_id=%s", (self.a.user_id,))[0]["n"], 1)
         check(self.c.request("GET", "/v1/operations/" + request["operation_id"]), 404, "operation owner scope")
         check(self.a.request("GET", "/v1/operations/" + str(uuid4())), 404, "unknown operation")
 
@@ -111,10 +151,11 @@ class DomainIntegration(IntegrationCase):
         self.assertEqual(self.c.command("decide_invite", token=invite["invitation_token"], decision="accepted")["error"], "not_found")
         mutate("UPDATE nidaa.invitations SET expires_at=%s WHERE invitation_id=%s", (int(time.time())-1, invite["resource_id"]))
         self.assertEqual(self.b.command("decide_invite", token=invite["invitation_token"], decision="accepted")["error"], "expired")
+        mutate("UPDATE nidaa.invitations SET created_at=%s WHERE invitation_id=%s", (int(time.time())-61, invite["resource_id"]))
         invite = consent(self.a, self.b)
         self.assertEqual(self.b.command("decide_invite", token=invite["invitation_token"], decision="accepted")["error"], "conflict")
         receipt = self.get(self.a, "/v1/operations/" + invite["operation_id"])
-        self.assertIsNone(receipt["invitation_token"])
+        self.assertTrue(receipt["invitation_token"] is None, "used invitation still returned a secret")
         pending = self.a.accepted("invite", recipient_email=self.c.email)
         self.a.accepted("cancel_invite", invitation_id=pending["resource_id"])
         self.assertEqual(self.c.command("decide_invite", token=pending["invitation_token"], decision="accepted")["error"], "conflict")
@@ -124,10 +165,10 @@ class DomainIntegration(IntegrationCase):
         row = sql("SELECT token_ciphertext FROM nidaa.operations WHERE actor_id=%s AND operation_id=%s",
                   (self.a.user_id, invite["operation_id"]))[0]
         self.assertTrue(row["token_ciphertext"])
-        self.assertNotEqual(row["token_ciphertext"], invite["invitation_token"])
+        self.assertTrue(row["token_ciphertext"] != invite["invitation_token"], "receipt stored a plaintext invitation token")
         self.b.accepted("decide_invite", token=invite["invitation_token"], decision="accepted")
-        self.assertIsNone(sql("SELECT token_ciphertext FROM nidaa.operations WHERE actor_id=%s AND operation_id=%s",
-                            (self.a.user_id, invite["operation_id"]))[0]["token_ciphertext"])
+        self.assertTrue(sql("SELECT token_ciphertext FROM nidaa.operations WHERE actor_id=%s AND operation_id=%s",
+                            (self.a.user_id, invite["operation_id"]))[0]["token_ciphertext"] is None, "used token was not erased")
 
     def test_withdraw_removes_detail_and_never_restores_old_alert(self):
         aid = self.create()
@@ -135,6 +176,7 @@ class DomainIntegration(IntegrationCase):
         check(self.b.request("GET", "/v1/alerts/" + aid), 404, "withdrawn detail")
         self.assertEqual(self.row("outbox", aid)[0]["state"], "suppressed")
         self.assertEqual(self.a.alert(aid)["recipients"][0]["access"], "unavailable")
+        mutate("UPDATE nidaa.invitations SET created_at=%s WHERE sender_id=%s", (int(time.time())-61, self.a.user_id))
         consent(self.a, self.b)
         check(self.b.request("GET", "/v1/alerts/" + aid), 404, "reconsent cannot resurrect old detail")
 
@@ -206,7 +248,7 @@ class DomainIntegration(IntegrationCase):
         check(self.a.submit(request), 400, "client biometric assertion")
         oversized = self.a.request("POST", "/v1/commands", content=b" "*17000, headers={"Content-Type":"application/json"})
         check(oversized, (400, 413), "oversized request")
-        self.assertNotIn(self.a.email, oversized.text)
+        self.assertTrue(self.a.email not in oversized.text, "error response exposed an identity")
 
     def test_invitation_acceptance_and_daily_issuance_limits(self):
         for _ in range(5):
@@ -216,6 +258,15 @@ class DomainIntegration(IntegrationCase):
         for _ in range(10):
             self.a.accepted("invite", recipient_email=f"nidaa-{uuid4().hex}@example.invalid")
         check(self.a.submit(envelope("invite", recipient_email=self.b.email)), 429, "daily issuance limit")
+
+    def test_target_cooldown_and_three_pending_invitation_limit(self):
+        self.a.accepted("invite", recipient_email=self.b.email)
+        self.assertEqual(self.a.command("invite", recipient_email=self.b.email)["error"], "rate_limited")
+        for _ in range(2):
+            mutate("UPDATE nidaa.invitations SET created_at=%s WHERE sender_id=%s", (int(time.time())-61, self.a.user_id))
+            self.a.accepted("invite", recipient_email=self.b.email)
+        mutate("UPDATE nidaa.invitations SET created_at=%s WHERE sender_id=%s", (int(time.time())-61, self.a.user_id))
+        self.assertEqual(self.a.command("invite", recipient_email=self.b.email)["error"], "limit_reached")
 
     def test_authenticated_roles_cannot_read_or_directly_write_tables(self):
         aid = self.create()
@@ -287,7 +338,7 @@ class AuthenticationIntegration(IntegrationCase):
         old = self.a.password
         check(self.a.http.post(AUTH+"/recover", json={"email":self.a.email}), 200, "local recovery request")
         recovered = self.a.verify_mail("recovery")
-        self.assertIn("access_token", recovered)
+        self.assertTrue("access_token" in recovered, "recovery did not issue a provider session")
         self.a.password = "Nidaa!" + secrets.token_urlsafe(24)
         check(self.a.http.put(AUTH+"/user", headers={"Authorization":"Bearer "+recovered["access_token"]},
                              json={"password":self.a.password}), 200, "local recovery completion")
@@ -298,6 +349,7 @@ class AuthenticationIntegration(IntegrationCase):
     def test_account_deletion_barrier_precedes_provider_cleanup(self):
         aid = self.create()
         b2 = self.b_second()
+        unrelated_cursor = self.get(self.c, "/v1/sync")["cursor"]
         self.b.accepted("delete_account")
         for client in (self.b, b2):
             check(client.request("GET", "/v1/me"), 401, "deleted domain account")
@@ -307,6 +359,43 @@ class AuthenticationIntegration(IntegrationCase):
         self.assertEqual(self.row("outbox", aid)[0]["state"], "suppressed")
         self.assertEqual(self.a.alert(aid)["recipients"][0]["access"], "unavailable")
         self.assertEqual(len(sql("SELECT * FROM nidaa.deletion_ledger WHERE user_id=%s", (self.b.user_id,))), 1)
+        self.assertEqual(self.get(self.c, "/v1/sync")["cursor"], unrelated_cursor)
+
+    def test_recent_auth_uses_signed_amr_not_refreshed_iat(self):
+        # This is an explicit signing fixture, NOT a user login or verification bypass.
+        # The session and identity first came from the real provider journey above.
+        invite = self.a.accepted("invite", recipient_email=self.b.email)
+        claims = jwt.decode(self.b.session["access_token"], options={"verify_signature":False})
+        claims["amr"] = [{"method":"password", "timestamp":int(time.time())-601}]
+        claims["iat"] = int(time.time())
+        claims["exp"] = int(time.time())+3600
+        self.b.session["access_token"] = jwt.encode(claims, os.environ["JWT_SECRET"], algorithm="HS256")
+        self.assertEqual(self.b.command("decide_invite", token=invite["invitation_token"], decision="accepted")["error"], "reauthentication_required")
+        self.assertEqual(self.b.command("delete_account")["error"], "reauthentication_required")
+        check(self.b.request("POST", "/v1/session/revoke-all", json={}), 403, "stale auth revocation")
+        claims["amr"] = [{"method":"token_refresh", "timestamp":int(time.time())}]
+        self.b.session["access_token"] = jwt.encode(claims, os.environ["JWT_SECRET"], algorithm="HS256")
+        self.assertEqual(self.b.command("decide_invite", token=invite["invitation_token"], decision="accepted")["error"], "reauthentication_required")
+        self.b.login()
+        self.b.accepted("decide_invite", token=invite["invitation_token"], decision="accepted")
+
+    def test_real_provider_refresh_preserves_authentication_evidence(self):
+        before = jwt.decode(self.b.session["access_token"], options={"verify_signature":False})
+        self.assertTrue(before.get("amr"), "real provider omitted authentication evidence")
+        self.b.refresh()
+        after = jwt.decode(self.b.session["access_token"], options={"verify_signature":False})
+        self.assertEqual(after["session_id"], before["session_id"])
+        self.assertEqual(after["amr"], before["amr"])
+        self.assertEqual(self.b.me()["user_id"], self.b.user_id)
+
+    def test_provider_session_removal_and_account_disable_are_live_barriers(self):
+        claims = jwt.decode(self.b.session["access_token"], options={"verify_signature":False})
+        mutate("UPDATE auth.users SET banned_until=now()+interval '1 day' WHERE id=%s", (claims["sub"],))
+        check(self.b.request("GET", "/v1/me"), 401, "provider disabled account")
+        mutate("UPDATE auth.users SET banned_until=NULL WHERE id=%s", (claims["sub"],))
+        self.b.me()
+        mutate("DELETE FROM auth.sessions WHERE id=%s", (claims["session_id"],))
+        check(self.b.request("GET", "/v1/me"), 401, "removed provider session with unexpired JWT")
 
 
 if __name__ == "__main__":
