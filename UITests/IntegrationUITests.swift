@@ -14,16 +14,57 @@ final class IntegrationUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["integrationMode"].label.contains("MOCK"))
     }
     private func reveal(_ element: XCUIElement) {
-        XCTAssertTrue(element.waitForExistence(timeout: 8))
-        for _ in 0..<12 { if element.isHittable { return }; app.swipeUp() }
-        for _ in 0..<16 { if element.isHittable { return }; app.swipeDown() }
-        XCTAssertTrue(element.isHittable)
+        guard element.waitForExistence(timeout: 8) else {
+            XCTFail("Missing control: \(element.identifier)"); return
+        }
+        let containingScroll = app.scrollViews.containing(.any, identifier: element.identifier).firstMatch
+        let scroll = containingScroll.exists ? containingScroll : app.scrollViews.firstMatch
+        guard scroll.exists else { XCTFail("No scroll container for: \(element.identifier)"); return }
+        for _ in 0..<10 {
+            if element.isHittable { return }
+            let viewport = scroll.frame.intersection(app.windows.firstMatch.frame)
+            guard !viewport.isNull, viewport.height > 80 else {
+                XCTFail("Invalid viewport for: \(element.identifier)"); return
+            }
+            // Use geometry, not a fixed search order: controls above the viewport
+            // require a downward drag; controls below it require an upward drag.
+            let above = element.frame.midY < viewport.midY
+            let x = viewport.midX
+            let upper = viewport.minY + viewport.height * 0.25
+            let lower = viewport.minY + viewport.height * 0.75
+            drag(from: CGPoint(x: x, y: above ? upper : lower), to: CGPoint(x: x, y: above ? lower : upper))
+        }
+        // Identifiers and geometry only. Never include field values, labels,
+        // accessibility dumps, credentials or invitation/verification tokens.
+        XCTFail("Control not hittable after 10 directed scrolls: \(element.identifier); frame=\(element.frame); scroll=\(scroll.frame)")
+    }
+    private func drag(from start: CGPoint, to end: CGPoint) {
+        let origin = app.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0))
+        origin.withOffset(CGVector(dx: start.x, dy: start.y))
+            .press(forDuration: 0.05, thenDragTo: origin.withOffset(CGVector(dx: end.x, dy: end.y)))
+    }
+    private func dismissKeyboard(after element: XCUIElement) {
+        guard app.keyboards.firstMatch.exists else { return }
+        let containingScroll = app.scrollViews.containing(.any, identifier: element.identifier).firstMatch
+        let scroll = containingScroll.exists ? containingScroll : app.scrollViews.firstMatch
+        for _ in 0..<2 {
+            guard app.keyboards.firstMatch.exists else { return }
+            let viewport = scroll.frame.intersection(app.windows.firstMatch.frame)
+            let keyboardTop = app.keyboards.firstMatch.frame.minY
+            let startY = min(viewport.maxY, keyboardTop) - 30
+            guard startY > viewport.minY + 20 else { break }
+            // Interactive dismissal drags the keyboard down from the actual
+            // scroll container. It neither types a newline nor edits the draft.
+            drag(from: CGPoint(x: viewport.midX, y: startY),
+                 to: CGPoint(x: viewport.midX, y: app.windows.firstMatch.frame.maxY - 25))
+        }
+        XCTAssertFalse(app.keyboards.firstMatch.exists, "Keyboard did not dismiss after: \(element.identifier)")
     }
     private func tap(_ id: String) { let element = app.buttons[id].firstMatch; reveal(element); element.tap() }
     private func fill(_ id: String, _ value: String, secure: Bool = false) {
         let element = secure ? app.secureTextFields[id] : app.textFields[id]
         reveal(element); element.tap(); element.typeText(value)
-        app.swipeUp()
+        dismissKeyboard(after: element)
     }
     private func shot(_ name: String) {
         let item = XCTAttachment(screenshot: app.screenshot()); item.name = "integration-mock-" + name; item.lifetime = .keepAlways; add(item)

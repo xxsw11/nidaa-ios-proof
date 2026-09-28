@@ -62,7 +62,9 @@ def main():
     app = "\n".join(p.read_text(encoding="utf-8") for p in (ROOT / "App").rglob("*.swift"))
     check("No critical request, continuous audio, calling or torch API is used", not re.search(r"\.criticalAlert\b|interruptionLevel\s*=\s*\.critical\b|defaultCritical|AVAudioSession|PushKit|CallKit|setTorchMode|AVAudioPlayer", app))
     check("Local request is one-shot with system sound", 'repeats: false' in app and 'content.sound = .default' in app and 'timeInterval: delay' in app)
-    check("No embedded private credentials or third-party endpoints in app", not re.search(r"BEGIN (?:EC |RSA )?PRIVATE KEY|https?://|Bearer ", app))
+    check("No embedded private credentials in app", not re.search(r"BEGIN (?:EC |RSA )?PRIVATE KEY|Bearer ", app))
+    endpoints = re.findall(r'https?://[^\s\"<>]+', app)
+    check("App endpoint is only the explicit loopback integration trial", all(url == "http://127.0.0.1:55421" for url in endpoints))
     check("Mac shell scripts use LF line endings", all(b'\r' not in p.read_bytes() for p in (ROOT / "Scripts").glob("*.sh")))
     all_text = [p for p in ROOT.rglob("*") if p.is_file() and p.suffix in [".swift", ".md", ".py", ".json", ".plist", ".xcconfig", ".csv"]]
     banned = re.compile("\u0645\u0631\u0648\u0629|\u0645\u0631\u0648\u0647|m" + "arwah?|m" + "erwah?", re.I)
