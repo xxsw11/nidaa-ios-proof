@@ -154,6 +154,7 @@ def main():
         run('down', '--volumes')
         ENV.unlink(missing_ok=True)
     elif args.action == 'test':
+        run('run', '--rm', 'tests', 'python', '-m', 'Integration.diagnose')
         run('run', '--rm', 'tests')
     elif args.action == 'worker':
         run('run', '--rm', 'worker')
