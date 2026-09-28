@@ -48,7 +48,7 @@ import ProofCore
                 Text(a.state.title).font(.title.bold()).accessibilityIdentifier("alertState")
                 Text(a.kind.title).font(.headline)
                 Text(a.id.uuidString).font(.caption.monospaced()).textSelection(.enabled).accessibilityIdentifier("alertIdentifier")
-                Text("عدد المحاولات: \(a.attempts)").accessibilityIdentifier("attemptCount")
+                Text("عدد المحاولات: \(a.attempts)").accessibilityIdentifier("attemptCount").accessibilityValue(String(a.attempts))
                 Text("الإنشاء: \(a.createdAt.formatted())").font(.footnote)
                 Text("الصلاحية: \(a.expiresAt.formatted())").font(.footnote)
                 Text("قبول خدمة إرسال حقيقية: غير مفعّل").font(.footnote)

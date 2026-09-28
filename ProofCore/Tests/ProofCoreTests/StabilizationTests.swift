@@ -61,6 +61,15 @@ final class StabilizationTests: XCTestCase {
             XCTAssertThrowsError(try repo.save(LocalSimulation()));XCTAssertEqual(io.data,bytes)
         }
     }
+    func testSemanticallyInvalidArchiveDoesNotReplaceValidCopy() throws {
+        let m = try model();var a = AlertArchive(contacts:m.contacts,alerts:m.alerts)
+        a.alerts[0].recipients[0].stage = .responding // Missing receipt and response times.
+        XCTAssertThrowsError(try a.validate())
+        a = AlertArchive(contacts:m.contacts,alerts:m.alerts);a.alerts.append(a.alerts[0])
+        XCTAssertThrowsError(try a.validate())
+        a = AlertArchive(contacts:m.contacts,alerts:m.alerts);a.contacts[0].state = .blocked
+        XCTAssertThrowsError(try a.validate())
+    }
     func testReadFailureIsNotMissingAndSaveFailureRetainsValidCopy() throws {
         let io = MemoryArchive(), m = try model();io.data = try JSONEncoder().encode(AlertArchive(contacts:m.contacts,alerts:m.alerts))
         let original = io.data;io.failRead = true;let repo = AlertRepository(io:io)
@@ -74,6 +83,8 @@ final class StabilizationTests: XCTestCase {
         XCTAssertThrowsError(try repo.load(legacyContacts:[],at:t));_ = try repo.reset()
         let restored = try AlertRepository(io:io).load(legacyContacts:[],at:t)
         XCTAssertTrue(restored.alerts.isEmpty);XCTAssertEqual(restored.contacts,TrustedContact.samples)
+        try repo.save(model());_ = try repo.reset()
+        XCTAssertTrue(try AlertRepository(io:io).load(legacyContacts:[],at:t).alerts.isEmpty)
     }
     func testVersionOneMigrationIsAtomicAndPreservesDeadlines() throws {
         let m = try model();let io = MemoryArchive()

@@ -24,12 +24,25 @@ public struct AlertArchive: Codable, Equatable {
     public func validate() throws {
         guard schemaVersion == 2, Set(contacts.map(\.id)).count == contacts.count,
               Set(alerts.map(\.id)).count == alerts.count,
-              contacts.allSatisfy({ !$0.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && $0.name.count <= 40 }) else { throw ArchiveError.invalidData }
+              contacts.allSatisfy({ !$0.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && $0.name.count <= 40 &&
+                  ($0.state == .accepted || (!$0.allowsOutgoing && !$0.allowsIncoming)) }),
+              alerts.filter({ $0.isActive && !$0.incoming }).count <= 1 else { throw ArchiveError.invalidData }
         for a in alerts {
             guard a.createdAt.timeIntervalSince1970.isFinite, a.expiresAt > a.createdAt,
-                  a.expiresAt.timeIntervalSince1970.isFinite, a.attempts > 0, !a.recipients.isEmpty,
+                  a.expiresAt.timeIntervalSince1970.isFinite, a.expiresAt.timeIntervalSince(a.createdAt) <= 300,
+                  a.attempts > 0, !a.recipients.isEmpty, !a.events.isEmpty,
                   Set(a.recipients.map(\.id)).count == a.recipients.count,
-                  Set(a.events.map(\.id)).count == a.events.count else { throw ArchiveError.invalidData }
+                  Set(a.events.map(\.id)).count == a.events.count,
+                  a.events.allSatisfy({ $0.at.timeIntervalSince1970.isFinite }) else { throw ArchiveError.invalidData }
+            for p in a.recipients {
+                guard !p.name.isEmpty, p.name.count <= 40 else { throw ArchiveError.invalidData }
+                let times = [p.receivedAt,p.openedAt,p.respondedAt].compactMap { $0 }
+                guard times.allSatisfy({ $0.timeIntervalSince1970.isFinite && $0 < a.expiresAt }),
+                      times == times.sorted(),
+                      (p.stage == .sent ? times.isEmpty : p.receivedAt != nil),
+                      (p.stage != .opened || p.openedAt != nil),
+                      ((p.stage == .responding || p.stage == .declined) == (p.respondedAt != nil)) else { throw ArchiveError.invalidData }
+            }
         }
     }
 }

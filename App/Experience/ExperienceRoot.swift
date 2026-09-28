@@ -7,15 +7,15 @@ import ProofCore
     @Environment(\.scenePhase) private var phase
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     var body: some View {
-        rootContent
-            .safeAreaInset(edge: .top) {
+        VStack(spacing: 0) {
                 if !store.storageIssue.isEmpty {
                     VStack(alignment: .leading) {
                         Text(store.storageIssue).font(.footnote).accessibilityIdentifier("storageIssue")
                         Button("إعادة محاولة الاستعادة") { store.reloadStorage() }.accessibilityIdentifier("reloadStorage")
-                    }.padding().background(.regularMaterial)
+                    }.padding().frame(maxWidth: .infinity, alignment: .leading).background(.regularMaterial)
                 }
-            }
+                rootContent
+        }
             .environment(\.nidaaPalette, store.palette)
             .environment(\.layoutDirection, .rightToLeft)
             .tint(store.palette.accentInk.color)
@@ -23,6 +23,12 @@ import ProofCore
             .sheet(isPresented: Binding(get: { store.screen != nil }, set: { if !$0 { store.cancelCompose() } })) {
                 NavigationStack {
                     RoutedScreen(store: store)
+                        .safeAreaInset(edge: .top) {
+                            if !store.storageIssue.isEmpty {
+                                Text(store.storageIssue).font(.footnote).padding().background(.regularMaterial)
+                                    .accessibilityIdentifier("storageIssue")
+                            }
+                        }
                         .navigationBarTitleDisplayMode(.inline)
                         .toolbar { ToolbarItem(placement: .cancellationAction) { Button("إغلاق") { store.cancelCompose() }.accessibilityIdentifier("closeScreen") } }
                 }

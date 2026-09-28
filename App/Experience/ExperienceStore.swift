@@ -286,7 +286,7 @@ enum AppScreen: Equatable { case compose, action, alert(UUID), incoming(UUID), e
             }
             switch error as? SimulationError {
             case .noConsent: message = "لا إذن ساري؛ لا إرسال أو استجابة إلى شخص محظور أو غير موافق."
-            case .noRecipients: message = "اختر شخصًا واحدًا على الأقل."
+            case .noRecipients: message = "لا مستقبِل مؤهل. اختر شخصًا موافقًا؛ من استجاب أو رفض مستبعد من إعادة المحاولة."
             case .authenticationRequired: message = "يلزم تحقق جديد؛ التأكيد السابق غير صالح."
             case .invalidContact: message = "اكتب اسمًا خياليًا من ١ إلى ٤٠ حرفًا."
             default: message = "الإجراء غير متاح في هذه الحالة؛ راجع الصلاحية والاستجابة."

@@ -96,19 +96,19 @@ final class LocalExperienceUITests: XCTestCase {
         app.terminate();launch(reset:false);openSaved(id)
         XCTAssertEqual(app.staticTexts["alertIdentifier"].label,id)
         XCTAssertTrue(app.staticTexts["سأتولى الاستجابة"].exists)
-        XCTAssertEqual(app.staticTexts["attemptCount"].label,"عدد المحاولات: 1");shot("23-restored-alert")
+        XCTAssertEqual(app.staticTexts["attemptCount"].value as? String,"1");shot("23-restored-alert")
         chooseAction(false)
         XCTAssertFalse(app.staticTexts["actionRecipient-"+sara].exists);XCTAssertTrue(app.staticTexts["actionRecipient-"+ahmad].exists)
         tap("authenticateAction");XCTAssertTrue(app.buttons["confirmAction"].waitForExistence(timeout:5));shot("24-retry-confirmation")
         app.buttons["confirmAction"].doubleTap()
-        XCTAssertTrue(app.staticTexts["attemptCount"].waitForExistence(timeout:5));XCTAssertEqual(app.staticTexts["attemptCount"].label,"عدد المحاولات: 2")
+        XCTAssertTrue(app.staticTexts["attemptCount"].waitForExistence(timeout:5));XCTAssertEqual(app.staticTexts["attemptCount"].value as? String,"2")
         XCTAssertEqual(app.staticTexts["alertIdentifier"].label,id);XCTAssertTrue(app.staticTexts["سأتولى الاستجابة"].exists)
-        app.terminate();launch(reset:false);openSaved(id);XCTAssertEqual(app.staticTexts["attemptCount"].label,"عدد المحاولات: 2")
+        app.terminate();launch(reset:false);openSaved(id);XCTAssertEqual(app.staticTexts["attemptCount"].value as? String,"2")
     }
     func testAdditionRequiresConfirmationAndPersistsWithoutChangingIdentity() {
         launch();sendToSara();let id = app.staticTexts["alertIdentifier"].label
         chooseAction(true);tap("authenticateAction");shot("25-addition-confirmation");tap("confirmAction")
-        XCTAssertTrue(app.buttons["receipt-"+ahmad].waitForExistence(timeout:5));XCTAssertEqual(app.staticTexts["attemptCount"].label,"عدد المحاولات: 1")
+        XCTAssertTrue(app.buttons["receipt-"+ahmad].waitForExistence(timeout:5));XCTAssertEqual(app.staticTexts["attemptCount"].value as? String,"1")
         app.terminate();launch(reset:false);openSaved(id);XCTAssertTrue(app.buttons["receipt-"+ahmad].exists);shot("26-restored-addition")
     }
     func testBothActionsFailureCancellationAndRestartHaveNoAuthorization() {
@@ -116,7 +116,7 @@ final class LocalExperienceUITests: XCTestCase {
             for outcome in ["failure","cancel"] {
                 launch(environment:["NIDAA_TEST_ACTION_AUTH":outcome]);sendToSara();chooseAction(add);tap("authenticateAction")
                 XCTAssertTrue(app.staticTexts["actionMessage"].waitForExistence(timeout:5));XCTAssertFalse(app.buttons["confirmAction"].exists)
-                tap("cancelAction");XCTAssertEqual(app.staticTexts["attemptCount"].label,"عدد المحاولات: 1");XCTAssertFalse(app.buttons["receipt-"+ahmad].exists);app.terminate()
+                tap("cancelAction");XCTAssertEqual(app.staticTexts["attemptCount"].value as? String,"1");XCTAssertFalse(app.buttons["receipt-"+ahmad].exists);app.terminate()
             }
             launch();sendToSara();let id = app.staticTexts["alertIdentifier"].label;chooseAction(add);tap("authenticateAction")
             XCTAssertTrue(app.buttons["confirmAction"].waitForExistence(timeout:5));app.terminate();launch(reset:false);openSaved(id);chooseAction(add)
@@ -127,18 +127,18 @@ final class LocalExperienceUITests: XCTestCase {
         for add in [false,true] {
             launch(environment:["NIDAA_TEST_ACTION_AUTH":"delayed"]);sendToSara();let id = app.staticTexts["alertIdentifier"].label
             chooseAction(add);tap("authenticateAction");XCUIDevice.shared.press(.home);sleep(5);app.activate()
-            XCTAssertFalse(app.buttons["confirmAction"].exists);openSaved(id);XCTAssertEqual(app.staticTexts["attemptCount"].label,"عدد المحاولات: 1");app.terminate()
+            XCTAssertFalse(app.buttons["confirmAction"].exists);openSaved(id);XCTAssertEqual(app.staticTexts["attemptCount"].value as? String,"1");app.terminate()
             for change in ["block","consent","delete"] {
                 launch(environment:["NIDAA_TEST_ACTION_AUTH":"delayed","NIDAA_TEST_CHANGE":change]);sendToSara();let alertID = app.staticTexts["alertIdentifier"].label
                 chooseAction(add);tap("authenticateAction");sleep(5);XCTAssertFalse(app.buttons["confirmAction"].exists)
-                openSaved(alertID);XCTAssertEqual(app.staticTexts["attemptCount"].label,"عدد المحاولات: 1");XCTAssertFalse(app.buttons["receipt-"+ahmad].exists);app.terminate()
+                openSaved(alertID);XCTAssertEqual(app.staticTexts["attemptCount"].value as? String,"1");XCTAssertFalse(app.buttons["receipt-"+ahmad].exists);app.terminate()
             }
         }
     }
     func testExpiredAuthorizationAndTerminalRestoration() {
         launch();sendToSara();let id = app.staticTexts["alertIdentifier"].label;chooseAction(false);tap("authenticateAction")
         XCTAssertTrue(app.buttons["confirmAction"].waitForExistence(timeout:5));sleep(16)
-        XCTAssertFalse(app.buttons["confirmAction"].exists);tap("cancelAction");XCTAssertEqual(app.staticTexts["attemptCount"].label,"عدد المحاولات: 1")
+        XCTAssertFalse(app.buttons["confirmAction"].exists);tap("cancelAction");XCTAssertEqual(app.staticTexts["attemptCount"].value as? String,"1")
         app.terminate();launch(reset:false,environment:["NIDAA_TEST_CLOCK":"301"]);openSaved(id)
         XCTAssertEqual(app.staticTexts["alertState"].label,"انتهت صلاحية النداء");XCTAssertFalse(app.buttons["retryAlert"].exists);shot("27-expired-on-restore")
         app.terminate();launch(reset:false);openSaved(id);XCTAssertEqual(app.staticTexts["alertState"].label,"انتهت صلاحية النداء")
@@ -151,17 +151,28 @@ final class LocalExperienceUITests: XCTestCase {
         launch(reset:false);openSaved(id);app.terminate()
         launch(reset:false,extra:["-fail-write"]);openSaved(id);chooseAction(false);tap("authenticateAction");tap("confirmAction")
         XCTAssertTrue(app.staticTexts["storageIssue"].waitForExistence(timeout:5));shot("28-storage-failure");app.terminate()
-        launch(reset:false);openSaved(id);XCTAssertEqual(app.staticTexts["attemptCount"].label,"عدد المحاولات: 1")
+        launch(reset:false);openSaved(id);XCTAssertEqual(app.staticTexts["attemptCount"].value as? String,"1")
     }
     func testCorruptionIsNotOverwrittenAndExplicitResetClearsHistory() {
         launch();sendToSara();app.terminate();launch(reset:false,extra:["-corrupt-archive"])
         XCTAssertTrue(app.staticTexts["storageIssue"].exists);tap("reloadStorage");XCTAssertTrue(app.staticTexts["storageIssue"].exists);shot("29-corrupt-storage")
-        tab("الإعدادات");tap("resetDemo");tap("confirmReset");XCTAssertFalse(app.staticTexts["storageIssue"].exists)
+        tab("الإعدادات");tap("resetDemo");tap("confirmReset");XCTAssertEqual(XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: NSPredicate(format: "exists == false"), object: app.staticTexts["storageIssue"])], timeout: 5), .completed)
         app.terminate();launch(reset:false);tab("السجل");XCTAssertTrue(app.staticTexts["emptyHistory"].exists);shot("30-reset-history")
     }
     func testLargeTextActionReviewRemainsUsable() {
         launch(large:true);sendToSara();chooseAction(true);tap("authenticateAction");shot("31-large-action-confirmation");tap("confirmAction")
         XCTAssertTrue(app.staticTexts["alertIdentifier"].exists)
+    }
+    func testApplicationAndUITestStorageAreIsolated() {
+        launch();sendToSara();let id = app.staticTexts["alertIdentifier"].label;app.terminate()
+        app.launchArguments = ["-AppleLanguages", "(ar)", "-AppleLocale", "ar_SA"]
+        app.launchEnvironment = [:];app.launch()
+        XCTAssertTrue(app.buttons["startAlert"].waitForExistence(timeout:10))
+        tab("السجل");XCTAssertTrue(app.staticTexts["emptyHistory"].exists)
+        app.terminate();launch(reset:false);openSaved(id)
+        XCTAssertEqual(app.staticTexts["alertIdentifier"].label,id)
+        tap("closeScreen");tab("الإعدادات");tap("resetDemo");tap("confirmReset")
+        app.terminate();launch(reset:false);tab("السجل");XCTAssertTrue(app.staticTexts["emptyHistory"].exists)
     }
     func testLargeTextHomeAndSettingsRemainNavigable() {
         launch(large: true);shot("15-large-text-home")
