@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-09-28T00:15:54.056314+00:00",
+  "runAt": "2026-09-28T02:06:40.621594+00:00",
   "environment": "Windows 10.0.19045; Python",
   "structuralChecks": [
     {
@@ -96,7 +96,7 @@
     "passed": true
   },
   "swiftUnitTests": {
-    "prepared": 10,
+    "prepared": 30,
     "status": "Not tested",
     "reason": "Swift compiler unavailable"
   },

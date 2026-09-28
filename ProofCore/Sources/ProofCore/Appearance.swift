@@ -24,7 +24,7 @@ public struct HexColor: Codable, Equatable, Sendable {
 }
 public enum AppearanceMode: String, Codable, CaseIterable, Sendable {
     case dark, light, system
-    public var title: String { switch self { case .dark: return "ط¯ط§ظƒظ†"; case .light: return "ظپط§طھط­"; case .system: return "ط­ط³ط¨ ط§ظ„ط¬ظ‡ط§ط²" } }
+    public var title: String { switch self { case .dark: return "داكن"; case .light: return "فاتح"; case .system: return "حسب الجهاز" } }
 }
 public struct Palette: Codable, Equatable, Sendable {
     public var primary: String

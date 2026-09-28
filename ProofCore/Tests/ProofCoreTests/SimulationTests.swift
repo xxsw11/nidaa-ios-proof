@@ -27,6 +27,8 @@ final class SimulationTests: XCTestCase {
         XCTAssertThrowsError(try model.create(recipients: [sara], kind: .urgent, gate: &gate, at: t))
         gate.authorize(success: true, recipients: [sara], kind: .urgent, at: t)
         XCTAssertThrowsError(try model.create(recipients: [sara], kind: .urgent, gate: &gate, at: t.addingTimeInterval(15)))
+        gate.authorize(success: true, recipients: [sara], kind: .urgent, at: t)
+        XCTAssertThrowsError(try model.create(recipients: [sara], kind: .urgent, gate: &gate, at: t.addingTimeInterval(-1)))
     }
     func testChangedRecipientOrAssistanceInvalidatesGrant() {
         var model = LocalSimulation(), gate = SendGate()

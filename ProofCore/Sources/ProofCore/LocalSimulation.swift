@@ -86,20 +86,21 @@ public struct SendGate: Sendable {
     private var recipientIDs: Set<UUID> = []
     private var kind: AssistanceKind?
     private var until: Date?
+    private var issuedAt: Date?
     public init() {}
     public mutating func authorize(success: Bool, recipients: Set<UUID>, kind: AssistanceKind, at now: Date) {
         invalidate(); guard success else { return }
-        recipientIDs = recipients; self.kind = kind; until = now.addingTimeInterval(15)
+        recipientIDs = recipients; self.kind = kind; issuedAt = now; until = now.addingTimeInterval(15)
     }
     public func permits(_ ids: Set<UUID>, kind: AssistanceKind, at now: Date) -> Bool {
-        guard let until = until else { return false }
-        return now < until && ids == recipientIDs && self.kind == kind && !ids.isEmpty
+        guard let until = until, let issuedAt = issuedAt else { return false }
+        return now >= issuedAt && now < until && ids == recipientIDs && self.kind == kind && !ids.isEmpty
     }
     public mutating func consume(_ ids: Set<UUID>, kind: AssistanceKind, at now: Date) throws {
         guard permits(ids, kind: kind, at: now) else { invalidate(); throw SimulationError.authenticationRequired }
         invalidate()
     }
-    public mutating func invalidate() { until = nil; kind = nil; recipientIDs = [] }
+    public mutating func invalidate() { until = nil; issuedAt = nil; kind = nil; recipientIDs = [] }
 }
 
 public struct LocalSimulation: Sendable {

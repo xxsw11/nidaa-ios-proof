@@ -36,7 +36,7 @@ def main():
     check("All project object references resolve", all(v in objects for v in references))
     refs = [o for o in objects.values() if o["isa"] == "PBXFileReference" and o.get("sourceTree") == "<group>"]
     check("All referenced source and configuration paths exist", all((ROOT / o["path"]).is_file() for o in refs))
-    swift_refs = {o["path"] for o in refs if o["path"].endswith(".swift")}
+    swift_refs = {o["path"] for o in refs if o["path"].endswith(".swift") and o["path"].startswith("App/")}
     swift_actual = {p.relative_to(ROOT).as_posix() for p in (ROOT / "App").rglob("*.swift")}
     check("Every app Swift file is included", swift_refs == swift_actual)
     source_phase = next(o for o in objects.values() if o["isa"] == "PBXSourcesBuildPhase")
@@ -52,11 +52,11 @@ def main():
     check("Face ID purpose exists and background modes are absent", bool(info.get("NSFaceIDUsageDescription")) and "UIBackgroundModes" not in info)
     base = (ROOT / "Config/Base.xcconfig").read_text(encoding="utf-8")
     check("Signing identifiers are deliberately blank, not invented", bool(re.search(r"^NIDAA_BUNDLE_ID =\s*$", base, re.M)) and bool(re.search(r"^DEVELOPMENT_TEAM =\s*$", base, re.M)) and not (ROOT / "Config/Developer.xcconfig").exists())
-    target = next(k for k, v in objects.items() if v["isa"] == "PBXNativeTarget")
+    targets = {k for k, v in objects.items() if v["isa"] == "PBXNativeTarget"}
     schemes = list((ROOT / "NidaaProof.xcodeproj/xcshareddata/xcschemes").glob("*.xcscheme"))
     for p in schemes:
         tree = ET.parse(p)
-        check(f"{p.stem} scheme resolves target and configuration", all(x.attrib["BlueprintIdentifier"] == target for x in tree.findall(".//BuildableReference")) and tree.find("LaunchAction").attrib["buildConfiguration"] in configs)
+        check(f"{p.stem} scheme resolves target and configuration", all(x.attrib["BlueprintIdentifier"] in targets for x in tree.findall(".//BuildableReference")) and tree.find("LaunchAction").attrib["buildConfiguration"] in configs)
     package = (ROOT / "ProofCore/Package.swift").read_text(encoding="utf-8")
     check("Swift package is local without fetched dependencies", '.package(' not in package and (ROOT / "ProofCore/Sources/ProofCore/Evidence.swift").exists())
     app = "\n".join(p.read_text(encoding="utf-8") for p in (ROOT / "App").rglob("*.swift"))
@@ -86,7 +86,7 @@ def main():
             if not destination.exists() and destination != (ROOT / "QA/windows-checks.json").resolve():
                 broken.append(f"{p.relative_to(ROOT)}: {link}")
     check("Documentation local links resolve", not broken)
-    swift_tests = (ROOT / "ProofCore/Tests/ProofCoreTests/EvidenceTests.swift").read_text(encoding="utf-8")
+    swift_tests = "\n".join(p.read_text(encoding="utf-8") for p in (ROOT / "ProofCore/Tests").rglob("*.swift"))
     report = {
         "runAt": datetime.now(timezone.utc).isoformat(),
         "environment": "Windows 10.0.19045; Python",

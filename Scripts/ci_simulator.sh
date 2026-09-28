@@ -10,14 +10,10 @@ cleanup() { xcrun simctl shutdown "$proof_udid" >/dev/null 2>&1 || true; }
 trap cleanup EXIT
 xcrun simctl boot "$proof_udid" 2>/dev/null || true
 xcrun simctl bootstatus "$proof_udid" -b
-common=(-project NidaaProof.xcodeproj -scheme NidaaProof-Local -sdk iphonesimulator
-  -destination "platform=iOS Simulator,id=$proof_udid" -derivedDataPath DerivedData
-  NIDAA_BUNDLE_ID="$proof_bundle_id" PRODUCT_BUNDLE_IDENTIFIER="$proof_bundle_id"
-  DEVELOPMENT_TEAM='' CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY='' CODE_SIGN_ENTITLEMENTS='')
 # UI-test bundle requires a distinct identifier; its target derives .uitests from NIDAA_BUNDLE_ID.
 common=(-project NidaaProof.xcodeproj -scheme NidaaProof-Local -sdk iphonesimulator
   -destination "platform=iOS Simulator,id=$proof_udid" -derivedDataPath DerivedData
-  NIDAA_BUNDLE_ID="$proof_bundle_id" DEVELOPMENT_TEAM='' CODE_SIGNING_ALLOWED=NO
+  ARCHS="$(uname -m)" ONLY_ACTIVE_ARCH=YES NIDAA_BUNDLE_ID="$proof_bundle_id" DEVELOPMENT_TEAM='' CODE_SIGNING_ALLOWED=NO
   CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY='' CODE_SIGN_ENTITLEMENTS='')
 set +e
 xcodebuild "${common[@]}" -configuration Debug -parallel-testing-enabled NO \

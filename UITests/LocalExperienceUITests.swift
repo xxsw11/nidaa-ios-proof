@@ -63,7 +63,7 @@ final class LocalExperienceUITests: XCTestCase {
         launch();tab("الإعدادات");tap("appearanceSettings");shot("10-appearance")
         let field = app.textFields["buttonHex"]
         for _ in 0..<8 { if field.isHittable { break };app.swipeUp() }
-        field.tap();field.press(forDuration: 1.2)
+        field.tap()
         // Use text-field value deletion instead of localization-dependent Select All menus.
         let old = field.value as? String ?? "";field.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue,count: old.count)+"#99CCFF")
         tap("saveAppearance");app.terminate();launch(reset: false);tab("الإعدادات");tap("appearanceSettings")
