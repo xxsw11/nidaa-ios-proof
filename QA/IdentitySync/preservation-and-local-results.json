@@ -1,0 +1,411 @@
+{
+  "review_date": "2026-09-28",
+  "base_commit": "a1ffbec01bd7cc39409bbd740639606fe2f29e39",
+  "local_python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+  "results": [
+    {
+      "suite": "windows-shared-rules",
+      "exit_code": 0,
+      "command": "python -m unittest discover -s SharedRules/tests -v"
+    },
+    {
+      "suite": "windows-existing-python",
+      "exit_code": 0,
+      "command": "python -m unittest discover -s QA -p test_*.py -v"
+    }
+  ],
+  "protected_files": [
+    {
+      "path": ".github/workflows/ios-simulator.yml",
+      "repository_sha256": "e7bc5e2e89133c7e1d7675d0639ac588313da8d5bfd48ec21a5922314bc28614",
+      "checkout_sha256": "af401b215db0de0c87669feac8c31deb408aea216452dd06c4fe7205f3ac7d3b",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "App/Experience/AlertScreens.swift",
+      "repository_sha256": "414decc7b4a972a97e54faf4b21e0ff6f66c04402f70b2c416326bfca24f77ce",
+      "checkout_sha256": "fb1a7cccd8ad0dc54f8d4929b7be1c2a3f0da726278d2b47e9504361e7c667b8",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "App/Experience/DesignSystem.swift",
+      "repository_sha256": "28c35e9a676fa5a80535485a92a187d9edbfc4679d53fa71d605095c55deae92",
+      "checkout_sha256": "dd729a479013773b50de5d58fa98f2d48d34c1608d8692d1c1f11e57b3370ff9",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "App/Experience/ExperienceRoot.swift",
+      "repository_sha256": "09613579e2a39fdf576d2ddfa0e700e6f232fd02c683e9dcd266a8e3aca2353f",
+      "checkout_sha256": "2b1e0f4db25735cb1946b742f213b76603846c0f5a4cbc8703adbf7afb65b674",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "App/Experience/ExperienceStore.swift",
+      "repository_sha256": "d6328fe445f3ada999d5a92c37907dd779537869ff8b4f3d77fda74250fc2386",
+      "checkout_sha256": "d0011170ac6e1c870fcac356064137e6ad97c7f64d8a8059ec1abe105912d1e8",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "App/Experience/HomeContacts.swift",
+      "repository_sha256": "85961b45e305c61966feee43b39fff191e5df1f557b18afdb774d92f908b2f4c",
+      "checkout_sha256": "f21b801c01ca10051196fa69d067cc706fd2ddf8c137e56fd9ba1b4c7f39932e",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "App/Experience/SettingsScreens.swift",
+      "repository_sha256": "cf85901164b9ca8d06e1bdd116b371d2da7db52a21cd0d371e5752d8e947b22f",
+      "checkout_sha256": "2fa4f4e499ddaf6a62b10f817a18d0f4c585a5c5feedf1b7d5d6f98bc88d67f5",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "App/Info.plist",
+      "repository_sha256": "adad8d80aadd90029a396a51f4fd777b28203a942b8352ca6684886ebe448cdc",
+      "checkout_sha256": "29951a6b575ef2d13de150c6db6d8f1d290230f7c23c374bb1712330ccdf7633",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "App/NidaaProofApp.swift",
+      "repository_sha256": "8c94f80793e01e077d841df5c54d73afa1eb89237252898cd070f866aff4f114",
+      "checkout_sha256": "1530a60b3c74352f3115cf91e362502f61b7518d33ed6983bd04919ced47cc29",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "App/PrivacyInfo.xcprivacy",
+      "repository_sha256": "3e4a93cbe86acef7dd7e063a28c849992f556e7f52cadc5f37c1e8b0e1b54686",
+      "checkout_sha256": "9e82d1f5a6238e7fd4bf2404dbc4be65aab8e0121b478177a8192dbd67c2524e",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "App/ProofStore.swift",
+      "repository_sha256": "1752c7c2a5bd093d6d829032f6661672f30e329decc93fade9eb323a5cbca630",
+      "checkout_sha256": "d56aa223479371181ef4a00f47cb884cc011026f529c0b692eab7ec0301d8c6a",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "App/ProofView.swift",
+      "repository_sha256": "29d8442466cbd55e8a378de61fc908ddb7e2d4d1cf8dfdfbc5c7230480d7de9e",
+      "checkout_sha256": "29d8442466cbd55e8a378de61fc908ddb7e2d4d1cf8dfdfbc5c7230480d7de9e",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": false
+    },
+    {
+      "path": "App/Services/ExecutionScope.swift",
+      "repository_sha256": "6b9c3b98c33e7ac32aee02c01a3d05a1d239a4fb9f114d4f5c609b2b43aef4d6",
+      "checkout_sha256": "1748f356ba0c472e120c47e23030e68833b2307c21771500e91b50f4a3bede64",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "App/Services/LocalAuthenticationService.swift",
+      "repository_sha256": "55ee8352149035744ce890c5e9bceaa1cedfcc1f84bcf7f3d0a49326f9aba292",
+      "checkout_sha256": "068964946663d09fd1f86684cf6ce4bf21f689fd03f86683248bb4fc6bfe2b21",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "App/Services/NotificationService.swift",
+      "repository_sha256": "a667b78fe49a91c6c26654b24251c84b501828c5574952e1a8bbea455ac2127c",
+      "checkout_sha256": "5e45fbacc1bd8aa0fad4669741522a86acf5d70d6261bd3c4c153ecaf277d14a",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "App/Services/RemoteRegistrationService.swift",
+      "repository_sha256": "f6ea030d2817e0a2bfe3bbe49db840e93c47b7ca70bdd682ce65651aa484b6f0",
+      "checkout_sha256": "8e3d71b4a1bf1941ba6721124ed43d4b0f1e813dcaef0a1c753bec197f154877",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "Config/APNs.entitlements",
+      "repository_sha256": "7bf8e813b39b5382f98ced7ed4953167133f1549202cfa1583ac9ec795151059",
+      "checkout_sha256": "6bf9fdc61bcbdff47d3c8b8c13037b642a2d68f391e4d94ea9810f87f1e5599d",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "Config/Base.xcconfig",
+      "repository_sha256": "142f281e6b6da847efa16fd15c1c97dcfb9c1af6213022405ddab7c6bbdc3ee1",
+      "checkout_sha256": "142f281e6b6da847efa16fd15c1c97dcfb9c1af6213022405ddab7c6bbdc3ee1",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": false
+    },
+    {
+      "path": "Config/Developer.example.xcconfig",
+      "repository_sha256": "6220614bcbf5a3ff152e839f5c84b764389a5f28b33220c3cdbe6c6e7054b629",
+      "checkout_sha256": "6220614bcbf5a3ff152e839f5c84b764389a5f28b33220c3cdbe6c6e7054b629",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": false
+    },
+    {
+      "path": "NidaaProof.xcodeproj/project.pbxproj",
+      "repository_sha256": "4dc82c71e618a3268a085d6da35accce80676f7f6e43e0d538dc9e993606eaca",
+      "checkout_sha256": "eb52b47acfe4192db3656c152eec2a0b7331fc526a3aa9e8a1780d132a8729e3",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "NidaaProof.xcodeproj/xcshareddata/xcschemes/NidaaProof-APNs.xcscheme",
+      "repository_sha256": "a013ee33096331a67d931e758d93e173c124128bd93c323e06cb16aa5c2dda95",
+      "checkout_sha256": "a013ee33096331a67d931e758d93e173c124128bd93c323e06cb16aa5c2dda95",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": false
+    },
+    {
+      "path": "NidaaProof.xcodeproj/xcshareddata/xcschemes/NidaaProof-Local.xcscheme",
+      "repository_sha256": "b0932b4b419a7d3d397d791e782c7db5f1b3104e735e27a0b79bdfcddfa85067",
+      "checkout_sha256": "ddc3790ad4b298333f3aed019ee1fa55c7980e44882b1a095777f965dac80c8a",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "ProofCore/Package.swift",
+      "repository_sha256": "0ac0244ef86cbe2af0167c7bb454e9adbf45a09bd572e8b6bd41bec2759be5c4",
+      "checkout_sha256": "0ac0244ef86cbe2af0167c7bb454e9adbf45a09bd572e8b6bd41bec2759be5c4",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": false
+    },
+    {
+      "path": "ProofCore/Sources/ProofCore/AlertActionGate.swift",
+      "repository_sha256": "620f2acfb12050e03bb0a870cc5a67c2b61c4614065ad63c3628be8e7a2e89e6",
+      "checkout_sha256": "e2038aae746108962c782b18eee20727f2c720fae387fcdc548c5c893aad352b",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "ProofCore/Sources/ProofCore/AlertPersistence.swift",
+      "repository_sha256": "d88314d340e19896adbcd964d9c090d6e185daaedca55888fb8a16927997945d",
+      "checkout_sha256": "98be92bc42700116c9cfbed48a82b29a327b47378194d70a37294dd617db8a2a",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "ProofCore/Sources/ProofCore/Appearance.swift",
+      "repository_sha256": "14d073dfb134bd11922cf8cf740279e3988d6a00e41cfc5a8078c3d268d488ba",
+      "checkout_sha256": "3e2ee990c09e3937b51188e70c0666b8886ba7e6966683de30d4ba1ea1a720c3",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "ProofCore/Sources/ProofCore/Evidence.swift",
+      "repository_sha256": "fe2c6cd588255d2779542e8052297156829aa03fc7bda968fd344d9e065f803c",
+      "checkout_sha256": "fe2c6cd588255d2779542e8052297156829aa03fc7bda968fd344d9e065f803c",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": false
+    },
+    {
+      "path": "ProofCore/Sources/ProofCore/LocalSimulation.swift",
+      "repository_sha256": "847126f96b54569bbcaee29ad9b5c2db245122193cf4c44e80e5ebd8d22021d0",
+      "checkout_sha256": "fdb3f38923284f9455e1ebd86feea0ecf911e3e76bcaad8d40178ae9d4b9f62b",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "ProofCore/Tests/ProofCoreTests/EvidenceTests.swift",
+      "repository_sha256": "a32b11d61b6f3f525cffa2257a9b8e37d6a4c78784d421cf91669b8560f4c6d1",
+      "checkout_sha256": "a32b11d61b6f3f525cffa2257a9b8e37d6a4c78784d421cf91669b8560f4c6d1",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": false
+    },
+    {
+      "path": "ProofCore/Tests/ProofCoreTests/SimulationTests.swift",
+      "repository_sha256": "5ade92e40ffbe3b6c7452e1dd4eb0c8218d412ce06c24adf53928c4a61a73673",
+      "checkout_sha256": "2f123ecc42829ab0d3b66e0d6b3ea18fdbc908bc744bca9ad67bc2667916869f",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "ProofCore/Tests/ProofCoreTests/StabilizationTests.swift",
+      "repository_sha256": "257734dd98671d91889d938a14e251c7abada46edbf5285bb99b9629a00772f7",
+      "checkout_sha256": "57651f8935d015c86bad66432f23ab188c108289a6f703ac614ba162c74c3cb7",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "QA/DEVICE_WINDOW_CONFIRMATION.md",
+      "repository_sha256": "795582129fc8aa3dc8eca2fa641b1a619bb30073c4a4d36bcc083a779b2e8f2c",
+      "checkout_sha256": "795582129fc8aa3dc8eca2fa641b1a619bb30073c4a4d36bcc083a779b2e8f2c",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": false
+    },
+    {
+      "path": "QA/NATIVE_VISUAL_REVIEW.md",
+      "repository_sha256": "43f5fd1bc3ad780814f0ac14db3f18a2754deac3b5200239ee2649b600f9f54c",
+      "checkout_sha256": "5827c21e518b12285bdab41195164f8b9c8f41524fb8f905281d5b3cb4bf2dd6",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "QA/REVIEW.md",
+      "repository_sha256": "50167b9a2ecd2112ab64be88792c0ed98e05e8138d0d64878355df7419555a83",
+      "checkout_sha256": "6954a5993a6379763c826653821c69e6cb030b36c80d33ce0f8aa5d16d3cae3d",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "QA/STABILIZATION_CI_HISTORY.md",
+      "repository_sha256": "e3db46f2038b80feafa42fbf46382aa226d49c8f0d25ae172b436ea7495ceb3d",
+      "checkout_sha256": "545cc620b6745255e78039365e53d98b4717a891767f49947a9ac5301c5cb4e3",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "QA/STABILIZATION_COVERAGE.md",
+      "repository_sha256": "bd8581f26703f33f25ab20c06ea0a99a61f9517a0ca56ad6e65c020fb66bab90",
+      "checkout_sha256": "3e9d016c25a2f5240394e11033dd5d7471a042b962d0f3878a1425012b6ed1f1",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "QA/STABILIZATION_SOURCE_REVIEW.md",
+      "repository_sha256": "fa62af63ad4dcb03973a13e2c9eedca2c560aab217412982ab3f3b7f946fb701",
+      "checkout_sha256": "775ec97e027ada3f0c974953951cee6723eb372c19cd9db16200e2ef67565a39",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "QA/additional-device-checks.csv",
+      "repository_sha256": "f98a4ea2c6a31fe789092c26a0be3fef3f799326bd1f43c02dd0738a1c48be3f",
+      "checkout_sha256": "f98a4ea2c6a31fe789092c26a0be3fef3f799326bd1f43c02dd0738a1c48be3f",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": false
+    },
+    {
+      "path": "QA/cloud-preparation-checks.json",
+      "repository_sha256": "c35ea25d04768e098037554560b11661bf6a736bd186486a24efec93ee3c3f15",
+      "checkout_sha256": "b808164c0c3b6ebd5bd92bb81ee0276b8609d16a65bc672607af9a2dd396f44d",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "QA/device-test-matrix.csv",
+      "repository_sha256": "2af528157abd56e9f211ba04581b41dffa5ed32a3ef15ca0be9c507e290a7014",
+      "checkout_sha256": "2af528157abd56e9f211ba04581b41dffa5ed32a3ef15ca0be9c507e290a7014",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": false
+    },
+    {
+      "path": "QA/native-preservation.json",
+      "repository_sha256": "17543880592d0fb589f8927840262a63a052412279dad06bcb94b38eefc213ff",
+      "checkout_sha256": "96bcb73f9b62cfa4fde9db21fda38b534ead5a49d8438c2d226a89965e404a4b",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "QA/python-test-output.txt",
+      "repository_sha256": "5622a4ea1c771a5b0f0942ed333c1babf220b3b24115f6afdcf02fa5569bc58b",
+      "checkout_sha256": "c4d155f31d5f69f216136436a442c085a7d3ed4c3caef537fcfbb18699be8294",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "QA/stabilization-results.json",
+      "repository_sha256": "f4410596b3ed54287a867c4cbeb0de2d5b9000ad7993e0f5d1e68728dda3081b",
+      "checkout_sha256": "1189ab1362db208ffcc47d20153ef2a8b92a042c0032abb9e69e6927aa4b312b",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "QA/test_native_stage.py",
+      "repository_sha256": "69a2d90a452804baea878d9da7c73face4c278b88431b91eb1a8e45b09d27ede",
+      "checkout_sha256": "98f9cc69699816abf86c15f8f2f833686326c422d216b047b3e359e8ac8f1691",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "QA/test_payload.py",
+      "repository_sha256": "7ddbb40825e6f856d6430f1c1dce4d77a398490c33777316bf54353fcd0f4e01",
+      "checkout_sha256": "c91a1eb216ba0c508fdf71b1beda33078ce0175421be7284006470cdbbb7b43f",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "QA/v06-preservation.json",
+      "repository_sha256": "687655e8e982f4f124f35a3055ca15e0556d1e64c71c0cc2bac4cc0d1de10a47",
+      "checkout_sha256": "687655e8e982f4f124f35a3055ca15e0556d1e64c71c0cc2bac4cc0d1de10a47",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": false
+    },
+    {
+      "path": "QA/validate_package.py",
+      "repository_sha256": "13df6b8db0a62bd054c7d6b60f725d787b4a588dd69b10a31ac83ee10fb721b9",
+      "checkout_sha256": "b22041cb2727eccc3ae9b98e978486af2289aa01d8353f8736195a0c448d3eb7",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "QA/windows-checks.json",
+      "repository_sha256": "05f47aa8ae9ce3db4e66d997f5a29a407025db4a17bdaa9545e52039a232e830",
+      "checkout_sha256": "195297964c63e9d3b76cbd9c7b5f57e3bb3c04019a06f1e8c789823d04bbf1d0",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "Scripts/ci_simulator.sh",
+      "repository_sha256": "5abaeefadc4ab0a3211f1a92a3307515e9c45d84c36106aed71cb84463d292da",
+      "checkout_sha256": "8323bebdeb740e838300ca4f21e2d506e9acd966688e4a9a18fe9c55c2aaba73",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "Scripts/mac_build_local.sh",
+      "repository_sha256": "3d81e48ef6382e0af2de208bb3c74840eaaa035f33b59f9168a340e68f34863b",
+      "checkout_sha256": "a5e3aca1d0f97763e112d143ba740ec6cfc7e94edcea798a91a7fdee4f02082a",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "Scripts/mac_preflight.sh",
+      "repository_sha256": "0e61036879e9c8e9cadb715a93bb049ee1250d1321213166624bdbd1edc67de4",
+      "checkout_sha256": "8c851f9824b7f483ef6aac04322b7e96f635760aa3ca8696180bf8b3394175ca",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "Scripts/prepare_apns.py",
+      "repository_sha256": "68b44c9072df684bd2fc2064642bb623b555d3f2390776ee4ec381f555c3b7c0",
+      "checkout_sha256": "27af4ee02579cd328eafbfafc114743a41746508d7473294bc3091adcd14ee6e",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "Scripts/select_simulator.py",
+      "repository_sha256": "659b42dd0a3780fc43771dff73f0f12a1e164a32770f9128946126363a446f38",
+      "checkout_sha256": "85d5c22b2585c6af323c011735b76392e5b58c47d8b612658dd3d15b7bb41881",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    },
+    {
+      "path": "UITests/LocalExperienceUITests.swift",
+      "repository_sha256": "94f9c9a2b04338a7cddfd1975eb5ad415f32e6992432f12e0279d4a12b7168ed",
+      "checkout_sha256": "163fc0c4f792753a6671f10570e907875f4e4a38c5f29a3d9455881da6a8654a",
+      "content_unchanged_ignoring_checkout_line_endings": true,
+      "checkout_line_endings_differ": true
+    }
+  ],
+  "historical_archives": [
+    {
+      "file": "Nidaa-design-v06.zip",
+      "sha256": "5595a1f754d9b3f901256eca5fcd82cbb0394b2d81b11f012b8a2d54efee4294",
+      "unchanged": true
+    },
+    {
+      "file": "Nidaa-iOS-Stabilized-v03.zip",
+      "sha256": "0e25ebb7beecb5d293a3879affb3bf5a35818877bb35fd38ace98fbea303044b",
+      "unchanged": true
+    }
+  ],
+  "physical_device": "Not tested; deferred, no Apple devices available",
+  "networked_provider_integration": "Not tested; rule simulations only"
+}
