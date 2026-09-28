@@ -1,0 +1,221 @@
+{
+  "project": "NIDAA native iPhone technical proof",
+  "version": "0.1-prepared",
+  "date": "2026-09-28",
+  "status": "Source and Windows checks complete; iOS build and physical-device reception not tested",
+  "historicalReference": "Nidaa-v06 preserved separately, not duplicated in this archive",
+  "hashAlgorithm": "SHA-256",
+  "note": "Integrity hashes only, not ownership certification. No signing identifiers, credentials or device tokens provided.",
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 153,
+      "sha256": "69fe31d42c82d181b1d38135155dbccbb75229751ffd0f87b2902cb12aec0289"
+    },
+    {
+      "path": "App/Info.plist",
+      "bytes": 1499,
+      "sha256": "9246b4fb42bba5326c4bbbfe765a473d1b5eb220d274725654d0f55c1c7188e1"
+    },
+    {
+      "path": "App/NidaaProofApp.swift",
+      "bytes": 1408,
+      "sha256": "907ce7da99c6be70c2b2e6a45aabb000924d421ad6ce37069d4f446f48f680b7"
+    },
+    {
+      "path": "App/ProofStore.swift",
+      "bytes": 9247,
+      "sha256": "e31729ca5d74b6f488f347f77cb9ef18db49ed7a5beb13eda3b4b2e0a87ab496"
+    },
+    {
+      "path": "App/ProofView.swift",
+      "bytes": 9480,
+      "sha256": "29d8442466cbd55e8a378de61fc908ddb7e2d4d1cf8dfdfbc5c7230480d7de9e"
+    },
+    {
+      "path": "App/Services/LocalAuthenticationService.swift",
+      "bytes": 2582,
+      "sha256": "6629c2bb64420f755468e2a29f52892fcc1aec420ff80004502f6142ada00eaf"
+    },
+    {
+      "path": "App/Services/NotificationService.swift",
+      "bytes": 5055,
+      "sha256": "dabdbafc9d36d2743f7396d14b43cccb51d7a45f0f09cf24d80f7898def2f599"
+    },
+    {
+      "path": "App/Services/RemoteRegistrationService.swift",
+      "bytes": 520,
+      "sha256": "b6db00af769ad5d08bbcad051bb8ddbbc69da127fd26d4ae441b9c89a9c54083"
+    },
+    {
+      "path": "Config/APNs.entitlements",
+      "bytes": 246,
+      "sha256": "7bf8e813b39b5382f98ced7ed4953167133f1549202cfa1583ac9ec795151059"
+    },
+    {
+      "path": "Config/Base.xcconfig",
+      "bytes": 507,
+      "sha256": "142f281e6b6da847efa16fd15c1c97dcfb9c1af6213022405ddab7c6bbdc3ee1"
+    },
+    {
+      "path": "Config/Developer.example.xcconfig",
+      "bytes": 244,
+      "sha256": "6220614bcbf5a3ff152e839f5c84b764389a5f28b33220c3cdbe6c6e7054b629"
+    },
+    {
+      "path": "DECISIONS.md",
+      "bytes": 1868,
+      "sha256": "269b167ba3fd34fe5411aa90a0d7cb5f2f15012209bd5a97a3c62182a71313bb"
+    },
+    {
+      "path": "Docs/APNS_SETUP.md",
+      "bytes": 6678,
+      "sha256": "203858b4b789e2fa4c16cd9919d25017233ae1dc9845e69241a5ccf397da642c"
+    },
+    {
+      "path": "Docs/APPLE_SOURCES.md",
+      "bytes": 3511,
+      "sha256": "82eed87e5911e4bf884d245eda3c357a39969baf32b8a6e9bae8f6ae99282ff4"
+    },
+    {
+      "path": "Docs/ARCHITECTURE.md",
+      "bytes": 4947,
+      "sha256": "cdc8d6cd62732b04b7a0b66bb3d2ed3dafe4fa468ead7e58f8538f911f2323d3"
+    },
+    {
+      "path": "Docs/CRITICAL_ALERTS_DRAFT.md",
+      "bytes": 6401,
+      "sha256": "bdaa191d84f177e5576c05b77c7d15630ecf5253017e531eab7341f1ef18179c"
+    },
+    {
+      "path": "Docs/DEVICE_TEST_PROTOCOL.md",
+      "bytes": 6971,
+      "sha256": "7a461d809cfd058bd6e4f431b2f35f3a1ecb5e66144b85af1968d353dfe665a9"
+    },
+    {
+      "path": "Docs/ENVIRONMENT.md",
+      "bytes": 2107,
+      "sha256": "dfda39d3359bcfa0658a5e377698956c10d322ae24ab4eb2d9d5e0861e868ebe"
+    },
+    {
+      "path": "Docs/MAC_IPHONE_SETUP.md",
+      "bytes": 5945,
+      "sha256": "611647b2754683eb1df6e9da5c52fd4ee010870c623a268f2d7e75bf29ffc218"
+    },
+    {
+      "path": "IOS_PROOF_STATUS.md",
+      "bytes": 6215,
+      "sha256": "88762274899468827765aac614fe64a14db067c86dc7f80eb2f851f69a453d4d"
+    },
+    {
+      "path": "NEXT_REVIEW.md",
+      "bytes": 3680,
+      "sha256": "e17110513df032dd3fde22fcdd0c98eace7433708526d9977f96b944affac5aa"
+    },
+    {
+      "path": "NidaaProof.xcodeproj/project.pbxproj",
+      "bytes": 14749,
+      "sha256": "e312ec6af36b3d7e35ab8910a083ac36c8413ad3b6f6e34725a885bdcd2f5675"
+    },
+    {
+      "path": "NidaaProof.xcodeproj/xcshareddata/xcschemes/NidaaProof-APNs.xcscheme",
+      "bytes": 1464,
+      "sha256": "a013ee33096331a67d931e758d93e173c124128bd93c323e06cb16aa5c2dda95"
+    },
+    {
+      "path": "NidaaProof.xcodeproj/xcshareddata/xcschemes/NidaaProof-Local.xcscheme",
+      "bytes": 1449,
+      "sha256": "5189cb5a894658ed00c320489d3c201353525620aba67db8401d7f56f945a56f"
+    },
+    {
+      "path": "PROJECT_STATUS.md",
+      "bytes": 1284,
+      "sha256": "9ac32cdd8680d1f60784e158a2faa8ac851c35227b36c6c59a4a34d2819afc4e"
+    },
+    {
+      "path": "ProofCore/Package.swift",
+      "bytes": 330,
+      "sha256": "0ac0244ef86cbe2af0167c7bb454e9adbf45a09bd572e8b6bd41bec2759be5c4"
+    },
+    {
+      "path": "ProofCore/Sources/ProofCore/Evidence.swift",
+      "bytes": 3854,
+      "sha256": "fe2c6cd588255d2779542e8052297156829aa03fc7bda968fd344d9e065f803c"
+    },
+    {
+      "path": "ProofCore/Tests/ProofCoreTests/EvidenceTests.swift",
+      "bytes": 3824,
+      "sha256": "a32b11d61b6f3f525cffa2257a9b8e37d6a4c78784d421cf91669b8560f4c6d1"
+    },
+    {
+      "path": "QA/additional-device-checks.csv",
+      "bytes": 2335,
+      "sha256": "f98a4ea2c6a31fe789092c26a0be3fef3f799326bd1f43c02dd0738a1c48be3f"
+    },
+    {
+      "path": "QA/device-test-matrix.csv",
+      "bytes": 17500,
+      "sha256": "2af528157abd56e9f211ba04581b41dffa5ed32a3ef15ca0be9c507e290a7014"
+    },
+    {
+      "path": "QA/DEVICE_WINDOW_CONFIRMATION.md",
+      "bytes": 834,
+      "sha256": "795582129fc8aa3dc8eca2fa641b1a619bb30073c4a4d36bcc083a779b2e8f2c"
+    },
+    {
+      "path": "QA/python-test-output.txt",
+      "bytes": 1091,
+      "sha256": "c4d155f31d5f69f216136436a442c085a7d3ed4c3caef537fcfbb18699be8294"
+    },
+    {
+      "path": "QA/REVIEW.md",
+      "bytes": 2278,
+      "sha256": "50167b9a2ecd2112ab64be88792c0ed98e05e8138d0d64878355df7419555a83"
+    },
+    {
+      "path": "QA/test_payload.py",
+      "bytes": 3055,
+      "sha256": "7ddbb40825e6f856d6430f1c1dce4d77a398490c33777316bf54353fcd0f4e01"
+    },
+    {
+      "path": "QA/v06-preservation.json",
+      "bytes": 360,
+      "sha256": "687655e8e982f4f124f35a3055ca15e0556d1e64c71c0cc2bac4cc0d1de10a47"
+    },
+    {
+      "path": "QA/validate_package.py",
+      "bytes": 8296,
+      "sha256": "6563d36b7d45258be341f45f396ce5a7fca883fc28a33a3f95b434d4864dfdb2"
+    },
+    {
+      "path": "QA/windows-checks.json",
+      "bytes": 3093,
+      "sha256": "dcdca624dd22d1bfd7b96956dc81e8ae093002f683d0e116cd67ee40104def01"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2917,
+      "sha256": "b3ffef044a37589db2450ac250175c0aa432ad227394de2744a42171d498c9a4"
+    },
+    {
+      "path": "Scripts/mac_build_local.sh",
+      "bytes": 621,
+      "sha256": "3d81e48ef6382e0af2de208bb3c74840eaaa035f33b59f9168a340e68f34863b"
+    },
+    {
+      "path": "Scripts/mac_preflight.sh",
+      "bytes": 633,
+      "sha256": "0e61036879e9c8e9cadb715a93bb049ee1250d1321213166624bdbd1edc67de4"
+    },
+    {
+      "path": "Scripts/prepare_apns.py",
+      "bytes": 3207,
+      "sha256": "68b44c9072df684bd2fc2064642bb623b555d3f2390776ee4ec381f555c3b7c0"
+    },
+    {
+      "path": "TASKS.md",
+      "bytes": 2106,
+      "sha256": "67ec58882074dc31a260f2207b22a4cea7455b96562114cb9fb71bc66bd1f7c0"
+    }
+  ]
+}

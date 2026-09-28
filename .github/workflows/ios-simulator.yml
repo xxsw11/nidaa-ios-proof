@@ -1,0 +1,68 @@
+name: NIDAA - iOS Simulator Proof
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'App/**'
+      - 'ProofCore/**'
+      - 'Config/**'
+      - 'NidaaProof.xcodeproj/**'
+      - 'Scripts/**'
+      - 'QA/test_payload.py'
+      - '.github/workflows/ios-simulator.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nidaa-ios-proof-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  simulator:
+    if: ${{ github.event.repository.private == false }}
+    runs-on: macos-15
+    timeout-minutes: 20
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Record environment
+        run: |
+          mkdir -p artifacts
+          { sw_vers; xcodebuild -version; swift --version; } > artifacts/environment.txt
+          xcrun simctl list devices available -j > artifacts/devices.json
+      - name: Run offline payload tests
+        run: |
+          set -o pipefail
+          python3 -m unittest discover -s QA -p test_payload.py -v 2>&1 | tee artifacts/python-tests.log
+      - name: Run Swift core tests on macOS
+        run: |
+          set -o pipefail
+          swift test --package-path ProofCore 2>&1 | tee artifacts/swift-tests.log
+      - name: Build and launch iPhone simulator
+        run: bash Scripts/ci_simulator.sh
+      - name: Upload logs and simulator evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: nidaa-simulator-${{ github.run_number }}
+          path: artifacts/
+          retention-days: 3
+          if-no-files-found: warn
+      - name: Write honest run summary
+        if: ${{ always() }}
+        env:
+          RUN_RESULT: ${{ job.status }}
+        run: |
+          {
+            echo '# NIDAA simulator proof'
+            echo "Job status before this summary: $RUN_RESULT"
+            echo 'See each step and uploaded logs for actual outcomes.'
+            echo 'Swift package tests run on macOS. The app build/launch targets iOS Simulator.'
+            echo 'No physical iPhone, APNs delivery, Face ID hardware, sound routing, flashlight or Critical Alerts test was performed.'
+            echo 'This is the technical proof screen, not the full v06 interface.'
+          } >> "$GITHUB_STEP_SUMMARY"

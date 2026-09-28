@@ -1,0 +1,110 @@
+{
+  "runAt": "2026-09-28T00:15:54.056314+00:00",
+  "environment": "Windows 10.0.19045; Python",
+  "structuralChecks": [
+    {
+      "name": "Project root and object IDs parse as a property list",
+      "status": "Passed"
+    },
+    {
+      "name": "All project object references resolve",
+      "status": "Passed"
+    },
+    {
+      "name": "All referenced source and configuration paths exist",
+      "status": "Passed"
+    },
+    {
+      "name": "Every app Swift file is included",
+      "status": "Passed"
+    },
+    {
+      "name": "Source build phase matches app sources exactly",
+      "status": "Passed"
+    },
+    {
+      "name": "Default Debug and Release have no entitlements or APNs compilation flag",
+      "status": "Passed"
+    },
+    {
+      "name": "Only APNs-Debug opts into development push",
+      "status": "Passed"
+    },
+    {
+      "name": "Entitlements contain only ordinary development APNs",
+      "status": "Passed"
+    },
+    {
+      "name": "Face ID purpose exists and background modes are absent",
+      "status": "Passed"
+    },
+    {
+      "name": "Signing identifiers are deliberately blank, not invented",
+      "status": "Passed"
+    },
+    {
+      "name": "NidaaProof-APNs scheme resolves target and configuration",
+      "status": "Passed"
+    },
+    {
+      "name": "NidaaProof-Local scheme resolves target and configuration",
+      "status": "Passed"
+    },
+    {
+      "name": "Swift package is local without fetched dependencies",
+      "status": "Passed"
+    },
+    {
+      "name": "No critical request, continuous audio, calling or torch API is used",
+      "status": "Passed"
+    },
+    {
+      "name": "Local request is one-shot with system sound",
+      "status": "Passed"
+    },
+    {
+      "name": "No embedded private credentials or third-party endpoints in app",
+      "status": "Passed"
+    },
+    {
+      "name": "Mac shell scripts use LF line endings",
+      "status": "Passed"
+    },
+    {
+      "name": "No previous family name in active proof text",
+      "status": "Passed"
+    },
+    {
+      "name": "All nine scenarios exist for local, remote and critical separately",
+      "status": "Passed"
+    },
+    {
+      "name": "No physical result is fabricated",
+      "status": "Passed"
+    },
+    {
+      "name": "Offline APNs payload behavioral tests pass",
+      "status": "Passed"
+    },
+    {
+      "name": "Documentation local links resolve",
+      "status": "Passed"
+    }
+  ],
+  "offlinePythonBehavioralTests": {
+    "run": 8,
+    "passed": true
+  },
+  "swiftUnitTests": {
+    "prepared": 10,
+    "status": "Not tested",
+    "reason": "Swift compiler unavailable"
+  },
+  "iOSBuild": "Not tested",
+  "signing": "Not tested",
+  "nativeVisualReview": "Not tested",
+  "physicalDeviceTests": "Not tested",
+  "APNs": "Not tested",
+  "criticalAlerts": "Awaiting approval",
+  "limits": "Structural validation is not Swift parsing, compilation, SDK linking or runtime verification. Python checks only the offline payload helper."
+}

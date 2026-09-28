@@ -1,0 +1,202 @@
+{
+  "version": "cloud-public-v03",
+  "note": "Integrity inventory, not build evidence",
+  "files": [
+    {
+      "path": ".github/workflows/ios-simulator.yml",
+      "sha256": "f93faaca831ef8985b0ca577eb89edec169e694acb7045c55c66614af33d1dab"
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "efb3cf2134610d1ffab47883b691351beebc1604f3bb1725bf276cb664bb6d7b"
+    },
+    {
+      "path": "App/Info.plist",
+      "sha256": "9246b4fb42bba5326c4bbbfe765a473d1b5eb220d274725654d0f55c1c7188e1"
+    },
+    {
+      "path": "App/NidaaProofApp.swift",
+      "sha256": "907ce7da99c6be70c2b2e6a45aabb000924d421ad6ce37069d4f446f48f680b7"
+    },
+    {
+      "path": "App/ProofStore.swift",
+      "sha256": "e31729ca5d74b6f488f347f77cb9ef18db49ed7a5beb13eda3b4b2e0a87ab496"
+    },
+    {
+      "path": "App/ProofView.swift",
+      "sha256": "29d8442466cbd55e8a378de61fc908ddb7e2d4d1cf8dfdfbc5c7230480d7de9e"
+    },
+    {
+      "path": "App/Services/LocalAuthenticationService.swift",
+      "sha256": "6629c2bb64420f755468e2a29f52892fcc1aec420ff80004502f6142ada00eaf"
+    },
+    {
+      "path": "App/Services/NotificationService.swift",
+      "sha256": "dabdbafc9d36d2743f7396d14b43cccb51d7a45f0f09cf24d80f7898def2f599"
+    },
+    {
+      "path": "App/Services/RemoteRegistrationService.swift",
+      "sha256": "b6db00af769ad5d08bbcad051bb8ddbbc69da127fd26d4ae441b9c89a9c54083"
+    },
+    {
+      "path": "CLOUD_BUILD_STATUS.md",
+      "sha256": "3268a249f3e163c75656cd2cd35c1855eab6a79ab3a15c93d88112654dfff96b"
+    },
+    {
+      "path": "Config/APNs.entitlements",
+      "sha256": "7bf8e813b39b5382f98ced7ed4953167133f1549202cfa1583ac9ec795151059"
+    },
+    {
+      "path": "Config/Base.xcconfig",
+      "sha256": "142f281e6b6da847efa16fd15c1c97dcfb9c1af6213022405ddab7c6bbdc3ee1"
+    },
+    {
+      "path": "Config/Developer.example.xcconfig",
+      "sha256": "6220614bcbf5a3ff152e839f5c84b764389a5f28b33220c3cdbe6c6e7054b629"
+    },
+    {
+      "path": "DECISIONS.md",
+      "sha256": "269b167ba3fd34fe5411aa90a0d7cb5f2f15012209bd5a97a3c62182a71313bb"
+    },
+    {
+      "path": "Docs/APNS_SETUP.md",
+      "sha256": "203858b4b789e2fa4c16cd9919d25017233ae1dc9845e69241a5ccf397da642c"
+    },
+    {
+      "path": "Docs/APPLE_SOURCES.md",
+      "sha256": "82eed87e5911e4bf884d245eda3c357a39969baf32b8a6e9bae8f6ae99282ff4"
+    },
+    {
+      "path": "Docs/ARCHITECTURE.md",
+      "sha256": "cdc8d6cd62732b04b7a0b66bb3d2ed3dafe4fa468ead7e58f8538f911f2323d3"
+    },
+    {
+      "path": "Docs/CRITICAL_ALERTS_DRAFT.md",
+      "sha256": "bdaa191d84f177e5576c05b77c7d15630ecf5253017e531eab7341f1ef18179c"
+    },
+    {
+      "path": "Docs/DEVICE_TEST_PROTOCOL.md",
+      "sha256": "7a461d809cfd058bd6e4f431b2f35f3a1ecb5e66144b85af1968d353dfe665a9"
+    },
+    {
+      "path": "Docs/ENVIRONMENT.md",
+      "sha256": "dfda39d3359bcfa0658a5e377698956c10d322ae24ab4eb2d9d5e0861e868ebe"
+    },
+    {
+      "path": "Docs/GITHUB_CLOUD_SETUP.md",
+      "sha256": "2487383796b23526ba10934f1de405756d67de11cdaf3b78df7ab9bf28fa3076"
+    },
+    {
+      "path": "Docs/MAC_IPHONE_SETUP.md",
+      "sha256": "611647b2754683eb1df6e9da5c52fd4ee010870c623a268f2d7e75bf29ffc218"
+    },
+    {
+      "path": "IOS_PROOF_STATUS.md",
+      "sha256": "88762274899468827765aac614fe64a14db067c86dc7f80eb2f851f69a453d4d"
+    },
+    {
+      "path": "Manifest.original.json",
+      "sha256": "b89b90c2293dccf473b8bc8c293c665b1df72b117888c6f8d6b4d8e26375ebc9"
+    },
+    {
+      "path": "NEXT_REVIEW.md",
+      "sha256": "8b1178a3cb2466b36fcc5411e6820b3ee6565e522a0929c9dc39f67eb093194b"
+    },
+    {
+      "path": "NidaaProof.xcodeproj/project.pbxproj",
+      "sha256": "e312ec6af36b3d7e35ab8910a083ac36c8413ad3b6f6e34725a885bdcd2f5675"
+    },
+    {
+      "path": "NidaaProof.xcodeproj/xcshareddata/xcschemes/NidaaProof-APNs.xcscheme",
+      "sha256": "a013ee33096331a67d931e758d93e173c124128bd93c323e06cb16aa5c2dda95"
+    },
+    {
+      "path": "NidaaProof.xcodeproj/xcshareddata/xcschemes/NidaaProof-Local.xcscheme",
+      "sha256": "5189cb5a894658ed00c320489d3c201353525620aba67db8401d7f56f945a56f"
+    },
+    {
+      "path": "PROJECT_STATUS.md",
+      "sha256": "9ac32cdd8680d1f60784e158a2faa8ac851c35227b36c6c59a4a34d2819afc4e"
+    },
+    {
+      "path": "ProofCore/Package.swift",
+      "sha256": "0ac0244ef86cbe2af0167c7bb454e9adbf45a09bd572e8b6bd41bec2759be5c4"
+    },
+    {
+      "path": "ProofCore/Sources/ProofCore/Evidence.swift",
+      "sha256": "fe2c6cd588255d2779542e8052297156829aa03fc7bda968fd344d9e065f803c"
+    },
+    {
+      "path": "ProofCore/Tests/ProofCoreTests/EvidenceTests.swift",
+      "sha256": "a32b11d61b6f3f525cffa2257a9b8e37d6a4c78784d421cf91669b8560f4c6d1"
+    },
+    {
+      "path": "QA/DEVICE_WINDOW_CONFIRMATION.md",
+      "sha256": "795582129fc8aa3dc8eca2fa641b1a619bb30073c4a4d36bcc083a779b2e8f2c"
+    },
+    {
+      "path": "QA/REVIEW.md",
+      "sha256": "50167b9a2ecd2112ab64be88792c0ed98e05e8138d0d64878355df7419555a83"
+    },
+    {
+      "path": "QA/additional-device-checks.csv",
+      "sha256": "f98a4ea2c6a31fe789092c26a0be3fef3f799326bd1f43c02dd0738a1c48be3f"
+    },
+    {
+      "path": "QA/cloud-preparation-checks.json",
+      "sha256": "c35ea25d04768e098037554560b11661bf6a736bd186486a24efec93ee3c3f15"
+    },
+    {
+      "path": "QA/device-test-matrix.csv",
+      "sha256": "2af528157abd56e9f211ba04581b41dffa5ed32a3ef15ca0be9c507e290a7014"
+    },
+    {
+      "path": "QA/python-test-output.txt",
+      "sha256": "c4d155f31d5f69f216136436a442c085a7d3ed4c3caef537fcfbb18699be8294"
+    },
+    {
+      "path": "QA/test_payload.py",
+      "sha256": "7ddbb40825e6f856d6430f1c1dce4d77a398490c33777316bf54353fcd0f4e01"
+    },
+    {
+      "path": "QA/v06-preservation.json",
+      "sha256": "687655e8e982f4f124f35a3055ca15e0556d1e64c71c0cc2bac4cc0d1de10a47"
+    },
+    {
+      "path": "QA/validate_package.py",
+      "sha256": "6563d36b7d45258be341f45f396ce5a7fca883fc28a33a3f95b434d4864dfdb2"
+    },
+    {
+      "path": "QA/windows-checks.json",
+      "sha256": "dcdca624dd22d1bfd7b96956dc81e8ae093002f683d0e116cd67ee40104def01"
+    },
+    {
+      "path": "README.md",
+      "sha256": "b3ffef044a37589db2450ac250175c0aa432ad227394de2744a42171d498c9a4"
+    },
+    {
+      "path": "Scripts/ci_simulator.sh",
+      "sha256": "8ea266595bddca87f418a2d27500adea2ea38001ca1fe05dd57ed40637e0c4db"
+    },
+    {
+      "path": "Scripts/mac_build_local.sh",
+      "sha256": "3d81e48ef6382e0af2de208bb3c74840eaaa035f33b59f9168a340e68f34863b"
+    },
+    {
+      "path": "Scripts/mac_preflight.sh",
+      "sha256": "0e61036879e9c8e9cadb715a93bb049ee1250d1321213166624bdbd1edc67de4"
+    },
+    {
+      "path": "Scripts/prepare_apns.py",
+      "sha256": "68b44c9072df684bd2fc2064642bb623b555d3f2390776ee4ec381f555c3b7c0"
+    },
+    {
+      "path": "Scripts/select_simulator.py",
+      "sha256": "039491961f128d82b67999d86a89aa05ed7f256113113e29317c8997b667aaab"
+    },
+    {
+      "path": "TASKS.md",
+      "sha256": "67ec58882074dc31a260f2207b22a4cea7455b96562114cb9fb71bc66bd1f7c0"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "python_payload_tests": "8 passed",
+  "simulator_selection": "newest runtime / unavailable exclusion / no-device error checked",
+  "workflow": "YAML parsed; manual-only trigger and 20-minute bound checked",
+  "shell": "bash -n passed",
+  "original_native_sources": "byte-identical to supplied ZIP",
+  "swift_tests": "Not run",
+  "xcode_build": "Not run",
+  "github_run": "Not started"
+}

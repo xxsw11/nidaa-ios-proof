@@ -1,0 +1,4 @@
+// Copy to Developer.xcconfig locally on the Mac. Never place passwords, tokens or private keys here.
+// Fill values belonging to your own authorized development account, not examples from the Internet.
+NIDAA_BUNDLE_ID =
+DEVELOPMENT_TEAM =

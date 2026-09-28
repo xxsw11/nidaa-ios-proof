@@ -1,0 +1,17 @@
+﻿case_id,scenario,device,ios_version,build,settings,status,observed_result,evidence_path
+A-01,Biometric success,Not recorded,Not recorded,Not recorded,Not recorded,Not tested,No physical-device execution,Not recorded
+A-02,Biometric failure,Not recorded,Not recorded,Not recorded,Not recorded,Not tested,No physical-device execution,Not recorded
+A-03,User cancellation,Not recorded,Not recorded,Not recorded,Not recorded,Not tested,No physical-device execution,Not recorded
+A-04,System passcode fallback,Not recorded,Not recorded,Not recorded,Not recorded,Not tested,No physical-device execution,Not recorded
+A-05,No enrolled biometrics,Not recorded,Not recorded,Not recorded,Not recorded,Not tested,No physical-device execution,Not recorded
+A-06,Device passcode not set,Not recorded,Not recorded,Not recorded,Not recorded,Not tested,No physical-device execution,Not recorded
+A-07,Biometry lockout / system fallback,Not recorded,Not recorded,Not recorded,Not recorded,Not tested,No physical-device execution,Not recorded
+A-08,Background during authentication,Not recorded,Not recorded,Not recorded,Not recorded,Not tested,No physical-device execution,Not recorded
+A-09,Window expires during authentication,Not recorded,Not recorded,Not recorded,Not recorded,Not tested,No physical-device execution,Not recorded
+A-10,Stop while scheduling,Not recorded,Not recorded,Not recorded,Not recorded,Not tested,No physical-device execution,Not recorded
+A-11,Permission denied or revoked,Not recorded,Not recorded,Not recorded,Not recorded,Not tested,No physical-device execution,Not recorded
+A-12,Open notification without human response,Not recorded,Not recorded,Not recorded,Not recorded,Not tested,No physical-device execution,Not recorded
+A-13,Explicit human response with fresh authentication,Not recorded,Not recorded,Not recorded,Not recorded,Not tested,No physical-device execution,Not recorded
+A-14,Late/expired notification,Not recorded,Not recorded,Not recorded,Not recorded,Not tested,No physical-device execution,Not recorded
+A-15,Duplicate observations,Not recorded,Not recorded,Not recorded,Not recorded,Not tested,No physical-device execution,Not recorded
+A-16,VoiceOver / Dynamic Type / RTL / orientation,Not recorded,Not recorded,Not recorded,Not recorded,Not tested,No physical-device execution,Not recorded

@@ -1,0 +1,15 @@
+.DS_Store
+.build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+Config/Developer.xcconfig
+PrivateEvidence/
+*.p8
+*.p12
+*.mobileprovision
+__pycache__/
+
+# Cloud build outputs (not source)
+artifacts/
+.swiftpm/

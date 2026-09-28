@@ -1,0 +1,9 @@
+{
+  "reference": "Nidaa-v06",
+  "manifestFilesVerified": 66,
+  "mismatches": [],
+  "archive": "Nidaa-design-v06.zip",
+  "archiveSHA256": "5595a1f754d9b3f901256eca5fcd82cbb0394b2d81b11f012b8a2d54efee4294",
+  "historicalArchives": "Included v06 reference files verified against existing manifest; unchanged",
+  "newWorkDirectory": "Nidaa-iOS-Proof-v01"
+}
