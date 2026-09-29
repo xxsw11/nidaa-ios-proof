@@ -174,5 +174,70 @@
     "result": "Wildcard IPv4 and IPv6 bind AND listen allowed; external TCP/UDP denied; loopback works",
     "observed": "Configured profile does not prevent wildcard listening. Remote accept/reachability was not measured; sockets immediately closed with no credentials/services.",
     "next": "Retain failed runtime gate and no unchanged retries; require an isolation mechanism meeting the declared runtime boundary."
+  },
+  {
+    "run": 36516431533,
+    "attempt": 1,
+    "job": 109239632747,
+    "commit": "031ffd5f5177b41fa2717409ac15a7e50ad8b4fa",
+    "artifact": 11011492467,
+    "artifactSHA256": "421601e1ec5be75ed36b9211eb00b0538d7a24d232c7b064e26ccc13c8257a08",
+    "category": "Credential/token step separation fixes observed input failure",
+    "result": "3 functional AutoFill-On tests passed; saved-credential availability probe skipped; Debug and Release passed",
+    "observed": "Manual registration/navigation, paste login/recovery, exact noncredential visibility and focus passed. Saved selection is not inferred. Native and bound password gates ready before and after Done."
+  },
+  {
+    "run": 36516431563,
+    "attempt": 1,
+    "job": 109239633214,
+    "commit": "031ffd5f5177b41fa2717409ac15a7e50ad8b4fa",
+    "artifact": 11011816081,
+    "artifactSHA256": "f6e97e328e43e80c042989b4ea31154cea4d2cba00fe48d1d7a0fe39adf7e4e2",
+    "category": "MOCK UI now 7/8; remaining reveal query failure",
+    "result": "7 passed, 1 failed; Release passed",
+    "observed": "Large Arabic logout isolation fails in reveal at IntegrationTestSupport.swift150 while resolving the scroll frame; all8 password drafts ready. Consent screenshot precedes navigation failure.",
+    "changeBeforeRetry": "Resolve stable visible scroll container rather than descendant-dependent live query; retain ten-drag limit and all assertions; fixed geometry diagnostic."
+  },
+  {
+    "run": 36516431563,
+    "attempt": 1,
+    "job": 109239632960,
+    "commit": "031ffd5f5177b41fa2717409ac15a7e50ad8b4fa",
+    "artifact": 11011512841,
+    "artifactSHA256": "a61588a2d45d2f5e6e4f0e144f08d4ad06c113b1aba0b1acfb079103c8191022",
+    "category": "Local original recipient selection lacked verified precondition",
+    "result": "7 passed, 1 failed; Release passed; delete and persisted absence passed",
+    "observed": "testBothActionsBackgroundDuringAuthenticationAndConsentChanges line157 expected no Ahmad receipt. Confirmation absence and attempt count passed. Exact cause of initial switch state is not proven by logs.",
+    "changeBeforeRetry": "Verify initial enabled/hittable switch state; one tap; wait off; require Sara-only recipient set immediately before mutation tests. No authorization assertion removed."
+  },
+  {
+    "commit": "05ab0f275b3ae07d1eb3b5fd4b1ebecb5393d467",
+    "runs": [
+      36518608268,
+      36518608304
+    ],
+    "attempt": 1,
+    "category": "Test source compilation failure, not runtime infrastructure",
+    "result": "All four UI selections blocked before execution; Release builds passed",
+    "observed": "AutoFillUITests.swift83,89,90,91: array inference preserved optional XCUIApplication from shared IUO app property. Zero UI cases executed.",
+    "changeBeforeRetry": "d6f65ec explicitly guards a nonoptional application after launch and uses it in the two surface loops. Assertions unchanged.",
+    "artifacts": [
+      {
+        "id": 11012386892,
+        "sha256": "73914c1ee42c2c685ff547da8ae24b144f615e8b20bdb69a612be79700a85d60"
+      },
+      {
+        "id": 11012147673,
+        "sha256": "c473477ae737d4d9de9a76e6beb2253fb5e70cad11298b6ee021c46cd83e505d"
+      },
+      {
+        "id": 11012003418,
+        "sha256": "6014b258d25ef40e0328d64d783f1526d3b97527566f286949e5d89724c36b68"
+      },
+      {
+        "id": 11011818762,
+        "sha256": "5fff6e589bb9e17ae86aab995ae0a2e05a696ffdd00be649eb668c4cb3262ee1"
+      }
+    ]
   }
 ]

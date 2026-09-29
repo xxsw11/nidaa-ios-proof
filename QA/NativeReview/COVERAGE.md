@@ -1,14 +1,23 @@
 # Native integration review — coverage map
 
-This is a **source-to-requirement map**, not a pass report. Existing evidence belongs to its recorded source commit; newly added or changed tests require their own run/attempt results. Native UI/backend end-to-end tests are **Not executed — environment isolation blocker**. AutoFill/UI outcomes remain pending until the parent review records the actual reports. A test definition or successful build does not establish execution. See [attempt history](attempt-history.json), [backend findings](BACKEND_REVIEW.md), [client findings](CLIENT_REVIEW.md), [environment contract](NATIVE_ENVIRONMENT.md) and [UI handoff](UI_HANDOFF.md).
+This is a **source-to-requirement map**, not a pass report. Existing evidence belongs to its recorded source commit; newly added or changed tests require their own run/attempt results. Native UI/backend end-to-end tests are **Not executed — environment isolation blocker**. Recorded 031 outcomes are summarized below; candidate `d6f65ec253f6345e6ae2e368c4b2b8d7baf88681` remains pending. A test definition or successful build does not establish execution. See [attempt history](attempt-history.json), [backend findings](BACKEND_REVIEW.md), [client findings](CLIENT_REVIEW.md), [environment contract](NATIVE_ENVIRONMENT.md) and [UI handoff](UI_HANDOFF.md).
 
 ## Recorded outcomes and unresolved gates
 
 At source `966f80abae825e9e8ca9c55fa659c3cd76ef4527`, [run 36511820301](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36511820301) passed 55 real backend tests, 45 reference checks, 13 QA checks, 24 injected Swift-client tests and the live official Swift SDK journey. The same gates passed at `ea63b0f48bdc8e508792f065e3ccd3822893cdfb` in [run 36512065013](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36512065013). The existing local UI baseline at `966f80a` passed both shards (9 + 8 tests) and Debug/Release builds. These results belong to those sources, not automatically to subsequent UI fixes.
 
-The latest reported `3759` candidate is **not a completed UI gate**: AutoFill manual registration failed at line 37 and visibility failed at line 83; paste/login/recovery passed; saved-credential availability was skipped. All eight MOCK integration UI cases failed, with failures at the shared password-retention assertion (line 205) and disabled-control tap (line 170). Release builds passed in both jobs. The UI fixes and their actual rerun results remain pending; successful Release builds do not negate failed UI assertions. Exact run/attempt provenance and retained failures belong in [attempt history](attempt-history.json), maintained separately.
+At `031ffd5f5177b41fa2717409ac15a7e50ad8b4fa`:
 
-Real native UI/backend end-to-end execution remains blocked before services by the environment gate described below. This is distinct from both the successful Linux backend/SDK results and the failed MOCK/AutoFill UI gates.
+| Gate | Recorded result |
+|---|---|
+| [Backend/client run 36516431478](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36516431478) | Passed: 55 backend, 45 reference, 14 QA, 24 client tests and live official SDK journey |
+| [AutoFill run 36516431533](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36516431533) | Three functional tests passed; availability probe skipped; Debug and Release passed |
+| [MOCK integration run 36516431563](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36516431563) | 7/8 passed; `testLargeArabicLayoutAndLogoutIsolation` failed in the shared live-containing scroll query (helper line150) |
+| Local-b, same run | 7/8 passed; contact deletion plus persistence passed; `testBothActionsBackgroundDuringAuthenticationAndConsentChanges` failed the Ahmad-receipt absence assertion |
+
+Candidate `d6f65ec253f6345e6ae2e368c4b2b8d7baf88681` adds stable scroll targeting, stronger Sara-only fixture preconditions and actual saved-credential selection coverage. Its cloud outcomes are **pending**. Earlier failures remain in [attempt history](attempt-history.json); no test or product fix is presumed successful from source alone.
+
+Real native UI/backend end-to-end execution remains blocked before services by the environment gate described below. Successful Linux backend/SDK or MOCK/AutoFill results do not establish native backend E2E.
 
 ## Evidence classes
 
@@ -21,7 +30,7 @@ Real native UI/backend end-to-end execution remains blocked before services by t
 | Real Swift client | [IntegrationTrialCLI](../../IntegrationClient/Sources/IntegrationTrialCLI/Trial.swift) | Official Auth SDK, actual inbox verification and domain HTTP journey on the isolated stack. CLI is not native UI; Linux session storage is memory, not Apple Keychain. |
 | MOCK SwiftUI | [IntegrationUITests](../../UITests/IntegrationUITests.swift) | Visible MOCK flow, confirmation, directionality, unknown-state presentation and logout isolation. Network/domain changes remain simulated. |
 | Real native UI/backend | [NativeIntegrationUITests](../../UITests/NativeIntegrationUITests.swift) | Prepared real account/backend journey through the app on one sequential Simulator; **Not executed — environment isolation blocker**. Only local-device authentication is separately labeled simulated. |
-| AutoFill enabled | [AutoFillUITests](../../UITests/AutoFillUITests.swift), [shared native setup](../../UITests/IntegrationTestSupport.swift) | Prepared native Settings verification that AutoFill is On, manual typing, paste, focus/navigation and visibility. Networking in this suite is MOCK. Saved-credential selection is a distinct gap. |
+| AutoFill enabled | [AutoFillUITests](../../UITests/AutoFillUITests.swift), [shared native setup](../../UITests/IntegrationTestSupport.swift) | At 031, native AutoFill-On manual typing, paste, focus/navigation and visibility tests passed. Networking is MOCK. Actual saved-credential selection in candidate d6f65ec is pending. |
 | Physical device | [Physical matrix](../device-test-matrix.csv) | Not tested/deferred: no Apple device. No Simulator/API result substitutes for physical notification, audio or biometric evidence. |
 
 ## Identity, authorization and account isolation
@@ -68,17 +77,17 @@ The native disconnection scenario currently exercises **refresh without a mutati
 
 `Integration/native/runtime.py` methods `setup()` / `smoke()` and [isolation_probe.py](../../Integration/native/isolation_probe.py) are a separate infrastructure gate: native process startup, actual email verification/login/logout, loopback listeners and policy-denial errors. A successful health gate alone is not either native UI test.
 
-## AutoFill, input and visual behavior — prepared, outcome pending
+## AutoFill, input and visual behavior — 031 functional passes; 05ab0f pending
 
 The shared `configureDisposableSimulatorAutoFill()` fixture in [IntegrationTestSupport.swift](../../UITests/IntegrationTestSupport.swift) must read the native switch **On**. It refuses an ordinary/physical destination. Setup failure is a failure, not a reason to turn AutoFill off.
 
 | Test / coverage | Assertions / scope | Explicit gap |
 |---|---|---|
-| `testEnabledManualRegistrationAndFieldNavigation` | Arabic/RTL manual email/password entry, retained draft through field navigation and keyboard dismissal, explicit registration/verification UI | Networking is MOCK; manual entry while On is not selecting a system-saved credential. |
-| `testEnabledPasteLoginAndRecovery` | Native paste into secure password/token fields, login/logout, recovery, new-password entry and completion message | Recovery/provider calls are MOCK here. Actual backend recovery belongs to its separate test. |
-| `testEnabledVisibilityUsesOnlyNonCredentialDemonstration` | Accessibility XXXL, one text field switches visible/hidden, value and keyboard focus retained, final screenshot hidden | Visible text is a never-authenticated demonstration, not a password used by any service. No claim about iCloud or password-manager integration. |
-| `testSavedCredentialEnvironmentProbe` | Bounded inspection of disposable Passwords UI and an allowlisted availability note/screenshot | **Deliberately skipped/not tested:** no credential is created or selected. The probe alone does not prove saved credentials require iCloud/passcode or are unsupported; inspect observed setup before a further attempt. |
-| Eight existing `IntegrationUITests` | Registration gate, directional consent, fresh local authentication + confirmation, selection/background invalidation, unknown lookup, acknowledgement distinction, large Arabic layout and immediate logout hiding | MOCK network state. Their new AutoFill-On setup must pass before historical AutoFill-Off success can be considered a regression result for this source. |
+| `testEnabledManualRegistrationAndFieldNavigation` — passed at 031 | Arabic/RTL manual email/password entry, retained draft through field navigation and keyboard dismissal, explicit registration/verification UI | Networking is MOCK; manual entry while On is not selecting a system-saved credential. |
+| `testEnabledPasteLoginAndRecovery` — passed at 031 | Native paste into secure password/token fields, login/logout, recovery, new-password entry and completion message | Recovery/provider calls are MOCK here. Actual backend recovery belongs to its separate test. |
+| `testEnabledVisibilityUsesOnlyNonCredentialDemonstration` — passed at 031 | Accessibility XXXL, one text field switches visible/hidden, value and keyboard focus retained, final screenshot hidden | Visible text is a never-authenticated demonstration, not a password used by any service. No claim about iCloud or password-manager integration. |
+| `testSavedCredentialSelection` — candidate d6f65ec pending | Create a fictional saved credential through native Passwords, select it through system AutoFill, then enter the MOCK account UI | Replaces the 031 availability-only probe, which skipped selection. No pass or personal-account requirement is assumed; only an actually observed personal-account/passcode prompt may justify a skip. |
+| Eight existing `IntegrationUITests` | Registration gate, directional consent, fresh local authentication + confirmation, selection/background invalidation, unknown lookup, acknowledgement distinction, large Arabic layout and immediate logout hiding | MOCK network state. At 031, 7/8 passed; large Arabic logout failed in the scroll helper. The 05ab0f scroll fix remains pending. |
 
 Actual screenshots must be inspected for overlap, RTL layout, focus and hidden credential state. A named attachment or assertion is not visual inspection. Raw typing logs, video, xcresult and automatic failure screenshots may contain credentials and must stay private; only sanitized/inspected evidence is eligible for delivery. Pattern scans do not establish comprehensive secret-leak prevention or a formal accessibility audit.
 
@@ -89,3 +98,5 @@ The 17 tests in [LocalExperienceUITests.swift](../../UITests/LocalExperienceUITe
 Unexecuted or unimplemented gaps must remain visible: saved-credential selection; simultaneous two-Simulator reception; real native recovery/block/delete/retention journeys beyond the mapped tests; production capacity/paging and operational restore guarantees; physical Keychain, Face ID/Touch ID hardware, APNs, sound/Focus/Bluetooth/Low Power/force-quit delivery and Critical Alerts. No personal iCloud account, hosted backend, public tunnel, paid service or real notification is required or authorized by this coverage map.
 
 The merge recommendation must use actual same-source regression results plus these limits. PRs #2/#3 and the follow-up are not automatically merged by any test or by this document.
+
+Compiler checkpoint:05ab0f failed UI-test compilation before execution (optional application inferred inside an array); Release passed. Candidate d6f65ec guards the nonoptional application without changing assertions. Original reports are in evidence/compile-05ab0f and attempt-history.json. This is a test-source failure, not a runtime environment failure.

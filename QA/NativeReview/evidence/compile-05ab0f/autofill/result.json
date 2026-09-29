@@ -1,0 +1,67 @@
+{
+  "suite": "autofill",
+  "exitCode": 65,
+  "commit": "05ab0f275b3ae07d1eb3b5fd4b1ebecb5393d467",
+  "run": "36518608268",
+  "attempt": "1",
+  "scope": "MOCK network with native AutoFill enabled",
+  "rawEvidence": "Private XCTest logs/xcresult/recordings excluded from publication",
+  "physicalDevice": "Not tested",
+  "savedCredentialSelection": "Not executed",
+  "summary": {
+    "result": "unknown",
+    "totalTestCount": 0,
+    "passedTests": 0,
+    "failedTests": 0,
+    "skippedTests": 0,
+    "expectedFailures": 0,
+    "startTime": 1790653933.741,
+    "finishTime": 1790654010.35,
+    "devicesAndConfigurations": [],
+    "environmentDescription": "NidaaProof-Local \u00b7 Built with macOS 15.7.9"
+  },
+  "failedTestIdentifiers": [],
+  "testCaseResults": [],
+  "failureLocations": [
+    [
+      "AutoFillUITests.swift",
+      "83"
+    ],
+    [
+      "AutoFillUITests.swift",
+      "89"
+    ],
+    [
+      "AutoFillUITests.swift",
+      "90"
+    ],
+    [
+      "AutoFillUITests.swift",
+      "91"
+    ]
+  ],
+  "infrastructureSignals": {
+    "runnerBootstrapFailure": false,
+    "runnerKilledBeforeTests": false,
+    "runnerEarlyExit": false,
+    "failedLaunch": false,
+    "failedInstall": false,
+    "testRunnerLost": false,
+    "timedOut": false,
+    "simulatorBootFailure": false,
+    "compileFailure": false,
+    "testFailed": true
+  },
+  "compilerDiagnostics": [
+    "nidaa-ios-proof/UITests/AutoFillUITests.swift:83:144: error: value of optional type <quoted source> must be unwrapped to a value of type <quoted source>",
+    "nidaa-ios-proof/UITests/AutoFillUITests.swift:89:23: error: value of optional type <quoted source> must be unwrapped to refer to member <quoted source> of wrapped base type <quoted source>",
+    "nidaa-ios-proof/UITests/AutoFillUITests.swift:90:26: error: value of optional type <quoted source> must be unwrapped to refer to member <quoted source> of wrapped base type <quoted source>",
+    "nidaa-ios-proof/UITests/AutoFillUITests.swift:91:24: error: value of optional type <quoted source> must be unwrapped to refer to member <quoted source> of wrapped base type <quoted source>"
+  ],
+  "debugTestSucceeded": false,
+  "releaseBuildSucceeded": true,
+  "xcode": "Xcode 16.4\nBuild version 16F6",
+  "screenshots": [],
+  "draftReadiness": [],
+  "revealGeometry": []
+}

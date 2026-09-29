@@ -47,3 +47,5 @@ No public service, external email, push notification, purchase, branch merge or 
 ## Latest execution
 
 [Run36512065013 attempt1](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36512065013), commit `ea63b0f48bdc8e508792f065e3ccd3822893cdfb`, passed all55 real backend tests,45 reference checks,13 QA checks,24 Swift-client tests and the real official Swift multi-account journey. Original logs and provenance are in `evidence/backend-ea63b0f`. This includes the new provider API-version gateway regression. Native UI execution is a separate environment-blocked scope.
+
+Latest complete verification: [run36516431478 attempt1](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36516431478), source031ffd5:55 backend,45 reference,14 QA,24 Swift-client tests and the actual SDK journey passed. No backend/client source changed in candidate05ab0f; its changes are UI tests and evidence export only.

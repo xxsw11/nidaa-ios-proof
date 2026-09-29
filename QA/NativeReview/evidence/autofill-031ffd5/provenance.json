@@ -1,0 +1,11 @@
+{
+  "run": 36516431533,
+  "attempt": 1,
+  "job": 109239632747,
+  "commit": "031ffd5f5177b41fa2717409ac15a7e50ad8b4fa",
+  "artifact": 11011492467,
+  "artifactSHA256": "421601e1ec5be75ed36b9211eb00b0538d7a24d232c7b064e26ccc13c8257a08",
+  "category": "Credential/token step separation fixes observed input failure",
+  "result": "3 functional AutoFill-On tests passed; saved-credential availability probe skipped; Debug and Release passed",
+  "observed": "Manual registration/navigation, paste login/recovery, exact noncredential visibility and focus passed. Saved selection is not inferred. Native and bound password gates ready before and after Done."
+}

@@ -1,0 +1,12 @@
+{
+  "run": 36516431563,
+  "attempt": 1,
+  "job": 109239633214,
+  "commit": "031ffd5f5177b41fa2717409ac15a7e50ad8b4fa",
+  "artifact": 11011816081,
+  "artifactSHA256": "f6e97e328e43e80c042989b4ea31154cea4d2cba00fe48d1d7a0fe39adf7e4e2",
+  "category": "MOCK UI now 7/8; remaining reveal query failure",
+  "result": "7 passed, 1 failed; Release passed",
+  "observed": "Large Arabic logout isolation fails in reveal at IntegrationTestSupport.swift150 while resolving the scroll frame; all8 password drafts ready. Consent screenshot precedes navigation failure.",
+  "changeBeforeRetry": "Resolve stable visible scroll container rather than descendant-dependent live query; retain ten-drag limit and all assertions; fixed geometry diagnostic."
+}

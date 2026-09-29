@@ -1,22 +1,13 @@
 # Next review — integration fixes and native verification
 
-
-
 Updated 2026-09-29. Review the follow-up [PR4](https://github.com/xxsw11/nidaa-ios-proof/pull/4) together with its dependency [PR3](https://github.com/xxsw11/nidaa-ios-proof/pull/3) and design [PR2](https://github.com/xxsw11/nidaa-ios-proof/pull/2). None is merged; tests do not authorize automatic merging. Preserve v06 and earlier delivery archives.
 
+Current immediate gate: inspect candidate `d6f65ec253f6345e6ae2e368c4b2b8d7baf88681` in [AutoFill run36519447212](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36519447212) and [Simulator run36519447184](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36519447184), attempt1. It verifies saved-credential selection, stable scroll navigation and the initial Sara-only recipient set. Do not rerun unchanged failures; inspect evidence and preserve original assertions. Inspect original screenshots before final delivery. All results still pending at this checkpoint.
 
-
-Current immediate gate: diagnose and fix actual AutoFill-enabled manual password/visibility failures, then verify all8 MOCK integration UI cases and3 input flows with independent Debug/Release outcomes. Candidate031ffd5 (separate credential/verification steps, input-mode diagnostics and persisted deletion check) is under cloud tests36516431533 and36516431563; see [current status](NATIVE_REVIEW_STATUS.md). Saved-credential selection is a separate scenario; the observed disposable Passwords onboarding must be completed or a concrete blocker recorded without a personal Apple account.
-
-
-
-Backend/client fixes already passed55 actual backend tests,45 reference tests,24 client regressions and the real official Auth SDK journey in run36512065013 attempt1 at ea63b0f. All17 preserved local UI regressions passed at966f80a. Results and failures stay tied to their source commits rather than being assigned to later candidates.
-
-
+Already proven at031ffd5:55 actual backend tests,45 reference tests,14 QA checks,24 client regressions and real official Auth SDK journey; three functional AutoFill-On cases and Debug/Release. Saved selection remains separate. MOCK integration and local-b each passed7/8; large-text navigation and an unverified initial recipient selection remain the two gates. Deletion with persisted absence now passes. The full17 local UI suite passed historically at966f80a; that is not a current candidate result.
 
 Real native SwiftUI-to-backend E2E is **Not executed due to environment**. Native dependency preparation succeeded, but the actual macOS policy did not deny wildcard IPv4/IPv6 binds. A bounded031 diagnostic separately confirmed that listen also succeeds (run36516431643); this is not an external-reachability claim. It stopped before services. Do not repeat unchanged setup, relax the gate, use a hosted backend/tunnel, or count MOCK as real integration. The exact next environment step is to validate an isolation mechanism on an available Mac that passes the existing external-egress, wildcard-bind and loopback probe, then run the prepared native health gate and sequential real UI/fault suites. See [minimum setup and commands](QA/NativeReview/NATIVE_ENVIRONMENT.md).
 
-
-
 No physical iPhone is available; notification reception and hardware behavior remain deferred and are not prerequisites for this review stage. No Apple account, purchase or real notification is needed for Simulator verification. Production deployment, external mail/SMS/APNs and merging remain outside authorization. Before any later physical-device notification/audio, obtain the exact device and testing window; never ask for secret keys or passwords in conversation.
 
+Compiler checkpoint:05ab0f failed UI-test compilation before execution (optional application inferred inside an array); Release passed. Candidate d6f65ec guards the nonoptional application without changing assertions. Original reports are in evidence/compile-05ab0f and attempt-history.json. This is a test-source failure, not a runtime environment failure.

@@ -13,3 +13,5 @@ Reviewed source `180d9650b88e90b604d6837b5f2eea78ee83257d`. Tests below are dete
 The official Auth library remains pinned to2.55.2. Mapping uses its public `AuthError.errorCode` values; arbitrary provider messages never reach the interface. Network failures remain distinct from session rejection. No background resend, public endpoint, administrative credential, UserDefaults session store or production authentication bypass was introduced.
 
 Review also checked loopback validation, redirect rejection, environment/account storage isolation, logout-before-network clearing, generation checks on delayed replies, strict-newer snapshots and no automatic resend. Device-only Keychain behavior still needs physical-device validation; unit tests cannot establish hardware security. Backend restore cursor and bounded-projection fixes are reviewed separately in BACKEND_REVIEW.md.
+
+Latest full backend/client gate also passed at031ffd5 in [run36516431478 attempt1](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36516431478):24 injected client tests plus the actual SDK journey. UI input/harness candidates do not change client source.

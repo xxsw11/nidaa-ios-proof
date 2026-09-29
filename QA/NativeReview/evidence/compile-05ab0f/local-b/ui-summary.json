@@ -1,0 +1,24 @@
+{
+  "devicesAndConfigurations" : [
+
+  ],
+  "environmentDescription" : "NidaaProof-Local · Built with macOS 15.7.9",
+  "expectedFailures" : 0,
+  "failedTests" : 0,
+  "finishTime" : 1790654011.891,
+  "passedTests" : 0,
+  "result" : "unknown",
+  "skippedTests" : 0,
+  "startTime" : 1790653946.112,
+  "statistics" : [
+
+  ],
+  "testFailures" : [
+
+  ],
+  "title" : "Test - NidaaProof-Local",
+  "topInsights" : [
+
+  ],
+  "totalTestCount" : 0
+}
