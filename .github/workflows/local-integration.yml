@@ -2,13 +2,13 @@ name: NIDAA - Local Auth and PostgreSQL integration
 on:
   push:
     branches: ['codex/local-supabase-integration', 'codex/native-integration-review']
-    paths: ['Integration/**', 'IntegrationClient/**', 'SharedRules/**', '.github/workflows/local-integration.yml']
+    paths: ['Integration/**', 'IntegrationClient/**', 'SharedRules/**', '.github/workflows/local-integration.yml', '.github/full-regression-trigger.json']
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
   backend:
-    if: ${{ github.event.repository.private == false }}
+    if: ${{ github.event.repository.private == false && !contains(github.event.head_commit.message, '[diagnostic:isolation]') }}
     runs-on: ubuntu-24.04
     timeout-minutes: 40
     steps:

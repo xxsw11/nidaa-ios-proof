@@ -2,7 +2,7 @@ name: NIDAA - Native integration environment and review
 on:
   push:
     branches: ['codex/native-integration-review']
-    paths: ['Integration/**', 'IntegrationClient/**', 'App/**', 'UITests/**', 'Scripts/**', 'QA/NativeReview/**', '.github/workflows/native-review.yml']
+    paths: ['Integration/**', 'IntegrationClient/**', 'App/**', 'UITests/**', 'Scripts/**', 'QA/NativeReview/**', '.github/workflows/native-review.yml', '.github/full-regression-trigger.json']
   workflow_dispatch:
     inputs:
       native_trial:
@@ -47,7 +47,7 @@ jobs:
             artifacts/native-review/live/
           retention-days: 7
   autofill:
-    if: ${{ github.event.repository.private == false && !contains(github.event.head_commit.message, '[ui:local-large]') }}
+    if: ${{ github.event.repository.private == false && !contains(github.event.head_commit.message, '[ui:local-large]') && !contains(github.event.head_commit.message, '[diagnostic:isolation]') }}
     runs-on: macos-15
     timeout-minutes: 40
     steps:

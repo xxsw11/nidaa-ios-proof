@@ -22,6 +22,7 @@ on:
       - 'QA/test_native_stage.py'
       - 'UITests/**'
       - '.github/workflows/ios-simulator.yml'
+      - '.github/full-regression-trigger.json'
 
 permissions:
   contents: read
@@ -33,7 +34,7 @@ concurrency:
 jobs:
   simulator:
     name: Simulator - ${{ matrix.ui-suite }}
-    if: ${{ github.event.repository.private == false && !contains(github.event.head_commit.message, '[ui:saved]') }}
+    if: ${{ github.event.repository.private == false && !contains(github.event.head_commit.message, '[ui:saved]') && !contains(github.event.head_commit.message, '[diagnostic:isolation]') }}
     runs-on: macos-15
     timeout-minutes: 45
     strategy:
