@@ -1,0 +1,31 @@
+name: NIDAA - Native integration environment and review
+on:
+  push:
+    branches: ['codex/native-integration-review']
+    paths: ['Integration/native/**', 'Integration/gateway.py', '.github/workflows/native-review.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  environment:
+    if: ${{ github.event.repository.private == false }}
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Inspect actual host capabilities
+        run: |
+          mkdir -p artifacts/native-environment
+          { sw_vers; uname -m; xcodebuild -version; swift --version; go version; command -v docker || true; command -v sandbox-exec; } > artifacts/native-environment/host.txt
+      - name: Prepare official native components
+        run: bash Integration/native/prepare.sh
+      - name: Verify process isolation and real Auth database inbox
+        run: '"$RUNNER_TEMP/nidaa-native-tools/venv/bin/python" Integration/native/runtime.py run'
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: ${{ always() }}
+        with:
+          name: native-environment-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/native-environment/
+          retention-days: 7
