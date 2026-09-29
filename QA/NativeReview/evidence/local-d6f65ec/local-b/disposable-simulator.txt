@@ -1,0 +1,4 @@
+NIDAA-Disposable-DD63E160-A39F-478C-BC6C-D874C4ACC368
+B8896DEC-A4D7-466C-8369-125074E0AAA2
+com.apple.CoreSimulator.SimDeviceType.iPhone-16-Pro
+com.apple.CoreSimulator.SimRuntime.iOS-18-5

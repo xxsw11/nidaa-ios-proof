@@ -73,4 +73,4 @@ Minimum continuation environment: a Mac/Xcode16.4+ with an installed Simulator, 
 
 The isolated Linux backend/client gates passed at `966f80a` and `ea63b0f`: 55 backend tests, 45 reference checks, 13 QA checks, 24 Swift-client tests and the live official Auth SDK journey. The existing local UI baseline passed all 17 tests and Debug/Release at `966f80a`. Neither result establishes this native service bootstrap or real native UI/backend execution.
 
-At031ffd5 the three functional AutoFill-On flows passed with Debug/Release. MOCK integration and local-b each passed7/8; candidate05ab0f verifies the remaining scroll/initial-selection preconditions and actual saved credentials. See [current coverage](COVERAGE.md). UI changes do not justify repeating the unchanged native isolation gate.
+Atd6f65ec the three functional AutoFill-On cases and all8 MOCK integration cases passed. The remaining source-bound UI results are in [current coverage](COVERAGE.md). They do not justify repeating the unchanged native isolation gate and do not establish native UI/backend success.

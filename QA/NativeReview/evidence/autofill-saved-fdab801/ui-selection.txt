@@ -1,0 +1,2 @@
+UI suite: autofill-saved
+-only-testing:NidaaUITests/AutoFillUITests/testSavedCredentialSelection

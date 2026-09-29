@@ -1,6 +1,6 @@
 # Native review UI handoff
 
-No native tests ran on this Windows workstation. Cloud source `031ffd5f5177b41fa2717409ac15a7e50ad8b4fa` produced the results below. Candidate `d6f65ec253f6345e6ae2e368c4b2b8d7baf88681` is pending cloud validation. Parent task owns workflows, evidence and publication; source alone is not a passing test.
+No native tests ran on this Windows workstation. Source-bound cloud results are recorded below and in [current status](../../NATIVE_REVIEW_STATUS.md). Parent task owns workflows, evidence and publication; source alone is not a passing test.
 
 ## Changes and evidence boundaries
 
@@ -10,21 +10,22 @@ No native tests ran on this Windows workstation. Cloud source `031ffd5f5177b41fa
 - Live UI startup uses `-nidaa-integration-live-ui`; its default client is real, with optional `NIDAA_LIVE_BASE_URL` accepted only in Debug Simulator and still validated by `TrialEnvironment`. The normal manual integration route remains `http://127.0.0.1:55421`.
 - `-nidaa-integration-simulated-device-auth` enables only the deliberate local-device verification prompt, visibly labeled on screen and compiled only for Debug Simulator. It does not mock Supabase Auth, account identity, network, database, consent, or responses. A separate confirmation remains mandatory after this simulated device verification.
 
-Apple references: [Password AutoFill semantics](https://developer.apple.com/documentation/security/enabling-password-autofill-on-a-text-input-view), [secure text entry](https://developer.apple.com/documentation/uikit/uitextinputtraits/issecuretextentry), [ASCII-capable keyboard](https://developer.apple.com/documentation/uikit/uikeyboardtype/asciicapable), [native paste controls](https://developer.apple.com/documentation/uikit/uipastecontrol). The historical yellow system overlay and dropped Latin keystrokes motivated input review; the three functional AutoFill-On tests passed at 031, after separating credential and verification-token steps. This is evidence for the observed paths, not a general diagnosis of Apple internals; saved-credential selection remains separately pending.
+Apple references: [Password AutoFill semantics](https://developer.apple.com/documentation/security/enabling-password-autofill-on-a-text-input-view), [secure text entry](https://developer.apple.com/documentation/uikit/uitextinputtraits/issecuretextentry), [ASCII-capable keyboard](https://developer.apple.com/documentation/uikit/uikeyboardtype/asciicapable), [native paste controls](https://developer.apple.com/documentation/uikit/uipastecontrol). The historical yellow system overlay and dropped Latin keystrokes motivated input review; the three functional AutoFill-On tests passed at 031, after separating credential and verification-token steps. This is evidence for the observed paths, not a general diagnosis of Apple internals; saved-credential selection remains unresolved after the recorded9a failure.
 
 ## Suites
 
 | Suite | Current recorded result | Boundary / next validation |
 |---|---|---|
-| `AutoFillUITests` at 031 | [Run36516431533](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36516431533): 3 functional passes, 1 availability skip; Debug/Release passed | Manual registration/navigation, paste/login/recovery and large RTL visibility; backend is MOCK |
-| `IntegrationUITests` at 031 | [Run36516431563](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36516431563): 7/8 passed | Only `testLargeArabicLayoutAndLogoutIsolation` failed in shared scroll helper line150; 05ab0f stable-target correction pending |
-| Local-b at 031 | Same run: 7/8 passed; deletion/disappearance and persisted deletion passed | Ahmad-receipt assertion failed in `testBothActionsBackgroundDuringAuthenticationAndConsentChanges`; stronger original-recipient preconditions in 05ab0f pending |
-| Backend/client at 031 | [Run36516431478](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36516431478): 55 backend + 45 reference + 14 QA + 24 client tests and live SDK journey passed | Linux stack/SDK evidence, not native UI/backend E2E |
-| `testSavedCredentialSelection` | Added in candidate d6f65ec; outcome pending | Actual creation/selection through disposable native Passwords/AutoFill, followed by MOCK login; replaces availability-only probe |
+| Three functional AutoFill cases atd6 | [Run36519447212](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36519447212): all3 passed; Release passed | Manual registration/navigation, paste/login/recovery, large RTL visibility with native AutoFill On; backend MOCK |
+| `IntegrationUITests` atd6 | [Run36519447184](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36519447184): 8/8 passed; Debug/Release passed | Stable scroll targeting resolves prior large Arabic logout test failure |
+| Local experience atd6 | Same run: local-b8/8; local-a8/9; Release passed | Only XXXL action precondition failed before scrolling; stronger Sara-only and persisted deletion checks passed |
+| Backend/client at031 | [Run36516431478](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36516431478):55 backend+45 reference+14 QA+24 client tests and live SDK journey passed | Linux stack/SDK, not native UI/backend E2E |
+| Saved credentials | d6 discovery failure;678 Save gate failed; fdab saved entry but failed picker discovery; 9a507fe run36525193498 failed saved selection (0/1;0 skips; Release passed) after native Save and Passwords tap. Dynamic identity discovery did not resolve it; no personal-account requirement was observed | No personal-account requirement observed; selector failure is not evidence of unsupported AutoFill |
+| XXXL local action | Targeted6a601cb run36522014170 passed1/1; Debug/Release passed | Bounded scrolling before unchanged readiness/selection/authorization assertions |
 | `NativeIntegrationUITests` | Not executed: environment isolation gate failed before services | Both prepared journeys remain unverified against a native real backend |
-| Physical notifications/device authentication | Deferred; no hardware | No Simulator or API result validates physical delivery or authentication hardware |
+| Physical notifications/device authentication | Deferred; no hardware | Simulator/API results cannot validate physical delivery or hardware |
 
-Candidate d6f65ec has no result claim here. Its saved-selection scenario requests no personal Apple account/passcode; a skip requires an observed native personal-account/passcode requirement. The 031 availability skip did not prove that saved credentials are unsupported. Manual typing while AutoFill is On is not successful saved-credential selection.
+Manual typing while AutoFill is On is distinct from selecting a saved credential. The031 availability-only skip did not establish selection or unsupported functionality. All failures and changed test prerequisites remain in [attempt history](attempt-history.json).
 
 ## Real journey and fixtures
 
@@ -43,6 +44,4 @@ Runtime contract:
 
 Raw XCTest logs, xcresult bundles, screenshots on automatic failure, typing events and screen recordings can contain secrets even when application fields are masked. Keep them private and discard them after safe extraction; **do not upload raw artifacts**. The parent workflow must export only inspected, allowlisted screenshots and sanitized counts/status. New suites do not attach live failure screenshots. Explicit screenshots are taken after submitted fields are cleared or after returning a never-authenticated demonstration to hidden state. A separate visible field-only crop is permitted only after the value is asserted and guarded equal to DEMO-NOT-A-CREDENTIAL; that string is never submitted for authentication. Native screenshots use `integration-native-real-`; MOCK/AutoFill screenshots use `integration-mock-` and never claim real backend success. Saved-selection diagnostics export only fixed known control labels/types and observed personal-account/passcode requirements; generated password values are never read or exported.
 
-Source checks cannot replace execution. The recorded 031 cloud results and unresolved failures remain source-bound; candidate d6f65ec results must be recorded separately with run, attempt and Simulator/runtime identity before a merge recommendation. No local Swift compilation, native real-backend E2E or physical-device validation is claimed. See [coverage and remaining gaps](COVERAGE.md).
-
-Compiler checkpoint:05ab0f failed UI-test compilation before execution (optional application inferred inside an array); Release passed. Candidate d6f65ec guards the nonoptional application without changing assertions. Original reports are in evidence/compile-05ab0f and attempt-history.json. This is a test-source failure, not a runtime environment failure.
+Source checks cannot replace execution. The source-bound current results and remaining gaps are in [coverage](COVERAGE.md). No local Swift compilation, native real-backend E2E or physical-device validation is claimed. Original05ab0f test-compilation failures are retained; d6 subsequently compiled and executed the UI tests after guarding a nonoptional application reference.

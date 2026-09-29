@@ -239,5 +239,112 @@
         "sha256": "5fff6e589bb9e17ae86aab995ae0a2e05a696ffdd00be649eb668c4cb3262ee1"
       }
     ]
+  },
+  {
+    "run": 36519447184,
+    "attempt": 1,
+    "job": 109248875221,
+    "commit": "d6f65ec253f6345e6ae2e368c4b2b8d7baf88681",
+    "suite": "integration",
+    "artifact": 11013470003,
+    "artifactSHA256": "48ffc9b9d9492b372d7b56e2b070165737fd050e154b57614c880dcc11941f36",
+    "result": "8/8 MOCK UI passed; Debug and Release passed; native AutoFill On",
+    "observed": "Large Arabic logout now passes using stable visible scroll container. No real backend or physical device."
+  },
+  {
+    "run": 36519447212,
+    "attempt": 1,
+    "job": 109248875012,
+    "commit": "d6f65ec253f6345e6ae2e368c4b2b8d7baf88681",
+    "suite": "autofill",
+    "artifact": 11012422205,
+    "artifactSHA256": "ef166a66b71d87012717b793050a92f2adc686e1ee48843c5771dbef0771b6bb",
+    "result": "3 functional tests passed; saved selection failed; Release passed",
+    "observed": "Saved test stopped at line40 before typing because website/username could not be identified safely; no personal-account requirement observed. Safe visible demonstration crop confirms light text against dark field.",
+    "changeBeforeRetry": "678d70b adds unique semantic-row geometry discovery, role/frame diagnostics and an empty identity-only crop strictly above Password. Targeted saved-only suite retains the completed functional results separately."
+  },
+  {
+    "run": 36519447184,
+    "attempt": 1,
+    "job": 109248875393,
+    "commit": "d6f65ec253f6345e6ae2e368c4b2b8d7baf88681",
+    "suite": "local-a",
+    "artifact": 11012452477,
+    "artifactSHA256": "a01111a86e039d0139d294bd43ced9e1ca9e827b3803b7d914581d3b1e59699d",
+    "result": "8 passed, 1 failed, 0 skipped; Release passed",
+    "category": "Test harness offscreen readiness regression",
+    "observed": "testLargeTextActionReviewRemainsUsable fails at LocalExperienceUITests.swift116 waiting for hittability before scrolling. The XXXL selection screenshot from local-b shows recipients below the initial explanation viewport.",
+    "changeBeforeRetry": "Bounded scroll before the unchanged enabled/selected/hittable predicate. Preserve one tap, off-state, Sara-only initial recipients and all later authorization assertions. Targeted local-large6a601cb; no app code change."
+  },
+  {
+    "run": 36519447184,
+    "attempt": 1,
+    "job": 109248875337,
+    "commit": "d6f65ec253f6345e6ae2e368c4b2b8d7baf88681",
+    "suite": "local-b",
+    "artifact": 11012657210,
+    "artifactSHA256": "c361bea5c82056032e649dc48691505267a51e5b68bce1b2e71c7939c54bf05f",
+    "result": "8 passed, 0 failed, 0 skipped; Release passed",
+    "category": "Passing strengthened initial-recipient and persisted-deletion checks",
+    "observed": "All8 local-b cases passed, including both-actions background/consent changes and contact deletion/non-reset persistence."
+  },
+  {
+    "run": 36521436098,
+    "attempt": 1,
+    "job": 109254961379,
+    "commit": "678d70b9e38a2e360248a2e0d68661ef04305d94",
+    "suite": "autofill-saved",
+    "artifact": 11013606714,
+    "artifactSHA256": "20fc9943e9fd7f01ff7c4d3d62e320b22b8ff1bf47925bd2d43a61ee40d18746",
+    "result": "0 passed,1 failed,0 skipped; Release passed",
+    "observed": "Native site/username discovery succeeded; test failed Save-enabled precondition at AutoFillUITests.swift51. No personal requirement observed. Original empty site-field crop shows Website or Label placeholder.",
+    "changeBeforeRetry": "Provide a random disposable credential through the unique native Password row instead of assuming automatic generation; fixed boolean readiness confirms fictional site/username and Save gate. No password read or published."
+  },
+  {
+    "run": 36522014170,
+    "attempt": 1,
+    "job": 109256733808,
+    "commit": "6a601cbe790815e7853ffd561262f4e93460f8ad",
+    "suite": "local-large",
+    "artifact": 11013089512,
+    "artifactSHA256": "6fb6b62b31c76348902ef3b14adfac80badf123979cea037b1f8f225435cb99e",
+    "result": "1 targeted XXXL action case passed,0 failed,0 skipped; Debug and Release passed",
+    "observed": "Bounded reveal reached Ahmad selection while preserving selected/enabled initial state, single deselection, Sara-only original recipients, local authentication and explicit follow-up confirmation. Actual screenshot shows both confirmation/cancel controls readable and visible. This is one targeted test, not a full17 rerun."
+  },
+  {
+    "run": 36522693759,
+    "attempt": 1,
+    "job": 109258835451,
+    "commit": "fdab801a00dfe85108a2d8e2f033f12646e34dbc",
+    "suite": "autofill-saved",
+    "artifact": 11014450578,
+    "artifactSHA256": "12373a8c165ebe223a2c668ae359a7185c01661053bb97e13b90472f5716e8a7",
+    "result": "0 passed,1 failed,0 skipped; Release passed",
+    "observed": "Safe readiness confirms exact fictional site/username, native Password row found, Save disabled before explicit random password and enabled afterwards. Save tap dismissed New Password form. Failure later at line90: AutoFill submenu unavailable; fixed control inventory nevertheless shows button:Passwords.",
+    "changeBeforeRetry": "07787d0 waits for native Passwords accessory before fallback, rechecks direct Passwords after long press, and waits for actual hittability. No injected autofill values, missing assertion or product change."
+  },
+  {
+    "run": 36523962665,
+    "attempt": 1,
+    "job": 109262750251,
+    "commit": "07787d025f0a6263982aa836c2f7a4f86885bd30",
+    "suite": "autofill-saved",
+    "artifact": 11014621891,
+    "artifactSHA256": "48624e3927b87529b483e4ae007e992d6a7c99dfa596ec3afbd94796287b450f",
+    "result": "0 passed,1 failed,0 skipped; Release passed",
+    "observed": "Native Save and Passwords action succeeded. Selection failed at line124: fictional saved identity not found; fixed control inventory shows button:Passwords. No personal requirement or infrastructure signal.",
+    "changeBeforeRetry": "Reevaluate eligible row/button/combined-label queries during bounded discovery, rather than selecting one absent query before native UI settles; inspect foreground-state booleans and header-only crop. Retain actual email/password validation and login assertions."
+  },
+  {
+    "run": 36525193498,
+    "attempt": 1,
+    "job": 109266577421,
+    "commit": "9a507fecd767020dbf575708f6ab69dc9fdc5acc",
+    "suite": "autofill-saved",
+    "artifact": 11015045015,
+    "artifactSHA256": "f3adbda2454586de87af40400e6081cfca5fc0c1ebae5dcd64e7706bbb24d325",
+    "result": "0 passed,1 failed,0 skipped; Release passed; UI test compiled and executed",
+    "observed": "Native Save and hittable Passwords tap completed. Dynamic identity discovery still failed at AutoFillUITests.swift147. No saved identity on queried foreground surfaces; Passwords not foreground. Original top120-point crop shows NIDAA integration header, not a Passwords header. No personal requirement or infrastructure signal. The crop does not reveal the rest of the screen or establish picker absence.",
+    "nextStep": "Unresolved selection path. Diagnose the actual system surface after the Passwords tap in a disposable Simulator using fixed nonsecret control observations before another targeted run. No unchanged rerun, unproven iCloud requirement, skipped assertion or claimed successful selection."
   }
 ]

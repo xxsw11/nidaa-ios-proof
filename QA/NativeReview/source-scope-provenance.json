@@ -1,6 +1,103 @@
 {
   "baselineCommit": "031ffd5f5177b41fa2717409ac15a7e50ad8b4fa",
-  "candidateCommit": "d6f65ec253f6345e6ae2e368c4b2b8d7baf88681",
-  "appChanged": [],
-  "backendChanged": []
+  "candidateCommit": "9a507fecd767020dbf575708f6ab69dc9fdc5acc",
+  "note": "Actual Git blob equality to the complete031 backend/client and initial product-input execution. Subsequent changes are UI harness/evidence only; each UI result remains tied to its own source.",
+  "scopes": {
+    "app": {
+      "files": 19,
+      "changed": [],
+      "blobs": {
+        "App/Experience/AlertScreens.swift": "23e05cf31a0d095adf57e57b1ece229d94f50ce0",
+        "App/Experience/DesignSystem.swift": "c50f9283287561890ad42f449403a83d4122e0e1",
+        "App/Experience/ExperienceRoot.swift": "b2b9401434040e32048f4abf9d5f53c27daea45c",
+        "App/Experience/ExperienceStore.swift": "8715d026b9996eb8c71b5b59c138f434ba12e5c1",
+        "App/Experience/HomeContacts.swift": "3cd8c5dccb50a33ec8af27d003d0f45b5af2d391",
+        "App/Experience/SettingsScreens.swift": "db36008d59e755429b5caca08237e1890c105c67",
+        "App/Info.plist": "3562126f0d1c04172dab1d0713f733fb88adf4ff",
+        "App/Integration/IntegrationAlerts.swift": "2795cd49de35145721854fd40d01e4456f6fd316",
+        "App/Integration/IntegrationCredentialField.swift": "7155bab8848291cfed339546534d15c47dbefd5f",
+        "App/Integration/IntegrationScreens.swift": "bdf23e5f91f312ad477dbf754593920a26ad16e4",
+        "App/Integration/IntegrationStore.swift": "457756cd8cf95aa9f9f5e3b228cf1194e196e35a",
+        "App/NidaaProofApp.swift": "8db73a62807029b07c4c3c0b5e2e0829728bc32c",
+        "App/PrivacyInfo.xcprivacy": "0a95d0932c919355cdd63f41c3a1f047cd27fe87",
+        "App/ProofStore.swift": "345831566d2e3bbcc60c45f44799495915b2b8b9",
+        "App/ProofView.swift": "8f28085dd28a188ec0e895fe8e5a7fcdec378cd2",
+        "App/Services/ExecutionScope.swift": "374d85a6cec4c83cedb6f4da38c9d3860033497f",
+        "App/Services/LocalAuthenticationService.swift": "365ae7bca25f059457a65dd15c80c688fafb823b",
+        "App/Services/NotificationService.swift": "fa4f0db58e6a710deb90293025c6d691535abb19",
+        "App/Services/RemoteRegistrationService.swift": "65095ddaf45e35938d288f93eddbc15467c869f5"
+      }
+    },
+    "backend": {
+      "files": 32,
+      "changed": [],
+      "blobs": {
+        "Integration/Dockerfile": "013b0023150f8f2b6aacd67d05ee7a006d6df464",
+        "Integration/Dockerfile.swift": "52d25746b5b825a60bbf798dcd72c8e8d69c1dd7",
+        "Integration/bootstrap.py": "ff91c4eabb5e19b48a98e8f2c60cb81c2531ef1d",
+        "Integration/compose.yml": "1775915b80245b144b902ea0fac28b26c3143852",
+        "Integration/diagnose.py": "5b7b45db6dc5ceb3bedddda2ae8eaf19dcf54e4b",
+        "Integration/gateway.py": "467be92e7fa30883e72922e11d7500bcf8b87a2f",
+        "Integration/init-auth.sh": "e06b9d5f578ceafb406293ce1f46e617130415ea",
+        "Integration/loopback.py": "c093a71aab0eab41a80a5237615327ac5e2db142",
+        "Integration/manage.py": "85f67f4655a62533a519a0246d2df0b53fe5714d",
+        "Integration/migrations/001_domain.sql": "37c4f9c5d2104841bea75dac2a3b43d5324dffec",
+        "Integration/migrations/002_auth_grants.sql": "bfd0ecbd535f7399020fab4d4dc0a171f5314b58",
+        "Integration/migrations/003_retention_revocation_ledger.sql": "15465ab9d9eb3bcae7d5982f654eacb5a7c98585",
+        "Integration/migrations/004_auth_read_policies.sql": "544e030e54f6a8d0e81e5d6d4fa99ff9dae9b490",
+        "Integration/migrations/005_review_restore_barriers.sql": "cb199fc447df8abc7f8877c0b573a4c09aeb72b2",
+        "Integration/native/isolation_diagnostic.py": "4c95387825df53a3343488cbffa54f487bd281ca",
+        "Integration/native/isolation_probe.py": "c4f92984acaaf0384e6c028468aa49ab1dc41d5c",
+        "Integration/native/loopback.sb": "03a2e03bde4f433bd3363e2ffaa95a3987b07f0f",
+        "Integration/native/prepare.sh": "1f591de6aa3f7b0bed0a8bf34f9afc449d8fa4b0",
+        "Integration/native/prepare_assets.py": "66b19da28221e89938316f4b412a40ab55dd7efa",
+        "Integration/native/runtime.py": "4ca38ccd758ca1bce98af8647133fb4c30f52eb5",
+        "Integration/relay_hop.py": "a1de0097eb110e9cf8593a532b2883e96278d981",
+        "Integration/requirements-lock.txt": "9cc99a7960b800523f723ffdc7a1808d9db153c1",
+        "Integration/requirements.txt": "e632a207c6a1114b41165e836193014a381a98b8",
+        "Integration/service/__init__.py": "f4ea63d6605d93a5afd8f35756c3a9bf3742c928",
+        "Integration/service/domain.py": "22d800998227520ae295d5ad4714b14aaa993dc1",
+        "Integration/service/main.py": "697fd7c1371be6721a9f5aeaeb58a4ddbd835a76",
+        "Integration/service/worker.py": "b91dea8df0d8935bbe1c38ecaed09dac569053e4",
+        "Integration/tests/harness.py": "9c17df85b93690f776de3614c87d7f495866136c",
+        "Integration/tests/test_integration.py": "15baca28399f002832d6fd2b30285bd325dd6591",
+        "Integration/tests/test_native_review.py": "f9d5410aca9a8178f99a283903386a449d14f4a5",
+        "Integration/tests/test_smoke.py": "7fe78684fdae168fddd80a4acf737d381cf81fbd",
+        "Integration/tests/test_workers.py": "005fb73ebc3cd34cbfb78aa5a8ed1d78032b728d"
+      }
+    },
+    "client": {
+      "files": 12,
+      "changed": [],
+      "blobs": {
+        "IntegrationClient/Package.resolved": "08cebf1e6ff056c5a0948502d82b6602e1f4c553",
+        "IntegrationClient/Package.swift": "a51e7b88b8a2841146078620f9e17521fe1acd89",
+        "IntegrationClient/Sources/IntegrationTrialCLI/LocalMailbox.swift": "a96d170b3f5b08d0314f9fbe994e1fe169ac9f81",
+        "IntegrationClient/Sources/IntegrationTrialCLI/Trial.swift": "52e4042d1ffb54e7b75f0992b810274d0bab40db",
+        "IntegrationClient/Sources/NidaaIntegration/Models.swift": "710d2eba3780fe7d6ee8827b1883ac944b1ad50d",
+        "IntegrationClient/Sources/NidaaIntegration/NidaaClient.swift": "495d9bb4cc3b181fe58b1c3d4573e5f0c8b96f69",
+        "IntegrationClient/Sources/NidaaIntegration/Storage.swift": "badab8b125873922c87a9ae9a6be88513d1617f5",
+        "IntegrationClient/Sources/NidaaIntegration/Transport.swift": "28924c5633c25d15a5267abc3571b816d402a819",
+        "IntegrationClient/Tests/NidaaIntegrationTests/ClientReviewRegressionTests.swift": "c8e9453fd199d6e789a2ac4d3f570734e30825ec",
+        "IntegrationClient/Tests/NidaaIntegrationTests/ClientSafetyTests.swift": "c29131c83349eb2bee39ff92f1fc798c6361f9f3",
+        "IntegrationClient/Tests/NidaaIntegrationTests/StorageBoundaryTests.swift": "34226aba07b6be5f9c1a1153f83f89b8b87ceb3e",
+        "IntegrationClient/Tests/NidaaIntegrationTests/TestTransport.swift": "d235093b2b223cf7bb145a57595c2e6d9a3a6dbe"
+      }
+    },
+    "core": {
+      "files": 9,
+      "changed": [],
+      "blobs": {
+        "ProofCore/Package.swift": "9ad6f2acf9dc287ec3e09e89a09cd14eef94febb",
+        "ProofCore/Sources/ProofCore/AlertActionGate.swift": "10a305f91d30761192d7e1e5fda35ad2338dadf5",
+        "ProofCore/Sources/ProofCore/AlertPersistence.swift": "7f850682a13ea627820a6d02b556a3551eadb496",
+        "ProofCore/Sources/ProofCore/Appearance.swift": "d7e2169121a9a3ea447283b5ced7fa4a3149f3e3",
+        "ProofCore/Sources/ProofCore/Evidence.swift": "ce57835d70b64f69c4dd5275e37a96631979f431",
+        "ProofCore/Sources/ProofCore/LocalSimulation.swift": "978323aabbfea693eaf325800febeb3f1bb02138",
+        "ProofCore/Tests/ProofCoreTests/EvidenceTests.swift": "8b78b9d57545bd8b8dc14c24f158bafac02c8074",
+        "ProofCore/Tests/ProofCoreTests/SimulationTests.swift": "abfcd2d0df6c517e4708c7192979eda9d575eb89",
+        "ProofCore/Tests/ProofCoreTests/StabilizationTests.swift": "ee7c7b320bba591041f0820845b8f3d7a00fabfe"
+      }
+    }
+  }
 }

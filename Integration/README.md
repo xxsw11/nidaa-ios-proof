@@ -64,8 +64,12 @@ From the review checkout on a Mac with the required Xcode and installed Simulato
 ```sh
 # Existing MOCK flow regressions, now with AutoFill enabled:
 bash Scripts/ci_native_review.sh integration
-# Manual entry, paste, navigation, recovery and visibility with AutoFill enabled:
+# Full AutoFill suite: manual/paste/navigation/recovery/visibility and saved selection:
 bash Scripts/ci_native_review.sh autofill
+# After diagnosing a saved-selection failure, run only that scenario:
+bash Scripts/ci_native_review.sh autofill-saved
+# After diagnosing the local XXXL action fixture, run only that local scenario:
+NIDAA_UI_SUITE=local-large bash Scripts/ci_simulator.sh
 ```
 
 For the real native/backend journey, first complete [native preparation and isolation checks](../QA/NativeReview/NATIVE_ENVIRONMENT.md), then keep those owned services alive for the live suite:
@@ -81,7 +85,7 @@ The wrapper calls `Scripts/ci_simulator.sh`, which creates a fresh `NIDAA-Dispos
 
 Raw XCTest logs, recordings and result bundles can contain typed secrets even when fields appear masked. The wrapper keeps them under ignored, private `PrivateEvidence/` paths and exports only allowlisted evidence through `Scripts/export_native_review.py`. Do not publish raw bundles, UI logs, mailbox contents or recordings. Use the wrapper for these suites rather than directly invoking the simulator script into publicly collected artifacts. Debug tests and Release builds have separate observed outcomes; do not infer either from source preparation.
 
-The current password control retains one native secure text field while visibility changes, with correct content semantics, an [ASCII-capable keyboard](https://developer.apple.com/documentation/uikit/uikeyboardtype/asciicapable), LTR credential entry and surrounding Arabic RTL layout. Paste uses a native user-initiated control. Visibility evidence uses only a demonstration string that never authenticates an account. Manual entry or paste with AutoFill On is distinct from selecting a saved credential. The saved-credential test creates only a fictional username/site in disposable Passwords, leaves the generated secret unread, and selects that entry through native AutoFill. Its actual result is recorded separately in the current status; the earlier availability probe alone did not prove selection. No personal iCloud account is requested.
+The current password control retains one native secure text field while visibility changes, with correct content semantics, an [ASCII-capable keyboard](https://developer.apple.com/documentation/uikit/uikeyboardtype/asciicapable), LTR credential entry and surrounding Arabic RTL layout. Paste uses a native user-initiated control. Visibility evidence uses only a demonstration string that never authenticates an account. Manual entry or paste with AutoFill On is distinct from selecting a saved credential. The saved-credential test creates a fictional username/site and a fresh random local-only password through disposable Passwords, never reads the native password value, and selects that entry through native AutoFill. Its actual result is recorded separately in the current status; the earlier availability probe alone did not prove selection. No personal iCloud account is requested.
 
 The earlier implementation branch deliberately tested manual secure entry with **AutoFill Off** after system-overlay failures. Its `disposable-simulator-autofill-passwords-and-passkeys-off` screenshots and results are historical evidence only. They do not validate this review's enabled fixture or saved-credential selection. At031, the three functional AutoFill-On tests passed with Debug/Release and inspected originals; native UI/backend remains unexecuted due to the configured isolation failure. Saved-selection and later harness outcomes must be read from the exact-run status. See [UI coverage and handoff](../QA/NativeReview/UI_HANDOFF.md) for the suite boundaries and pending validation.
 

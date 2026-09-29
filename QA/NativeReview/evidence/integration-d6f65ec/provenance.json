@@ -1,0 +1,11 @@
+{
+  "run": 36519447184,
+  "attempt": 1,
+  "job": 109248875221,
+  "commit": "d6f65ec253f6345e6ae2e368c4b2b8d7baf88681",
+  "suite": "integration",
+  "artifact": 11013470003,
+  "artifactSHA256": "48ffc9b9d9492b372d7b56e2b070165737fd050e154b57614c880dcc11941f36",
+  "result": "8/8 MOCK UI passed; Debug and Release passed; native AutoFill On",
+  "observed": "Large Arabic logout now passes using stable visible scroll container. No real backend or physical device."
+}

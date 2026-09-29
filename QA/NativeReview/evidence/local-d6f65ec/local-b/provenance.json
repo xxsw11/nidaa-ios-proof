@@ -1,0 +1,12 @@
+{
+  "run": 36519447184,
+  "attempt": 1,
+  "job": 109248875337,
+  "commit": "d6f65ec253f6345e6ae2e368c4b2b8d7baf88681",
+  "suite": "local-b",
+  "artifact": 11012657210,
+  "artifactSHA256": "c361bea5c82056032e649dc48691505267a51e5b68bce1b2e71c7939c54bf05f",
+  "result": "8 passed, 0 failed, 0 skipped; Release passed",
+  "category": "Passing strengthened initial-recipient and persisted-deletion checks",
+  "observed": "All8 local-b cases passed, including both-actions background/consent changes and contact deletion/non-reset persistence."
+}

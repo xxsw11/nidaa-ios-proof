@@ -1,0 +1,11 @@
+{
+  "run": 36522014170,
+  "attempt": 1,
+  "job": 109256733808,
+  "commit": "6a601cbe790815e7853ffd561262f4e93460f8ad",
+  "suite": "local-large",
+  "artifact": 11013089512,
+  "artifactSHA256": "6fb6b62b31c76348902ef3b14adfac80badf123979cea037b1f8f225435cb99e",
+  "result": "1 targeted XXXL action case passed,0 failed,0 skipped; Debug and Release passed",
+  "observed": "Bounded reveal reached Ahmad selection while preserving selected/enabled initial state, single deselection, Sara-only original recipients, local authentication and explicit follow-up confirmation. Actual screenshot shows both confirmation/cancel controls readable and visible. This is one targeted test, not a full17 rerun."
+}

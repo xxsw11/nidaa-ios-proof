@@ -1,0 +1,12 @@
+{
+  "run": 36521436098,
+  "attempt": 1,
+  "job": 109254961379,
+  "commit": "678d70b9e38a2e360248a2e0d68661ef04305d94",
+  "suite": "autofill-saved",
+  "artifact": 11013606714,
+  "artifactSHA256": "20fc9943e9fd7f01ff7c4d3d62e320b22b8ff1bf47925bd2d43a61ee40d18746",
+  "result": "0 passed,1 failed,0 skipped; Release passed",
+  "observed": "Native site/username discovery succeeded; test failed Save-enabled precondition at AutoFillUITests.swift51. No personal requirement observed. Original empty site-field crop shows Website or Label placeholder.",
+  "changeBeforeRetry": "Provide a random disposable credential through the unique native Password row instead of assuming automatic generation; fixed boolean readiness confirms fictional site/username and Save gate. No password read or published."
+}
