@@ -20,6 +20,7 @@ final class AutoFillUITests: IntegrationTestCase {
             guard next.waitForExistence(timeout: 3), next.isHittable else { break }
             next.tap()
         }
+        recordEarlyPasswordsEntry(passwords: passwords, springboard: springboard)
         try skipOnlyObservedPersonalRequirement(in: [passwords, springboard])
         let create = passwords.buttons["New Password"].firstMatch
         guard create.waitForExistence(timeout: 5), create.isHittable else {
@@ -665,5 +666,60 @@ final class BiometryCapabilityUITests: XCTestCase {
         #else
         XCTFail("Biometry diagnostic requires the owned disposable Simulator")
         #endif
+    }
+}
+
+// DIAGNOSTIC BRANCH ONLY. Append this extension to AutoFillUITests.swift.
+// Insert exactly once, before its first existing call to
+// skipOnlyObservedPersonalRequirement(in: [passwords, springboard]):
+// recordEarlyPasswordsEntry(passwords: passwords, springboard: springboard)
+// The caller has not yet opened New Password or entered fixture credentials.
+extension AutoFillUITests {
+    private func recordEarlyPasswordsEntry(passwords: XCUIApplication, springboard: XCUIApplication) {
+        let allowed = pickerDiagnosticAllowedStrings()
+        var nodes: [[String: Any]] = []
+        var complete = true
+        var truncated = false
+        func visit(_ snapshot: XCUIElementSnapshot, surface: String, parent: Int, depth: Int) {
+            guard nodes.count < 2000, depth < 50 else { truncated = true; return }
+            let frame = snapshot.frame
+            guard [frame.minX, frame.minY, frame.width, frame.height].allSatisfy({ $0.isFinite }) else {
+                complete = false; return
+            }
+            let index = nodes.count
+            let label = snapshot.label
+            let identifier = snapshot.identifier
+            nodes.append([
+                "surface": surface, "node": index, "parent": parent,
+                "role": Int(snapshot.elementType.rawValue),
+                "frame": [frame.minX, frame.minY, frame.width, frame.height],
+                "label": allowed.contains(label) ? label : "[redacted]",
+                "identifier": allowed.contains(identifier) ? identifier : "[redacted]"
+            ])
+            for child in snapshot.children { visit(child, surface: surface, parent: index, depth: depth + 1) }
+        }
+        for (name, surface) in [("passwords", passwords), ("springboard", springboard)] {
+            do { visit(try surface.snapshot(), surface: name, parent: -1, depth: 0) }
+            catch { complete = false } // No raw error or snapshot dump.
+        }
+        let report: [String: Any] = [
+            "phase": "passwords_entry_after_onboarding",
+            "passwordsForeground": passwords.state == .runningForeground,
+            "springboardForeground": springboard.state == .runningForeground,
+            "snapshotsComplete": complete, "truncated": truncated, "nodes": nodes
+        ]
+        if let data = try? JSONSerialization.data(withJSONObject: report, options: [.sortedKeys]),
+           let text = String(data: data, encoding: .utf8) {
+            let tree = XCTAttachment(string: text)
+            tree.name = "autofill-passwords-entry-accessibility-tree"
+            tree.lifetime = .keepAlways; add(tree)
+        }
+        // ORIGINAL FULL SCREEN, PRIVATE ONLY. The diagnostic driver must seal
+        // this in the existing CMS-encrypted archive and never publish it raw.
+        // Snapshot collection can lag UI transitions, so no masking claim is
+        // made. This runs before any fixture credential creation or entry.
+        let screen = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
+        screen.name = "autofill-passwords-entry-full-screen-private"
+        screen.lifetime = .keepAlways; add(screen)
     }
 }
