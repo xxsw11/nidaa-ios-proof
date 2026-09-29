@@ -61,5 +61,43 @@
     "changeBeforeRetry": "Use special localhost Seatbelt selector; retain deny-default, wildcard bind rejection, actual isolation probe and literal127.0.0.1 service binds.",
     "artifact": 11009835317,
     "artifactSHA256": "c00509dccc933b5c22b50ec5a7e60a20448424201506ff428dd98db747413370"
+  },
+  {
+    "run": 36512065014,
+    "attempt": 1,
+    "job": 109226173448,
+    "commit": "ea63b0f48bdc8e508792f065e3ccd3822893cdfb",
+    "result": "Environment blocked before services: wildcard binding not denied",
+    "category": "Concrete isolation limitation; do not repeat unchanged setup",
+    "observed": "External TCP/UDP denied and loopback permitted, but wildcardIPv4/IPv6BindDeniedByPolicy false",
+    "next": "Keep fail-closed gate. Disable automatic native setup retries; resume only after a verified isolation-capable environment is available.",
+    "artifact": 11009450865,
+    "artifactSHA256": "afaf368434969a2b04f33ef9425b7c496f8d8e6f13f8c279291f8bb93df3b5ca"
+  },
+  {
+    "runs": [
+      36511820228,
+      36511820230
+    ],
+    "attempt": 1,
+    "jobs": [
+      109225409776,
+      109225410089
+    ],
+    "commit": "966f80abae825e9e8ca9c55fa659c3cd76ef4527",
+    "result": "UI stage failed; sanitized evidence exporter crashed on numeric Xcode testIdentifier before saving its summary",
+    "category": "Evidence collector defect; underlying UI result not recoverable from published artifact",
+    "observed": "TypeError: expected string or bytes-like object, got int (export_native_review.py:28)",
+    "changeBeforeRetry": "Use testIdentifierString with a guarded string fallback; preserve fixed infrastructure categories and independent Release build. Regression uses the actual previously observed numeric Xcode failure shape;14 Python checks passed locally.",
+    "artifacts": [
+      {
+        "id": 11009887019,
+        "sha256": "80ac1b96d3934abf18e4a7ab8d08620df83c1f9dd9337d787a401bc9314aee16"
+      },
+      {
+        "id": 11009991984,
+        "sha256": "bd5980a710e99ec6781f911af8f2595fd1e80e7eb3b5cf2660cb0eadfac5df8e"
+      }
+    ]
   }
 ]

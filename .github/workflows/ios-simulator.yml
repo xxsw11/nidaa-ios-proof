@@ -2,6 +2,13 @@ name: NIDAA - iOS Simulator Proof
 
 on:
   workflow_dispatch:
+    inputs:
+      ui_suite:
+        description: 'Run only the affected suite after diagnosis, or all regression suites'
+        required: false
+        type: choice
+        default: all
+        options: [all, integration, local-a, local-b]
   push:
     branches: [main, 'codex/**']
     paths:
@@ -20,7 +27,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: nidaa-ios-proof-${{ github.ref }}
+  group: nidaa-ios-proof-${{ github.ref }}-${{ inputs.ui_suite || 'all' }}
   cancel-in-progress: true
 
 jobs:
@@ -32,7 +39,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ui-suite: [integration, local-a, local-b]
+        ui-suite: ${{ fromJSON(github.event_name == 'workflow_dispatch' && inputs.ui_suite != 'all' && format('["{0}"]', inputs.ui_suite) || '["integration","local-a","local-b"]') }}
     env:
       NIDAA_UI_SUITE: ${{ matrix.ui-suite }}
     steps:

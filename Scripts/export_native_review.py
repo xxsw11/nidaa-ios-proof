@@ -25,16 +25,32 @@ if summary_path.exists():
     keys = ['result','totalTestCount','passedTests','failedTests','skippedTests','expectedFailures','startTime','finishTime','devicesAndConfigurations','environmentDescription']
     report['summary'] = {key: summary[key] for key in keys if key in summary}
     # Failure text can contain typed values. Keep only the known test identifier.
-    report['failedTestIdentifiers'] = [x.get('testIdentifier') for x in summary.get('testFailures',[]) if re.fullmatch(r'[A-Za-z0-9_./() -]+', x.get('testIdentifier',''))]
+    report['failedTestIdentifiers'] = []
+    failure_text = []
+    for failure in summary.get('testFailures', []):
+        identifier = failure.get('testIdentifierString', failure.get('testIdentifier'))
+        if isinstance(identifier, str) and re.fullmatch(r'[A-Za-z0-9_./() -]+', identifier):
+            report['failedTestIdentifiers'].append(identifier)
+        # Use only fixed diagnostic categories below, never arbitrary XCTest text.
+        if isinstance(failure.get('failureText'), str):
+            failure_text.append(failure['failureText'])
 else:
     report['summary'] = {'result': 'Not executed or result bundle unavailable'}
+    failure_text = []
 log_path = private/'xcode-ui-tests.log'
 if not log_path.exists(): log_path=private/'driver-private.log'
 logs=log_path.read_text(errors='replace') if log_path.exists() else ''
+diagnostics = logs + '\n' + '\n'.join(failure_text)
 report['testCaseResults'] = re.findall(r"Test Case '-\[([A-Za-z0-9_.]+) ([A-Za-z0-9_]+)\]' (passed|failed|skipped)", logs)
 report['failureLocations'] = sorted(set(re.findall(r'([A-Za-z0-9_]+\.swift):([0-9]+):(?:[0-9]+:)? error:', logs)))
-report['infrastructureSignals'] = {name: pattern in logs for name, pattern in {
+report['infrastructureSignals'] = {name: pattern.lower() in diagnostics.lower() for name, pattern in {
     'runnerBootstrapFailure':'operation never finished bootstrapping',
+    'runnerKilledBeforeTests':'signal kill before starting test execution',
+    'runnerEarlyExit':'Early unexpected exit',
+    'failedLaunch':'Failed to launch',
+    'failedInstall':'Failed to install',
+    'testRunnerLost':'Lost connection to the test runner',
+    'timedOut':'Timed out',
     'simulatorBootFailure':'Unable to boot device',
     'compileFailure':'** TEST BUILD FAILED **',
     'testFailed':'** TEST FAILED **'}.items()}
@@ -53,6 +69,7 @@ manifest = private/'screenshots/manifest.json'
 images=[]
 allowed = {
  'disposable-simulator-autofill-passwords-and-passkeys-on',
+ 'disposable-simulator-autofill-fixture-failure',
  'autofill-saved-credential-availability-screen',
  'integration-mock-autofill-enabled-registration-complete-mock',
  'integration-mock-autofill-enabled-recovery-complete-mock',

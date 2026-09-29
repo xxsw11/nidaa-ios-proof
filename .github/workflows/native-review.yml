@@ -4,11 +4,19 @@ on:
     branches: ['codex/native-integration-review']
     paths: ['Integration/**', 'IntegrationClient/**', 'App/**', 'UITests/**', 'Scripts/**', 'QA/NativeReview/**', '.github/workflows/native-review.yml']
   workflow_dispatch:
+    inputs:
+      native_trial:
+        description: 'Explicitly retry native isolation only after the recorded wildcard-bind limitation is resolved'
+        required: false
+        type: boolean
+        default: false
 permissions:
   contents: read
 jobs:
   environment:
-    if: ${{ github.event.repository.private == false }}
+    # Run36512065014 demonstrated a concrete isolation limitation. Ordinary
+    # source pushes must not repeatedly retry the same blocked environment.
+    if: ${{ github.event.repository.private == false && github.event_name == 'workflow_dispatch' && inputs.native_trial }}
     runs-on: macos-15
     timeout-minutes: 60
     steps:

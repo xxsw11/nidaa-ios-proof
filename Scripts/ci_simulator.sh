@@ -64,7 +64,13 @@ if [[ -d "$proof_evidence/LocalExperience.xcresult" ]]; then
   xcrun xcresulttool export attachments --path "$proof_evidence/LocalExperience.xcresult" --output-path "$proof_evidence/screenshots" || true
   xcrun xcresulttool get test-results summary --path "$proof_evidence/LocalExperience.xcresult" > "$proof_evidence/ui-summary.json" || true
 fi
-[[ "$test_status" == 0 ]] || exit "$test_status"
 # Verify Release compilation with all Debug/Simulator authentication bypasses excluded.
+# Preserve independent build evidence even if Simulator execution fails. The
+# original test exit remains authoritative; a Release pass never hides it.
+set +e
 xcodebuild "${common[@]}" -configuration Release build 2>&1 | tee "$proof_evidence/xcode-release.log"
-printf '%s\n' 'Local simulation UI tests and Release build completed. No notifications sent. Physical-device validation deferred: no Apple devices.' > "$proof_evidence/simulator-result.txt"
+release_status=${PIPESTATUS[0]}
+set -e
+printf '%s\n' "UI suite: ${NIDAA_UI_SUITE:-all}; test exit: $test_status; Release exit: $release_status. No notifications sent. Physical-device validation deferred: no Apple devices." > "$proof_evidence/simulator-result.txt"
+[[ "$test_status" == 0 ]] || exit "$test_status"
+exit "$release_status"
