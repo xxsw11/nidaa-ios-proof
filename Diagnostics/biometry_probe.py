@@ -208,6 +208,9 @@ do {
     guard try isEnabled(enrolled, "enrolled_enabled") else { try fail("enrolled_enabled", -27006) }
     let before = try isChecked(enrolled, "enrolled_mark_before")
     result["enrolledBefore"] = before
+    let matchingBefore = try fixedItem(children(faceMenu, "face_id_items_before"), "Matching Face", "matching_face_before_presence")
+    result["matchingFaceMenuPresentBefore"] = matchingBefore != nil
+    result["matchingFaceMenuEnabledBefore"] = try matchingBefore.map { try isEnabled($0, "matching_face_before_enabled") } ?? false
     result["enrollmentChanged"] = false
     result["enrollmentOutcomeProven"] = false
     if !before {
@@ -222,9 +225,45 @@ do {
         try action(refreshedFace, kAXPressAction, "reopen_face_id")
         faceMenu = try submenu(refreshedFace, "refreshed_face_submenu")
     }
-    let finalItems = try children(faceMenu, "final_face_id_items")
-    guard let finalEnrolled = try fixedItem(finalItems, "Enrolled", "final_enrolled_presence") else { try fail("final_enrolled_presence", -27005) }
-    let after = try isChecked(finalEnrolled, "enrolled_mark_after")
+    // Enrollment may settle asynchronously. Reacquire the menu path and item
+    // for every read; never press Enrolled again, even if its mark stays empty.
+    let readbackStarted = ProcessInfo.processInfo.systemUptime
+    let readbackDeadline = readbackStarted + 10
+    var readbackSamples: [[String: Any]] = []
+    var finalItems: [AXUIElement] = []
+    var after = false
+    repeat {
+        var sample: [String: Any] = ["markKnown": false, "checked": false]
+        do {
+            let freshBar = try oneElement(readAX(appAX, kAXMenuBarAttribute, "readback_menu_bar"), "readback_menu_bar")
+            let freshTopItems = try children(freshBar, "readback_menu_bar_items")
+            let freshFeatures = try fixedItem(freshTopItems, "Features", "readback_features")
+            let freshHardware = try fixedItem(freshTopItems, "Hardware", "readback_hardware")
+            guard let freshTop = freshFeatures ?? freshHardware else { try fail("readback_top_menu", -27003) }
+            let freshTopMenu = try submenu(freshTop, "readback_top_submenu")
+            guard let freshFace = try fixedItem(children(freshTopMenu, "readback_top_items"), "Face ID", "readback_face_id") else { try fail("readback_face_id", -27004) }
+            faceMenu = try submenu(freshFace, "readback_face_submenu")
+            finalItems = try children(faceMenu, "readback_face_items")
+            guard let finalEnrolled = try fixedItem(finalItems, "Enrolled", "readback_enrolled") else { try fail("readback_enrolled", -27005) }
+            after = try isChecked(finalEnrolled, "enrolled_mark_after")
+            sample["markKnown"] = true
+            sample["checked"] = after
+            sample["axReturnCode"] = result["axReturnCode"]
+        } catch AXProbeFailure.failed(let stage, let code) {
+            sample["axReturnCode"] = code
+            sample["elapsedSeconds"] = ProcessInfo.processInfo.systemUptime - readbackStarted
+            readbackSamples.append(sample)
+            result["enrollmentReadbackSamples"] = readbackSamples
+            try fail(stage, code)
+        }
+        sample["elapsedSeconds"] = ProcessInfo.processInfo.systemUptime - readbackStarted
+        readbackSamples.append(sample)
+        result["enrollmentReadbackSamples"] = readbackSamples
+        if after || ProcessInfo.processInfo.systemUptime >= readbackDeadline { break }
+        Thread.sleep(forTimeInterval: min(0.5, max(0, readbackDeadline - ProcessInfo.processInfo.systemUptime)))
+    } while ProcessInfo.processInfo.systemUptime < readbackDeadline
+    result["enrollmentReadbackElapsedSeconds"] = ProcessInfo.processInfo.systemUptime - readbackStarted
+    result["enrollmentReadbackTimedOut"] = !after
     result["enrolledAfter"] = after
     result["enrollmentChanged"] = after && !before
     result["enrollmentOutcomeProven"] = after
@@ -246,6 +285,41 @@ do {
     emit(result); exit(3)
 }
 
+'''
+
+
+OBSERVER_BUNDLE = 'org.nidaa.diagnostics.BiometryObserver'
+OBSERVER_SWIFT = r'''
+import UIKit
+import LocalAuthentication
+
+final class ObserverDelegate: NSObject, UIApplicationDelegate {
+    var window: UIWindow?
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        let arguments = ProcessInfo.processInfo.arguments
+        guard let index = arguments.firstIndex(of: "--phase"), index + 1 < arguments.count else { return false }
+        let phase = arguments[index + 1]
+        guard phase == "before" || phase == "after" else { return false }
+        let context = LAContext()
+        var error: NSError?
+        let available = context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
+        let observation: [String: Any] = ["schemaVersion": 1, "phase": phase, "policy": 1,
+            "canEvaluate": available, "laErrorCode": error?.code ?? 0,
+            "errorIsLocalAuthentication": error == nil || error?.domain == LAError.errorDomain,
+            "biometryType": context.biometryType.rawValue, "authenticationPromptRequested": false]
+        do {
+            let directory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            let data = try JSONSerialization.data(withJSONObject: observation, options: [.sortedKeys])
+            try data.write(to: directory.appendingPathComponent("observer-\(phase).json"), options: [.atomic])
+        } catch { return false }
+        let window = UIWindow(frame: UIScreen.main.bounds)
+        window.rootViewController = UIViewController()
+        window.makeKeyAndVisible()
+        self.window = window
+        return true
+    }
+}
+UIApplicationMain(CommandLine.argc, CommandLine.unsafeArgv, nil, NSStringFromClass(ObserverDelegate.self))
 '''
 
 
@@ -277,12 +351,106 @@ def compiler_errors(stderr):
     return errors
 
 
+def remaining_seconds():
+    return max(0, COMMAND_DEADLINE-time.monotonic()) if COMMAND_DEADLINE is not None else 0
+
+
+def build_observer(directory, report):
+    observation = report['localAuthenticationObserver']
+    if remaining_seconds() < 180:
+        observation['buildStatus'] = 'Notexecuted-budget'
+        observation['before']['status'] = 'Notexecuted-budget'
+        observation['after']['status'] = 'Notexecuted-budget'
+        return None
+    report['stage'] = 'observer_sdk_discovery'
+    sdk = command(['xcrun', '--sdk', 'iphonesimulator', '--show-sdk-path'], timeout=20)
+    observation['sdkDiscoveryExitCode'] = sdk.returncode
+    if sdk.returncode or not Path(sdk.stdout.strip()).is_dir():
+        observation['buildStatus'] = 'Failed-sdk-discovery'
+        return None
+    architecture = platform.machine()
+    if architecture not in ('arm64', 'x86_64'):
+        observation['buildStatus'] = 'Notexecuted-unsupported-host-architecture'
+        return None
+    app = directory/'BiometryObserver.app'
+    app.mkdir()
+    source = directory/'Observer.swift'
+    source.write_text(OBSERVER_SWIFT, encoding='utf-8')
+    metadata = {'CFBundleIdentifier': OBSERVER_BUNDLE, 'CFBundleExecutable': 'BiometryObserver',
+                'CFBundleName': 'Biometry Observer', 'CFBundlePackageType': 'APPL',
+                'CFBundleVersion': '1', 'CFBundleShortVersionString': '1.0',
+                'CFBundleSupportedPlatforms': ['iPhoneSimulator'], 'MinimumOSVersion': '16.0',
+                'UIDeviceFamily': [1, 2], 'LSRequiresIPhoneOS': True,
+                'NSFaceIDUsageDescription': 'Disposable diagnostic checks biometric availability without requesting authentication.'}
+    with (app/'Info.plist').open('wb') as stream:
+        plistlib.dump(metadata, stream)
+    report['stage'] = 'compile_observer_app'
+    built = command(['xcrun', 'swiftc', '-sdk', sdk.stdout.strip(), '-target', architecture+'-apple-ios16.0-simulator',
+                     '-framework', 'UIKit', '-framework', 'LocalAuthentication', str(source), '-o', str(app/'BiometryObserver')], timeout=90)
+    observation['compileExitCode'] = built.returncode
+    observation['buildStatus'] = 'Passed' if built.returncode == 0 else 'Failed-compile'
+    if built.returncode:
+        observation['compileErrors'] = compiler_errors(built.stderr)
+        return None
+    return app
+
+
+def observe_local_authentication(owned, phase, report, minimum_remaining=20):
+    observation = report['localAuthenticationObserver']
+    entry = observation[phase] = {'status': 'Notexecuted-budget'}
+    if remaining_seconds() < minimum_remaining:
+        return
+    report['stage'] = 'observer_'+phase+'_container'
+    container = command(['xcrun', 'simctl', 'get_app_container', owned, OBSERVER_BUNDLE, 'data'], timeout=10)
+    entry['containerExitCode'] = container.returncode
+    if container.returncode:
+        entry['status'] = 'Failed-container'
+        return
+    directory = Path(container.stdout.strip())
+    if not directory.is_absolute() or not directory.is_dir():
+        entry['status'] = 'Failed-container-path'
+        return
+    # The only simulator file read is this observer app's own phase-specific
+    # output. A pre-existing file is rejected, never accepted as fresh evidence.
+    output = directory/'Documents'/('observer-'+phase+'.json')
+    if output.exists():
+        entry['status'] = 'Failed-stale-output'
+        return
+    report['stage'] = 'observer_'+phase+'_launch'
+    launched = command(['xcrun', 'simctl', 'launch', '--terminate-running-process', owned, OBSERVER_BUNDLE, '--phase', phase], timeout=15)
+    entry['launchExitCode'] = launched.returncode
+    if launched.returncode:
+        entry['status'] = 'Failed-launch'
+        return
+    report['stage'] = 'observer_'+phase+'_readback'
+    deadline = min(time.monotonic()+10, COMMAND_DEADLINE)
+    while not output.is_file() and time.monotonic() < deadline:
+        time.sleep(0.2)
+    if not output.is_file():
+        entry['status'] = 'Failed-output-timeout'
+        return
+    if output.stat().st_size > 2048:
+        entry['status'] = 'Failed-output-size'
+        return
+    value = json.loads(output.read_text(encoding='utf-8'))
+    expected = {'schemaVersion', 'phase', 'policy', 'canEvaluate', 'laErrorCode', 'errorIsLocalAuthentication',
+                'biometryType', 'authenticationPromptRequested'}
+    if (not isinstance(value, dict) or set(value) != expected or value['schemaVersion'] != 1 or value['phase'] != phase
+            or value['policy'] != 1 or value['authenticationPromptRequested'] is not False
+            or type(value['canEvaluate']) is not bool or type(value['errorIsLocalAuthentication']) is not bool
+            or type(value['laErrorCode']) is not int or type(value['biometryType']) is not int):
+        entry['status'] = 'Failed-output-schema'
+        return
+    entry['status'] = 'Observed'
+    entry['result'] = value
+
+
 def command(argv, timeout=30):
     # Only fixed command/subcommand tokens are published. Paths, device UUIDs
     # and arguments are excluded even from timeout diagnostics.
     allowed = {'--find', 'simctl', 'help', 'swiftc', 'list', 'devices', 'available',
                'create', 'boot', 'bootstatus', 'shutdown', 'delete', '-g', '-b', '-p', '-a',
-               'com.apple.systemevents'}
+               'com.apple.systemevents', '--sdk', 'iphonesimulator', 'install', 'launch', 'get_app_container'}
     coarse = [Path(argv[0]).name] + [value if value in allowed else '[argument]' for value in argv[1:3]]
     requested_timeout = timeout
     if COMMAND_DEADLINE is not None:
@@ -317,6 +485,8 @@ def main():
     report = {'schemaVersion': 1, 'status': 'Blocked', 'capabilityOnly': True, 'appCredentialsCreated': False,
               'privateAPIsUsed': False, 'TCCChanged': False, 'physicalBiometryProven': False,
               'ownedDeviceCreated': False, 'ownedDeviceDeleted': False,
+              'localAuthenticationObserver': {'buildStatus': 'Notexecuted', 'before': {'status': 'Notexecuted'},
+                                              'after': {'status': 'Notexecuted'}, 'evaluatesAuthentication': False},
               'commandTrace': COMMAND_TRACE,
               'probeSHA256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}
     owned = None
@@ -371,6 +541,7 @@ def main():
                 if report['permissions'].get('accessibilityTrusted') is not True:
                     raise Blocked('accessibility_permission_unavailable')
                 raise Blocked('system_events_UI_elements_unavailable')
+            observer_app = build_observer(Path(temporary), report)
             report['stage'] = 'owned_simulator_setup'
             listing = command(['xcrun', 'simctl', 'list', 'devices', 'available', '-j'])
             if listing.returncode:
@@ -402,6 +573,19 @@ def main():
             report['bootstatusExitCode'] = ready.returncode
             if ready.returncode:
                 raise Blocked('owned_simulator_not_ready')
+            observer_installed = False
+            if observer_app is not None:
+                if remaining_seconds() < 125:
+                    report['localAuthenticationObserver']['installStatus'] = 'Notexecuted-budget'
+                    report['localAuthenticationObserver']['before']['status'] = 'Notexecuted-budget'
+                    report['localAuthenticationObserver']['after']['status'] = 'Notexecuted-budget'
+                else:
+                    report['stage'] = 'install_observer_app'
+                    installed = command(['xcrun', 'simctl', 'install', owned, str(observer_app)], timeout=30)
+                    report['localAuthenticationObserver']['installExitCode'] = installed.returncode
+                    observer_installed = installed.returncode == 0
+                    if observer_installed:
+                        observe_local_authentication(owned, 'before', report, minimum_remaining=95)
             developer = command(['xcode-select', '-p'])
             if developer.returncode:
                 raise Blocked('developer_directory_unavailable')
@@ -421,6 +605,8 @@ def main():
             inspected = command([str(binary), name, bundle_identifier], timeout=90)
             report['menuHelperExitCode'] = inspected.returncode
             report['menu'] = json.loads(inspected.stdout)
+            if observer_installed:
+                observe_local_authentication(owned, 'after', report)
             if inspected.returncode:
                 raise Blocked('official_menu_inspection_or_enrollment_unavailable')
             report['status'] = 'Passed'
