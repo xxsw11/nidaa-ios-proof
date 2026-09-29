@@ -84,6 +84,7 @@ allowed = {
  'autofill-noncredential-secure-field-crop',
  'autofill-noncredential-visible-field-crop',
  'autofill-native-empty-identity-fields-crop',
+ 'autofill-native-picker-header-crop',
  'integration-mock-autofill-saved-credential-selected-mock-login',
  'integration-mock-autofill-enabled-registration-complete-mock',
  'integration-mock-autofill-enabled-recovery-complete-mock',
@@ -114,7 +115,7 @@ if manifest.exists():
                 item=r'(?:textField|secureTextField|button|staticText):(?:'+'|'.join(re.escape(label) for label in labels)+')'
                 if re.fullmatch(r'Observed new-password form controls \(no values\): (?:'+item+r'(?:, '+item+r')*)?',note):
                     (output/'saved-credential-form-controls.txt').write_text(note)
-            stages = ['passwords-home', 'new-password-form', 'autofill-launch', 'password-picker-launch', 'saved-account-selection']
+            stages = ['passwords-home', 'new-password-form', 'autofill-launch', 'password-picker-launch', 'saved-account-selection', 'saved-account-selection-app', 'saved-account-selection-springboard', 'saved-account-selection-passwords']
             if human in ['autofill-saved-credential-form-controls-'+stage for stage in stages] and source.suffix in ('.txt','.text'):
                 stage = human.removeprefix('autofill-saved-credential-form-controls-')
                 note = source.read_text(encoding='utf-8')
@@ -146,6 +147,14 @@ if manifest.exists():
                 flags={'websiteMatches','usernameMatches','passwordFieldFound','passwordFieldHittable','saveEnabled'}
                 if isinstance(readiness,dict) and set(readiness)==flags|{'phase'} and readiness['phase'] in ('before_password','after_password') and all(type(readiness[k]) is bool for k in flags):
                     native_form_readiness.append(readiness)
+            if human=='autofill-native-picker-state' and source.suffix in ('.txt','.text'):
+                try:
+                    state=json.loads(source.read_text(encoding='utf-8'))
+                except (ValueError, UnicodeError):
+                    state=None
+                flags={'appForeground','springboardForeground','passwordsForeground','appSavedIdentityVisible','springboardSavedIdentityVisible','passwordsSavedIdentityVisible'}
+                if isinstance(state,dict) and set(state)==flags and all(type(state[k]) is bool for k in flags):
+                    report['nativePickerState']=state
             if human=='integration-mock-draft-readiness' and source.suffix in ('.txt','.text'):
                 # Only fixed UI booleans; never publish arbitrary attachment text.
                 note=source.read_text()

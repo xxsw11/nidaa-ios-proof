@@ -104,25 +104,49 @@ final class AutoFillUITests: IntegrationTestCase {
             XCTFail("Native Passwords picker control unavailable"); return
         }
         pickerButton.tap()
-        try skipOnlyObservedPersonalRequirement(in: [nativeApp, springboard])
-        for surface in [nativeApp, springboard] {
-            let other = namedButton(["Other Passwords", "Other Passwords…", "كلمات سر أخرى", "كلمات مرور أخرى"], in: surface)
-            if other.exists && other.isHittable { other.tap(); break }
+        // The picker can appear asynchronously, with the fictional identity in
+        // different native roles. Rebuild candidates on every bounded poll;
+        // never commit early to an absent static-text query. Do not relaunch
+        // Passwords: include that surface only if the system foregrounded it.
+        func pickerSurfaces() -> [XCUIApplication] {
+            var surfaces = [nativeApp, springboard]
+            if passwords.state == .runningForeground { surfaces.append(passwords) }
+            return surfaces
         }
-        var selected = false
-        for surface in [nativeApp, springboard] {
-            // Select only the unique fictional account by its nonsecret identity.
-            let row = surface.cells.containing(.staticText, identifier: email).firstMatch
-            let button = surface.buttons.matching(NSPredicate(format: "label CONTAINS %@ OR label CONTAINS %@", email, site)).firstMatch
-            let text = surface.staticTexts[email].firstMatch
-            let target = row.exists ? row : (button.exists ? button : text)
-            if target.waitForExistence(timeout: 5), target.isHittable { target.tap(); selected = true; break }
-        }
-        guard selected else {
-            try skipOnlyObservedPersonalRequirement(in: [nativeApp, springboard])
-            recordKnownSystemControls(in: app, stage: "saved-account-selection")
+        var otherPasswords: XCUIElement?
+        let routeReady = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            for surface in pickerSurfaces() {
+                if self.savedIdentityTarget(in: surface, email: email, site: site) != nil { return true }
+                let other = self.namedButton(["Other Passwords", "Other Passwords…", "كلمات سر أخرى", "كلمات مرور أخرى"], in: surface)
+                if other.exists && other.isHittable { otherPasswords = other; return true }
+            }
+            return false
+        }, object: nil)
+        _ = XCTWaiter.wait(for: [routeReady], timeout: 8)
+        try skipOnlyObservedPersonalRequirement(in: pickerSurfaces())
+        if let otherPasswords, otherPasswords.exists && otherPasswords.isHittable { otherPasswords.tap() }
+        var selectedTarget: XCUIElement?
+        let selectionReady = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            for surface in pickerSurfaces() {
+                if let target = self.savedIdentityTarget(in: surface, email: email, site: site) {
+                    selectedTarget = target; return true
+                }
+            }
+            return false
+        }, object: nil)
+        let selectionResult = XCTWaiter.wait(for: [selectionReady], timeout: 8)
+        recordPickerState(app: nativeApp, springboard: springboard, passwords: passwords, email: email, site: site)
+        recordPickerHeader()
+        guard selectionResult == .completed, let selectedTarget else {
+            try skipOnlyObservedPersonalRequirement(in: pickerSurfaces())
+            recordKnownSystemControls(in: nativeApp, stage: "saved-account-selection-app")
+            recordKnownSystemControls(in: springboard, stage: "saved-account-selection-springboard")
+            if passwords.state == .runningForeground {
+                recordKnownSystemControls(in: passwords, stage: "saved-account-selection-passwords")
+            }
             XCTFail("Fictional saved account not found in native picker"); return
         }
+        selectedTarget.tap()
         let emailFilled = XCTNSPredicateExpectation(predicate: NSPredicate(format: "value == %@", email), object: emailField)
         XCTAssertEqual(XCTWaiter.wait(for: [emailFilled], timeout: 8), .completed)
         let passwordFilled = XCTNSPredicateExpectation(predicate: NSPredicate(format: "enabled == true"), object: app.buttons["integrationSignup"])
@@ -136,6 +160,44 @@ final class AutoFillUITests: IntegrationTestCase {
 
     private func namedButton(_ names: [String], in surface: XCUIApplication) -> XCUIElement {
         surface.buttons.matching(NSPredicate(format: "label IN %@ OR identifier IN %@", names, names)).firstMatch
+    }
+    private func savedIdentityTarget(in surface: XCUIApplication, email: String, site: String) -> XCUIElement? {
+        let identity = NSPredicate(format: "label CONTAINS %@ OR label CONTAINS %@", email, site)
+        let candidates = surface.buttons.matching(identity).allElementsBoundByIndex
+            + surface.cells.matching(identity).allElementsBoundByIndex
+            + surface.cells.containing(.staticText, identifier: email).allElementsBoundByIndex
+            + surface.cells.containing(.staticText, identifier: site).allElementsBoundByIndex
+            + surface.staticTexts.matching(identity).allElementsBoundByIndex
+        return candidates.first { $0.exists && $0.isHittable }
+    }
+    private func recordPickerState(app: XCUIApplication, springboard: XCUIApplication, passwords: XCUIApplication, email: String, site: String) {
+        let passwordsForeground = passwords.state == .runningForeground
+        let report: [String: Bool] = [
+            "appForeground": app.state == .runningForeground,
+            "springboardForeground": springboard.state == .runningForeground,
+            "passwordsForeground": passwordsForeground,
+            "appSavedIdentityVisible": savedIdentityTarget(in: app, email: email, site: site) != nil,
+            "springboardSavedIdentityVisible": savedIdentityTarget(in: springboard, email: email, site: site) != nil,
+            "passwordsSavedIdentityVisible": passwordsForeground && savedIdentityTarget(in: passwords, email: email, site: site) != nil]
+        if let data = try? JSONSerialization.data(withJSONObject: report, options: [.sortedKeys]), let text = String(data: data, encoding: .utf8) {
+            let evidence = XCTAttachment(string: text)
+            evidence.name = "autofill-native-picker-state"
+            evidence.lifetime = .keepAlways; add(evidence)
+        }
+    }
+    private func recordPickerHeader() {
+        // Export only the original top <=120 points, never picker rows or the
+        // native Password field. The full screen image is not attached.
+        let image = XCUIScreen.main.screenshot().image
+        guard let pixels = image.cgImage else { return }
+        let screenWidth = UIScreen.main.bounds.width
+        guard screenWidth > 0 else { return }
+        let height = min(CGFloat(pixels.height), 120 * CGFloat(pixels.width) / screenWidth)
+        let rect = CGRect(x: 0, y: 0, width: CGFloat(pixels.width), height: height).integral
+        guard let crop = pixels.cropping(to: rect) else { return }
+        let evidence = XCTAttachment(image: UIImage(cgImage: crop))
+        evidence.name = "autofill-native-picker-header-crop"
+        evidence.lifetime = .keepAlways; add(evidence)
     }
     private func labeledRowTextField(_ label: String, in surface: XCUIApplication) -> XCUIElement {
         let row = surface.cells.containing(.staticText, identifier: label).firstMatch

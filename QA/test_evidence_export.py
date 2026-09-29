@@ -41,6 +41,9 @@ class NativeEvidenceExportTests(unittest.TestCase):
             readiness={'phase':'before_password','websiteMatches':True,'usernameMatches':True,'passwordFieldFound':True,'passwordFieldHittable':True,'saveEnabled':False}
             (screens / 'readiness.txt').write_text(json.dumps(readiness))
             (screens / 'unsafe-readiness.txt').write_text(json.dumps({**readiness,'password':'PRIVATE_SENTINEL_DO_NOT_EXPORT'}))
+            picker={key:False for key in ['appForeground','springboardForeground','passwordsForeground','appSavedIdentityVisible','springboardSavedIdentityVisible','passwordsSavedIdentityVisible']}
+            (screens / 'picker.txt').write_text(json.dumps(picker))
+            (screens / 'unsafe-picker.txt').write_text(json.dumps({**picker,'password':'PRIVATE_SENTINEL_DO_NOT_EXPORT'}))
             (screens / 'manifest.json').write_text(json.dumps([{'attachments': [
                 {'suggestedHumanReadableName':'integration-mock-draft-readiness','exportedFileName':name}
                 for name in ['safe.txt','unsafe.txt']] + [
@@ -50,7 +53,9 @@ class NativeEvidenceExportTests(unittest.TestCase):
                 {'suggestedHumanReadableName':'autofill-native-form-role-geometry','exportedFileName':'geometry.txt'},
                 {'suggestedHumanReadableName':'autofill-native-form-role-geometry','exportedFileName':'unsafe-geometry.txt'},
                 {'suggestedHumanReadableName':'autofill-native-form-readiness','exportedFileName':'readiness.txt'},
-                {'suggestedHumanReadableName':'autofill-native-form-readiness','exportedFileName':'unsafe-readiness.txt'}]}]))
+                {'suggestedHumanReadableName':'autofill-native-form-readiness','exportedFileName':'unsafe-readiness.txt'},
+                {'suggestedHumanReadableName':'autofill-native-picker-state','exportedFileName':'picker.txt'},
+                {'suggestedHumanReadableName':'autofill-native-picker-state','exportedFileName':'unsafe-picker.txt'}]}]))
             script = ROOT / 'Scripts/export_native_review.py'
             code = script.read_text().replace("output = root/'artifacts/native-review'/suite", 'output = Path(' + repr(str(exported)) + ')')
             class XcodeVersion:
@@ -77,6 +82,7 @@ class NativeEvidenceExportTests(unittest.TestCase):
             self.assertEqual(result['savedCredentialRequirement'], 'Observed personal-account/device-passcode requirement: Set Up a Passcode')
             self.assertEqual(result['nativeFormRoleGeometry'], geometry)
             self.assertEqual(result['nativeFormReadiness'], [readiness])
+            self.assertEqual(result['nativePickerState'], picker)
 
 
 if __name__ == '__main__':
