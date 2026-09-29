@@ -8,7 +8,7 @@ on:
         required: false
         type: choice
         default: all
-        options: [all, integration, local-a, local-b]
+        options: [all, integration, local-a, local-b, local-large]
   push:
     branches: [main, 'codex/**']
     paths:
@@ -27,7 +27,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: nidaa-ios-proof-${{ github.ref }}-${{ inputs.ui_suite || (contains(github.event.head_commit.message, '[ui:saved]') && 'saved') || (contains(github.event.head_commit.message, '[ui:review]') && 'review') || (contains(github.event.head_commit.message, '[ui:integration]') && 'integration') || 'all' }}
+  group: nidaa-ios-proof-${{ github.ref }}-${{ inputs.ui_suite || (contains(github.event.head_commit.message, '[ui:local-large]') && 'local-large') || (contains(github.event.head_commit.message, '[ui:saved]') && 'saved') || (contains(github.event.head_commit.message, '[ui:review]') && 'review') || (contains(github.event.head_commit.message, '[ui:integration]') && 'integration') || 'all' }}
   cancel-in-progress: true
 
 jobs:
@@ -41,7 +41,7 @@ jobs:
       matrix:
         # Explicit narrow reruns retain prior same-source local-a/local-b evidence;
         # ordinary pushes still select every regression suite.
-        ui-suite: ${{ fromJSON(github.event_name == 'workflow_dispatch' && inputs.ui_suite != 'all' && format('["{0}"]', inputs.ui_suite) || contains(github.event.head_commit.message, '[ui:review]') && '["integration","local-b"]' || contains(github.event.head_commit.message, '[ui:integration]') && '["integration"]' || '["integration","local-a","local-b"]') }}
+        ui-suite: ${{ fromJSON(github.event_name == 'workflow_dispatch' && inputs.ui_suite != 'all' && format('["{0}"]', inputs.ui_suite) || contains(github.event.head_commit.message, '[ui:local-large]') && '["local-large"]' || contains(github.event.head_commit.message, '[ui:review]') && '["integration","local-b"]' || contains(github.event.head_commit.message, '[ui:integration]') && '["integration"]' || '["integration","local-a","local-b"]') }}
     env:
       NIDAA_UI_SUITE: ${{ matrix.ui-suite }}
     steps:

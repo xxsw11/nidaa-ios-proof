@@ -40,6 +40,7 @@ common=(-project NidaaProof.xcodeproj -scheme NidaaProof-Local -sdk iphonesimula
 test_selection=()
 case "${NIDAA_UI_SUITE:-all}" in
   integration) test_selection=(-only-testing:NidaaUITests/IntegrationUITests) ;;
+  local-large) test_selection=(-only-testing:NidaaUITests/LocalExperienceUITests/testLargeTextActionReviewRemainsUsable) ;;
   local-a|local-b)
     python3 - "$NIDAA_UI_SUITE" > "$proof_evidence/ui-test-names.txt" <<'PY'
 import pathlib, re, sys

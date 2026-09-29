@@ -47,7 +47,7 @@ jobs:
             artifacts/native-review/live/
           retention-days: 7
   autofill:
-    if: ${{ github.event.repository.private == false }}
+    if: ${{ github.event.repository.private == false && !contains(github.event.head_commit.message, '[ui:local-large]') }}
     runs-on: macos-15
     timeout-minutes: 40
     steps:

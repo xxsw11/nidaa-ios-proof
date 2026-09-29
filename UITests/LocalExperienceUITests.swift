@@ -112,6 +112,12 @@ final class LocalExperienceUITests: XCTestCase {
         let ahmadSelection = app.switches["select-"+ahmad].firstMatch
         let saraSelection = app.switches["select-"+sara].firstMatch
         XCTAssertTrue(ahmadSelection.waitForExistence(timeout: 5))
+        // At accessibility XXXL the explanation precedes recipients below the
+        // viewport. Waiting for hittability alone does not scroll a switch.
+        for _ in 0..<10 {
+            if ahmadSelection.isHittable { break }
+            app.swipeUp()
+        }
         let selectionReady = XCTNSPredicateExpectation(predicate: NSPredicate(format: "hittable == true AND enabled == true AND value == '1'"), object: ahmadSelection)
         XCTAssertEqual(XCTWaiter.wait(for: [selectionReady], timeout: 5), .completed, "Recipient selection must settle before changing it")
         ahmadSelection.tap()
