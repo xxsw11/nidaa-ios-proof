@@ -75,6 +75,7 @@ manifest = private/'screenshots/manifest.json'
 images=[]
 draft_diagnostics=[]
 reveal_diagnostics=[]
+native_form_readiness=[]
 allowed = {
  'disposable-simulator-autofill-passwords-and-passkeys-on',
  'disposable-simulator-autofill-fixture-failure',
@@ -117,7 +118,7 @@ if manifest.exists():
             if human in ['autofill-saved-credential-form-controls-'+stage for stage in stages] and source.suffix in ('.txt','.text'):
                 stage = human.removeprefix('autofill-saved-credential-form-controls-')
                 note = source.read_text(encoding='utf-8')
-                labels = ['Website or App','Website','App or Website','User Name','Username','Password','Notes','Save','Done','Cancel','New Password','example.com','Passwords','Password AutoFill','AutoFill','Other Passwords','Other Passwords…','كلمات السر','كلمات المرور','تعبئة تلقائية','كلمات سر أخرى']
+                labels = ['Website or Label','Website or App','Website','App or Website','User Name','Username','Password','Notes','Save','Done','Cancel','New Password','example.com','Passwords','Password AutoFill','AutoFill','Other Passwords','Other Passwords…','كلمات السر','كلمات المرور','تعبئة تلقائية','كلمات سر أخرى']
                 item = r'(?:textField|secureTextField|button|staticText):(?:'+'|'.join(re.escape(label) for label in labels)+')'
                 if re.fullmatch('stage='+re.escape(stage)+r'; fixed controls \(no values\): (?:'+item+r'(?:, '+item+r')*)?', note):
                     (output/('saved-credential-controls-'+stage+'.txt')).write_text(note, encoding='utf-8')
@@ -137,6 +138,14 @@ if manifest.exists():
                     controls=geometry['controls']
                     if isinstance(controls,list) and len(controls)<=30 and all(isinstance(c,dict) and set(c)=={'role','frame','hittable'} and c['role'] in ('textField','secureTextField','textView') and type(c['hittable']) is bool and isinstance(c['frame'],list) and len(c['frame'])==4 and all(type(v) in (int,float) and math.isfinite(v) and abs(v)<100000 for v in c['frame']) for c in controls):
                         report['nativeFormRoleGeometry']=geometry
+            if human=='autofill-native-form-readiness' and source.suffix in ('.txt','.text'):
+                try:
+                    readiness=json.loads(source.read_text(encoding='utf-8'))
+                except (ValueError, UnicodeError):
+                    readiness=None
+                flags={'websiteMatches','usernameMatches','passwordFieldFound','passwordFieldHittable','saveEnabled'}
+                if isinstance(readiness,dict) and set(readiness)==flags|{'phase'} and readiness['phase'] in ('before_password','after_password') and all(type(readiness[k]) is bool for k in flags):
+                    native_form_readiness.append(readiness)
             if human=='integration-mock-draft-readiness' and source.suffix in ('.txt','.text'):
                 # Only fixed UI booleans; never publish arbitrary attachment text.
                 note=source.read_text()
@@ -160,6 +169,7 @@ if manifest.exists():
 report['screenshots']=images
 report['draftReadiness']=draft_diagnostics
 report['revealGeometry']=reveal_diagnostics
+report['nativeFormReadiness']=native_form_readiness
 text=json.dumps(report,indent=2)+'\n'
 assert not re.search(r'eyJ[A-Za-z0-9_-]{15,}\.[A-Za-z0-9_-]{15,}|-----BEGIN .*PRIVATE KEY|Native-Fictional-Only', text)
 (output/'result.json').write_text(text)

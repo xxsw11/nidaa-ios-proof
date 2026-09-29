@@ -5,8 +5,9 @@ import UIKit
 /// saved-credential selection is a separate, not yet verified scenario.
 final class AutoFillUITests: IntegrationTestCase {
     func testSavedCredentialSelection() throws {
-        // Only a new disposable Simulator. The generated system password is
-        // never read, changed, copied, published, or sent to a server.
+        // Only a new disposable Simulator. Password values are never read,
+        // copied, attached, published, or sent to a server. Raw typing events
+        // stay private; the native form receives a fresh local-only UUID secret.
         let passwords = XCUIApplication(bundleIdentifier: "com.apple.Passwords")
         passwords.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
         passwords.launch()
@@ -33,7 +34,7 @@ final class AutoFillUITests: IntegrationTestCase {
         headerImage.lifetime = .keepAlways; add(headerImage)
         recordKnownSystemControls(in: passwords, stage: "new-password-form")
 
-        let websiteLabels = ["Website or App", "Website", "website", "example.com", "App or Website"]
+        let websiteLabels = ["Website or Label", "Website or App", "Website", "website", "example.com", "App or Website"]
         let namedWebsite = passwords.textFields.matching(NSPredicate(format: "label IN %@ OR placeholderValue IN %@ OR identifier IN %@", websiteLabels, websiteLabels, websiteLabels)).firstMatch
         let website = namedWebsite.exists ? namedWebsite : websiteFieldAboveUsername(in: passwords, header: header)
         let username = labeledRowTextField("User Name", in: passwords)
@@ -47,8 +48,23 @@ final class AutoFillUITests: IntegrationTestCase {
         username.tap(); username.typeText(email)
         let save = passwords.buttons["Save"].firstMatch
         XCTAssertTrue(save.waitForExistence(timeout: 5))
+        let passwordField = labeledRowTextField("Password", in: passwords)
+        recordNativeFormReadiness(phase: "before_password", website: website, username: username,
+                                  passwordField: passwordField, save: save, site: site, email: email)
+        XCTAssertTrue(website.value as? String == site, "Fictional website input did not match")
+        XCTAssertTrue(username.value as? String == email, "Fictional username input did not match")
+        guard passwordField.exists, passwordField.isHittable else {
+            XCTFail("Unique native Password row field unavailable"); return
+        }
+        // No assumption that this Simulator supplied a generated password.
+        // Never inspect its value, select/copy it, or capture this native row.
+        passwordField.tap()
+        passwordField.typeText(UUID().uuidString)
         let enabled = XCTNSPredicateExpectation(predicate: NSPredicate(format: "enabled == true"), object: save)
-        XCTAssertEqual(XCTWaiter.wait(for: [enabled], timeout: 5), .completed)
+        let formReady = XCTWaiter.wait(for: [enabled], timeout: 5)
+        recordNativeFormReadiness(phase: "after_password", website: website, username: username,
+                                  passwordField: passwordField, save: save, site: site, email: email)
+        XCTAssertEqual(formReady, .completed)
         save.tap()
         let saved = XCTNSPredicateExpectation(predicate: NSPredicate(format: "exists == false"), object: header)
         XCTAssertEqual(XCTWaiter.wait(for: [saved], timeout: 8), .completed)
@@ -118,7 +134,8 @@ final class AutoFillUITests: IntegrationTestCase {
         let row = surface.cells.containing(.staticText, identifier: label).firstMatch
         if row.exists && row.textFields.count == 1 { return row.textFields.firstMatch }
         if row.exists && row.textViews.count == 1 { return row.textViews.firstMatch }
-        let direct = surface.textFields.matching(NSPredicate(format: "label IN %@ OR placeholderValue IN %@", [label, "Username"], [label, "Username"])).firstMatch
+        let aliases = label == "User Name" ? [label, "Username"] : [label]
+        let direct = surface.textFields.matching(NSPredicate(format: "label IN %@ OR placeholderValue IN %@", aliases, aliases)).firstMatch
         if direct.exists { return direct }
         let title = surface.staticTexts[label].firstMatch
         if title.exists {
@@ -129,6 +146,20 @@ final class AutoFillUITests: IntegrationTestCase {
             if sameRow.count == 1 { return sameRow[0] }
         }
         return direct // Absent sentinel; caller fails without guessing a field.
+    }
+    private func recordNativeFormReadiness(phase: String, website: XCUIElement, username: XCUIElement,
+                                           passwordField: XCUIElement, save: XCUIElement, site: String, email: String) {
+        let found = passwordField.exists
+        let report: [String: Any] = ["phase": phase,
+            "websiteMatches": website.exists && website.value as? String == site,
+            "usernameMatches": username.exists && username.value as? String == email,
+            "passwordFieldFound": found, "passwordFieldHittable": found && passwordField.isHittable,
+            "saveEnabled": save.exists && save.isEnabled]
+        if let data = try? JSONSerialization.data(withJSONObject: report, options: [.sortedKeys]), let text = String(data: data, encoding: .utf8) {
+            let evidence = XCTAttachment(string: text)
+            evidence.name = "autofill-native-form-readiness"
+            evidence.lifetime = .keepAlways; add(evidence)
+        }
     }
     private func websiteFieldAboveUsername(in surface: XCUIApplication, header: XCUIElement) -> XCUIElement {
         let usernameLabel = surface.staticTexts["User Name"].firstMatch
@@ -199,7 +230,7 @@ final class AutoFillUITests: IntegrationTestCase {
         }
     }
     private func recordKnownSystemControls(in surface: XCUIApplication, stage: String) {
-        let labels = ["Website or App", "Website", "App or Website", "User Name", "Username", "Password", "Notes", "Save", "Done", "Cancel", "New Password", "example.com", "Passwords", "Password AutoFill", "AutoFill", "Other Passwords", "Other Passwords…", "كلمات السر", "كلمات المرور", "تعبئة تلقائية", "كلمات سر أخرى"]
+        let labels = ["Website or Label", "Website or App", "Website", "App or Website", "User Name", "Username", "Password", "Notes", "Save", "Done", "Cancel", "New Password", "example.com", "Passwords", "Password AutoFill", "AutoFill", "Other Passwords", "Other Passwords…", "كلمات السر", "كلمات المرور", "تعبئة تلقائية", "كلمات سر أخرى"]
         let controls = labels.flatMap { label -> [String] in
             var matches: [String] = []
             if surface.textFields[label].exists { matches.append("textField:" + label) }
