@@ -2,7 +2,7 @@ name: NIDAA - Bounded Simulator biometry capability
 on:
   push:
     branches: ['codex/biometry-capability']
-    paths: ['Diagnostics/enrolled_autofill_probe.py', 'Diagnostics/biometry_enrolled_helper.py', 'Diagnostics/early_passwords_entry_validator.py', 'Diagnostics/xctest_biometry_probe.py', 'UITests/AutoFillUITests.swift', 'Diagnostics/intel_host_capability.py', 'Diagnostics/biometry_probe.py', '.github/workflows/biometry-capability.yml']
+    paths: ['Diagnostics/matching_autofill_probe.py', 'Diagnostics/controlled_matching_run.py', 'Diagnostics/matching_face_stream.py', 'Diagnostics/biometry_matching_helper.py', 'Diagnostics/test_matching_diagnostic.py', 'Diagnostics/enrolled_autofill_probe.py', 'Diagnostics/biometry_enrolled_helper.py', 'Diagnostics/early_passwords_entry_validator.py', 'Diagnostics/xctest_biometry_probe.py', 'UITests/AutoFillUITests.swift', 'Diagnostics/intel_host_capability.py', 'Diagnostics/biometry_probe.py', '.github/workflows/biometry-capability.yml']
 permissions:
   contents: read
 jobs:
@@ -16,8 +16,10 @@ jobs:
           persist-credentials: false
       - name: Record exact source
         run: python3 Scripts/record_ci_source.py
-      - name: Run saved selection on the verified enrolled owned Simulator
-        run: python3 Diagnostics/enrolled_autofill_probe.py
+      - name: Check bounded one-shot diagnostic transport
+        run: python3 -m unittest discover -s Diagnostics -p test_matching_diagnostic.py -v
+      - name: Test one official matching response after native Passwords tap
+        run: python3 Diagnostics/matching_autofill_probe.py
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: ${{ always() }}
         with:

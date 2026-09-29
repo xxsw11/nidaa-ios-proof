@@ -132,6 +132,7 @@ final class AutoFillUITests: IntegrationTestCase {
         }
         recordFullPickerDiagnostic(phase: "before_tap", app: nativeApp, springboard: springboard, passwords: passwords)
         pickerButton.tap()
+        guard emitPickerMatchRequest() else { return }
         recordFullPickerDiagnostic(phase: "after_tap", app: nativeApp, springboard: springboard, passwords: passwords)
         // The picker can appear asynchronously, with the fictional identity in
         // different native roles. Rebuild candidates on every bounded poll;
@@ -721,5 +722,43 @@ extension AutoFillUITests {
         let screen = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
         screen.name = "autofill-passwords-entry-full-screen-private"
         screen.lifetime = .keepAlways; add(screen)
+    }
+}
+
+// DIAGNOSTIC BRANCH ONLY. Append this extension to AutoFillUITests.swift.
+// In testSavedCredentialSelection, insert the following line immediately after
+// the existing `pickerButton.tap()` and BEFORE recordFullPickerDiagnostic(after_tap):
+//     guard emitPickerMatchRequest() else { return }
+// Preserve all existing capture, query, selection, fill and login assertions.
+// Host forwards TEST_RUNNER_NIDAA_PICKER_MATCH_NONCE and
+// TEST_RUNNER_NIDAA_PICKER_MATCH_OWNED_UDID through xcodebuild's test-runner env.
+// This is a one-time experimental request, NOT evidence of an exposed prompt or
+// completed biometric action. The host report is authoritative about its action.
+// There is no sleep, stdin, app-container/network handshake, or success bypass.
+// Raw logs remain runner-private; only fixed validated reports may be exported.
+
+extension AutoFillUITests {
+    func emitPickerMatchRequest() -> Bool {
+        #if targetEnvironment(simulator)
+        let environment = ProcessInfo.processInfo.environment
+        guard let nonce = environment["NIDAA_PICKER_MATCH_NONCE"],
+              nonce.utf8.count == 32,
+              nonce.utf8.allSatisfy({ (48...57).contains($0) || (97...102).contains($0) }),
+              let owned = environment["NIDAA_PICKER_MATCH_OWNED_UDID"],
+              UUID(uuidString: owned) != nil,
+              environment["SIMULATOR_UDID"] == owned,
+              environment["SIMULATOR_DEVICE_NAME"]?.hasPrefix("NIDAA-Disposable-Biometry-") == true else {
+            XCTFail("Matching Face diagnostic requires a fresh nonce and the exact owned disposable Simulator")
+            return false
+        }
+        // Write directly to the stdout file descriptor: no stdio buffering and
+        // no credential-bearing content. Host accepts one exact complete line.
+        let line = "NIDAA_PICKER_MATCH_REQUEST:\(nonce):passwords_picker_tapped\n"
+        FileHandle.standardOutput.write(Data(line.utf8))
+        return true
+        #else
+        XCTFail("Matching Face diagnostic is restricted to the disposable Simulator")
+        return false
+        #endif
     }
 }
