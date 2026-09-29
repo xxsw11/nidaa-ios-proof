@@ -17,6 +17,7 @@ jobs:
           persist-credentials: false
       - name: Prepare isolated tooling
         run: |
+          python3 Scripts/record_ci_source.py
           mkdir -p artifacts
           python3 -m venv /tmp/nidaa-tools
           /tmp/nidaa-tools/bin/pip install --timeout 60 --retries 3 -r Integration/requirements.txt -c Integration/requirements-lock.txt

@@ -12,13 +12,14 @@ import re
 import shutil
 import subprocess
 import sys
+import zipfile
 
 root=Path(__file__).resolve().parents[1]
 device, directory=sys.argv[1:]
 private=(root/directory).resolve()
 assert private.is_relative_to(root/'PrivateEvidence')
 assert re.fullmatch(r'[A-Fa-f0-9-]{36}',device)
-assert os.environ.get('NIDAA_UI_SUITE')=='autofill-saved'
+assert os.environ.get('NIDAA_UI_SUITE') in ('autofill-saved','autofill')
 output=root/'artifacts/picker-system-diagnostic'
 output.mkdir(parents=True,exist_ok=False)
 report={'commit':os.environ.get('GITHUB_SHA'),'run':os.environ.get('GITHUB_RUN_ID'),
@@ -32,16 +33,26 @@ try:
     report['collectionBytes']=len(result.stdout)
     if result.returncode!=0: raise RuntimeError('collection_failed')
     stage='size_validation'
-    assert 0<len(result.stdout)<80_000_000
+    # Run9494 collected193,619,229 bytes successfully. Preserve the complete
+    # bounded interval through compression rather than silently dropping it.
+    assert 0<len(result.stdout)<512_000_000
     raw=private/'picker-system-log.json'
     raw.write_bytes(result.stdout)
+    stage='compression'
+    archive=private/'picker-system-diagnostic.zip'
+    with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED,compresslevel=6) as bundle:
+        bundle.write(raw,raw.name)
+        tests=private/'xcode-ui-tests.log'
+        if tests.is_file(): bundle.write(tests,tests.name)
+    report['payloadFormat']='zip'
+    report['compressedBytes']=archive.stat().st_size
     cert=root/'QA/NativeReview/diagnostic-recipient-cert.pem'
     stage='openssl_discovery'
     openssl=shutil.which('openssl')
     if not openssl: raise RuntimeError('openssl_unavailable')
     sealed=private/'picker-system-log.p7m'
     stage='encryption'
-    encrypted=subprocess.run([openssl,'cms','-encrypt','-aes-256-cbc','-binary','-in',str(raw),'-out',str(sealed),'-outform','DER',str(cert)],capture_output=True,timeout=45)
+    encrypted=subprocess.run([openssl,'cms','-encrypt','-aes-256-cbc','-binary','-in',str(archive),'-out',str(sealed),'-outform','DER',str(cert)],capture_output=True,timeout=45)
     report['encryptionExitCode']=encrypted.returncode
     if encrypted.returncode!=0 or not sealed.is_file(): raise RuntimeError('encryption_failed')
     target=output/sealed.name

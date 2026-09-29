@@ -20,6 +20,10 @@ import tempfile
 HERE = Path(__file__).resolve().parent
 FAMILIES = {'IPv4': (socket.AF_INET, '127.0.0.1', '0.0.0.0', '192.0.2.1'),
             'IPv6': (socket.AF_INET6, '::1', '::', '2001:db8::1')}
+GATE_KEYS = frozenset(template.format(family) for family in FAMILIES for template in (
+    'external{}TCPDeniedByPolicy', 'external{}UDPDeniedByPolicy',
+    'wildcard{}TCPBindDeniedByPolicy', 'wildcard{}UDPBindDeniedByPolicy',
+    'wildcard{}ImplicitListenDeniedByPolicy', 'loopback{}TCPPermitted', 'loopback{}UDPPermitted'))
 
 
 def attempt(family, kind, action):
@@ -89,21 +93,39 @@ def probe():
     return values
 
 
+def gate_results(values, control=False):
+    checks = dict.fromkeys(sorted(GATE_KEYS), False)
+    if not isinstance(values, dict) or set(values) != set(FAMILIES):
+        return checks
+    def denied(record, staged=True):
+        return (record.get('status') == 'policy_denied' and record.get('errno') in (errno.EPERM, errno.EACCES)
+                and (not staged or record.get('stage') == 'operation'))
+    try:
+        for family, item in values.items():
+            for source, template in (
+                ('externalTCP', 'external{}TCPDeniedByPolicy'), ('externalUDP', 'external{}UDPDeniedByPolicy'),
+                ('wildcardUDPBind', 'wildcard{}UDPBindDeniedByPolicy'),
+                ('implicitWildcardListen', 'wildcard{}ImplicitListenDeniedByPolicy')):
+                checks[template.format(family)] = denied(item[source])
+            explicit = item['wildcardTCP']
+            checks[f'wildcard{family}TCPBindDeniedByPolicy'] = (
+                denied(explicit['bind'], staged=False) and explicit['listen'].get('status') == 'not_attempted')
+            for protocol in ('TCP', 'UDP'):
+                record = item['loopback'+protocol]
+                checks[f'loopback{family}{protocol}Permitted'] = denied(record) if control else (
+                    record.get('status') == 'succeeded' and record.get('errno') is None and record.get('stage') == 'operation')
+    except (KeyError, TypeError, AttributeError):
+        # Malformed/incomplete observations must never accidentally pass a subset.
+        return dict.fromkeys(sorted(GATE_KEYS), False)
+    return checks
+
+
+def gate_is_verified(checks):
+    return isinstance(checks, dict) and set(checks) == GATE_KEYS and all(value is True for value in checks.values())
+
+
 def passed(values, control=False):
-    if set(values) != set(FAMILIES):
-        return False
-    for item in values.values():
-        for key in ('externalTCP', 'externalUDP', 'wildcardUDPBind', 'implicitWildcardListen'):
-            if item[key]['status'] != 'policy_denied' or item[key]['stage'] != 'operation':
-                return False
-        if item['wildcardTCP']['bind']['status'] != 'policy_denied':
-            return False
-        if item['wildcardTCP']['listen']['status'] != 'not_attempted':
-            return False
-        for key in ('loopbackTCP', 'loopbackUDP'):
-            if item[key]['status'] != ('policy_denied' if control else 'succeeded'):
-                return False
-    return True
+    return gate_is_verified(gate_results(values, control=control))
 
 
 def capabilities(environment):

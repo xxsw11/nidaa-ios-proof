@@ -20,6 +20,11 @@ import time
 from urllib.parse import parse_qs, urlsplit
 from uuid import uuid4
 
+if __package__:
+    from .isolation_candidate import gate_is_verified
+else:
+    from isolation_candidate import gate_is_verified
+
 ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
 PROFILE = HERE/'loopback.sb'
@@ -110,7 +115,7 @@ class Runtime:
         env = self.clean_env()
         self.stage = 'sandbox_policy_probe'
         probe = subprocess.run(['/usr/bin/sandbox-exec','-f',str(PROFILE),str(self.python),str(HERE/'isolation_probe.py')],
-                               env=env, capture_output=True, text=True, timeout=10)
+                               env=env, capture_output=True, text=True, timeout=20)
         # This probe runs before credential generation or service startup and has
         # only static socket operations. Its bounded stderr is safe to diagnose
         # profile compilation/exec errors; service stderr stays private below.
@@ -135,9 +140,7 @@ class Runtime:
         if probe.returncode:
             raise TrialFailure('sandbox_policy_not_verified')
         policy = json.loads(probe.stdout)
-        expected = {'externalTCPDeniedByPolicy','externalUDPDeniedByPolicy',
-                    'wildcardIPv4BindDeniedByPolicy','wildcardIPv6BindDeniedByPolicy','loopbackTCPPermitted'}
-        if set(policy)!=expected or not all(value is True for value in policy.values()):
+        if not gate_is_verified(policy):
             raise TrialFailure('sandbox_policy_not_verified')
         self.checks.update(policy)
         self.report['sandboxProfileSHA256'] = hashlib.sha256(PROFILE.read_bytes()).hexdigest()

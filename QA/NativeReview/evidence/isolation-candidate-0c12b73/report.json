@@ -1,0 +1,226 @@
+{
+  "baselineProfileSHA256": "e322bc8adc391222ea7242d1b7d6608b608903d958dc979701bfecb1d37956b4",
+  "baselineRepeated": false,
+  "candidate": {
+    "diagnosticCategories": [],
+    "exitCode": 0,
+    "observations": {
+      "IPv4": {
+        "externalTCP": {
+          "errno": 1,
+          "stage": "operation",
+          "status": "policy_denied"
+        },
+        "externalUDP": {
+          "errno": 1,
+          "stage": "operation",
+          "status": "policy_denied"
+        },
+        "implicitWildcardListen": {
+          "errno": null,
+          "stage": "operation",
+          "status": "succeeded"
+        },
+        "loopbackTCP": {
+          "errno": null,
+          "stage": "operation",
+          "status": "succeeded"
+        },
+        "loopbackUDP": {
+          "errno": null,
+          "stage": "operation",
+          "status": "succeeded"
+        },
+        "wildcardTCP": {
+          "bind": {
+            "errno": null,
+            "status": "succeeded"
+          },
+          "listen": {
+            "errno": null,
+            "status": "succeeded"
+          },
+          "socket": {
+            "errno": null,
+            "stage": "operation",
+            "status": "succeeded"
+          }
+        },
+        "wildcardUDPBind": {
+          "errno": null,
+          "stage": "operation",
+          "status": "succeeded"
+        }
+      },
+      "IPv6": {
+        "externalTCP": {
+          "errno": 1,
+          "stage": "operation",
+          "status": "policy_denied"
+        },
+        "externalUDP": {
+          "errno": 1,
+          "stage": "operation",
+          "status": "policy_denied"
+        },
+        "implicitWildcardListen": {
+          "errno": null,
+          "stage": "operation",
+          "status": "succeeded"
+        },
+        "loopbackTCP": {
+          "errno": null,
+          "stage": "operation",
+          "status": "succeeded"
+        },
+        "loopbackUDP": {
+          "errno": null,
+          "stage": "operation",
+          "status": "succeeded"
+        },
+        "wildcardTCP": {
+          "bind": {
+            "errno": null,
+            "status": "succeeded"
+          },
+          "listen": {
+            "errno": null,
+            "status": "succeeded"
+          },
+          "socket": {
+            "errno": null,
+            "stage": "operation",
+            "status": "succeeded"
+          }
+        },
+        "wildcardUDPBind": {
+          "errno": null,
+          "stage": "operation",
+          "status": "succeeded"
+        }
+      }
+    },
+    "passed": false,
+    "profileSHA256": "1c4d99ed0624ce971691edb76f2fe55dc20cf8bdca4aaf3e1f3bcb5740d8365b"
+  },
+  "capabilities": {
+    "architecture": "arm64",
+    "containerCommandsPresent": {
+      "colima": false,
+      "docker": false,
+      "podman": false
+    },
+    "containerRuntimeVerified": false,
+    "hypervisorSupport": null,
+    "macOS": "15.7.9",
+    "platform": "Darwin",
+    "sandboxExecutablePresent": true,
+    "virtualizationFrameworkSupported": false,
+    "vmBootAttempted": false
+  },
+  "control": {
+    "diagnosticCategories": [],
+    "exitCode": 0,
+    "observations": {
+      "IPv4": {
+        "externalTCP": {
+          "errno": 1,
+          "stage": "operation",
+          "status": "policy_denied"
+        },
+        "externalUDP": {
+          "errno": 1,
+          "stage": "operation",
+          "status": "policy_denied"
+        },
+        "implicitWildcardListen": {
+          "errno": 1,
+          "stage": "operation",
+          "status": "policy_denied"
+        },
+        "loopbackTCP": {
+          "errno": 1,
+          "stage": "operation",
+          "status": "policy_denied"
+        },
+        "loopbackUDP": {
+          "errno": 1,
+          "stage": "operation",
+          "status": "policy_denied"
+        },
+        "wildcardTCP": {
+          "bind": {
+            "errno": 1,
+            "status": "policy_denied"
+          },
+          "listen": {
+            "status": "not_attempted"
+          },
+          "socket": {
+            "errno": null,
+            "stage": "operation",
+            "status": "succeeded"
+          }
+        },
+        "wildcardUDPBind": {
+          "errno": 1,
+          "stage": "operation",
+          "status": "policy_denied"
+        }
+      },
+      "IPv6": {
+        "externalTCP": {
+          "errno": 1,
+          "stage": "operation",
+          "status": "policy_denied"
+        },
+        "externalUDP": {
+          "errno": 1,
+          "stage": "operation",
+          "status": "policy_denied"
+        },
+        "implicitWildcardListen": {
+          "errno": 1,
+          "stage": "operation",
+          "status": "policy_denied"
+        },
+        "loopbackTCP": {
+          "errno": 1,
+          "stage": "operation",
+          "status": "policy_denied"
+        },
+        "loopbackUDP": {
+          "errno": 1,
+          "stage": "operation",
+          "status": "policy_denied"
+        },
+        "wildcardTCP": {
+          "bind": {
+            "errno": 1,
+            "status": "policy_denied"
+          },
+          "listen": {
+            "status": "not_attempted"
+          },
+          "socket": {
+            "errno": null,
+            "stage": "operation",
+            "status": "succeeded"
+          }
+        },
+        "wildcardUDPBind": {
+          "errno": 1,
+          "stage": "operation",
+          "status": "policy_denied"
+        }
+      }
+    },
+    "passed": true,
+    "profileSHA256": "4ddeddd935982aa9b67b6ba4b1e5c99eb8f65a0d2fe0a2bef36abfe99bc0cc7f"
+  },
+  "precredentialOnly": true,
+  "probeSHA256": "c1cea81ca9399cfea97bda644407a0ffe6675adf0b0eddfe9249023169c874ec",
+  "runtimeProfileChanged": false,
+  "schemaVersion": 1,
+  "status": "Failed"
+}

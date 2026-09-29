@@ -62,7 +62,7 @@ xcodebuild "${common[@]}" -configuration Debug -parallel-testing-enabled NO \
   "${test_selection[@]}" -resultBundlePath "$proof_evidence/LocalExperience.xcresult" test 2>&1 | tee "$proof_evidence/xcode-ui-tests.log"
 test_status=${PIPESTATUS[0]}
 set -e
-if [[ "${NIDAA_CAPTURE_SYSTEM_DIAGNOSTIC:-0}" == 1 && "${NIDAA_UI_SUITE:-all}" == autofill-saved ]]; then
+if [[ "${NIDAA_CAPTURE_SYSTEM_DIAGNOSTIC:-0}" == 1 && ( "${NIDAA_UI_SUITE:-all}" == autofill-saved || "${NIDAA_UI_SUITE:-all}" == autofill ) ]]; then
   python3 Scripts/capture_picker_system_diagnostic.py "$proof_udid" "$proof_evidence"
 fi
 if [[ -d "$proof_evidence/LocalExperience.xcresult" ]]; then

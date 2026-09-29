@@ -56,13 +56,14 @@ jobs:
           persist-credentials: false
       - name: Test client safety regressions
         run: |
+          python3 Scripts/record_ci_source.py
           mkdir -p artifacts
           set -o pipefail
           swift test --package-path IntegrationClient 2>&1 | tee artifacts/client-review-tests.log
       - name: Verify enabled AutoFill input and Release build
         env:
           INPUT_SUITE: ${{ contains(github.event.head_commit.message, '[ui:saved]') && 'autofill-saved' || 'autofill' }}
-          NIDAA_CAPTURE_SYSTEM_DIAGNOSTIC: ${{ contains(github.event.head_commit.message, '[ui:system]') && '1' || '0' }}
+          NIDAA_CAPTURE_SYSTEM_DIAGNOSTIC: ${{ (contains(github.event.head_commit.message, '[ui:system]') || contains(github.event.head_commit.message, '[diagnostic:picker]')) && '1' || '0' }}
         run: bash Scripts/ci_native_review.sh "$INPUT_SUITE"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: ${{ always() }}

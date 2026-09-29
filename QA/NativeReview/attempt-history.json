@@ -346,5 +346,56 @@
     "result": "0 passed,1 failed,0 skipped; Release passed; UI test compiled and executed",
     "observed": "Native Save and hittable Passwords tap completed. Dynamic identity discovery still failed at AutoFillUITests.swift147. No saved identity on queried foreground surfaces; Passwords not foreground. Original top120-point crop shows NIDAA integration header, not a Passwords header. No personal requirement or infrastructure signal. The crop does not reveal the rest of the screen or establish picker absence.",
     "nextStep": "Unresolved selection path. Diagnose the actual system surface after the Passwords tap in a disposable Simulator using fixed nonsecret control observations before another targeted run. No unchanged rerun, unproven iCloud requirement, skipped assertion or claimed successful selection."
+  },
+  {
+    "run": 36539307560,
+    "attempt": 1,
+    "job": 109310637268,
+    "commit": "0c12b736a623f0da700e22fa9a0cbd18b154010d",
+    "artifact": 11019293813,
+    "artifactSHA256": "e48946f0254870eb6a0a18ac9ac7acf11e86d8e4f4e50be5b8882d44d5aef52b",
+    "category": "Changed precredential isolation candidate; not a product test or backend setup retry",
+    "result": "Candidate failed; deny-all control passed; no credentials or services",
+    "observed": "IPv4/IPv6 external TCP/UDP policy-denied; candidate allowed wildcard TCP bind/listen, UDP bind, implicit wildcard listen and loopback TCP/UDP. Deny-all control denied all operations. VZVirtualMachine.isSupported false; container commands absent; kern.hv_support unavailable, not zero.",
+    "nextStep": "No unchanged repeat or adopted candidate. Native UI/backend unexecuted until a mechanism meets the complete IPv4/IPv6 gate. Independent AutoFill and unified source verification continue."
+  },
+  {
+    "run": 36539142321,
+    "attempt": 1,
+    "job": 109310110027,
+    "commit": "4bb8b1244ee580dd280620737504323dcafdf513",
+    "artifact": 11019967118,
+    "artifactSHA256": "13e78b9804942061be4c384846b63a93663fa738bbb62e0c8b09be218c823800",
+    "suite": "autofill-saved",
+    "result": "0 passed,1 failed,0 skipped; Release passed",
+    "observed": "Three full redacted screen exports and complete sanitized accessibility trees actually inspected. Before tap: keyboard Passwords button at [30,538,342,45]. After tap: keyboard hidden, NIDAA visible underneath; app snapshot shrinks to14 empty ancestor nodes. At bounded selection failure: keyboard and same Passwords accessory return, fields remain blank. No stable credential chooser/identity or personal-account requirement observed.",
+    "category": "Unresolved system presentation transition; not evidence of a missing delayed row or proven Simulator limitation",
+    "changeBeforeRetry": "Verify saved entry persistence and native provider settings, and capture encrypted system diagnostics for local review. No product change, longer wait or weakened success assertion."
+  },
+  {
+    "run": 36541295372,
+    "attempt": 1,
+    "job": 109317080927,
+    "commit": "053de1c3113a88050e57906c186e415a59d055d9",
+    "artifact": 11020109342,
+    "artifactSHA256": "2352b9dea103cf8d1721a881f223ced2e3d1fe0f79a27634977274696233f2f0",
+    "suite": "autofill-saved",
+    "result": "0 passed,1 failed,0 skipped; Release passed",
+    "observed": "Saved entry persisted after native Passwords relaunch; global AutoFill enabled. Provider control observed but provider enabled state unknown. Full screens inspected: keyboard disappears after tap while blank NIDAA form remains visible, then returns; no stable picker. System diagnostic collection exited0 but sealing incomplete, no raw log uploaded.",
+    "category": "Unresolved system presentation; additional diagnostic tooling failure, not evidence of unsupported Simulator",
+    "changeBeforeRetry": "Bound system log capture to named processes and record coarse failure stage/size. Correct provider screenshot fallback and use Settings viewport geometry. Keep product and AutoFill assertions unchanged."
+  },
+  {
+    "run": 36543271512,
+    "attempt": 1,
+    "job": 109323515799,
+    "commit": "9494c13018f0a21aa0a384bd111df680cb1b34b5",
+    "artifact": 11022297535,
+    "artifactSHA256": "622a98c0eba845c858d9cde78d22b59af8979a3935c013e40f652ebda8755822",
+    "suite": "autofill-saved",
+    "result": "0 passed,1 failed,0 skipped; Release passed",
+    "observed": "Saved entry persisted. Provider reinspection had no matching controls; runner bounds320x480 differ from native window402x874. Two encrypted full picker screens decrypted and inspected: same blank form after tap, no stable chooser. Failure at savedIdentityTarget line378; no final failure snapshot produced. System collection succeeded with193619229 bytes and exceeded80MB guard; screenshot encryption itself succeeded.",
+    "category": "Unresolved picker plus concrete diagnostic size and provider-reinspection failures",
+    "changeBeforeRetry": "Compress bounded system interval and private XCTest log before encryption;512MB raw cap. Inspect provider on the already verified Settings fixture page through a no-navigation hook. Run all intended suites at one frozen source; retain every failure and selection assertion."
   }
 ]

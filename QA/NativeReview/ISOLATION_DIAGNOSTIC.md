@@ -30,4 +30,22 @@ Exit 0 requires both the candidate and negative control to satisfy their asserti
 
 The report includes exact profile/probe hashes, coarse platform data and all observations. Capabilities are read independently: `kern.hv_support`, the actual [`VZVirtualMachine.isSupported`](https://developer.apple.com/documentation/virtualization/vzvirtualmachine/issupported) framework query, and presence of container commands. Command presence is explicitly not proof of a usable container runtime, and the framework boolean is not proof of nested-VM boot. No daemon, VM, privileged firewall, service or backend is started. Children receive a minimal temporary environment without inherited credentials. The active `loopback.sb`, existing probe and runtime remain unchanged until empirical evidence justifies a reviewed replacement.
 
-Windows validation for these additions is compilation plus the pure result-classifier checks only; no macOS execution is claimed here. An actual failed result ends this candidate, while independent UI/export work can continue.
+Windows validation for these additions was compilation plus pure result-classifier checks. The actual macOS result below ends this candidate; independent UI/export work continues.
+
+## Actual stricter-candidate result
+
+At commit `0c12b736a623f0da700e22fa9a0cbd18b154010d`, [run 36539307560 attempt 1](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36539307560), job `109310637268`, the candidate **Failed** on macOS 15.7.9 arm64. The deny-all control **Passed**, including denial of loopback. The candidate produced these identical results for IPv4 and IPv6:
+
+| Operation | Actual result |
+|---|---|
+| External TCP connect / empty UDP send | Policy denied, EPERM (1) |
+| Wildcard TCP bind / explicit listen | Succeeded / succeeded |
+| Wildcard UDP bind | Succeeded |
+| Unbound-socket implicit wildcard listen | Succeeded |
+| Loopback TCP / empty UDP exchange | Succeeded / succeeded |
+
+The changed policy's filtered inbound grant still permits wildcard binding and listening on this runner. Removing the explicit bind grant did not close the boundary. Both profiles were measured once, without credentials, backend preparation or a service start. Wildcard sockets were closed immediately; the result does not claim externally accepted connections or remote reachability. No further trial of these unchanged policies is warranted.
+
+Observed capability results: `VZVirtualMachine.isSupported` was false; `kern.hv_support` was unavailable (`null`); Docker, Colima and Podman commands were absent. This establishes no usable virtualization/container fallback in the measured environment; command absence alone does not prove all possible alternatives impossible. No VM boot or container installation was attempted. No supported, available alternative was identified that satisfies actual wildcard bind/listen denial while allowing both loopback families. Network flow filtering, a fixed-port exception, application binding configuration, or syscall interception is not treated as equivalent evidence.
+
+The active profile remains unchanged and blocked. After this failed run, the prepared `isolation_probe.py` and `runtime.py` were strengthened to require the complete matrix through one shared 14-key contract in `isolation_candidate.py`, with a 20-second timeout. Both candidate classification and the runtime require the same policy-denial/success rules; missing keys, non-boolean values and incomplete observations fail closed. The six local `QA/test_isolation_gate.py` regressions passed without opening sockets. This closes a prepared-script gap; it is not another macOS run or evidence of a working policy. Before any future service attempt, a reviewed replacement mechanism must pass the full gate under the identical profile used by services. The minimum unresolved requirement is an available Mac runner with that verified mechanism; it is not a general inability of macOS to run Auth/PostgreSQL.

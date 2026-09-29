@@ -44,6 +44,10 @@ class NativeEvidenceExportTests(unittest.TestCase):
             picker={key:False for key in ['appForeground','springboardForeground','passwordsForeground','appSavedIdentityVisible','springboardSavedIdentityVisible','passwordsSavedIdentityVisible']}
             (screens / 'picker.txt').write_text(json.dumps(picker))
             (screens / 'unsafe-picker.txt').write_text(json.dumps({**picker,'password':'PRIVATE_SENTINEL_DO_NOT_EXPORT'}))
+            provider_geometry={'runnerFrame':[0,0,400,800],'windowFrame':[0,0,400,800],'rows':[{'control':'provider_text','frame':[20,200,300,50],**{k:False for k in ('exists','hittable','selected','runnerContains','windowContains','sizeEligible','valueKnown','enabled')}}]}
+            (screens/'provider-geometry.txt').write_text(json.dumps(provider_geometry))
+            (screens/'unsafe-provider-geometry.txt').write_text(json.dumps({**provider_geometry,'rawValue':'PRIVATE_SENTINEL_DO_NOT_EXPORT'}))
+            (screens/'settings.png').write_bytes(b'PRIVATE_SENTINEL_DO_NOT_EXPORT')
             tree={'phase':'before_tap','newPasswordFormClosed':True,'emailBlank':True,'snapshotsComplete':True,'truncated':False,'maskCount':1,
                   'nodes':[{'surface':'app','node':0,'parent':-1,'role':9,'frame':[0,0,400,800],'label':'Passwords','identifier':'[redacted]'}]}
             (screens/'tree.txt').write_text(json.dumps(tree))
@@ -62,6 +66,9 @@ class NativeEvidenceExportTests(unittest.TestCase):
                 {'suggestedHumanReadableName':'autofill-native-form-readiness','exportedFileName':'unsafe-readiness.txt'},
                 {'suggestedHumanReadableName':'autofill-native-picker-state','exportedFileName':'picker.txt'},
                 {'suggestedHumanReadableName':'autofill-native-picker-state','exportedFileName':'unsafe-picker.txt'},
+                {'suggestedHumanReadableName':'autofill-native-provider-geometry','exportedFileName':'provider-geometry.txt'},
+                {'suggestedHumanReadableName':'autofill-native-provider-geometry','exportedFileName':'unsafe-provider-geometry.txt'},
+                {'suggestedHumanReadableName':'autofill-native-provider-settings-screen','exportedFileName':'settings.png'},
                 {'suggestedHumanReadableName':'autofill-native-picker-accessibility-tree','exportedFileName':'tree.txt'},
                 {'suggestedHumanReadableName':'autofill-native-picker-accessibility-tree','exportedFileName':'unsafe-tree.txt'},
                 {'suggestedHumanReadableName':'autofill-native-picker-accessibility-tree','exportedFileName':'closed-gate-tree.txt'},
@@ -100,10 +107,12 @@ class NativeEvidenceExportTests(unittest.TestCase):
             self.assertEqual(result['nativeFormRoleGeometry'], geometry)
             self.assertEqual(result['nativeFormReadiness'], [readiness])
             self.assertEqual(result['nativePickerState'], picker)
+            self.assertEqual(result['nativeProviderGeometry'], provider_geometry)
             self.assertEqual(result['pickerDiagnosticPhases'], ['before_tap','selection_failure'])
             self.assertFalse((exported/'autofill-native-picker-full-screen-redacted-before-tap.png').exists())
             self.assertTrue(result['pickerScreenshotsEncrypted'])
-            self.assertEqual([x['name'] for x in result['sealedPickerScreenshots']], ['autofill-native-picker-full-screen-redacted-before-tap.png'])
+            self.assertEqual([x['name'] for x in result['sealedPickerScreenshots']], ['autofill-native-provider-settings-screen.png','autofill-native-picker-full-screen-redacted-before-tap.png'])
+            self.assertFalse((exported/'autofill-native-provider-settings-screen.png').exists())
             self.assertEqual((exported/'picker-screenshots.p7m').read_bytes(), b'ENCRYPTED-FIXTURE')
             self.assertFalse((exported/'autofill-native-picker-full-screen-redacted-after-tap.png').exists())
             self.assertFalse((exported/'autofill-native-picker-full-screen-redacted-selection-failure.png').exists())

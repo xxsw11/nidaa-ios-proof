@@ -80,6 +80,7 @@ native_form_readiness=[]
 # Full-screen diagnostics are accepted only with a matching strict tree report.
 picker_diagnostics=[]
 picker_images=[]
+private_settings_images=[]
 picker_labels=set(['', '[redacted]', 'Passwords', 'Password', 'Password AutoFill', 'AutoFill Password', 'Fill Password', 'AutoFill', 'AutoFill…', 'Other Passwords', 'Other Passwords…', 'Open Passwords', 'Search', 'Search Passwords', 'Allow', 'Don’t Allow', "Don't Allow", 'Continue', 'Cancel', 'Done', 'Close', 'Back', 'Save', 'New Password', 'User Name', 'Username', 'Website or Label', 'Website or App', 'Notes', 'All', 'Passkeys', 'Codes', 'Deleted', 'Sign In to iCloud', 'Sign in to your Apple Account', 'Set Up a Passcode', 'Enter iPhone Passcode', 'Use Passcode', 'Face ID', 'Touch ID', 'Authentication Required', 'Unlock Passwords', 'Select All', 'Select', 'Paste', 'Copy', 'Cut', 'كلمات السر', 'كلمات المرور', 'تعبئة كلمات السر', 'تعبئة تلقائية', 'تعبئة تلقائية…', 'كلمات سر أخرى', 'كلمات مرور أخرى', 'بحث', 'إلغاء', 'تم', 'متابعة', 'السماح', 'عدم السماح', 'فتح كلمات السر', 'تسجيل الدخول إلى iCloud', 'إدخال رمز دخول iPhone', 'NIDAA', 'نداء', 'تجربة الربط المحلي', 'MOCK · محاكاة واجهة فقط', 'حساب خيالي مستقل', 'البريد الإلكتروني', 'كلمة المرور', 'تسجيل الدخول', 'إنشاء حساب تجريبي', 'طلب استعادة كلمة المرور', 'لديّ رمز تحقق أو استعادة', 'إغلاق', 'إظهار كلمة المرور', 'إخفاء كلمة المرور', 'الحسابات والنتائج التالية خيالية داخل الواجهة. لا يثبت هذا اختبارًا من المحاكي إلى الخادم.', 'الإرسال مزيف للاختبار · APNs غير مفعّل · لا إشعار أو صوت على هاتف.', 'استخدم بريدًا ينتهي بـ \u200e.invalid. التحقق يصل إلى صندوق محلي معزول؛ لا تستخدم بيانات شخصية.', 'integrationEmail', 'integrationPassword', 'integrationPasswordVisibility', 'integrationPasswordPaste', 'integrationLogin', 'integrationSignup', 'integrationRecover', 'integrationExistingToken', 'integrationKeyboardDone', 'integrationMockBanner'])
 picker_phases={'before_tap','after_tap','selection_failure'}
 def valid_picker_tree(value):
@@ -125,6 +126,8 @@ if manifest.exists():
             exported=item.get('exportedFileName','')
             source=(private/'screenshots'/exported).resolve()
             assert source.is_relative_to(private/'screenshots')
+            if human=='autofill-native-provider-settings-screen' and source.suffix=='.png':
+                private_settings_images.append({'name':human+'.png','originalExport':exported,'sha256':hashlib.sha256(source.read_bytes()).hexdigest(),'redacted':False,'scope':'Disposable Settings fixture; encrypted pending local review'})
             if human=='autofill-native-picker-accessibility-tree' and source.suffix in ('.txt','.text'):
                 try: tree=json.loads(source.read_text(encoding='utf-8'))
                 except (ValueError,UnicodeError): tree=None
@@ -232,7 +235,8 @@ for tree in picker_diagnostics:
     target=output/('picker-accessibility-'+tree['phase']+'.json')
     assert not target.exists(), 'Duplicate picker phase requires review'
     target.write_text(json.dumps(tree,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-sealed_images=[]
+assert len(private_settings_images)<=1, 'Duplicate private Settings image requires review'
+sealed_images=list(private_settings_images)
 for phase,human,source,exported in picker_images:
     matches=[d for d in picker_diagnostics if d['phase']==phase]
     if len(matches)!=1: continue

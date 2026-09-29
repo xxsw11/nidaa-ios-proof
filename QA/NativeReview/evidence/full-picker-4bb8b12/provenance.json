@@ -1,0 +1,13 @@
+{
+  "run": 36539142321,
+  "attempt": 1,
+  "job": 109310110027,
+  "commit": "4bb8b1244ee580dd280620737504323dcafdf513",
+  "artifact": 11019967118,
+  "artifactSHA256": "13e78b9804942061be4c384846b63a93663fa738bbb62e0c8b09be218c823800",
+  "suite": "autofill-saved",
+  "result": "0 passed,1 failed,0 skipped; Release passed",
+  "observed": "Three full redacted screen exports and complete sanitized accessibility trees actually inspected. Before tap: keyboard Passwords button at [30,538,342,45]. After tap: keyboard hidden, NIDAA visible underneath; app snapshot shrinks to14 empty ancestor nodes. At bounded selection failure: keyboard and same Passwords accessory return, fields remain blank. No stable credential chooser/identity or personal-account requirement observed.",
+  "category": "Unresolved system presentation transition; not evidence of a missing delayed row or proven Simulator limitation",
+  "changeBeforeRetry": "Verify saved entry persistence and native provider settings, and capture encrypted system diagnostics for local review. No product change, longer wait or weakened success assertion."
+}

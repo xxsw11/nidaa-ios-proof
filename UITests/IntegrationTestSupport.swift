@@ -87,6 +87,7 @@ class IntegrationTestCase: XCTestCase {
             attachment.name = "disposable-simulator-autofill-passwords-and-passkeys-on"
             attachment.lifetime = .keepAlways
             add(attachment)
+            try inspectAutoFillProviderFixture(in: settings)
         } catch {
             // This runs before the NIDAA app is initialized, so preserve separate
             // fixture evidence instead of relying on the app's tearDown capture.
@@ -102,6 +103,9 @@ class IntegrationTestCase: XCTestCase {
         throw FixtureError.setupFailed("Settings fixture is restricted to iOS Simulator; physical-device settings must not be changed")
         #endif
     }
+    /// Optional diagnostics while Settings is still on the verified AutoFill
+    /// page. The caller owns its lifetime; overrides must not navigate or relaunch.
+    func inspectAutoFillProviderFixture(in settings: XCUIApplication) throws {}
     func openSettingsRow(_ title: String, in settings: XCUIApplication) throws {
         for _ in 0..<8 {
             let button = settings.buttons[title].firstMatch

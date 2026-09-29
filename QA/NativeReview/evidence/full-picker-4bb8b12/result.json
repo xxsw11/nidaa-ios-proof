@@ -1,0 +1,199 @@
+{
+  "suite": "autofill-saved",
+  "exitCode": 65,
+  "commit": "4bb8b1244ee580dd280620737504323dcafdf513",
+  "run": "36539142321",
+  "attempt": "1",
+  "scope": "MOCK network with native AutoFill enabled",
+  "rawEvidence": "Private XCTest logs/xcresult/recordings excluded from publication",
+  "physicalDevice": "Not tested",
+  "savedCredentialSelection": "failed",
+  "summary": {
+    "result": "Failed",
+    "totalTestCount": 1,
+    "passedTests": 0,
+    "failedTests": 1,
+    "skippedTests": 0,
+    "expectedFailures": 0,
+    "startTime": 1790668641.898,
+    "finishTime": 1790668955.483,
+    "devicesAndConfigurations": [
+      {
+        "device": {
+          "architecture": "arm64",
+          "deviceId": "70C1889F-90C3-4AB7-9D36-0E47DB0CA5D0",
+          "deviceName": "NIDAA-Disposable-309E4DBB-7783-405B-A8E4-8B45A743507C",
+          "modelName": "iPhone 16 Pro",
+          "osBuildNumber": "22F77",
+          "osVersion": "18.5",
+          "platform": "iOS Simulator"
+        },
+        "expectedFailures": 0,
+        "failedTests": 1,
+        "passedTests": 0,
+        "skippedTests": 0,
+        "testPlanConfiguration": {
+          "configurationId": "1",
+          "configurationName": "Test Scheme Action"
+        }
+      }
+    ],
+    "environmentDescription": "NidaaProof-Local \u00b7 Built with macOS 15.7.9"
+  },
+  "failedTestIdentifiers": [
+    "AutoFillUITests/testSavedCredentialSelection()"
+  ],
+  "testCaseResults": [
+    [
+      "NidaaUITests.AutoFillUITests",
+      "testSavedCredentialSelection",
+      "failed"
+    ]
+  ],
+  "failureLocations": [
+    [
+      "AutoFillUITests.swift",
+      "150"
+    ]
+  ],
+  "infrastructureSignals": {
+    "runnerBootstrapFailure": false,
+    "runnerKilledBeforeTests": false,
+    "runnerEarlyExit": false,
+    "failedLaunch": false,
+    "failedInstall": false,
+    "testRunnerLost": false,
+    "timedOut": false,
+    "simulatorBootFailure": false,
+    "compileFailure": false,
+    "testFailed": true
+  },
+  "compilerDiagnostics": [],
+  "debugTestSucceeded": false,
+  "releaseBuildSucceeded": true,
+  "xcode": "Xcode 16.4\nBuild version 16F6",
+  "nativePickerState": {
+    "appForeground": true,
+    "appSavedIdentityVisible": false,
+    "passwordsForeground": false,
+    "passwordsSavedIdentityVisible": false,
+    "springboardForeground": true,
+    "springboardSavedIdentityVisible": false
+  },
+  "nativeFormRoleGeometry": {
+    "controls": [
+      {
+        "frame": [
+          20,
+          163,
+          362,
+          86
+        ],
+        "hittable": true,
+        "role": "textField"
+      },
+      {
+        "frame": [
+          133.33333333333331,
+          260,
+          228.66666666666669,
+          22
+        ],
+        "hittable": true,
+        "role": "textField"
+      },
+      {
+        "frame": [
+          121.33333333333333,
+          304,
+          240.66666666666669,
+          22
+        ],
+        "hittable": true,
+        "role": "textField"
+      },
+      {
+        "frame": [
+          40,
+          404.3333333333333,
+          322,
+          64.33333333333337
+        ],
+        "hittable": true,
+        "role": "textField"
+      }
+    ],
+    "passwordLabelFound": true,
+    "userLabelFound": true,
+    "usernameFound": true,
+    "websiteFound": true
+  },
+  "pickerDiagnosticPhases": [
+    "selection_failure",
+    "after_tap",
+    "before_tap"
+  ],
+  "screenshots": [
+    {
+      "name": "autofill-native-picker-header-crop.png",
+      "originalExport": "6EBCCCE3-2AC1-43A1-94AE-748560211FDD.png",
+      "sha256": "427254dbcb9b9fb07cde6d2439e04b45c8c8527e3a0daef259be2be3b33c165a"
+    },
+    {
+      "name": "autofill-native-empty-identity-fields-crop.png",
+      "originalExport": "A48A30A5-A3AE-4CC0-B4A4-816A131F2F5F.png",
+      "sha256": "d7703b45f7e7d85cf27a08760e9fe2e2bb6e2237b5b75284c8a028d70207c153"
+    },
+    {
+      "name": "autofill-saved-credential-new-password-controls-header.png",
+      "originalExport": "9F7160BF-8E3F-435A-86BD-1357EA1C6CFC.png",
+      "sha256": "1020b4a8cf98c0ec91486bc8f234f0a529ab838fca1bb97c44debfee7cf97a00"
+    },
+    {
+      "name": "disposable-simulator-autofill-passwords-and-passkeys-on.png",
+      "originalExport": "E9B38892-68FA-4AC5-8F27-05F0043179DB.png",
+      "sha256": "ad349b1f6fe49b49c07c2fbf94fbe8a2177d769bfd05b615f1c425d57a82e9ec"
+    },
+    {
+      "name": "autofill-native-picker-full-screen-redacted-selection-failure.png",
+      "originalExport": "310CD705-7BEF-4046-ADF6-3FC419662812.png",
+      "sha256": "98179fcbd4f3967f09f0fb19ce8e97386eb5bbcaa421ee0a489ade96207e3e98",
+      "redacted": true,
+      "tree": "picker-accessibility-selection_failure.json"
+    },
+    {
+      "name": "autofill-native-picker-full-screen-redacted-after-tap.png",
+      "originalExport": "A3B61DFB-226D-47E1-A1A1-55F0E1651D17.png",
+      "sha256": "ca05c98af5ed9ad63acf6388024bfad1d11b61b6efeed925ae83ad95e8b7ea0b",
+      "redacted": true,
+      "tree": "picker-accessibility-after_tap.json"
+    },
+    {
+      "name": "autofill-native-picker-full-screen-redacted-before-tap.png",
+      "originalExport": "65716FF1-B9D2-4BC0-AA4A-C3A0D339E8B6.png",
+      "sha256": "47c5ef413b957f50ec0a8c57947606ea69925cc61a732baea873bafb0f1e6e10",
+      "redacted": true,
+      "tree": "picker-accessibility-before_tap.json"
+    }
+  ],
+  "draftReadiness": [],
+  "revealGeometry": [],
+  "nativeFormReadiness": [
+    {
+      "passwordFieldFound": true,
+      "passwordFieldHittable": true,
+      "phase": "after_password",
+      "saveEnabled": true,
+      "usernameMatches": true,
+      "websiteMatches": true
+    },
+    {
+      "passwordFieldFound": true,
+      "passwordFieldHittable": true,
+      "phase": "before_password",
+      "saveEnabled": false,
+      "usernameMatches": true,
+      "websiteMatches": true
+    }
+  ]
+}

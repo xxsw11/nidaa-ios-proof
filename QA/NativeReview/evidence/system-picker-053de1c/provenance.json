@@ -1,0 +1,13 @@
+{
+  "run": 36541295372,
+  "attempt": 1,
+  "job": 109317080927,
+  "commit": "053de1c3113a88050e57906c186e415a59d055d9",
+  "artifact": 11020109342,
+  "artifactSHA256": "2352b9dea103cf8d1721a881f223ced2e3d1fe0f79a27634977274696233f2f0",
+  "suite": "autofill-saved",
+  "result": "0 passed,1 failed,0 skipped; Release passed",
+  "observed": "Saved entry persisted after native Passwords relaunch; global AutoFill enabled. Provider control observed but provider enabled state unknown. Full screens inspected: keyboard disappears after tap while blank NIDAA form remains visible, then returns; no stable picker. System diagnostic collection exited0 but sealing incomplete, no raw log uploaded.",
+  "category": "Unresolved system presentation; additional diagnostic tooling failure, not evidence of unsupported Simulator",
+  "changeBeforeRetry": "Bound system log capture to named processes and record coarse failure stage/size. Correct provider screenshot fallback and use Settings viewport geometry. Keep product and AutoFill assertions unchanged."
+}

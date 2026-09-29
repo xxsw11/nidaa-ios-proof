@@ -52,6 +52,7 @@ jobs:
           persist-credentials: false
       - name: Record environment
         run: |
+          python3 Scripts/record_ci_source.py
           mkdir -p artifacts
           { sw_vers; xcodebuild -version; swift --version; } > artifacts/environment.txt
           xcrun simctl list devices available -j > artifacts/devices.json

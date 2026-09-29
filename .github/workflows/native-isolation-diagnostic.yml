@@ -7,7 +7,9 @@ permissions:
   contents: read
 jobs:
   policy:
-    if: ${{ github.event.repository.private == false }}
+    # The measured candidate failed. Only an explicitly changed diagnostic may
+    # retry it; ordinary regression/gate hardening must not repeat the policy.
+    if: ${{ github.event.repository.private == false && contains(github.event.head_commit.message, '[diagnostic:isolation]') }}
     runs-on: macos-15
     timeout-minutes: 5
     steps:

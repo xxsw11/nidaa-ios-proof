@@ -92,9 +92,6 @@ final class AutoFillUITests: IntegrationTestCase {
                                   "passwordsForeground": passwords.state == .runningForeground], name: "autofill-saved-entry-persistence")
         if !persistedEntryFound { recordKnownSystemControls(in: passwords, stage: "saved-entry-persistence") }
         passwords.terminate()
-        // Inspect provider configuration even if persistence failed, preserving
-        // both independent pieces of setup evidence before the explicit failure.
-        try recordNativeProviderConfiguration()
         guard persistedEntryFound else {
             XCTFail("Fictional saved identity did not persist in the native Passwords list after relaunch"); return
         }
@@ -199,18 +196,15 @@ final class AutoFillUITests: IntegrationTestCase {
         let evidence = XCTAttachment(string: text)
         evidence.name = name; evidence.lifetime = .keepAlways; add(evidence)
     }
-    private func recordNativeProviderConfiguration() throws {
-        let settings = XCUIApplication(bundleIdentifier: "com.apple.Preferences")
-        settings.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
-        settings.launch()
-        defer { settings.terminate() }
+    override func inspectAutoFillProviderFixture(in settings: XCUIApplication) throws {
+        // The base fixture has just verified AutoFill ON on this exact native
+        // page. Do not relaunch, navigate or terminate Settings from this hook.
+        // PRIVATE ONLY: the delivery script encrypts this original full screen;
+        // it is excluded from the public screenshot allowlist.
+        let privateScreen = XCTAttachment(screenshot: settings.screenshot())
+        privateScreen.name = "autofill-native-provider-settings-screen"
+        privateScreen.lifetime = .keepAlways; add(privateScreen)
         let global = settings.switches["AutoFillToggle"].firstMatch
-        // Settings may restore its last visited page after termination.
-        if !global.waitForExistence(timeout: 3) {
-            if !settings.navigationBars["General"].exists { try openSettingsRow("General", in: settings) }
-            try openSettingsRow("AutoFill & Passwords", in: settings)
-        }
-        _ = global.waitForExistence(timeout: 5)
         let providerSwitch = settings.switches.matching(NSPredicate(format: "label == %@ OR identifier == %@", "Passwords", "Passwords")).firstMatch
         let providerCell = settings.cells.containing(.staticText, identifier: "Passwords").firstMatch
         let providerButton = settings.buttons["Passwords"].firstMatch
