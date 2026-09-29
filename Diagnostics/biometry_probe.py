@@ -486,6 +486,61 @@ def command(argv, timeout=30):
         record['elapsedSeconds'] = round(time.monotonic()-started, 3)
 
 
+def install_observer(owned, app, report):
+    observation = report['localAuthenticationObserver']
+    # Reserve the existing before-phase entry budget after a full install
+    # window. The global deadline still clamps every subsequent operation.
+    if remaining_seconds() < 185:
+        observation['installStatus'] = 'Notexecuted-budget'
+        observation['before']['status'] = 'Notexecuted-budget'
+        observation['after']['status'] = 'Notexecuted-budget'
+        return False
+    report['stage'] = 'install_observer_app'
+    observation['installStatus'] = 'Running'
+    try:
+        installed = command(['xcrun', 'simctl', 'install', owned, str(app)], timeout=90)
+    except ProbeTimeout:
+        observation['installStatus'] = 'Failed-timeout'
+        raise
+    observation['installExitCode'] = installed.returncode
+    observation['installStatus'] = 'Passed' if installed.returncode == 0 else 'Failed'
+    return installed.returncode == 0
+
+
+def cleanup_owned(owned, report):
+    global COMMAND_DEADLINE
+    # Both exact-owned-device operations get an independent attempt inside one
+    # 60-second cleanup budget. A shutdown failure must not skip deletion.
+    COMMAND_DEADLINE = time.monotonic()+60
+    cleanup = report['cleanup'] = {'budgetSeconds': 60}
+    errors = []
+    try:
+        for operation, timeout, exit_key in [('shutdown', 20, 'ownedShutdownExitCode'), ('delete', 40, 'ownedDeleteExitCode')]:
+            cleanup[operation] = {'status': 'Running'}
+            try:
+                result = command(['xcrun', 'simctl', operation, owned], timeout=timeout)
+                report[exit_key] = result.returncode
+                cleanup[operation]['status'] = 'Passed' if result.returncode == 0 else 'Failed'
+                if operation == 'delete':
+                    report['ownedDeviceDeleted'] = result.returncode == 0
+                if result.returncode:
+                    errors.append({'operation': operation, 'reason': 'nonzero_exit'})
+            except ProbeTimeout:
+                cleanup[operation]['status'] = 'Failed-timeout'
+                errors.append({'operation': operation, 'reason': 'timeout'})
+            except OSError:
+                cleanup[operation]['status'] = 'Failed-tool-error'
+                errors.append({'operation': operation, 'reason': 'tool_error'})
+    finally:
+        COMMAND_DEADLINE = None
+    if errors:
+        report['cleanupErrors'] = errors
+        report['status'] = 'Blocked'
+        # Keep the causal install/menu/observer failure visible when cleanup
+        # also fails, rather than replacing it with a secondary error.
+        report.setdefault('blocker', 'owned_simulator_cleanup_failed')
+
+
 def main():
     global COMMAND_DEADLINE
     parser = argparse.ArgumentParser()
@@ -588,17 +643,9 @@ def main():
                 raise Blocked('owned_simulator_not_ready')
             observer_installed = False
             if observer_app is not None:
-                if remaining_seconds() < 125:
-                    report['localAuthenticationObserver']['installStatus'] = 'Notexecuted-budget'
-                    report['localAuthenticationObserver']['before']['status'] = 'Notexecuted-budget'
-                    report['localAuthenticationObserver']['after']['status'] = 'Notexecuted-budget'
-                else:
-                    report['stage'] = 'install_observer_app'
-                    installed = command(['xcrun', 'simctl', 'install', owned, str(observer_app)], timeout=30)
-                    report['localAuthenticationObserver']['installExitCode'] = installed.returncode
-                    observer_installed = installed.returncode == 0
-                    if observer_installed:
-                        observe_local_authentication(owned, 'before', report, minimum_remaining=95)
+                observer_installed = install_observer(owned, observer_app, report)
+                if observer_installed:
+                    observe_local_authentication(owned, 'before', report, minimum_remaining=95)
             developer = command(['xcode-select', '-p'])
             if developer.returncode:
                 raise Blocked('developer_directory_unavailable')
@@ -636,18 +683,7 @@ def main():
     finally:
         COMMAND_DEADLINE = None
         if owned:
-            try:
-                stopped = command(['xcrun', 'simctl', 'shutdown', owned], timeout=30)
-                deleted = command(['xcrun', 'simctl', 'delete', owned], timeout=30)
-                report['ownedShutdownExitCode'] = stopped.returncode
-                report['ownedDeleteExitCode'] = deleted.returncode
-                report['ownedDeviceDeleted'] = deleted.returncode == 0
-                if deleted.returncode:
-                    report['status'] = 'Blocked'
-                    report['blocker'] = 'owned_simulator_cleanup_failed'
-            except (OSError, ProbeTimeout):
-                report['status'] = 'Blocked'
-                report['blocker'] = 'owned_simulator_cleanup_failed'
+            cleanup_owned(owned, report)
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(report, indent=2, sort_keys=True)+'\n', encoding='utf-8')
         print(json.dumps(report, sort_keys=True))
