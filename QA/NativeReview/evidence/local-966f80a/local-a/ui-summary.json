@@ -1,0 +1,42 @@
+{
+  "devicesAndConfigurations" : [
+    {
+      "device" : {
+        "architecture" : "arm64",
+        "deviceId" : "30302E4E-1BE1-4B74-9C56-97CD125E297E",
+        "deviceName" : "NIDAA-Disposable-13D1A8ED-AED4-4BA3-AB4C-1C252F87B17D",
+        "modelName" : "iPhone 16 Pro",
+        "osBuildNumber" : "22F77",
+        "osVersion" : "18.5",
+        "platform" : "iOS Simulator"
+      },
+      "expectedFailures" : 0,
+      "failedTests" : 0,
+      "passedTests" : 9,
+      "skippedTests" : 0,
+      "testPlanConfiguration" : {
+        "configurationId" : "1",
+        "configurationName" : "Test Scheme Action"
+      }
+    }
+  ],
+  "environmentDescription" : "NidaaProof-Local · Built with macOS 15.7.9",
+  "expectedFailures" : 0,
+  "failedTests" : 0,
+  "finishTime" : 1790649259.488,
+  "passedTests" : 9,
+  "result" : "Passed",
+  "skippedTests" : 0,
+  "startTime" : 1790648579.168,
+  "statistics" : [
+
+  ],
+  "testFailures" : [
+
+  ],
+  "title" : "Test - NidaaProof-Local",
+  "topInsights" : [
+
+  ],
+  "totalTestCount" : 9
+}

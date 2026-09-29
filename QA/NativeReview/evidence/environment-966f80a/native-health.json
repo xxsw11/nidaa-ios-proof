@@ -1,0 +1,17 @@
+{
+  "kind": "Actual native process health and isolation trial",
+  "checks": {},
+  "notifications": "Fake database sink only; no APNs or audio",
+  "nativeUI": "Not executed by health probe",
+  "physicalDevice": "Not tested",
+  "sandboxProbeExitCode": 65,
+  "sandboxProbePrecredentialStderr": "sandbox-exec: host must be * or localhost in network address\n\nBacktrace: \n[REPOSITORY]/Integration/native/loopback.sb:5:22:\n\t(local ip \"127.0.0.1:*\")",
+  "sandboxProbeStderrTruncated": false,
+  "sandboxProbeDiagnosticScope": "Static isolation probe before credentials/services; runtime service logs excluded",
+  "sandboxProbeDiagnosticCategories": [],
+  "status": "Failed",
+  "failure": "sandbox_policy_not_verified",
+  "processExitCodes": {},
+  "diagnosticCategories": {},
+  "stage": "sandbox_policy_probe"
+}

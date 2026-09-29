@@ -1,0 +1,138 @@
+{
+  "suite": "integration",
+  "exitCode": 65,
+  "commit": "3759e291e963dced98b41d6d04102f0ac56dd4e7",
+  "run": "36513218045",
+  "attempt": "1",
+  "scope": "MOCK network with native AutoFill enabled",
+  "rawEvidence": "Private XCTest logs/xcresult/recordings excluded from publication",
+  "physicalDevice": "Not tested",
+  "savedCredentialSelection": "See bounded availability probe; not inferred from manual typing",
+  "summary": {
+    "result": "Failed",
+    "totalTestCount": 8,
+    "passedTests": 0,
+    "failedTests": 8,
+    "skippedTests": 0,
+    "expectedFailures": 0,
+    "startTime": 1790649661.279,
+    "finishTime": 1790650081.455,
+    "devicesAndConfigurations": [
+      {
+        "device": {
+          "architecture": "arm64",
+          "deviceId": "529C8A50-EC62-46C9-9F79-E209B8453B3D",
+          "deviceName": "NIDAA-Disposable-227290A2-F530-4FD6-8C28-1435926C8942",
+          "modelName": "iPhone 16 Pro",
+          "osBuildNumber": "22F77",
+          "osVersion": "18.5",
+          "platform": "iOS Simulator"
+        },
+        "expectedFailures": 0,
+        "failedTests": 8,
+        "passedTests": 0,
+        "skippedTests": 0,
+        "testPlanConfiguration": {
+          "configurationId": "1",
+          "configurationName": "Test Scheme Action"
+        }
+      }
+    ],
+    "environmentDescription": "NidaaProof-Local \u00b7 Built with macOS 15.7.9"
+  },
+  "failedTestIdentifiers": [
+    "IntegrationUITests/testBackgroundInvalidatesConfirmation()",
+    "IntegrationUITests/testDeviceAcknowledgementDoesNotBecomeHumanResponse()",
+    "IntegrationUITests/testFreshAuthenticationAndConfirmationNeverAutoSend()",
+    "IntegrationUITests/testInvitationRequiresDirectionalConsent()",
+    "IntegrationUITests/testLargeArabicLayoutAndLogoutIsolation()",
+    "IntegrationUITests/testRegistrationRequiresExplicitVerification()",
+    "IntegrationUITests/testSelectionChangeInvalidatesConfirmation()",
+    "IntegrationUITests/testUnknownOutcomeQueriesOriginalOperation()"
+  ],
+  "testCaseResults": [
+    [
+      "NidaaUITests.IntegrationUITests",
+      "testBackgroundInvalidatesConfirmation",
+      "failed"
+    ],
+    [
+      "NidaaUITests.IntegrationUITests",
+      "testDeviceAcknowledgementDoesNotBecomeHumanResponse",
+      "failed"
+    ],
+    [
+      "NidaaUITests.IntegrationUITests",
+      "testFreshAuthenticationAndConfirmationNeverAutoSend",
+      "failed"
+    ],
+    [
+      "NidaaUITests.IntegrationUITests",
+      "testInvitationRequiresDirectionalConsent",
+      "failed"
+    ],
+    [
+      "NidaaUITests.IntegrationUITests",
+      "testLargeArabicLayoutAndLogoutIsolation",
+      "failed"
+    ],
+    [
+      "NidaaUITests.IntegrationUITests",
+      "testRegistrationRequiresExplicitVerification",
+      "failed"
+    ],
+    [
+      "NidaaUITests.IntegrationUITests",
+      "testSelectionChangeInvalidatesConfirmation",
+      "failed"
+    ],
+    [
+      "NidaaUITests.IntegrationUITests",
+      "testUnknownOutcomeQueriesOriginalOperation",
+      "failed"
+    ]
+  ],
+  "failureLocations": [
+    [
+      "IntegrationTestSupport.swift",
+      "170"
+    ],
+    [
+      "IntegrationTestSupport.swift",
+      "205"
+    ]
+  ],
+  "infrastructureSignals": {
+    "runnerBootstrapFailure": false,
+    "runnerKilledBeforeTests": false,
+    "runnerEarlyExit": false,
+    "failedLaunch": false,
+    "failedInstall": false,
+    "testRunnerLost": false,
+    "timedOut": false,
+    "simulatorBootFailure": false,
+    "compileFailure": false,
+    "testFailed": true
+  },
+  "compilerDiagnostics": [],
+  "debugTestSucceeded": false,
+  "releaseBuildSucceeded": true,
+  "xcode": "Xcode 16.4\nBuild version 16F6",
+  "screenshots": [
+    {
+      "name": "disposable-simulator-autofill-passwords-and-passkeys-on.png",
+      "originalExport": "37F8EF44-5DC5-4102-B129-05D03DDFBE7A.png",
+      "sha256": "ad349b1f6fe49b49c07c2fbf94fbe8a2177d769bfd05b615f1c425d57a82e9ec"
+    },
+    {
+      "name": "integration-mock-09-large-arabic-auth.png",
+      "originalExport": "5A77460A-109A-49E6-9C9A-9652FC103AE1.png",
+      "sha256": "95ae6763721a96258f4d272c55cf2baaf151ea5fcaa17a6f7a7256bcedd7684e"
+    },
+    {
+      "name": "integration-mock-01-auth-rtl.png",
+      "originalExport": "5251B2A3-EFE1-419A-A9F8-9B9276CF7C1E.png",
+      "sha256": "db5e8507cb1d7d8ae8db5070b1198e31fd9d36cd4e9c1664ccbc6913d0f815f8"
+    }
+  ]
+}

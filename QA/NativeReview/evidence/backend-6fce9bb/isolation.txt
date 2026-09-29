@@ -1,0 +1,1 @@
+Auth + domain health passed through loopback relay; no Docker published ports; all runtime networks internal.

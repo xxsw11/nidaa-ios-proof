@@ -1,0 +1,50 @@
+test_acceptance_requires_recent_provider_auth_not_biometric (test_rules.Rules.test_acceptance_requires_recent_provider_auth_not_biometric) ... ok
+test_account_deletion_revokes_all_devices_and_pending_work (test_rules.Rules.test_account_deletion_revokes_all_devices_and_pending_work) ... ok
+test_account_switch_purges_cache_pending_and_rejects_late_old_sync (test_rules.Rules.test_account_switch_purges_cache_pending_and_rejects_late_old_sync) ... ok
+test_ack_event_cannot_be_reused_for_different_semantics (test_rules.Rules.test_ack_event_cannot_be_reused_for_different_semantics) ... ok
+test_ack_per_device_duplicate_event_and_account_aggregate (test_rules.Rules.test_ack_per_device_duplicate_event_and_account_aggregate) ... ok
+test_block_during_send_and_unblock_does_not_restore (test_rules.Rules.test_block_during_send_and_unblock_does_not_restore) ... ok
+test_concurrent_response_order_has_one_winner (test_rules.Rules.test_concurrent_response_order_has_one_winner) ... ok
+test_contract_is_valid_and_reproducible (test_rules.Rules.test_contract_is_valid_and_reproducible) ... ok
+test_declined_and_cancelled_invitations_cannot_accept (test_rules.Rules.test_declined_and_cancelled_invitations_cannot_accept) ... ok
+test_deletion_does_not_disclose_unrelated_accounts (test_rules.Rules.test_deletion_does_not_disclose_unrelated_accounts) ... ok
+test_errors_and_empty_sync_are_contract_valid (test_rules.Rules.test_errors_and_empty_sync_are_contract_valid) ... ok
+test_expired_invitation (test_rules.Rules.test_expired_invitation) ... ok
+test_expired_receipt_no_longer_exposes_invitation_secret (test_rules.Rules.test_expired_receipt_no_longer_exposes_invitation_secret) ... ok
+test_expiry_uses_server_clock_and_suppresses_worker (test_rules.Rules.test_expiry_uses_server_clock_and_suppresses_worker) ... ok
+test_invitation_guessing_and_flooding_are_bounded (test_rules.Rules.test_invitation_guessing_and_flooding_are_bounded) ... ok
+test_invite_replay_and_duplicate_operation (test_rules.Rules.test_invite_replay_and_duplicate_operation) ... ok
+test_logout_one_or_all_sessions (test_rules.Rules.test_logout_one_or_all_sessions) ... ok
+test_logout_then_same_account_relogin_rejects_previous_generation (test_rules.Rules.test_logout_then_same_account_relogin_rejects_previous_generation) ... ok
+test_lost_reply_queries_same_operation_and_duplicate_never_creates (test_rules.Rules.test_lost_reply_queries_same_operation_and_duplicate_never_creates) ... ok
+test_multirecipient_create_rolls_back_if_any_consent_missing (test_rules.Rules.test_multirecipient_create_rolls_back_if_any_consent_missing) ... ok
+test_names_do_not_identify_or_verify_accounts (test_rules.Rules.test_names_do_not_identify_or_verify_accounts) ... ok
+test_offline_never_dispatches_automatically (test_rules.Rules.test_offline_never_dispatches_automatically) ... ok
+test_operation_lookup_is_account_scoped (test_rules.Rules.test_operation_lookup_is_account_scoped) ... ok
+test_out_of_order_snapshot_cannot_reopen_terminal (test_rules.Rules.test_out_of_order_snapshot_cannot_reopen_terminal) ... ok
+test_personal_history_hide_does_not_delete_other_copy (test_rules.Rules.test_personal_history_hide_does_not_delete_other_copy) ... ok
+test_provider_handoff_before_block_is_not_retracted_or_delivery (test_rules.Rules.test_provider_handoff_before_block_is_not_retracted_or_delivery) ... ok
+test_read_enforces_retention_even_before_sweeper (test_rules.Rules.test_read_enforces_retention_even_before_sweeper) ... ok
+test_recipient_addition_atomic_and_same_expiry (test_rules.Rules.test_recipient_addition_atomic_and_same_expiry) ... ok
+test_relationships_are_scoped_and_block_reason_redacted (test_rules.Rules.test_relationships_are_scoped_and_block_reason_redacted) ... ok
+test_response_does_not_resolve_and_recipient_cannot_close (test_rules.Rules.test_response_does_not_resolve_and_recipient_cannot_close) ... ok
+test_retention_purges_details_and_old_replay_cannot_resend (test_rules.Rules.test_retention_purges_details_and_old_replay_cannot_resend) ... ok
+test_retry_bounded_and_expiry_not_extended (test_rules.Rules.test_retry_bounded_and_expiry_not_extended) ... ok
+test_retry_excludes_responders_and_decliners (test_rules.Rules.test_retry_excludes_responders_and_decliners) ... ok
+test_same_operation_different_payload_conflicts (test_rules.Rules.test_same_operation_different_payload_conflicts) ... ok
+test_schema_rejects_null_duplicates_bad_uuid_empty_and_enum (test_rules.Rules.test_schema_rejects_null_duplicates_bad_uuid_empty_and_enum) ... ok
+test_sender_cannot_accept_and_consent_is_directional (test_rules.Rules.test_sender_cannot_accept_and_consent_is_directional) ... ok
+test_sender_deletion_cancels_alert_and_removes_recipient_access (test_rules.Rules.test_sender_deletion_cancels_alert_and_removes_recipient_access) ... ok
+test_stale_offline_command_is_rejected (test_rules.Rules.test_stale_offline_command_is_rejected) ... ok
+test_terminal_alert_rejects_late_events (test_rules.Rules.test_terminal_alert_rejects_late_events) ... ok
+test_third_account_cannot_read_change_or_forge_response (test_rules.Rules.test_third_account_cannot_read_change_or_forge_response) ... ok
+test_two_devices_conflicting_responses_first_commit_wins (test_rules.Rules.test_two_devices_conflicting_responses_first_commit_wins) ... ok
+test_unknown_fields_and_biometric_assertions_rejected (test_rules.Rules.test_unknown_fields_and_biometric_assertions_rejected) ... ok
+test_used_invitation_secret_erased_from_receipt_storage (test_rules.Rules.test_used_invitation_secret_erased_from_receipt_storage) ... ok
+test_withdraw_after_acceptance_suppresses_queue_and_details (test_rules.Rules.test_withdraw_after_acceptance_suppresses_queue_and_details) ... ok
+test_withdraw_before_execution_blocks_create (test_rules.Rules.test_withdraw_before_execution_blocks_create) ... ok
+
+----------------------------------------------------------------------
+Ran 45 tests in 0.142s
+
+OK

@@ -1,0 +1,24 @@
+{
+  "kind": "Actual native process health and isolation trial",
+  "checks": {},
+  "notifications": "Fake database sink only; no APNs or audio",
+  "nativeUI": "Not executed by health probe",
+  "physicalDevice": "Not tested",
+  "sandboxProbeExitCode": 3,
+  "sandboxProbePrecredentialStderr": "",
+  "sandboxProbeStderrTruncated": false,
+  "sandboxProbeDiagnosticScope": "Static isolation probe before credentials/services; runtime service logs excluded",
+  "sandboxProbeDiagnosticCategories": [],
+  "sandboxProbeChecks": {
+    "externalTCPDeniedByPolicy": true,
+    "externalUDPDeniedByPolicy": true,
+    "wildcardIPv4BindDeniedByPolicy": false,
+    "wildcardIPv6BindDeniedByPolicy": false,
+    "loopbackTCPPermitted": true
+  },
+  "status": "Failed",
+  "failure": "sandbox_policy_not_verified",
+  "processExitCodes": {},
+  "diagnosticCategories": {},
+  "stage": "sandbox_policy_probe"
+}

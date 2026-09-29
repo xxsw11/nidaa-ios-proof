@@ -1,0 +1,131 @@
+Building for debugging...
+[0/7] /Users/runner/work/nidaa-ios-proof/nidaa-ios-proof/ProofCore/.build/arm64-apple-macosx/debug/ProofCorePackageTests.derived/runner.swift
+[1/7] Write sources
+[4/7] Write swift-version--79AA4F9932D1E87A.txt
+[6/12] Emitting module ProofCore
+[7/12] Compiling ProofCore Appearance.swift
+[8/12] Compiling ProofCore Evidence.swift
+[9/12] Compiling ProofCore AlertActionGate.swift
+[10/12] Compiling ProofCore AlertPersistence.swift
+[11/13] Compiling ProofCore LocalSimulation.swift
+[12/16] Compiling ProofCoreTests EvidenceTests.swift
+[13/16] Compiling ProofCoreTests SimulationTests.swift
+[14/16] Emitting module ProofCoreTests
+[15/17] Compiling ProofCoreTests StabilizationTests.swift
+[16/19] Emitting module ProofCorePackageTests
+[17/19] Compiling ProofCorePackageTests runner.swift
+[17/19] Write Objects.LinkFileList
+[18/19] Linking ProofCorePackageTests
+Build complete! (32.25s)
+Test Suite 'All tests' started at 2026-09-29 02:18:03.711.
+Test Suite 'ProofCorePackageTests.xctest' started at 2026-09-29 02:18:03.713.
+Test Suite 'AppearanceTests' started at 2026-09-29 02:18:03.713.
+Test Case '-[ProofCoreTests.AppearanceTests testAppearancePersistsAcrossRepositoryInstancesAndRestores]' started.
+Test Case '-[ProofCoreTests.AppearanceTests testAppearancePersistsAcrossRepositoryInstancesAndRestores]' passed (0.007 seconds).
+Test Case '-[ProofCoreTests.AppearanceTests testCorruptPersistenceFallsBackAndResetRemovesStoredContactsAndLock]' started.
+Test Case '-[ProofCoreTests.AppearanceTests testCorruptPersistenceFallsBackAndResetRemovesStoredContactsAndLock]' passed (0.005 seconds).
+Test Case '-[ProofCoreTests.AppearanceTests testInvalidHexAndFutureSchemaAreRejected]' started.
+Test Case '-[ProofCoreTests.AppearanceTests testInvalidHexAndFutureSchemaAreRejected]' passed (0.001 seconds).
+Test Case '-[ProofCoreTests.AppearanceTests testReadableInkAndAccentMeetThresholdAcrossColors]' started.
+Test Case '-[ProofCoreTests.AppearanceTests testReadableInkAndAccentMeetThresholdAcrossColors]' passed (0.001 seconds).
+Test Case '-[ProofCoreTests.AppearanceTests testSystemAndIndependentPalettes]' started.
+Test Case '-[ProofCoreTests.AppearanceTests testSystemAndIndependentPalettes]' passed (0.000 seconds).
+Test Suite 'AppearanceTests' passed at 2026-09-29 02:18:03.729.
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.015 (0.015) seconds
+Test Suite 'EvidenceTests' started at 2026-09-29 02:18:03.729.
+Test Case '-[ProofCoreTests.EvidenceTests testCancellationPreventsHumanResponseAndLateScheduling]' started.
+Test Case '-[ProofCoreTests.EvidenceTests testCancellationPreventsHumanResponseAndLateScheduling]' passed (0.000 seconds).
+Test Case '-[ProofCoreTests.EvidenceTests testDuplicateObservationDoesNotResetFirstEvidence]' started.
+Test Case '-[ProofCoreTests.EvidenceTests testDuplicateObservationDoesNotResetFirstEvidence]' passed (0.001 seconds).
+Test Case '-[ProofCoreTests.EvidenceTests testEnvelopeRejectsUnmarkedMalformedAndMissingExpiration]' started.
+Test Case '-[ProofCoreTests.EvidenceTests testEnvelopeRejectsUnmarkedMalformedAndMissingExpiration]' passed (0.001 seconds).
+Test Case '-[ProofCoreTests.EvidenceTests testLateObservationIsRecordedButCannotReopenExpiredTest]' started.
+Test Case '-[ProofCoreTests.EvidenceTests testLateObservationIsRecordedButCannotReopenExpiredTest]' passed (0.001 seconds).
+Test Case '-[ProofCoreTests.EvidenceTests testLocalScheduleIsNeitherProviderAcceptanceNorDeviceReceipt]' started.
+Test Case '-[ProofCoreTests.EvidenceTests testLocalScheduleIsNeitherProviderAcceptanceNorDeviceReceipt]' passed (0.001 seconds).
+Test Case '-[ProofCoreTests.EvidenceTests testOpeningNotificationNeverAcceptsResponsibility]' started.
+Test Case '-[ProofCoreTests.EvidenceTests testOpeningNotificationNeverAcceptsResponsibility]' passed (0.001 seconds).
+Test Case '-[ProofCoreTests.EvidenceTests testProviderAcceptanceDoesNotProveDeviceReceipt]' started.
+Test Case '-[ProofCoreTests.EvidenceTests testProviderAcceptanceDoesNotProveDeviceReceipt]' passed (0.000 seconds).
+Test Case '-[ProofCoreTests.EvidenceTests testResponseRequiresObservationAndAuthentication]' started.
+Test Case '-[ProofCoreTests.EvidenceTests testResponseRequiresObservationAndAuthentication]' passed (0.000 seconds).
+Test Case '-[ProofCoreTests.EvidenceTests testScheduleMustRemainInsideConfirmedWindow]' started.
+Test Case '-[ProofCoreTests.EvidenceTests testScheduleMustRemainInsideConfirmedWindow]' passed (0.000 seconds).
+Test Case '-[ProofCoreTests.EvidenceTests testWindowRejectsBlankAliasAndOverlongOrExpiredScope]' started.
+Test Case '-[ProofCoreTests.EvidenceTests testWindowRejectsBlankAliasAndOverlongOrExpiredScope]' passed (0.000 seconds).
+Test Suite 'EvidenceTests' passed at 2026-09-29 02:18:03.734.
+	 Executed 10 tests, with 0 failures (0 unexpected) in 0.005 (0.006) seconds
+Test Suite 'SimulationTests' started at 2026-09-29 02:18:03.734.
+Test Case '-[ProofCoreTests.SimulationTests testBackgroundInvalidationAndExpiredGrantCannotCreate]' started.
+Test Case '-[ProofCoreTests.SimulationTests testBackgroundInvalidationAndExpiredGrantCannotCreate]' passed (0.001 seconds).
+Test Case '-[ProofCoreTests.SimulationTests testChangedRecipientOrAssistanceInvalidatesGrant]' started.
+Test Case '-[ProofCoreTests.SimulationTests testChangedRecipientOrAssistanceInvalidatesGrant]' passed (0.000 seconds).
+Test Case '-[ProofCoreTests.SimulationTests testContactCRUDValidationAndNormalization]' started.
+Test Case '-[ProofCoreTests.SimulationTests testContactCRUDValidationAndNormalization]' passed (0.000 seconds).
+Test Case '-[ProofCoreTests.SimulationTests testCreationRequiresFreshAuthenticationNotAnUnlockedApp]' started.
+Test Case '-[ProofCoreTests.SimulationTests testCreationRequiresFreshAuthenticationNotAnUnlockedApp]' passed (0.000 seconds).
+Test Case '-[ProofCoreTests.SimulationTests testDeclineDoesNotResolveAndAllowsConsentingAlternative]' started.
+Test Case '-[ProofCoreTests.SimulationTests testDeclineDoesNotResolveAndAllowsConsentingAlternative]' passed (0.001 seconds).
+Test Case '-[ProofCoreTests.SimulationTests testDeleteContactPreventsLaterSendButRetainsSessionSnapshot]' started.
+Test Case '-[ProofCoreTests.SimulationTests testDeleteContactPreventsLaterSendButRetainsSessionSnapshot]' passed (0.000 seconds).
+Test Case '-[ProofCoreTests.SimulationTests testExpiredCancelledAndResolvedStatesNeverReopen]' started.
+Test Case '-[ProofCoreTests.SimulationTests testExpiredCancelledAndResolvedStatesNeverReopen]' passed (0.001 seconds).
+Test Case '-[ProofCoreTests.SimulationTests testFailureOrCancelledAuthenticationCreatesNothing]' started.
+Test Case '-[ProofCoreTests.SimulationTests testFailureOrCancelledAuthenticationCreatesNothing]' passed (0.000 seconds).
+Test Case '-[ProofCoreTests.SimulationTests testIncomingConsentIsIndependentAndOpeningDoesNotRespond]' started.
+Test Case '-[ProofCoreTests.SimulationTests testIncomingConsentIsIndependentAndOpeningDoesNotRespond]' passed (0.000 seconds).
+Test Case '-[ProofCoreTests.SimulationTests testOneUseGrantAndDuplicatePrevention]' started.
+Test Case '-[ProofCoreTests.SimulationTests testOneUseGrantAndDuplicatePrevention]' passed (0.000 seconds).
+Test Case '-[ProofCoreTests.SimulationTests testPendingDeclinedBlockedAndMissingConsentCannotSend]' started.
+Test Case '-[ProofCoreTests.SimulationTests testPendingDeclinedBlockedAndMissingConsentCannotSend]' passed (0.000 seconds).
+Test Case '-[ProofCoreTests.SimulationTests testReceiptOpeningAndResponseAreDifferentTransitions]' started.
+Test Case '-[ProofCoreTests.SimulationTests testReceiptOpeningAndResponseAreDifferentTransitions]' passed (0.000 seconds).
+Test Case '-[ProofCoreTests.SimulationTests testRetryKeepsIdentityAndResponse]' started.
+Test Case '-[ProofCoreTests.SimulationTests testRetryKeepsIdentityAndResponse]' passed (0.000 seconds).
+Test Case '-[ProofCoreTests.SimulationTests testRevocationAfterAuthenticationIsRechecked]' started.
+Test Case '-[ProofCoreTests.SimulationTests testRevocationAfterAuthenticationIsRechecked]' passed (0.000 seconds).
+Test Case '-[ProofCoreTests.SimulationTests testSilenceAndDismissDoNotRespondResolveOrDisableNonresponse]' started.
+Test Case '-[ProofCoreTests.SimulationTests testSilenceAndDismissDoNotRespondResolveOrDisableNonresponse]' passed (0.000 seconds).
+Test Suite 'SimulationTests' passed at 2026-09-29 02:18:03.742.
+	 Executed 15 tests, with 0 failures (0 unexpected) in 0.007 (0.008) seconds
+Test Suite 'StabilizationTests' started at 2026-09-29 02:18:03.742.
+Test Case '-[ProofCoreTests.StabilizationTests testAdditionPreservesExistingStateDeadlineAndAttempts]' started.
+Test Case '-[ProofCoreTests.StabilizationTests testAdditionPreservesExistingStateDeadlineAndAttempts]' passed (0.000 seconds).
+Test Case '-[ProofCoreTests.StabilizationTests testAllTerminalStatesStayTerminalAfterRestoreAndClockRollback]' started.
+Test Case '-[ProofCoreTests.StabilizationTests testAllTerminalStatesStayTerminalAfterRestoreAndClockRollback]' passed (0.002 seconds).
+Test Case '-[ProofCoreTests.StabilizationTests testAuthorizationNeverEncodedOrRestored]' started.
+Test Case '-[ProofCoreTests.StabilizationTests testAuthorizationNeverEncodedOrRestored]' passed (0.000 seconds).
+Test Case '-[ProofCoreTests.StabilizationTests testBothActionsRequireSuccessAndSingleUseBoundGrant]' started.
+Test Case '-[ProofCoreTests.StabilizationTests testBothActionsRequireSuccessAndSingleUseBoundGrant]' passed (0.000 seconds).
+Test Case '-[ProofCoreTests.StabilizationTests testCorruptAndFutureSchemaBlockSavesWithoutReplacingBytes]' started.
+Test Case '-[ProofCoreTests.StabilizationTests testCorruptAndFutureSchemaBlockSavesWithoutReplacingBytes]' passed (0.000 seconds).
+Test Case '-[ProofCoreTests.StabilizationTests testDeletionBlockingConsentAndChangedDetailsRejectAuthenticatedAction]' started.
+Test Case '-[ProofCoreTests.StabilizationTests testDeletionBlockingConsentAndChangedDetailsRejectAuthenticatedAction]' passed (0.000 seconds).
+Test Case '-[ProofCoreTests.StabilizationTests testExpiryOnRestoreDoesNotExtendOrRepeatEvents]' started.
+Test Case '-[ProofCoreTests.StabilizationTests testExpiryOnRestoreDoesNotExtendOrRepeatEvents]' passed (0.000 seconds).
+Test Case '-[ProofCoreTests.StabilizationTests testExplicitResetRecoversCorruptionAndClearsPersistentHistory]' started.
+Test Case '-[ProofCoreTests.StabilizationTests testExplicitResetRecoversCorruptionAndClearsPersistentHistory]' passed (0.000 seconds).
+Test Case '-[ProofCoreTests.StabilizationTests testGrantExpiryBackgroundAndMismatchedActionOrAlert]' started.
+Test Case '-[ProofCoreTests.StabilizationTests testGrantExpiryBackgroundAndMismatchedActionOrAlert]' passed (0.000 seconds).
+Test Case '-[ProofCoreTests.StabilizationTests testReadFailureIsNotMissingAndSaveFailureRetainsValidCopy]' started.
+Test Case '-[ProofCoreTests.StabilizationTests testReadFailureIsNotMissingAndSaveFailureRetainsValidCopy]' passed (0.000 seconds).
+Test Case '-[ProofCoreTests.StabilizationTests testRealFileIOAndSeparateTestDirectory]' started.
+Test Case '-[ProofCoreTests.StabilizationTests testRealFileIOAndSeparateTestDirectory]' passed (0.014 seconds).
+Test Case '-[ProofCoreTests.StabilizationTests testRetryExcludesResponsesAndPreservesIdentityAndTimestamps]' started.
+Test Case '-[ProofCoreTests.StabilizationTests testRetryExcludesResponsesAndPreservesIdentityAndTimestamps]' passed (0.000 seconds).
+Test Case '-[ProofCoreTests.StabilizationTests testRoundTripPreservesCompleteEventHistoryAndDirection]' started.
+Test Case '-[ProofCoreTests.StabilizationTests testRoundTripPreservesCompleteEventHistoryAndDirection]' passed (0.001 seconds).
+Test Case '-[ProofCoreTests.StabilizationTests testSemanticallyInvalidArchiveDoesNotReplaceValidCopy]' started.
+Test Case '-[ProofCoreTests.StabilizationTests testSemanticallyInvalidArchiveDoesNotReplaceValidCopy]' passed (0.000 seconds).
+Test Case '-[ProofCoreTests.StabilizationTests testVersionOneMigrationIsAtomicAndPreservesDeadlines]' started.
+Test Case '-[ProofCoreTests.StabilizationTests testVersionOneMigrationIsAtomicAndPreservesDeadlines]' passed (0.001 seconds).
+Test Suite 'StabilizationTests' passed at 2026-09-29 02:18:03.764.
+	 Executed 15 tests, with 0 failures (0 unexpected) in 0.022 (0.022) seconds
+Test Suite 'ProofCorePackageTests.xctest' passed at 2026-09-29 02:18:03.764.
+	 Executed 45 tests, with 0 failures (0 unexpected) in 0.048 (0.051) seconds
+Test Suite 'All tests' passed at 2026-09-29 02:18:03.764.
+	 Executed 45 tests, with 0 failures (0 unexpected) in 0.048 (0.053) seconds
+◇ Test run started.
+↳ Testing Library Version: 124.4
+↳ Target Platform: arm64e-apple-macos14.0
+✔ Test run with 0 tests passed after 0.001 seconds.

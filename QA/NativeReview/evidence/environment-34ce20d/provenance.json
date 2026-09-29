@@ -1,0 +1,9 @@
+{
+  "commit": "34ce20da23659981e803a507fe52b4d509c805ff",
+  "run": 36511434710,
+  "attempt": 1,
+  "job": 109224221262,
+  "artifact": 11009305250,
+  "sha256": "06bcde31c76f9445963f50128c13af5656ed6b24915fff2c10ad5c19cf549cd4",
+  "result": "Failed before service startup; no native UI executed"
+}

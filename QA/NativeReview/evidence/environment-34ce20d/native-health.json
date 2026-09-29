@@ -1,0 +1,13 @@
+{
+  "kind": "Actual native process health and isolation trial",
+  "checks": {},
+  "notifications": "Fake database sink only; no APNs or audio",
+  "nativeUI": "Not executed by health probe",
+  "physicalDevice": "Not tested",
+  "sandboxProbeExitCode": 65,
+  "status": "Failed",
+  "failure": "sandbox_policy_not_verified",
+  "processExitCodes": {},
+  "diagnosticCategories": {},
+  "stage": "sandbox_policy_probe"
+}

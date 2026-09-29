@@ -1,0 +1,695 @@
+Building for debugging...
+[0/407] Compiling f_string.cc
+[1/407] Compiling posix_time.cc
+[1/407] Write sources
+[13/407] Compiling CXKCPShims shims.c
+[14/407] Compiling SimpleFIPS202.c
+[15/407] Write swift-version-24593BA9C3E375BF.txt
+[16/407] Compiling KeccakSponge.c
+[17/419] Compiling KeccakP-1600-opt64.c
+[19/425] Emitting module IssueReporting
+[20/436] Emitting module HTTPTypes
+[21/441] Compiling HTTPTypes HTTP2ErrorCode.swift
+[22/441] Compiling HTTPTypes HTTP3ErrorCode.swift
+[23/441] Compiling HTTPTypes HTTPField.swift
+[24/441] Compiling HTTPTypes HTTPFieldName.swift
+[25/441] Compiling HTTPTypes HTTPFieldValue.swift
+[26/441] Compiling HTTPTypes HTTPFields.swift
+[27/441] Compiling HTTPTypes HTTPParsedFields.swift
+[28/441] Compiling HTTPTypes HTTPRequest+URL.swift
+[29/441] Compiling HTTPTypes HTTPRequest.swift
+[30/441] Compiling HTTPTypes HTTPResponse.swift
+[32/449] Compiling IssueReporting IssueReporter.swift
+[33/449] Compiling IssueReporting BreakpointReporter.swift
+[34/449] Compiling IssueReporting DefaultReporter.swift
+[35/449] Compiling IssueReporting FatalErrorReporter.swift
+[36/449] Compiling IssueReporting IssueSeverity.swift
+[37/449] Compiling IssueReporting ReportIssue.swift
+[38/449] Compiling IssueReporting _Test.swift
+[39/449] Compiling IssueReporting TestContext.swift
+[40/449] Compiling IssueReporting Unimplemented.swift
+[41/449] Compiling IssueReporting WithExpectedIssue.swift
+[42/449] Compiling IssueReporting WithIssueContext.swift
+[43/449] Compiling ConcurrencyExtras ActorIsolated.swift
+[44/449] Compiling ConcurrencyExtras AnyHashableSendable.swift
+[45/449] Compiling ConcurrencyExtras AsyncStream.swift
+[46/449] Compiling ConcurrencyExtras AsyncThrowingStream.swift
+[47/449] Compiling ConcurrencyExtras Locking.swift
+[48/449] Compiling ConcurrencyExtras UncheckedBox.swift
+[53/449] Compiling IssueReporting IsTesting.swift
+[54/450] Wrapping AST for HTTPTypes for debugging
+[56/450] Emitting module ConcurrencyExtras
+[57/458] Compiling XCTestDynamicOverlay Deprecations.swift
+[58/458] Compiling XCTestDynamicOverlay Exports.swift
+[63/458] Compiling ConcurrencyExtras LockIsolated.swift
+[64/458] Compiling ConcurrencyExtras MainSerialExecutor.swift
+[65/458] Compiling ConcurrencyExtras Result.swift
+[66/458] Compiling ConcurrencyExtras Task.swift
+[67/458] Compiling ConcurrencyExtras UncheckedSendable.swift
+[70/459] Emitting module XCTestDynamicOverlay
+[71/460] Wrapping AST for IssueReporting for debugging
+[73/465] Compiling XCTestDynamicOverlay Fail.swift
+[74/466] Wrapping AST for ConcurrencyExtras for debugging
+[75/466] Wrapping AST for XCTestDynamicOverlay for debugging
+[77/466] Emitting module Clocks
+[77/470] Compiling KeccakHash.c
+[78/470] Compiling CCryptoBoringSSLShims shims.c
+[79/470] Compiling fiat_p256_adx_sqr.S
+[80/470] Compiling fiat_p256_adx_mul.S
+[82/470] Compiling Clocks AnyClock.swift
+[83/470] Compiling Clocks ImmediateClock.swift
+[84/470] Compiling Clocks Lock.swift
+[85/470] Compiling Clocks _AsyncTimerSequence.swift
+[85/470] Compiling fiat_curve25519_adx_square.S
+[86/470] Compiling fiat_curve25519_adx_mul.S
+[87/470] Compiling md5-x86_64-linux.S
+[88/470] Compiling md5-x86_64-apple.S
+[89/470] Compiling md5-586-linux.S
+[90/470] Compiling md5-586-apple.S
+[92/470] Compiling Clocks SwiftUI.swift
+[93/470] Compiling Clocks TestClock.swift
+[94/470] Compiling Clocks Timer.swift
+[95/470] Compiling Clocks UnimplementedClock.swift
+[96/471] Compiling chacha20_poly1305_x86_64-linux.S
+[97/472] Compiling err_data.cc
+[98/484] Wrapping AST for Clocks for debugging
+[99/484] Compiling chacha20_poly1305_x86_64-apple.S
+[100/484] Compiling chacha20_poly1305_armv8-win.S
+[101/484] Compiling chacha20_poly1305_armv8-linux.S
+[102/484] Compiling chacha20_poly1305_armv8-apple.S
+[103/484] Compiling chacha-x86_64-linux.S
+[105/484] Emitting module Helpers
+[105/495] Compiling chacha-x86_64-apple.S
+[106/495] Compiling chacha-x86-linux.S
+[107/495] Compiling chacha-x86-apple.S
+[108/495] Compiling chacha-armv8-win.S
+[109/495] Compiling chacha-armv8-linux.S
+[110/495] Compiling chacha-armv8-apple.S
+[111/495] Compiling chacha-armv4-linux.S
+[112/495] Compiling aes128gcmsiv-x86_64-linux.S
+[113/495] Compiling aes128gcmsiv-x86_64-apple.S
+[114/495] Compiling x86_64-mont5-linux.S
+[115/495] Compiling x86_64-mont5-apple.S
+[116/495] Compiling x86_64-mont-linux.S
+[117/495] Compiling x86_64-mont-apple.S
+[118/495] Compiling x86-mont-linux.S
+[119/495] Compiling x86-mont-apple.S
+[120/495] Compiling vpaes-x86_64-linux.S
+[121/495] Compiling vpaes-x86_64-apple.S
+[122/495] Compiling vpaes-x86-linux.S
+[123/495] Compiling vpaes-x86-apple.S
+[124/495] Compiling vpaes-armv8-win.S
+[125/495] Compiling vpaes-armv8-linux.S
+[126/495] Compiling vpaes-armv8-apple.S
+[127/495] Compiling vpaes-armv7-linux.S
+[129/495] Compiling Helpers APIKeyFormat.swift
+[130/495] Compiling Helpers AnyJSON+Codable.swift
+[131/495] Compiling Helpers AnyJSON.swift
+[132/495] Compiling Helpers Base64URL.swift
+[133/495] Compiling Helpers Codable.swift
+[134/495] Compiling Helpers DateFormatter.swift
+[135/495] Compiling Helpers EventEmitter.swift
+[136/495] Compiling Helpers FoundationExtensions.swift
+[137/495] Compiling Helpers HTTPClient.swift
+[138/495] Compiling Helpers HTTPFields.swift
+[139/495] Compiling Helpers HTTPRequest.swift
+[140/495] Compiling Helpers HTTPResponse.swift
+[140/495] Compiling sha512-x86_64-linux.S
+[141/495] Compiling sha512-x86_64-apple.S
+[142/495] Compiling sha512-armv8-win.S
+[143/495] Compiling sha512-armv8-linux.S
+[144/495] Compiling sha512-armv8-apple.S
+[145/495] Compiling sha512-armv4-linux.S
+[146/495] Compiling sha512-586-linux.S
+[148/495] Compiling Helpers LoggerInterceptor.swift
+[149/495] Compiling Helpers RetryRequestInterceptor.swift
+[150/495] Compiling Helpers JWT.swift
+[151/495] Compiling Helpers OSLogSupabaseLogger.swift
+[152/495] Compiling Helpers SupabaseLogger.swift
+[153/495] Compiling Helpers PostgRESTFilterValue.swift
+[154/495] Compiling Helpers HTTPError.swift
+[155/495] Compiling Helpers PostgrestError.swift
+[156/495] Compiling Helpers Task+withTimeout.swift
+[157/495] Compiling Helpers TaskLocalHelpers.swift
+[158/495] Compiling Helpers Version.swift
+[158/496] Compiling sha512-586-apple.S
+[160/496] Compiling sha256-x86_64-linux.S
+[161/496] Compiling sha256-x86_64-apple.S
+[162/496] Wrapping AST for Helpers for debugging
+[163/496] Compiling sha256-armv8-win.S
+[164/496] Compiling sha256-armv8-linux.S
+[165/496] Compiling sha256-armv8-apple.S
+[166/496] Compiling sha256-armv4-linux.S
+[167/496] Compiling sha256-586-linux.S
+[168/496] Compiling sha256-586-apple.S
+[169/496] Compiling sha1-x86_64-linux.S
+[170/496] Compiling sha1-x86_64-apple.S
+[171/496] Compiling sha1-armv8-win.S
+[172/496] Compiling sha1-armv8-linux.S
+[173/496] Compiling sha1-armv8-apple.S
+[174/496] Compiling sha1-armv4-large-linux.S
+[175/496] Compiling sha1-586-linux.S
+[176/496] Compiling sha1-586-apple.S
+[177/496] Compiling rsaz-avx2-linux.S
+[178/496] Compiling rsaz-avx2-apple.S
+[179/496] Compiling rdrand-x86_64-apple.S
+[180/496] Compiling rdrand-x86_64-linux.S
+[181/496] Compiling p256_beeu-x86_64-asm-apple.S
+[182/496] Compiling p256_beeu-x86_64-asm-linux.S
+[183/496] Compiling p256_beeu-armv8-asm-win.S
+[184/496] Compiling p256_beeu-armv8-asm-linux.S
+[185/496] Compiling p256_beeu-armv8-asm-apple.S
+[186/496] Compiling p256-x86_64-asm-linux.S
+[187/496] Compiling p256-x86_64-asm-apple.S
+[188/496] Compiling p256-armv8-asm-win.S
+[189/496] Compiling p256-armv8-asm-linux.S
+[190/496] Compiling p256-armv8-asm-apple.S
+[191/496] Compiling ghashv8-armv8-win.S
+[192/496] Compiling ghashv8-armv8-linux.S
+[193/496] Compiling ghashv8-armv8-apple.S
+[194/496] Compiling ghashv8-armv7-linux.S
+[195/496] Compiling ghash-x86_64-linux.S
+[196/496] Compiling ghash-x86_64-apple.S
+[197/496] Compiling ghash-x86-linux.S
+[198/496] Compiling ghash-x86-apple.S
+[199/496] Compiling ghash-ssse3-x86_64-linux.S
+[200/496] Compiling ghash-ssse3-x86_64-apple.S
+[201/496] Compiling ghash-ssse3-x86-linux.S
+[202/496] Compiling ghash-ssse3-x86-apple.S
+[203/496] Compiling ghash-neon-armv8-win.S
+[204/496] Compiling ghash-neon-armv8-linux.S
+[205/496] Compiling ghash-neon-armv8-apple.S
+[206/496] Compiling ghash-armv4-linux.S
+[207/496] Compiling co-586-linux.S
+[208/496] Compiling co-586-apple.S
+[209/496] Compiling bsaes-armv7-linux.S
+[210/496] Compiling bn-armv8-win.S
+[211/496] Compiling bn-armv8-linux.S
+[212/496] Compiling bn-armv8-apple.S
+[213/496] Compiling bn-586-linux.S
+[214/496] Compiling bn-586-apple.S
+[215/496] Compiling armv8-mont-win.S
+[216/496] Compiling armv8-mont-linux.S
+[217/496] Compiling armv8-mont-apple.S
+[218/496] Compiling armv4-mont-linux.S
+[219/496] Compiling aesv8-gcm-armv8-win.S
+[220/496] Compiling aesv8-gcm-armv8-linux.S
+[221/496] Compiling aesv8-gcm-armv8-apple.S
+[222/496] Compiling aesv8-armv8-win.S
+[223/496] Compiling aesv8-armv8-linux.S
+[224/496] Compiling aesv8-armv8-apple.S
+[225/496] Compiling aesv8-armv7-linux.S
+[226/496] Compiling aesni-x86_64-linux.S
+[227/496] Compiling aesni-x86_64-apple.S
+[228/496] Compiling aesni-x86-linux.S
+[229/496] Compiling aesni-x86-apple.S
+[230/496] Compiling aesni-gcm-x86_64-linux.S
+[231/496] Compiling aesni-gcm-x86_64-apple.S
+[232/496] Compiling aes-gcm-avx512-x86_64-linux.S
+[233/496] Compiling aes-gcm-avx512-x86_64-apple.S
+[234/496] Compiling aes-gcm-avx2-x86_64-linux.S
+[235/496] Compiling aes-gcm-avx2-x86_64-apple.S
+[236/496] Compiling xwing.cc
+[237/496] Compiling x_x509a.cc
+[238/496] Compiling x_x509.cc
+[239/496] Compiling x_spki.cc
+[240/496] Compiling x_sig.cc
+[241/496] Compiling x_req.cc
+[242/496] Compiling x_pubkey.cc
+[243/496] Compiling x_name.cc
+[244/496] Compiling x_exten.cc
+[245/496] Compiling x_crl.cc
+[246/496] Compiling x_attrib.cc
+[247/496] Compiling x_all.cc
+[248/496] Compiling x_algor.cc
+[249/496] Compiling x509spki.cc
+[250/496] Compiling x509rset.cc
+[251/496] Compiling x509name.cc
+[252/496] Compiling x509cset.cc
+[253/496] Compiling x509_vpm.cc
+[254/496] Compiling x509_vfy.cc
+[255/496] Compiling x509_v3.cc
+[256/496] Compiling x509_txt.cc
+[257/496] Compiling x509_trs.cc
+[258/496] Compiling x509_set.cc
+[259/496] Compiling x509_req.cc
+[260/496] Compiling x509_obj.cc
+[261/496] Compiling x509_lu.cc
+[262/496] Compiling x509_ext.cc
+[263/496] Compiling x509_def.cc
+[264/496] Compiling x509_d2.cc
+[265/496] Compiling x509_cmp.cc
+[266/496] Compiling x509.cc
+[267/496] Compiling x509_att.cc
+[268/496] Compiling v3_utl.cc
+[269/496] Compiling v3_skey.cc
+[270/496] Compiling v3_purp.cc
+[271/496] Compiling v3_prn.cc
+[272/496] Compiling v3_pmaps.cc
+[273/496] Compiling v3_pcons.cc
+[274/496] Compiling v3_ncons.cc
+[275/496] Compiling v3_ocsp.cc
+[276/496] Compiling v3_lib.cc
+[277/496] Compiling v3_int.cc
+[278/496] Compiling v3_info.cc
+[279/496] Compiling v3_ia5.cc
+[280/496] Compiling v3_genn.cc
+[281/496] Compiling v3_extku.cc
+[282/496] Compiling v3_enum.cc
+[283/496] Compiling v3_crld.cc
+[284/496] Compiling v3_cpols.cc
+[285/496] Compiling v3_conf.cc
+[286/496] Compiling v3_bitst.cc
+[287/496] Compiling v3_bcons.cc
+[288/496] Compiling v3_alt.cc
+[289/496] Compiling v3_akeya.cc
+[290/496] Compiling v3_akey.cc
+[291/496] Compiling t_x509a.cc
+[292/496] Compiling t_x509.cc
+[293/496] Compiling t_req.cc
+[294/496] Compiling t_crl.cc
+[295/496] Compiling rsa_pss.cc
+[296/496] Compiling policy.cc
+[297/496] Compiling name_print.cc
+[298/496] Compiling i2d_pr.cc
+[299/496] Compiling by_file.cc
+[300/496] Compiling by_dir.cc
+[301/496] Compiling asn1_gen.cc
+[302/496] Compiling algorithm.cc
+[303/496] Compiling a_verify.cc
+[304/496] Compiling a_sign.cc
+[305/496] Compiling a_digest.cc
+[306/496] Compiling voprf.cc
+[307/496] Compiling pmbtoken.cc
+[308/496] Compiling trust_token.cc
+[309/496] Compiling thread_win.cc
+[310/496] Compiling thread_pthread.cc
+[311/496] Compiling thread_none.cc
+[312/496] Compiling thread.cc
+[313/496] Compiling stack.cc
+[314/496] Compiling spake2plus.cc
+[315/496] Compiling slhdsa.cc
+[316/496] Compiling siphash.cc
+[317/496] Compiling sha512.cc
+[318/496] Compiling sha256.cc
+[319/496] Compiling sha1.cc
+[320/496] Compiling rsa_print.cc
+[321/496] Compiling rsa_extra.cc
+[322/496] Compiling rsa_crypt.cc
+[323/496] Compiling refcount.cc
+[324/496] Compiling rsa_asn1.cc
+[325/496] Compiling rc4.cc
+[326/496] Compiling windows.cc
+[327/496] Compiling urandom.cc
+[328/496] Compiling trusty.cc
+[329/496] Compiling rand.cc
+[330/496] Compiling passive.cc
+[331/496] Compiling ios.cc
+[332/496] Compiling getentropy.cc
+[333/496] Compiling forkunsafe.cc
+[334/496] Compiling fork_detect.cc
+[335/496] Compiling deterministic.cc
+[336/496] Compiling pool.cc
+[337/496] Compiling poly1305_arm_asm.S
+[338/496] Compiling poly1305_vec.cc
+[339/496] Compiling poly1305_arm.cc
+[340/496] Compiling poly1305.cc
+[341/496] Compiling pkcs8_x509.cc
+[342/496] Compiling pkcs8.cc
+[343/496] Compiling p5_pbev2.cc
+[344/496] Compiling pkcs7_x509.cc
+[345/496] Compiling pkcs7.cc
+[346/496] Compiling pem_xaux.cc
+[347/496] Compiling pem_x509.cc
+[348/496] Compiling pem_pkey.cc
+[349/496] Compiling pem_pk8.cc
+[350/496] Compiling pem_oth.cc
+[351/496] Compiling pem_lib.cc
+[352/496] Compiling pem_info.cc
+[353/496] Compiling obj_xref.cc
+[354/496] Compiling pem_all.cc
+[355/496] Compiling mlkem.cc
+[356/496] Compiling mldsa.cc
+[357/496] Compiling obj.cc
+[358/496] Compiling mem.cc
+[359/496] Compiling md5.cc
+[360/496] Compiling lhash.cc
+[361/496] Compiling md4.cc
+[362/496] Compiling kyber.cc
+[363/496] Compiling poly_rq_mul.S
+[364/496] Compiling hrss.cc
+[365/496] Compiling hpke.cc
+[366/496] Compiling fuzzer_mode.cc
+[367/496] Compiling fips_shared_support.cc
+[368/496] Compiling ex_data.cc
+[369/496] Compiling sign.cc
+[370/496] Compiling scrypt.cc
+[371/496] Compiling print.cc
+[372/496] Compiling pbkdf.cc
+[373/496] Compiling p_x25519_asn1.cc
+[374/496] Compiling p_x25519.cc
+[375/496] Compiling p_rsa_asn1.cc
+[376/496] Compiling p_rsa.cc
+[377/496] Compiling p_hkdf.cc
+[378/496] Compiling p_ed25519_asn1.cc
+[379/496] Compiling p_ed25519.cc
+[380/496] Compiling p_ec_asn1.cc
+[381/496] Compiling p_ec.cc
+[382/496] Compiling p_dsa_asn1.cc
+[383/496] Compiling p_dh_asn1.cc
+[384/496] Compiling p_dh.cc
+[385/496] Compiling evp_ctx.cc
+[386/496] Compiling evp_asn1.cc
+[387/496] Compiling evp.cc
+[388/496] Compiling bcm.cc
+[389/496] Compiling err.cc
+[390/496] Compiling engine.cc
+[391/496] Compiling ecdsa_p1363.cc
+[392/496] Compiling ecdh.cc
+[393/496] Compiling ecdsa_asn1.cc
+[394/496] Compiling ec_derive.cc
+[395/496] Compiling hash_to_curve.cc
+[396/496] Compiling dsa_asn1.cc
+[397/496] Compiling ec_asn1.cc
+[398/496] Compiling dsa.cc
+[399/496] Compiling digest_extra.cc
+[400/496] Compiling params.cc
+[401/496] Compiling dh_asn1.cc
+[402/496] Compiling des.cc
+[403/496] Compiling spake25519.cc
+[404/496] Compiling curve25519.cc
+[405/496] Compiling x25519-asm-arm.S
+[406/496] Compiling curve25519_64_adx.cc
+[407/496] Compiling crypto.cc
+[408/496] Compiling cpu_intel.cc
+[409/496] Compiling cpu_arm_linux.cc
+[410/496] Compiling cpu_arm_freebsd.cc
+[411/496] Compiling cpu_aarch64_win.cc
+[412/496] Compiling cpu_aarch64_sysreg.cc
+[413/496] Compiling cpu_aarch64_openbsd.cc
+[414/496] Compiling cpu_aarch64_linux.cc
+[415/496] Compiling cpu_aarch64_fuchsia.cc
+[416/496] Compiling cpu_aarch64_apple.cc
+[417/496] Compiling conf.cc
+[418/496] Compiling tls_cbc.cc
+[419/496] Compiling cms.cc
+[420/496] Compiling get_cipher.cc
+[421/496] Compiling e_tls.cc
+[422/496] Compiling e_rc4.cc
+[423/496] Compiling e_rc2.cc
+[424/496] Compiling e_null.cc
+[425/496] Compiling e_des.cc
+[426/496] Compiling e_chacha20poly1305.cc
+[427/496] Compiling e_aesgcmsiv.cc
+[428/496] Compiling e_aeseax.cc
+[429/496] Compiling e_aesctrhmac.cc
+[430/496] Compiling derive_key.cc
+[431/496] Compiling chacha.cc
+[432/496] Compiling unicode.cc
+[433/496] Compiling cbs.cc
+[434/496] Compiling cbb.cc
+[435/496] Compiling ber.cc
+[436/496] Compiling asn1_compat.cc
+[437/496] Compiling buf.cc
+[438/496] Compiling sqrt.cc
+[439/496] Compiling exponentiation.cc
+[440/496] Compiling div.cc
+[441/496] Compiling bn_asn1.cc
+[442/496] Compiling convert.cc
+[443/496] Compiling printf.cc
+[444/496] Compiling blake2.cc
+[445/496] Compiling pair.cc
+[446/496] Compiling hexdump.cc
+[447/496] Compiling file.cc
+[448/496] Compiling fd.cc
+[449/496] Compiling errno.cc
+[450/496] Compiling bio_mem.cc
+[451/496] Compiling bio.cc
+[452/496] Compiling base64.cc
+[453/496] Compiling tasn_utl.cc
+[454/496] Compiling tasn_typ.cc
+[455/496] Compiling tasn_fre.cc
+[456/496] Compiling tasn_new.cc
+[457/496] Compiling tasn_enc.cc
+[458/496] Compiling tasn_dec.cc
+[459/496] Compiling f_int.cc
+[460/496] Compiling asn_pack.cc
+[461/496] Compiling asn1_par.cc
+[462/496] Compiling asn1_lib.cc
+[463/496] Compiling a_utctm.cc
+[464/496] Compiling a_time.cc
+[465/496] Compiling a_type.cc
+[466/496] Compiling a_strex.cc
+[467/496] Compiling a_strnid.cc
+[468/496] Compiling a_octet.cc
+[469/496] Compiling a_object.cc
+[470/496] Compiling a_mbstr.cc
+[471/496] Compiling a_i2d_fp.cc
+[472/496] Compiling a_int.cc
+[473/496] Compiling a_dup.cc
+[474/496] Compiling a_gentm.cc
+[475/496] Compiling a_d2i_fp.cc
+[476/496] Compiling a_bool.cc
+[477/496] Compiling aes.cc
+[478/496] Write sources
+[479/496] Compiling a_bitstr.cc
+[481/501] Emitting module CryptoBoringWrapper
+[482/504] Compiling CryptoBoringWrapper ArbitraryPrecisionInteger.swift
+[483/504] Compiling CryptoBoringWrapper FiniteFieldArithmeticContext.swift
+[484/504] Compiling CryptoBoringWrapper RandomBytes.swift
+[485/504] Compiling CryptoBoringWrapper BoringSSLAEAD.swift
+[486/504] Compiling CryptoBoringWrapper CryptoKitErrors_boring.swift
+[487/504] Compiling CryptoBoringWrapper EllipticCurve.swift
+[488/504] Compiling CryptoBoringWrapper EllipticCurvePoint.swift
+[489/505] Wrapping AST for CryptoBoringWrapper for debugging
+[491/530] Emitting module Crypto
+[492/554] Compiling Crypto AES-GCM.swift
+[493/554] Compiling Crypto AES-GCM_boring.swift
+[494/554] Compiling Crypto ChaChaPoly_boring.swift
+[495/554] Compiling Crypto ChaChaPoly.swift
+[496/554] Compiling Crypto Cipher.swift
+[497/554] Compiling Crypto Nonces.swift
+[498/554] Compiling Crypto ASN1.swift
+[499/554] Compiling Crypto ASN1Any.swift
+[500/554] Compiling Crypto ASN1BitString.swift
+[501/554] Compiling Crypto ASN1Boolean.swift
+[502/554] Compiling Crypto ASN1Identifier.swift
+[503/554] Compiling Crypto ASN1Integer.swift
+[504/554] Compiling Crypto ASN1Null.swift
+[505/554] Compiling Crypto ASN1OctetString.swift
+[506/554] Compiling Crypto ASN1Strings.swift
+[507/554] Compiling Crypto ArraySliceBigint.swift
+[508/554] Compiling Crypto GeneralizedTime.swift
+[509/554] Compiling Crypto ObjectIdentifier.swift
+[510/554] Compiling Crypto ECDSASignature.swift
+[511/554] Compiling Crypto PEMDocument.swift
+[512/554] Compiling Crypto PKCS8PrivateKey.swift
+[513/554] Compiling Crypto SEC1PrivateKey.swift
+[514/554] Compiling Crypto SubjectPublicKeyInfo.swift
+[515/554] Compiling Crypto CryptoError_boring.swift
+[516/577] Compiling Crypto CryptoKitErrors.swift
+[517/577] Compiling Crypto Digest_boring.swift
+[518/577] Compiling Crypto Digest.swift
+[519/577] Compiling Crypto Digests.swift
+[520/577] Compiling Crypto HashFunctions.swift
+[521/577] Compiling Crypto HashFunctions_SHA2.swift
+[522/577] Compiling Crypto HashFunctions_SHA3.swift
+[523/577] Compiling Crypto Digest_xkcp.swift
+[524/577] Compiling Crypto HPKE-AEAD.swift
+[525/577] Compiling Crypto HPKE-Ciphersuite.swift
+[526/577] Compiling Crypto HPKE-KDF.swift
+[527/577] Compiling Crypto HPKE-KexKeyDerivation.swift
+[528/577] Compiling Crypto HPKE-LabeledExtract.swift
+[529/577] Compiling Crypto HPKE-Utils.swift
+[530/577] Compiling Crypto DHKEM.swift
+[531/577] Compiling Crypto HPKE-KEM-Curve25519.swift
+[532/577] Compiling Crypto HPKE-NIST-EC-KEMs.swift
+[533/577] Compiling Crypto HPKE-KEM.swift
+[534/577] Compiling Crypto HPKE-Errors.swift
+[535/577] Compiling Crypto HPKE.swift
+[536/577] Compiling Crypto HPKE-Context.swift
+[537/577] Compiling Crypto HPKE-KeySchedule.swift
+[538/577] Compiling Crypto HPKE-Modes.swift
+[539/577] Compiling Crypto Insecure.swift
+[540/600] Compiling Crypto Insecure_HashFunctions.swift
+[541/600] Compiling Crypto MLKEM_boring.swift
+[542/600] Compiling Crypto MLKEM_wrapper.swift
+[543/600] Compiling Crypto XWing_boring.swift
+[544/600] Compiling Crypto KEM-Errors.swift
+[545/600] Compiling Crypto KEM.swift
+[546/600] Compiling Crypto MLKEM.swift
+[547/600] Compiling Crypto XWing.swift
+[548/600] Compiling Crypto ECDH_boring.swift
+[549/600] Compiling Crypto DH.swift
+[550/600] Compiling Crypto ECDH.swift
+[551/600] Compiling Crypto ANSIx963.swift
+[552/600] Compiling Crypto HKDF.swift
+[553/600] Compiling Crypto AESWrap.swift
+[554/600] Compiling Crypto AESWrap_boring.swift
+[555/600] Compiling Crypto Ed25519_boring.swift
+[556/600] Compiling Crypto NISTCurvesKeys_boring.swift
+[557/600] Compiling Crypto X25519Keys_boring.swift
+[558/600] Compiling Crypto Curve25519.swift
+[559/600] Compiling Crypto Ed25519Keys.swift
+[560/600] Compiling Crypto NISTCurvesKeys.swift
+[561/600] Compiling Crypto X25519Keys.swift
+[562/600] Compiling Crypto SymmetricKeys.swift
+[563/600] Compiling Crypto HMAC.swift
+[564/600] Compiling Crypto MACFunctions.swift
+[565/600] Compiling Crypto MessageAuthenticationCode.swift
+[566/600] Compiling Crypto AES.swift
+[567/600] Compiling Crypto ECDSASignature_boring.swift
+[568/600] Compiling Crypto ECDSA_boring.swift
+[569/600] Compiling Crypto EdDSA_boring.swift
+[570/600] Compiling Crypto MLDSA_boring.swift
+[571/600] Compiling Crypto MLDSA_wrapper.swift
+[572/600] Compiling Crypto ECDSA.swift
+[573/600] Compiling Crypto Ed25519.swift
+[574/600] Compiling Crypto MLDSA.swift
+[575/600] Compiling Crypto Signature.swift
+[576/600] Compiling Crypto CryptoKitErrors_boring.swift
+[577/600] Compiling Crypto Optional+withUnsafeBytes_boring.swift
+[578/600] Compiling Crypto RNG_boring.swift
+[579/600] Compiling Crypto SafeCompare_boring.swift
+[580/600] Compiling Crypto Zeroization_boring.swift
+[581/600] Compiling Crypto _CryptoModuleAnchor.swift
+[582/600] Compiling Crypto PrettyBytes.swift
+[583/600] Compiling Crypto SafeCompare.swift
+[584/600] Compiling Crypto SecureBytes.swift
+[585/600] Compiling Crypto Zeroization.swift
+[586/601] Wrapping AST for Crypto for debugging
+[588/619] Emitting module Auth
+[589/619] Compiling Auth AuthAdmin.swift
+[590/619] Compiling Auth AuthAdminOAuth.swift
+[591/619] Compiling Auth AuthClient.swift
+[592/619] Compiling Auth AuthClientConfiguration.swift
+[593/619] Compiling Auth AuthError.swift
+[594/619] Compiling Auth AuthMFA.swift
+[595/619] Compiling Auth AuthOAuthServer.swift
+[596/619] Compiling Auth AuthStateChangeListener.swift
+[597/619] Compiling Auth Defaults.swift
+[598/619] Compiling Auth Deprecated.swift
+[599/619] Compiling Auth Exports.swift
+[600/619] Compiling Auth APIClient.swift
+[601/619] Compiling Auth CodeVerifierStorage.swift
+[602/619] Compiling Auth Constants.swift
+[603/619] Compiling Auth Dependencies.swift
+[604/619] Compiling Auth EventEmitter.swift
+[605/619] Compiling Auth FixedWidthInteger+Random.swift
+[606/636] Compiling Auth Helpers.swift
+[607/636] Compiling Auth JWK+RSA.swift
+[608/636] Compiling Auth JWTAlgorithm.swift
+[609/636] Compiling Auth Keychain.swift
+[610/636] Compiling Auth PKCE.swift
+[611/636] Compiling Auth SessionManager.swift
+[612/636] Compiling Auth SessionStorage.swift
+[613/636] Compiling Auth URLOpener.swift
+[614/636] Compiling Auth AuthLocalStorage.swift
+[615/636] Compiling Auth KeychainLocalStorage.swift
+[616/636] Compiling Auth WinCredLocalStorage.swift
+[617/636] Compiling Auth Types.swift
+[618/636] Compiling Auth AuthAdmin+Passkey.swift
+[619/636] Compiling Auth AuthClient+Passkey.swift
+[620/636] Compiling Auth AuthMFA+WebAuthn.swift
+[621/636] Compiling Auth WebAuthnAuthenticator.swift
+[622/636] Compiling Auth WebAuthnTypes.swift
+[623/637] Wrapping AST for Auth for debugging
+[625/640] Compiling NidaaIntegration Models.swift
+[626/640] Compiling NidaaIntegration NidaaClient.swift
+[627/640] Emitting module NidaaIntegration
+[628/642] Compiling NidaaIntegration Storage.swift
+[629/642] Compiling NidaaIntegration Transport.swift
+[631/648] Emitting module NidaaIntegrationTests
+[632/650] Emitting module IntegrationTrialCLI
+[633/650] Compiling IntegrationTrialCLI LocalMailbox.swift
+[634/651] Compiling NidaaIntegrationTests StorageBoundaryTests.swift
+[635/651] Compiling NidaaIntegrationTests TestTransport.swift
+[636/651] Compiling NidaaIntegrationTests ClientReviewRegressionTests.swift
+[637/651] Compiling NidaaIntegrationTests ClientSafetyTests.swift
+[638/652] Wrapping AST for NidaaIntegration for debugging
+[639/652] Wrapping AST for NidaaIntegrationTests for debugging
+[640/652] /swifttrial/.build/x86_64-unknown-linux-gnu/debug/NidaaIntegrationPackageDiscoveredTests.derived/all-discovered-tests.swift
+[641/652] Write sources
+[643/654] Compiling IntegrationTrialCLI Trial.swift
+[644/655] Wrapping AST for IntegrationTrialCLI for debugging
+[645/655] Write Objects.LinkFileList
+[646/655] Linking IntegrationTrialCLI
+[648/655] Emitting module NidaaIntegrationPackageDiscoveredTests
+[649/655] Compiling NidaaIntegrationPackageDiscoveredTests NidaaIntegrationTests.swift
+[650/656] Compiling NidaaIntegrationPackageDiscoveredTests all-discovered-tests.swift
+[651/657] /swifttrial/.build/x86_64-unknown-linux-gnu/debug/NidaaIntegrationPackageTests.derived/runner.swift
+[652/657] Write sources
+[653/657] Wrapping AST for NidaaIntegrationPackageDiscoveredTests for debugging
+[655/659] Emitting module NidaaIntegrationPackageTests
+[656/659] Compiling NidaaIntegrationPackageTests runner.swift
+[657/660] Wrapping AST for NidaaIntegrationPackageTests for debugging
+[658/660] Write Objects.LinkFileList
+[659/660] Linking NidaaIntegrationPackageTests.xctest
+Build complete! (93.55s)
+Test Suite 'All tests' started at 2026-09-29 02:20:40.327
+Test Suite 'debug.xctest' started at 2026-09-29 02:20:40.328
+Test Suite 'ClientReviewRegressionTests' started at 2026-09-29 02:20:40.328
+Test Case 'ClientReviewRegressionTests.testCorruptPendingStorageCannotPublishAuthenticatedAccount' started at 2026-09-29 02:20:40.328
+Test Case 'ClientReviewRegressionTests.testCorruptPendingStorageCannotPublishAuthenticatedAccount' passed (0.008 seconds)
+Test Case 'ClientReviewRegressionTests.testDomainRevocationClearsPreviouslyFetchedAccountData' started at 2026-09-29 02:20:40.336
+Test Case 'ClientReviewRegressionTests.testDomainRevocationClearsPreviouslyFetchedAccountData' passed (0.003 seconds)
+Test Case 'ClientReviewRegressionTests.testMismatchedPendingOwnerCannotPublishAuthenticatedAccount' started at 2026-09-29 02:20:40.339
+Test Case 'ClientReviewRegressionTests.testMismatchedPendingOwnerCannotPublishAuthenticatedAccount' passed (0.002 seconds)
+Test Case 'ClientReviewRegressionTests.testRevokedRefreshClearsCacheButRetainsUnknownForReauthentication' started at 2026-09-29 02:20:40.341
+Test Case 'ClientReviewRegressionTests.testRevokedRefreshClearsCacheButRetainsUnknownForReauthentication' passed (0.003 seconds)
+Test Case 'ClientReviewRegressionTests.testUnrecognizedLookupStatusCannotReleaseUnknownOperation' started at 2026-09-29 02:20:40.344
+Test Case 'ClientReviewRegressionTests.testUnrecognizedLookupStatusCannotReleaseUnknownOperation' passed (0.002 seconds)
+Test Suite 'ClientReviewRegressionTests' passed at 2026-09-29 02:20:40.345
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.017 (0.017) seconds
+Test Suite 'ClientSafetyTests' started at 2026-09-29 02:20:40.345
+Test Case 'ClientSafetyTests.testAccountSwitchClearsOtherAccountsPendingAndCachedDetails' started at 2026-09-29 02:20:40.345
+Test Case 'ClientSafetyTests.testAccountSwitchClearsOtherAccountsPendingAndCachedDetails' passed (0.003 seconds)
+Test Case 'ClientSafetyTests.testDelayedOldAuthCannotOverwriteNewSessionsStorage' started at 2026-09-29 02:20:40.348
+Test Case 'ClientSafetyTests.testDelayedOldAuthCannotOverwriteNewSessionsStorage' passed (0.004 seconds)
+Test Case 'ClientSafetyTests.testDelayedOldCommandResponseCannotMutateNewAccount' started at 2026-09-29 02:20:40.352
+Test Case 'ClientSafetyTests.testDelayedOldCommandResponseCannotMutateNewAccount' passed (0.003 seconds)
+Test Case 'ClientSafetyTests.testDelayedOldSyncCannotRepopulateAfterSameAccountRelogin' started at 2026-09-29 02:20:40.355
+Test Case 'ClientSafetyTests.testDelayedOldSyncCannotRepopulateAfterSameAccountRelogin' passed (0.003 seconds)
+Test Case 'ClientSafetyTests.testLogoutWipesBeforeAwaitingServerAndOfflineLogoutIsHonest' started at 2026-09-29 02:20:40.358
+Test Case 'ClientSafetyTests.testLogoutWipesBeforeAwaitingServerAndOfflineLogoutIsHonest' passed (0.003 seconds)
+Test Case 'ClientSafetyTests.testMalformedOrMismatchedReceiptStaysUnknown' started at 2026-09-29 02:20:40.361
+Test Case 'ClientSafetyTests.testMalformedOrMismatchedReceiptStaysUnknown' passed (0.003 seconds)
+Test Case 'ClientSafetyTests.testNeverSentDraftAndReconnectDoNotDispatch' started at 2026-09-29 02:20:40.364
+Test Case 'ClientSafetyTests.testNeverSentDraftAndReconnectDoNotDispatch' passed (0.001 seconds)
+Test Case 'ClientSafetyTests.testOutOfOrderSnapshotCannotReopenTerminalAlert' started at 2026-09-29 02:20:40.365
+Test Case 'ClientSafetyTests.testOutOfOrderSnapshotCannotReopenTerminalAlert' passed (0.001 seconds)
+Test Case 'ClientSafetyTests.testSecurePendingWriteFailurePreventsPost' started at 2026-09-29 02:20:40.367
+Test Case 'ClientSafetyTests.testSecurePendingWriteFailurePreventsPost' passed (0.001 seconds)
+Test Case 'ClientSafetyTests.testStaleDraftRemainsNeverSentWithoutNetworkMutation' started at 2026-09-29 02:20:40.368
+Test Case 'ClientSafetyTests.testStaleDraftRemainsNeverSentWithoutNetworkMutation' passed (0.101 seconds)
+Test Case 'ClientSafetyTests.testTombstonesRemoveDetailsAndPartialSnapshotFailsClosed' started at 2026-09-29 02:20:40.469
+Test Case 'ClientSafetyTests.testTombstonesRemoveDetailsAndPartialSnapshotFailsClosed' passed (0.002 seconds)
+Test Case 'ClientSafetyTests.testTransportFailureRetainsUnknownAndSameOperationLookupOnly' started at 2026-09-29 02:20:40.471
+Test Case 'ClientSafetyTests.testTransportFailureRetainsUnknownAndSameOperationLookupOnly' passed (0.002 seconds)
+Test Case 'ClientSafetyTests.testUnknownReceipt404CannotBecomeNeverSentOrBeDiscarded' started at 2026-09-29 02:20:40.473
+Test Case 'ClientSafetyTests.testUnknownReceipt404CannotBecomeNeverSentOrBeDiscarded' passed (0.002 seconds)
+Test Case 'ClientSafetyTests.testUnknownStateSurvivesSameAccountReauthenticationWithoutResend' started at 2026-09-29 02:20:40.475
+Test Case 'ClientSafetyTests.testUnknownStateSurvivesSameAccountReauthenticationWithoutResend' passed (0.002 seconds)
+Test Case 'ClientSafetyTests.testVerificationAccountSwitchRejectsPreviousAccountsDelayedSync' started at 2026-09-29 02:20:40.477
+Test Case 'ClientSafetyTests.testVerificationAccountSwitchRejectsPreviousAccountsDelayedSync' passed (0.003 seconds)
+Test Suite 'ClientSafetyTests' passed at 2026-09-29 02:20:40.480
+	 Executed 15 tests, with 0 failures (0 unexpected) in 0.135 (0.135) seconds
+Test Suite 'StorageBoundaryTests' started at 2026-09-29 02:20:40.480
+Test Case 'StorageBoundaryTests.testClearingAuthPreservesUncertainPendingReceiptForReauthentication' started at 2026-09-29 02:20:40.481
+Test Case 'StorageBoundaryTests.testClearingAuthPreservesUncertainPendingReceiptForReauthentication' passed (0.0 seconds)
+Test Case 'StorageBoundaryTests.testClearingOneEnvironmentDoesNotClearAnotherEnvironment' started at 2026-09-29 02:20:40.481
+Test Case 'StorageBoundaryTests.testClearingOneEnvironmentDoesNotClearAnotherEnvironment' passed (0.0 seconds)
+Test Case 'StorageBoundaryTests.testEnvironmentRejectsExternalCredentialsQueriesAndPaths' started at 2026-09-29 02:20:40.481
+Test Case 'StorageBoundaryTests.testEnvironmentRejectsExternalCredentialsQueriesAndPaths' passed (0.0 seconds)
+Test Case 'StorageBoundaryTests.testInvalidatedAuthCallbackCannotRecreateCredentials' started at 2026-09-29 02:20:40.481
+Test Case 'StorageBoundaryTests.testInvalidatedAuthCallbackCannotRecreateCredentials' passed (0.0 seconds)
+Test Suite 'StorageBoundaryTests' passed at 2026-09-29 02:20:40.481
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'debug.xctest' passed at 2026-09-29 02:20:40.481
+	 Executed 24 tests, with 0 failures (0 unexpected) in 0.153 (0.153) seconds
+Test Suite 'All tests' passed at 2026-09-29 02:20:40.481
+	 Executed 24 tests, with 0 failures (0 unexpected) in 0.153 (0.153) seconds
+◇ Test run started.
+↳ Testing Library Version: 6.2.4 (5ee435b15ad40ec)
+↳ Target Platform: x86_64-unknown-linux-gnu
+✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.
