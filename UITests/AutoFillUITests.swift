@@ -103,7 +103,9 @@ final class AutoFillUITests: IntegrationTestCase {
             recordKnownSystemControls(in: app, stage: "password-picker-launch")
             XCTFail("Native Passwords picker control unavailable"); return
         }
+        recordFullPickerDiagnostic(phase: "before_tap", app: nativeApp, springboard: springboard, passwords: passwords)
         pickerButton.tap()
+        recordFullPickerDiagnostic(phase: "after_tap", app: nativeApp, springboard: springboard, passwords: passwords)
         // The picker can appear asynchronously, with the fictional identity in
         // different native roles. Rebuild candidates on every bounded poll;
         // never commit early to an absent static-text query. Do not relaunch
@@ -138,6 +140,7 @@ final class AutoFillUITests: IntegrationTestCase {
         recordPickerState(app: nativeApp, springboard: springboard, passwords: passwords, email: email, site: site)
         recordPickerHeader()
         guard selectionResult == .completed, let selectedTarget else {
+            recordFullPickerDiagnostic(phase: "selection_failure", app: nativeApp, springboard: springboard, passwords: passwords)
             try skipOnlyObservedPersonalRequirement(in: pickerSurfaces())
             recordKnownSystemControls(in: nativeApp, stage: "saved-account-selection-app")
             recordKnownSystemControls(in: springboard, stage: "saved-account-selection-springboard")
@@ -160,6 +163,98 @@ final class AutoFillUITests: IntegrationTestCase {
 
     private func namedButton(_ names: [String], in surface: XCUIApplication) -> XCUIElement {
         surface.buttons.matching(NSPredicate(format: "label IN %@ OR identifier IN %@", names, names)).firstMatch
+    }
+    private func pickerDiagnosticAllowedStrings() -> Set<String> {
+        ["", "[redacted]", "Passwords", "Password", "Password AutoFill", "AutoFill Password", "Fill Password",
+         "AutoFill", "AutoFill…", "Other Passwords", "Other Passwords…", "Open Passwords", "Search", "Search Passwords",
+         "Allow", "Don’t Allow", "Don't Allow", "Continue", "Cancel", "Done", "Close", "Back", "Save", "New Password",
+         "User Name", "Username", "Website or Label", "Website or App", "Notes", "All", "Passkeys", "Codes", "Deleted",
+         "Sign In to iCloud", "Sign in to your Apple Account", "Set Up a Passcode", "Enter iPhone Passcode", "Use Passcode",
+         "Face ID", "Touch ID", "Authentication Required", "Unlock Passwords", "Select All", "Select", "Paste", "Copy", "Cut",
+         "كلمات السر", "كلمات المرور", "تعبئة كلمات السر", "تعبئة تلقائية", "تعبئة تلقائية…", "كلمات سر أخرى", "كلمات مرور أخرى",
+         "بحث", "إلغاء", "تم", "متابعة", "السماح", "عدم السماح", "فتح كلمات السر", "تسجيل الدخول إلى iCloud", "إدخال رمز دخول iPhone",
+         "NIDAA", "نداء", "تجربة الربط المحلي", "MOCK · محاكاة واجهة فقط", "حساب خيالي مستقل", "البريد الإلكتروني", "كلمة المرور",
+         "تسجيل الدخول", "إنشاء حساب تجريبي", "طلب استعادة كلمة المرور", "لديّ رمز تحقق أو استعادة", "إغلاق", "إظهار كلمة المرور", "إخفاء كلمة المرور",
+         "الحسابات والنتائج التالية خيالية داخل الواجهة. لا يثبت هذا اختبارًا من المحاكي إلى الخادم.",
+         "الإرسال مزيف للاختبار · APNs غير مفعّل · لا إشعار أو صوت على هاتف.",
+         "استخدم بريدًا ينتهي بـ ‎.invalid. التحقق يصل إلى صندوق محلي معزول؛ لا تستخدم بيانات شخصية.",
+         "integrationEmail", "integrationPassword", "integrationPasswordVisibility", "integrationPasswordPaste", "integrationLogin",
+         "integrationSignup", "integrationRecover", "integrationExistingToken", "integrationKeyboardDone", "integrationMockBanner"]
+    }
+    private func recordFullPickerDiagnostic(phase: String, app: XCUIApplication, springboard: XCUIApplication, passwords: XCUIApplication) {
+        // Only the disposable fixture is inspected. No .value or debugDescription
+        // is read from snapshots. Unknown labels/identifiers are never attached.
+        let allowed = pickerDiagnosticAllowedStrings()
+        let passwordsForeground = passwords.state == .runningForeground
+        let newPasswordFormClosed = !passwordsForeground || !passwords.navigationBars["New Password"].exists
+        let email = app.textFields["integrationEmail"]
+        let emailBlank = email.exists && ((email.value as? String) == email.placeholderValue || (email.value as? String) == "")
+        var surfaces: [(String, XCUIApplication)] = [("app", app), ("springboard", springboard)]
+        if passwordsForeground { surfaces.append(("passwords", passwords)) }
+        var nodes: [[String: Any]] = []
+        var masks: [CGRect] = []
+        var complete = true
+        var truncated = false
+        func visit(_ snapshot: XCUIElementSnapshot, surface: String, parent: Int, depth: Int) {
+            guard nodes.count < 2000, depth < 50 else { truncated = true; return }
+            let frame = snapshot.frame
+            guard [frame.minX, frame.minY, frame.width, frame.height].allSatisfy({ $0.isFinite }) else {
+                complete = false; return
+            }
+            let index = nodes.count
+            let label = snapshot.label
+            let identifier = snapshot.identifier
+            let children = snapshot.children
+            let role = snapshot.elementType
+            let editable = role == .textField || role == .secureTextField || role == .textView
+            let unknownText = !label.isEmpty && !allowed.contains(label)
+            if editable || (unknownText && (children.isEmpty || role == .staticText || role == .button || role == .cell)) {
+                masks.append(frame.insetBy(dx: -4, dy: -4))
+            }
+            nodes.append(["surface": surface, "node": index, "parent": parent,
+                "role": Int(role.rawValue), "frame": [frame.minX, frame.minY, frame.width, frame.height],
+                "label": allowed.contains(label) ? label : "[redacted]",
+                "identifier": allowed.contains(identifier) ? identifier : "[redacted]"])
+            for child in children { visit(child, surface: surface, parent: index, depth: depth + 1) }
+        }
+        for (name, surface) in surfaces {
+            do { visit(try surface.snapshot(), surface: name, parent: -1, depth: 0) }
+            catch { complete = false } // Never attach an error that may contain an unsanitized snapshot.
+        }
+        let report: [String: Any] = ["phase": phase, "newPasswordFormClosed": newPasswordFormClosed,
+            "emailBlank": emailBlank, "snapshotsComplete": complete, "truncated": truncated,
+            "maskCount": masks.count, "nodes": nodes]
+        if let data = try? JSONSerialization.data(withJSONObject: report, options: [.sortedKeys]), let text = String(data: data, encoding: .utf8) {
+            let evidence = XCTAttachment(string: text)
+            evidence.name = "autofill-native-picker-accessibility-tree"
+            evidence.lifetime = .keepAlways; add(evidence)
+        }
+        // Full screen, retaining native layout. Export is fail-closed; redact all
+        // editable rectangles plus every non-whitelisted text-bearing leaf/row.
+        // These opaque masks are diagnostic redactions, not product screenshots.
+        guard newPasswordFormClosed, emailBlank, complete, !truncated else { return }
+        let original = XCUIScreen.main.screenshot().image
+        guard let pixels = original.cgImage else { return }
+        let screen = UIScreen.main.bounds
+        guard screen.width > 0, screen.height > 0 else { return }
+        let size = CGSize(width: CGFloat(pixels.width), height: CGFloat(pixels.height))
+        let scaleX = size.width / screen.width
+        let scaleY = size.height / screen.height
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 1; format.opaque = true
+        let redacted = UIGraphicsImageRenderer(size: size, format: format).image { context in
+            original.draw(in: CGRect(origin: .zero, size: size))
+            UIColor.black.setFill()
+            for mask in masks {
+                let visible = mask.intersection(screen)
+                guard !visible.isNull, !visible.isEmpty else { continue }
+                context.fill(CGRect(x: (visible.minX - screen.minX) * scaleX, y: (visible.minY - screen.minY) * scaleY,
+                                    width: visible.width * scaleX, height: visible.height * scaleY))
+            }
+        }
+        let evidence = XCTAttachment(image: redacted)
+        evidence.name = "autofill-native-picker-full-screen-redacted-" + phase.replacingOccurrences(of: "_", with: "-")
+        evidence.lifetime = .keepAlways; add(evidence)
     }
     private func savedIdentityTarget(in surface: XCUIApplication, email: String, site: String) -> XCUIElement? {
         let identity = NSPredicate(format: "label CONTAINS %@ OR label CONTAINS %@", email, site)

@@ -44,6 +44,12 @@ class NativeEvidenceExportTests(unittest.TestCase):
             picker={key:False for key in ['appForeground','springboardForeground','passwordsForeground','appSavedIdentityVisible','springboardSavedIdentityVisible','passwordsSavedIdentityVisible']}
             (screens / 'picker.txt').write_text(json.dumps(picker))
             (screens / 'unsafe-picker.txt').write_text(json.dumps({**picker,'password':'PRIVATE_SENTINEL_DO_NOT_EXPORT'}))
+            tree={'phase':'before_tap','newPasswordFormClosed':True,'emailBlank':True,'snapshotsComplete':True,'truncated':False,'maskCount':1,
+                  'nodes':[{'surface':'app','node':0,'parent':-1,'role':9,'frame':[0,0,400,800],'label':'Passwords','identifier':'[redacted]'}]}
+            (screens/'tree.txt').write_text(json.dumps(tree))
+            (screens/'unsafe-tree.txt').write_text(json.dumps({**tree,'phase':'after_tap','nodes':[{**tree['nodes'][0],'label':'PRIVATE_SENTINEL_DO_NOT_EXPORT'}]}))
+            (screens/'closed-gate-tree.txt').write_text(json.dumps({**tree,'phase':'selection_failure','emailBlank':False}))
+            for name in ['before','after','closed-gate']: (screens/(name+'.png')).write_bytes(b'redacted-image-fixture')
             (screens / 'manifest.json').write_text(json.dumps([{'attachments': [
                 {'suggestedHumanReadableName':'integration-mock-draft-readiness','exportedFileName':name}
                 for name in ['safe.txt','unsafe.txt']] + [
@@ -55,7 +61,13 @@ class NativeEvidenceExportTests(unittest.TestCase):
                 {'suggestedHumanReadableName':'autofill-native-form-readiness','exportedFileName':'readiness.txt'},
                 {'suggestedHumanReadableName':'autofill-native-form-readiness','exportedFileName':'unsafe-readiness.txt'},
                 {'suggestedHumanReadableName':'autofill-native-picker-state','exportedFileName':'picker.txt'},
-                {'suggestedHumanReadableName':'autofill-native-picker-state','exportedFileName':'unsafe-picker.txt'}]}]))
+                {'suggestedHumanReadableName':'autofill-native-picker-state','exportedFileName':'unsafe-picker.txt'},
+                {'suggestedHumanReadableName':'autofill-native-picker-accessibility-tree','exportedFileName':'tree.txt'},
+                {'suggestedHumanReadableName':'autofill-native-picker-accessibility-tree','exportedFileName':'unsafe-tree.txt'},
+                {'suggestedHumanReadableName':'autofill-native-picker-accessibility-tree','exportedFileName':'closed-gate-tree.txt'},
+                {'suggestedHumanReadableName':'autofill-native-picker-full-screen-redacted-before-tap','exportedFileName':'before.png'},
+                {'suggestedHumanReadableName':'autofill-native-picker-full-screen-redacted-after-tap','exportedFileName':'after.png'},
+                {'suggestedHumanReadableName':'autofill-native-picker-full-screen-redacted-selection-failure','exportedFileName':'closed-gate.png'}]}]))
             script = ROOT / 'Scripts/export_native_review.py'
             code = script.read_text().replace("output = root/'artifacts/native-review'/suite", 'output = Path(' + repr(str(exported)) + ')')
             class XcodeVersion:
@@ -83,6 +95,11 @@ class NativeEvidenceExportTests(unittest.TestCase):
             self.assertEqual(result['nativeFormRoleGeometry'], geometry)
             self.assertEqual(result['nativeFormReadiness'], [readiness])
             self.assertEqual(result['nativePickerState'], picker)
+            self.assertEqual(result['pickerDiagnosticPhases'], ['before_tap','selection_failure'])
+            self.assertTrue((exported/'autofill-native-picker-full-screen-redacted-before-tap.png').exists())
+            self.assertFalse((exported/'autofill-native-picker-full-screen-redacted-after-tap.png').exists())
+            self.assertFalse((exported/'autofill-native-picker-full-screen-redacted-selection-failure.png').exists())
+            self.assertNotIn('PRIVATE_SENTINEL_DO_NOT_EXPORT', (exported/'picker-accessibility-before_tap.json').read_text())
 
 
 if __name__ == '__main__':

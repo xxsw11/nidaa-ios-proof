@@ -76,6 +76,29 @@ images=[]
 draft_diagnostics=[]
 reveal_diagnostics=[]
 native_form_readiness=[]
+# Full-screen diagnostics are accepted only with a matching strict tree report.
+picker_diagnostics=[]
+picker_images=[]
+picker_labels=set(['', '[redacted]', 'Passwords', 'Password', 'Password AutoFill', 'AutoFill Password', 'Fill Password', 'AutoFill', 'AutoFill…', 'Other Passwords', 'Other Passwords…', 'Open Passwords', 'Search', 'Search Passwords', 'Allow', 'Don’t Allow', "Don't Allow", 'Continue', 'Cancel', 'Done', 'Close', 'Back', 'Save', 'New Password', 'User Name', 'Username', 'Website or Label', 'Website or App', 'Notes', 'All', 'Passkeys', 'Codes', 'Deleted', 'Sign In to iCloud', 'Sign in to your Apple Account', 'Set Up a Passcode', 'Enter iPhone Passcode', 'Use Passcode', 'Face ID', 'Touch ID', 'Authentication Required', 'Unlock Passwords', 'Select All', 'Select', 'Paste', 'Copy', 'Cut', 'كلمات السر', 'كلمات المرور', 'تعبئة كلمات السر', 'تعبئة تلقائية', 'تعبئة تلقائية…', 'كلمات سر أخرى', 'كلمات مرور أخرى', 'بحث', 'إلغاء', 'تم', 'متابعة', 'السماح', 'عدم السماح', 'فتح كلمات السر', 'تسجيل الدخول إلى iCloud', 'إدخال رمز دخول iPhone', 'NIDAA', 'نداء', 'تجربة الربط المحلي', 'MOCK · محاكاة واجهة فقط', 'حساب خيالي مستقل', 'البريد الإلكتروني', 'كلمة المرور', 'تسجيل الدخول', 'إنشاء حساب تجريبي', 'طلب استعادة كلمة المرور', 'لديّ رمز تحقق أو استعادة', 'إغلاق', 'إظهار كلمة المرور', 'إخفاء كلمة المرور', 'الحسابات والنتائج التالية خيالية داخل الواجهة. لا يثبت هذا اختبارًا من المحاكي إلى الخادم.', 'الإرسال مزيف للاختبار · APNs غير مفعّل · لا إشعار أو صوت على هاتف.', 'استخدم بريدًا ينتهي بـ \u200e.invalid. التحقق يصل إلى صندوق محلي معزول؛ لا تستخدم بيانات شخصية.', 'integrationEmail', 'integrationPassword', 'integrationPasswordVisibility', 'integrationPasswordPaste', 'integrationLogin', 'integrationSignup', 'integrationRecover', 'integrationExistingToken', 'integrationKeyboardDone', 'integrationMockBanner'])
+picker_phases={'before_tap','after_tap','selection_failure'}
+def valid_picker_tree(value):
+    flags={'newPasswordFormClosed','emailBlank','snapshotsComplete','truncated'}
+    if not isinstance(value,dict) or set(value)!=flags|{'phase','maskCount','nodes'}: return False
+    if not isinstance(value['phase'],str) or value['phase'] not in picker_phases or not all(type(value[k]) is bool for k in flags): return False
+    if type(value['maskCount']) is not int or not 0<=value['maskCount']<=2000: return False
+    nodes=value['nodes']
+    if not isinstance(nodes,list) or len(nodes)>2000: return False
+    for index,node in enumerate(nodes):
+        if not isinstance(node,dict) or set(node)!={'surface','node','parent','role','frame','label','identifier'}: return False
+        if not isinstance(node['surface'],str) or node['surface'] not in {'app','springboard','passwords'}: return False
+        if type(node['node']) is not int or node['node']!=index: return False
+        if type(node['parent']) is not int or not -1<=node['parent']<index: return False
+        if type(node['role']) is not int or not 0<=node['role']<=1000: return False
+        if not all(isinstance(node[k],str) and node[k] in picker_labels for k in ('label','identifier')): return False
+        if not isinstance(node['frame'],list) or len(node['frame'])!=4: return False
+        if not all(type(v) in (int,float) and math.isfinite(v) and abs(v)<100000 for v in node['frame']): return False
+    return True
+
 allowed = {
  'disposable-simulator-autofill-passwords-and-passkeys-on',
  'disposable-simulator-autofill-fixture-failure',
@@ -99,6 +122,13 @@ if manifest.exists():
             exported=item.get('exportedFileName','')
             source=(private/'screenshots'/exported).resolve()
             assert source.is_relative_to(private/'screenshots')
+            if human=='autofill-native-picker-accessibility-tree' and source.suffix in ('.txt','.text'):
+                try: tree=json.loads(source.read_text(encoding='utf-8'))
+                except (ValueError,UnicodeError): tree=None
+                if valid_picker_tree(tree): picker_diagnostics.append(tree)
+            if human.startswith('autofill-native-picker-full-screen-redacted-') and source.suffix=='.png':
+                phase=human.removeprefix('autofill-native-picker-full-screen-redacted-').replace('-','_')
+                if phase in picker_phases: picker_images.append((phase,human,source,exported))
             if human in allowed and source.suffix=='.png':
                 target=output/(human+'.png')
                 assert not target.exists(), 'Duplicate named screenshot must be reviewed explicitly'
@@ -175,6 +205,20 @@ if manifest.exists():
                 lines=note.strip().splitlines()
                 if 1 <= len(lines) <= 11 and re.fullmatch(r'controlID=integration[A-Za-z]+',lines[0]) and all(re.fullmatch(r'control=[0-9 .(),e+\-inf]+;viewport=[0-9 .(),e+\-inf]+',line) for line in lines[1:]):
                     reveal_diagnostics.append(lines)
+for tree in picker_diagnostics:
+    target=output/('picker-accessibility-'+tree['phase']+'.json')
+    assert not target.exists(), 'Duplicate picker phase requires review'
+    target.write_text(json.dumps(tree,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+for phase,human,source,exported in picker_images:
+    matches=[d for d in picker_diagnostics if d['phase']==phase]
+    if len(matches)!=1: continue
+    tree=matches[0]
+    if not (tree['newPasswordFormClosed'] and tree['emailBlank'] and tree['snapshotsComplete'] and not tree['truncated']): continue
+    target=output/(human+'.png')
+    assert not target.exists(), 'Duplicate full-screen diagnostic requires review'
+    shutil.copy2(source,target)
+    images.append({'name':target.name,'originalExport':exported,'sha256':hashlib.sha256(target.read_bytes()).hexdigest(),'redacted':True,'tree':'picker-accessibility-'+phase+'.json'})
+report['pickerDiagnosticPhases']=[d['phase'] for d in picker_diagnostics]
 report['screenshots']=images
 report['draftReadiness']=draft_diagnostics
 report['revealGeometry']=reveal_diagnostics
