@@ -22,6 +22,23 @@ SAVED_SELECTOR = 'NidaaUITests/AutoFillUITests/testSavedCredentialSelection'
 DESCRIPTION = 'Disposable diagnostic checks biometric availability without requesting authentication.'
 
 
+def classify_failure_signatures(text):
+    """Emit fixed booleans only; never export a matched message or substring."""
+    patterns = {
+        'matching_snapshot_failure': r'failed to (?:get|obtain|retrieve) matching snapshots?',
+        'snapshot_failure': r'(?:failed|unable|could not) to (?:get|obtain|retrieve|capture|generate) (?:a |the )?snapshot',
+        'query_timeout': r'timed? ?out.{0,120}(?:query|snapshot|accessibility)|(?:query|snapshot|accessibility).{0,120}timed? ?out',
+        'multiple_matches': r'multiple (?:matching elements|matches found)|ambiguous match',
+        'no_matching_elements': r'no matches found|no matching elements',
+        'application_not_running': r'application.{0,80}(?:not running|not foreground)|failed to (?:launch|activate) (?:the )?app',
+        'accessibility_connection_failure': r'(?:accessibility|\bAX(?:Error|UIElement|RemoteElement)?\b).{0,100}(?:connection|server|error)|(?:connection|server).{0,100}(?:accessibility|\bAX(?:Error|UIElement|RemoteElement)?\b)',
+        'element_not_hittable': r'(?:element|control).{0,80}not hittable',
+        'interrupted_query': r'(?:query|snapshot).{0,80}(?:cancelled|canceled|interrupted)',
+        'test_process_terminated': r'test runner.{0,80}(?:exited|crashed|terminated)|lost connection to.{0,80}test',
+    }
+    return {key: re.search(pattern, text, re.IGNORECASE) is not None for key, pattern in patterns.items()}
+
+
 def private_log(path, stdout, stderr):
     with path.open('wb') as stream:
         for data in (stdout, stderr):
@@ -72,6 +89,13 @@ def export_fixed_evidence(driver, base, project, private, owned, result, counts,
             safe['earlyEntryTree'] = {'status': 'Rejected', 'reason': 'validator-error'}
     result['earlyEntryTreeStatus'] = safe['earlyEntryTree']['status']
     safe['failureCategory'] = base.failure_category(logs, '') if test_code else 'none'
+    # Query exceptions can abort before the explicit selection-failure capture.
+    # Classify private output without exporting its message or credential-bearing
+    # XCUI query. This is diagnostic-only and does not change/retry the UI action.
+    error_lines = [line for line in logs.splitlines() if re.search(r'\berror:|Testing failed:|Test Failure', line, re.IGNORECASE)]
+    safe['failureSignatures'] = classify_failure_signatures('\n'.join(error_lines)) if test_code else {}
+    safe['classifiedErrorLineCount'] = len(error_lines)
+    safe['failureSignatureLimit'] = 'Fixed substring signatures on error lines only; no message or query text exported. An unmatched signature does not prove an error absent.'
     (output/'result.json').write_text(json.dumps(safe, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
     result['safeExportStatus'] = 'Fixed-fields-written'
     return (debug_succeeded and release_succeeded and outcome == 'passed'
