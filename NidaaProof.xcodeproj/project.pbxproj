@@ -230,6 +230,10 @@
 				<string>533730ED4FBB6078BB07FA4D</string>
 				<string>BFD4CA56913AD68A565B9966</string>
 				<string>3F470365DB43FAF1161163EF</string>
+				<string>E9A83FD5A2CCCE268C4BC04D</string>
+				<string>71C16FF74D14CB1BCD022BFC</string>
+				<string>B2D5A7C50922AFFC47786FBD</string>
+				<string>A1EDE741A66E14BAC1DB31E3</string>
 			</array>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
@@ -258,6 +262,7 @@
 				<string>88A4889F69D8981B26A5A2E0</string>
 				<string>AD4048EB4880190AA5822923</string>
 				<string>F6890270E77ACD7C461CA332</string>
+				<string>695D75E47D9D51CFD7447B51</string>
 			</array>
 			<key>runOnlyForDeploymentPostprocessing</key>
 			<integer>0</integer>
@@ -742,6 +747,9 @@
 			<array>
 				<string>EF20ADDCE161025C889D5F4D</string>
 				<string>53118AF991FBD478BF33848C</string>
+				<string>9B229763DFD90D969CFDD2C8</string>
+				<string>D3B9E1B971F7E3D4AD21E830</string>
+				<string>77AC2BCE78BDE7012806B965</string>
 			</array>
 			<key>runOnlyForDeploymentPostprocessing</key>
 			<integer>0</integer>
@@ -1059,6 +1067,78 @@
 			<string>PBXBuildFile</string>
 			<key>fileRef</key>
 			<string>3F470365DB43FAF1161163EF</string>
+		</dict>
+		<key>E9A83FD5A2CCCE268C4BC04D</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>App/Integration/IntegrationCredentialField.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>695D75E47D9D51CFD7447B51</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>fileRef</key>
+			<string>E9A83FD5A2CCCE268C4BC04D</string>
+		</dict>
+		<key>71C16FF74D14CB1BCD022BFC</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>UITests/AutoFillUITests.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>9B229763DFD90D969CFDD2C8</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>fileRef</key>
+			<string>71C16FF74D14CB1BCD022BFC</string>
+		</dict>
+		<key>B2D5A7C50922AFFC47786FBD</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>UITests/IntegrationTestSupport.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>D3B9E1B971F7E3D4AD21E830</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>fileRef</key>
+			<string>B2D5A7C50922AFFC47786FBD</string>
+		</dict>
+		<key>A1EDE741A66E14BAC1DB31E3</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>UITests/NativeIntegrationUITests.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>77AC2BCE78BDE7012806B965</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>fileRef</key>
+			<string>A1EDE741A66E14BAC1DB31E3</string>
 		</dict>
 	</dict>
 	<key>rootObject</key>

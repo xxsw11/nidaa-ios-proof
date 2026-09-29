@@ -1,0 +1,73 @@
+name: NIDAA - Native integration environment and review
+on:
+  push:
+    branches: ['codex/native-integration-review']
+    paths: ['Integration/**', 'IntegrationClient/**', 'App/**', 'UITests/**', 'Scripts/**', 'Diagnostics/**', 'QA/NativeReview/**', '.github/workflows/native-review.yml', '.github/workflows/native-saved-autofill.yml', '.github/full-regression-trigger.json']
+  workflow_dispatch:
+    inputs:
+      native_trial:
+        description: 'Explicitly retry native isolation only after the recorded wildcard-bind limitation is resolved'
+        required: false
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  environment:
+    # Run36512065014 demonstrated a concrete isolation limitation. Ordinary
+    # source pushes must not repeatedly retry the same blocked environment.
+    if: ${{ github.event.repository.private == false && github.event_name == 'workflow_dispatch' && inputs.native_trial }}
+    runs-on: macos-15
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Inspect actual host capabilities
+        run: |
+          mkdir -p artifacts/native-environment
+          { sw_vers; uname -m; xcodebuild -version; swift --version; command -v go || true; command -v docker || true; command -v sandbox-exec; } > artifacts/native-environment/host.txt
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
+        with:
+          go-version: '1.26.5'
+          cache: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - name: Prepare official native components
+        run: bash Integration/native/prepare.sh
+      - name: Verify isolation then run real native UI journey
+        run: '"$RUNNER_TEMP/nidaa-native-tools/venv/bin/python" Integration/native/runtime.py run --fixture QA/NativeReview/native_fixture.py -- bash Scripts/ci_native_review.sh live'
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: ${{ always() }}
+        with:
+          name: native-environment-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            artifacts/native-environment/
+            artifacts/native-review/live/
+          retention-days: 7
+  autofill:
+    if: ${{ github.event.repository.private == false && !contains(github.event.head_commit.message, '[ui:local-large]') && !contains(github.event.head_commit.message, '[diagnostic:isolation]') }}
+    runs-on: macos-15
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Test client safety regressions
+        run: |
+          python3 Scripts/record_ci_source.py
+          mkdir -p artifacts
+          set -o pipefail
+          swift test --package-path IntegrationClient 2>&1 | tee artifacts/client-review-tests.log
+      - name: Verify three enabled AutoFill input cases and Release build
+        env:
+          INPUT_SUITE: autofill-input
+          NIDAA_CAPTURE_SYSTEM_DIAGNOSTIC: '0'
+        run: bash Scripts/ci_native_review.sh "$INPUT_SUITE"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: ${{ always() }}
+        with:
+          name: native-autofill-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/
+          retention-days: 7

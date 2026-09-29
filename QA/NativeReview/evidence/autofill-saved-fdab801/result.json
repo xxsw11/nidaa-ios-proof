@@ -1,0 +1,160 @@
+{
+  "suite": "autofill-saved",
+  "exitCode": 65,
+  "commit": "fdab801a00dfe85108a2d8e2f033f12646e34dbc",
+  "run": "36522693759",
+  "attempt": "1",
+  "scope": "MOCK network with native AutoFill enabled",
+  "rawEvidence": "Private XCTest logs/xcresult/recordings excluded from publication",
+  "physicalDevice": "Not tested",
+  "savedCredentialSelection": "failed",
+  "summary": {
+    "result": "Failed",
+    "totalTestCount": 1,
+    "passedTests": 0,
+    "failedTests": 1,
+    "skippedTests": 0,
+    "expectedFailures": 0,
+    "startTime": 1790657259.452,
+    "finishTime": 1790657558.788,
+    "devicesAndConfigurations": [
+      {
+        "device": {
+          "architecture": "arm64",
+          "deviceId": "E57FC789-9DE0-42E3-B284-8B7E80B1E5BE",
+          "deviceName": "NIDAA-Disposable-9AFD079F-CEC7-4D5A-8670-BF05C713FBC1",
+          "modelName": "iPhone 16 Pro",
+          "osBuildNumber": "22F77",
+          "osVersion": "18.5",
+          "platform": "iOS Simulator"
+        },
+        "expectedFailures": 0,
+        "failedTests": 1,
+        "passedTests": 0,
+        "skippedTests": 0,
+        "testPlanConfiguration": {
+          "configurationId": "1",
+          "configurationName": "Test Scheme Action"
+        }
+      }
+    ],
+    "environmentDescription": "NidaaProof-Local \u00b7 Built with macOS 15.7.9"
+  },
+  "failedTestIdentifiers": [
+    "AutoFillUITests/testSavedCredentialSelection()"
+  ],
+  "testCaseResults": [
+    [
+      "NidaaUITests.AutoFillUITests",
+      "testSavedCredentialSelection",
+      "failed"
+    ]
+  ],
+  "failureLocations": [
+    [
+      "AutoFillUITests.swift",
+      "90"
+    ]
+  ],
+  "infrastructureSignals": {
+    "runnerBootstrapFailure": false,
+    "runnerKilledBeforeTests": false,
+    "runnerEarlyExit": false,
+    "failedLaunch": false,
+    "failedInstall": false,
+    "testRunnerLost": false,
+    "timedOut": false,
+    "simulatorBootFailure": false,
+    "compileFailure": false,
+    "testFailed": true
+  },
+  "compilerDiagnostics": [],
+  "debugTestSucceeded": false,
+  "releaseBuildSucceeded": true,
+  "xcode": "Xcode 16.4\nBuild version 16F6",
+  "nativeFormRoleGeometry": {
+    "controls": [
+      {
+        "frame": [
+          20,
+          163,
+          362,
+          86
+        ],
+        "hittable": true,
+        "role": "textField"
+      },
+      {
+        "frame": [
+          133.33333333333331,
+          260,
+          228.66666666666669,
+          22
+        ],
+        "hittable": true,
+        "role": "textField"
+      },
+      {
+        "frame": [
+          121.33333333333333,
+          304,
+          240.66666666666669,
+          22
+        ],
+        "hittable": true,
+        "role": "textField"
+      },
+      {
+        "frame": [
+          40,
+          404.3333333333333,
+          322,
+          64.33333333333337
+        ],
+        "hittable": true,
+        "role": "textField"
+      }
+    ],
+    "passwordLabelFound": true,
+    "userLabelFound": true,
+    "usernameFound": true,
+    "websiteFound": true
+  },
+  "screenshots": [
+    {
+      "name": "autofill-native-empty-identity-fields-crop.png",
+      "originalExport": "7B408334-280A-439A-B0A2-190D94D1B663.png",
+      "sha256": "d7703b45f7e7d85cf27a08760e9fe2e2bb6e2237b5b75284c8a028d70207c153"
+    },
+    {
+      "name": "autofill-saved-credential-new-password-controls-header.png",
+      "originalExport": "4B6055B5-53ED-483A-BD11-5E41F81B0E06.png",
+      "sha256": "1020b4a8cf98c0ec91486bc8f234f0a529ab838fca1bb97c44debfee7cf97a00"
+    },
+    {
+      "name": "disposable-simulator-autofill-passwords-and-passkeys-on.png",
+      "originalExport": "A7440AB0-0702-4D0B-A022-0BCD80F51288.png",
+      "sha256": "ad349b1f6fe49b49c07c2fbf94fbe8a2177d769bfd05b615f1c425d57a82e9ec"
+    }
+  ],
+  "draftReadiness": [],
+  "revealGeometry": [],
+  "nativeFormReadiness": [
+    {
+      "passwordFieldFound": true,
+      "passwordFieldHittable": true,
+      "phase": "after_password",
+      "saveEnabled": true,
+      "usernameMatches": true,
+      "websiteMatches": true
+    },
+    {
+      "passwordFieldFound": true,
+      "passwordFieldHittable": true,
+      "phase": "before_password",
+      "saveEnabled": false,
+      "usernameMatches": true,
+      "websiteMatches": true
+    }
+  ]
+}

@@ -35,7 +35,9 @@ public actor NidaaClient: NidaaClientProtocol {
                    localStorage: storage, logger: nil, fetch: { request in
             guard let url = request.url, environment.permits(url) else { throw ClientError.invalidEnvironment }
             let result = try await transport.send(request)
-            guard let response = HTTPURLResponse(url: url, statusCode: result.status, httpVersion: "HTTP/1.1", headerFields: ["Content-Type": "application/json"]) else { throw ClientError.invalidResponse }
+            var headers = ["Content-Type": "application/json"]
+            if let version = result.authAPIVersion { headers["X-Supabase-Api-Version"] = version }
+            guard let response = HTTPURLResponse(url: url, statusCode: result.status, httpVersion: "HTTP/1.1", headerFields: headers) else { throw ClientError.invalidResponse }
             return (result.body, response)
         }, autoRefreshToken: false, emitLocalSessionAsInitialSession: true)
     }
@@ -54,9 +56,22 @@ public actor NidaaClient: NidaaClientProtocol {
         auth = Self.makeAuth(environment: environment, storage: fresh, transport: transport)
     }
     private func safeAuthError(_ error: any Error) -> ClientError {
-        if let e = error as? ClientError { return e }
+        if let e = error as? ClientError {
+            return e == .unauthenticated ? rejectSession() : e
+        }
+        if let e = error as? AuthError,
+           ["session_not_found", "session_expired", "refresh_token_not_found", "refresh_token_already_used", "user_banned", "user_not_found"].contains(e.errorCode.rawValue) {
+            return rejectSession()
+        }
         if error is URLError { return .connectionFailed }
         return .server("authentication_failed")
+    }
+    private func rejectSession() -> ClientError {
+        // A rejected provider/domain session cannot retain an authenticated cache.
+        // Preserve the account-scoped uncertain receipt for explicit reauthentication.
+        // rotateAuth invalidates callbacks and clears memory before any storage write.
+        try? rotateAuth(clearAll: false)
+        return .unauthenticated
     }
 
     public func signup(email: String, password: String) async throws {
@@ -135,13 +150,16 @@ public actor NidaaClient: NidaaClientProtocol {
             if let ownerData = try storage.get("owner"), let prior = String(data: ownerData, encoding: .utf8), prior != account.userID.uuidString {
                 try storage.remove("pending." + prior)
             }
-            try storage.set("owner", data: Data(account.userID.uuidString.utf8))
-            snapshot.account = account
+            let pending: PendingOperation?
             if let data = try storage.get(pendingKey(account.userID)) {
-                let pending = try JSONDecoder().decode(PendingOperation.self, from: data)
-                guard pending.accountID == account.userID, pending.environmentID == environment.id else { throw ClientError.storageUnavailable }
-                snapshot.pending = pending
-            } else { snapshot.pending = nil }
+                let restored = try JSONDecoder().decode(PendingOperation.self, from: data)
+                guard restored.accountID == account.userID, restored.environmentID == environment.id else { throw ClientError.storageUnavailable }
+                pending = restored
+            } else { pending = nil }
+            try storage.set("owner", data: Data(account.userID.uuidString.utf8))
+            // Publish identity only after its durable uncertain-operation state validates.
+            snapshot.account = account
+            snapshot.pending = pending
         } catch { throw ClientError.storageUnavailable }
         return account
     }
@@ -175,6 +193,10 @@ public actor NidaaClient: NidaaClientProtocol {
         let allowed: Set<String> = ["invalid_request","unauthenticated","not_found","forbidden","conflict","expired","rate_limited","consent_required","terminal","limit_reached","reauthentication_required"]
         if let body = try? JSONDecoder().decode(ErrorBody.self, from: result.body), allowed.contains(body.error) { return .server(body.error) }
         return .connectionFailed
+    }
+    private func authenticatedDecode<T: Decodable>(_ response: HTTPResult) throws -> T {
+        do { return try decode(response) }
+        catch { throw safeAuthError(error) }
     }
 
     private func pendingKey(_ id: UUID) -> String { "pending." + id.uuidString }
@@ -235,7 +257,7 @@ public actor NidaaClient: NidaaClientProtocol {
         // conflict responses remain unknown because an older receipt may exist.
         if [400,401,410,429].contains(response.status) {
             try clearPending()
-            throw responseError(response)
+            throw safeAuthError(responseError(response))
         }
         throw ClientError.outcomeUnknown(envelope.operationID)
     }
@@ -247,8 +269,8 @@ public actor NidaaClient: NidaaClientProtocol {
         do { result = try await request(path: "v1/operations/" + id.uuidString.lowercased(), token: accessToken) }
         catch { try check(generation); throw ClientError.connectionFailed }
         try check(generation)
-        let receipt: Receipt = try decode(result)
-        guard receipt.operationID == id else { throw ClientError.invalidResponse }
+        let receipt: Receipt = try authenticatedDecode(result)
+        guard receipt.operationID == id, ["accepted", "rejected"].contains(receipt.status) else { throw ClientError.invalidResponse }
         return receipt
     }
 
@@ -259,7 +281,7 @@ public actor NidaaClient: NidaaClientProtocol {
         do { result = try await request(path: "v1/alerts/" + id.uuidString.lowercased(), token: accessToken) }
         catch { try check(generation); throw ClientError.connectionFailed }
         try check(generation)
-        let alert: SharedAlert = try decode(result)
+        let alert: SharedAlert = try authenticatedDecode(result)
         guard alert.alertID == id else { throw ClientError.invalidResponse }
         return alert
     }
@@ -293,8 +315,8 @@ public actor NidaaClient: NidaaClientProtocol {
             relationshipsResult = try await request(path: "v1/relationships", token: accessToken)
         } catch { try check(generation); throw safeAuthError(error) }
         try check(generation)
-        let sync: SyncSnapshot = try decode(syncResult)
-        let relationships: Relationships = try decode(relationshipsResult)
+        let sync: SyncSnapshot = try authenticatedDecode(syncResult)
+        let relationships: Relationships = try authenticatedDecode(relationshipsResult)
         guard sync.fullSnapshot else { throw ClientError.invalidResponse }
         if sync.cursor > snapshot.cursor {
             snapshot.alerts = sync.alerts.filter { !sync.removedIDs.contains($0.alertID) }

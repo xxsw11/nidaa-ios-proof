@@ -1,0 +1,14 @@
+{
+  "debugTestSucceeded": true,
+  "releaseBuildSucceeded": true,
+  "coreTestsPassed": 45,
+  "clientTestsPassed": 24,
+  "pythonChecksPassed": 14,
+  "originalLogSHA256": {
+    "xcode-ui-tests.log": "76e847eaf85888a0226678c3151169811cd18fb5801ad188c3e53f218e4ec3bf",
+    "xcode-release.log": "281a834a5d21cf10604784fa50781315c04e878d2004d8e2c90e3b3b11fb5b9a",
+    "swift-tests.log": "fbc309cf7c2dae50a40a3cca880f1643697c5b094b36b08167d1ec52b0e34d24",
+    "swift-client-tests.log": "b0de33b24599ea556e28639489e1f597757fe89e6192e9d2d45a53288f00daf8",
+    "python-tests.log": "bf7ed98e69b08d6e696e08f9d0476283e686f030d19a345625a468453ca55946"
+  }
+}

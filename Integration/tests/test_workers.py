@@ -1,6 +1,7 @@
 """Actual independent worker processes/connections and isolated database restore drill."""
 from concurrent.futures import ThreadPoolExecutor
 import os
+import json
 from pathlib import Path
 import subprocess
 import sys
@@ -189,6 +190,8 @@ class WorkerIntegration(IntegrationCase):
 
     def test_backup_restore_replays_later_deletion_and_revocations_before_access(self):
         aid = self.create()
+        a2=self.a.second_session(); self.clients.append(a2); a2.me()
+        c2=self.c.second_session(); self.clients.append(c2); c2.me()
         d = LocalAccount("Lina")
         self.clients.append(d)
         d.signup()
@@ -213,16 +216,48 @@ class WorkerIntegration(IntegrationCase):
             self.b.accepted("delete_account")
             self.c.accepted("withdraw", sender_id=self.a.user_id)
             d.accepted("block", user_id=self.a.user_id)
+            check(c2.request('POST','/v1/session/logout',json={}),204,'later single-session logout')
+            check(a2.request('POST','/v1/session/revoke-all',json={}),204,'later account session revocation')
+            # Explicit cursor-horizon fixture: represent updates observed by a
+            # client after the old backup, without forging consent or responses.
+            mutate('UPDATE nidaa.accounts SET cursor=cursor+1000 WHERE user_id=%s', (d.user_id,))
+            last_client_cursor=self.get(d,'/v1/sync')['cursor']
             worker("export-ledger", "--file", ledger)
-            with psycopg.connect(os.environ["DATABASE_ADMIN_URL"], autocommit=True) as connection:
-                connection.execute(psycopg.sql.SQL("CREATE DATABASE {}").format(psycopg.sql.Identifier(restore_name)))
+            created=False
             try:
+                check(d.request('GET','/v1/me'),503,'quiesced source blocks shared reads')
+                check(d.request('POST','/v1/session/logout',json={}),503,'quiesced logout never reports false success')
+                worker('dispatch',expected=1)
+                with psycopg.connect(os.environ["DATABASE_ADMIN_URL"], autocommit=True) as connection:
+                    connection.execute(psycopg.sql.SQL("CREATE DATABASE {}").format(psycopg.sql.Identifier(restore_name)))
+                    created=True
                 target = dict(source, dbname=restore_name)
                 restore = subprocess.run(["pg_restore", "--no-owner", "--dbname", make_conninfo(**target), backup],
                                          env=database_env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=60)
                 self.assertEqual(restore.returncode, 0, "isolated restore failed; diagnostic output redacted")
                 restore_env = os.environ.copy()
                 restore_env["DATABASE_URL"] = make_conninfo(**restored_service)
+                restore_env['RESTORE_SOURCE_DATABASE_URL']=os.environ['DATABASE_URL']
+                no_source=dict(restore_env)
+                no_source.pop('RESTORE_SOURCE_DATABASE_URL')
+                worker('replay-ledger','--file',ledger,environment=no_source,expected=1)
+                same_database=dict(restore_env,DATABASE_URL=os.environ['DATABASE_URL'])
+                worker('replay-ledger','--file',ledger,environment=same_database,expected=1)
+                incomplete=json.loads(Path(ledger).read_text())
+                incomplete.pop('cursor_watermark')
+                missing_watermark=str(Path(directory)/'incomplete-ledger.json')
+                Path(missing_watermark).write_text(json.dumps(incomplete))
+                worker('replay-ledger','--file',missing_watermark,environment=restore_env,expected=1)
+                stale=json.loads(Path(ledger).read_text())
+                stale['export_id']=str(uuid4())
+                stale_file=str(Path(directory)/'stale-ledger.json')
+                Path(stale_file).write_text(json.dumps(stale))
+                worker('replay-ledger','--file',stale_file,environment=restore_env,expected=1)
+                truncated=json.loads(Path(ledger).read_text())
+                truncated['session_revocations']=[]
+                truncated_file=str(Path(directory)/'truncated-ledger.json')
+                Path(truncated_file).write_text(json.dumps(truncated))
+                worker('replay-ledger','--file',truncated_file,environment=restore_env,expected=1)
                 # No HTTP service points at this database. Apply newer ledger before reads.
                 worker("replay-ledger", "--file", ledger, environment=restore_env)
                 worker("replay-ledger", "--file", ledger, environment=restore_env)
@@ -245,10 +280,20 @@ class WorkerIntegration(IntegrationCase):
                             domain.view(session["user_id"], aid)
                         self.assertEqual(denied.exception.code, "not_found")
                     self.assertTrue(domain.blocked(self.a.user_id,d.user_id))
+                    for client in (self.a,a2,c2):
+                        with self.assertRaises(RuleError) as revoked:
+                            domain.principal(client.session['access_token'])
+                        self.assertEqual(revoked.exception.code,'unauthenticated')
+                    active=domain.principal(d.session['access_token'])
+                    replacement=domain.sync(active)
+                    self.assertGreater(replacement['cursor'],last_client_cursor)
+                    self.assertNotIn(aid,[alert['alert_id'] for alert in replacement['alerts']])
             finally:
+                worker('resume-source','--file',ledger)
                 # Exact test-generated database only, no other project data is touched.
-                with psycopg.connect(os.environ["DATABASE_ADMIN_URL"], autocommit=True) as connection:
-                    connection.execute(psycopg.sql.SQL("DROP DATABASE {} WITH (FORCE)").format(psycopg.sql.Identifier(restore_name)))
+                if created:
+                    with psycopg.connect(os.environ["DATABASE_ADMIN_URL"], autocommit=True) as connection:
+                        connection.execute(psycopg.sql.SQL("DROP DATABASE {} WITH (FORCE)").format(psycopg.sql.Identifier(restore_name)))
 
 
 if __name__ == "__main__":

@@ -1,14 +1,14 @@
 name: NIDAA - Local Auth and PostgreSQL integration
 on:
   push:
-    branches: ['codex/local-supabase-integration']
-    paths: ['Integration/**', 'IntegrationClient/**', 'SharedRules/**', '.github/workflows/local-integration.yml']
+    branches: ['codex/local-supabase-integration', 'codex/native-integration-review']
+    paths: ['Integration/**', 'IntegrationClient/**', 'SharedRules/**', '.github/workflows/local-integration.yml', '.github/full-regression-trigger.json']
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
   backend:
-    if: ${{ github.event.repository.private == false }}
+    if: ${{ github.event.repository.private == false && !contains(github.event.head_commit.message, '[diagnostic:isolation]') }}
     runs-on: ubuntu-24.04
     timeout-minutes: 40
     steps:
@@ -17,6 +17,7 @@ jobs:
           persist-credentials: false
       - name: Prepare isolated tooling
         run: |
+          python3 Scripts/record_ci_source.py
           mkdir -p artifacts
           python3 -m venv /tmp/nidaa-tools
           /tmp/nidaa-tools/bin/pip install --timeout 60 --retries 3 -r Integration/requirements.txt -c Integration/requirements-lock.txt
@@ -47,6 +48,6 @@ jobs:
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: ${{ always() }}
         with:
-          name: nidaa-local-integration-evidence
+          name: nidaa-local-integration-evidence-${{ github.run_id }}-${{ github.run_attempt }}
           path: artifacts/
           retention-days: 7

@@ -1,0 +1,18 @@
+test_authentication_bypass_only_inside_debug_simulator_compilation (test_native_stage.NativeStagePackagingTests.test_authentication_bypass_only_inside_debug_simulator_compilation) ... ok
+test_existing_project_includes_all_app_sources (test_native_stage.NativeStagePackagingTests.test_existing_project_includes_all_app_sources) ... ok
+test_notification_and_remote_registration_guarded (test_native_stage.NativeStagePackagingTests.test_notification_and_remote_registration_guarded) ... ok
+test_privacy_manifest_declares_local_preferences (test_native_stage.NativeStagePackagingTests.test_privacy_manifest_declares_local_preferences) ... ok
+test_ui_test_scheme_is_wired (test_native_stage.NativeStagePackagingTests.test_ui_test_scheme_is_wired) ... ok
+test_aliases_no_personal_name_or_unbounded_input (test_payload.OfflinePayloadTests.test_aliases_no_personal_name_or_unbounded_input) ... ok
+test_bad_windows_rejected (test_payload.OfflinePayloadTests.test_bad_windows_rejected) ... ok
+test_expiration_bounded_by_window_and_one_minute (test_payload.OfflinePayloadTests.test_expiration_bounded_by_window_and_one_minute) ... ok
+test_naive_time_rejected (test_payload.OfflinePayloadTests.test_naive_time_rejected) ... ok
+test_no_delivery_claim_or_token_collected (test_payload.OfflinePayloadTests.test_no_delivery_claim_or_token_collected) ... ok
+test_only_sandbox_alert_headers (test_payload.OfflinePayloadTests.test_only_sandbox_alert_headers) ... ok
+test_ordinary_alert_without_critical_or_background_fields (test_payload.OfflinePayloadTests.test_ordinary_alert_without_critical_or_background_fields) ... ok
+test_unique_correlated_ids_and_utf8_size (test_payload.OfflinePayloadTests.test_unique_correlated_ids_and_utf8_size) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.003s
+
+OK

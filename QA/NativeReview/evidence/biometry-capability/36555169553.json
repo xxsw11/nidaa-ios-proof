@@ -1,0 +1,241 @@
+{
+  "commit": "90fc194edbccd628c03fa16af85d7f65569a1bcd",
+  "run": 36555169553,
+  "attempt": 1,
+  "job": 109362466668,
+  "artifact": 11028181159,
+  "artifactSHA256": "0b539f00159fe584a29129951c0dba99396cb462566f9df5e20d173797c016ba",
+  "scope": "Separate official Simulator biometry capability; not an app acceptance run",
+  "report": {
+    "TCCChanged": false,
+    "appCredentialsCreated": false,
+    "blocker": "bounded_command_timeout",
+    "bootExitCode": 0,
+    "bootstatusExitCode": 0,
+    "capabilityOnly": true,
+    "cleanup": {
+      "budgetSeconds": 60,
+      "delete": {
+        "status": "Passed"
+      },
+      "shutdown": {
+        "status": "Failed-timeout"
+      }
+    },
+    "cleanupErrors": [
+      {
+        "operation": "shutdown",
+        "reason": "timeout"
+      }
+    ],
+    "commandTrace": [
+      {
+        "command": [
+          "xcrun",
+          "--find",
+          "simctl"
+        ],
+        "elapsedSeconds": 1.552,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "simctl",
+          "help"
+        ],
+        "elapsedSeconds": 7.361,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 120,
+        "timeoutSeconds": 120
+      },
+      {
+        "command": [
+          "xcrun",
+          "swiftc",
+          "[argument]"
+        ],
+        "elapsedSeconds": 15.448,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 90,
+        "timeoutSeconds": 90
+      },
+      {
+        "command": [
+          "open",
+          "-g",
+          "-b"
+        ],
+        "elapsedSeconds": 0.133,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 10,
+        "timeoutSeconds": 10
+      },
+      {
+        "command": [
+          "capability"
+        ],
+        "elapsedSeconds": 0.255,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "xcrun",
+          "--sdk",
+          "iphonesimulator"
+        ],
+        "elapsedSeconds": 2.091,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 20,
+        "timeoutSeconds": 20
+      },
+      {
+        "command": [
+          "xcrun",
+          "swiftc",
+          "[argument]"
+        ],
+        "elapsedSeconds": 7.297,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 90,
+        "timeoutSeconds": 90
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "list"
+        ],
+        "elapsedSeconds": 1.127,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "create"
+        ],
+        "elapsedSeconds": 0.419,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "boot"
+        ],
+        "elapsedSeconds": 2.592,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "bootstatus"
+        ],
+        "elapsedSeconds": 80.475,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 150,
+        "timeoutSeconds": 150
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "install"
+        ],
+        "elapsedSeconds": 36.804,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 90,
+        "timeoutSeconds": 90
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "get_app_container"
+        ],
+        "elapsedSeconds": 31.14,
+        "requestedTimeoutSeconds": 30,
+        "timedOut": true,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "shutdown"
+        ],
+        "elapsedSeconds": 20.817,
+        "requestedTimeoutSeconds": 20,
+        "timedOut": true,
+        "timeoutSeconds": 20
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "delete"
+        ],
+        "elapsedSeconds": 18.484,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 40,
+        "timeoutSeconds": 39.09
+      }
+    ],
+    "localAuthenticationObserver": {
+      "after": {
+        "status": "Notexecuted"
+      },
+      "before": {
+        "status": "Failed-container-timeout"
+      },
+      "buildStatus": "Passed",
+      "compileExitCode": 0,
+      "evaluatesAuthentication": false,
+      "installExitCode": 0,
+      "installStatus": "Passed",
+      "sdkDiscoveryExitCode": 0
+    },
+    "ownedDeleteExitCode": 0,
+    "ownedDeviceCreated": true,
+    "ownedDeviceDeleted": true,
+    "permissionHelperCompileExitCode": 0,
+    "permissionHelperExitCode": 0,
+    "permissions": {
+      "accessibilityTrusted": true,
+      "automationPromptRequested": false,
+      "automationStatus": 0,
+      "uiElementsEnabled": true
+    },
+    "physicalBiometryProven": false,
+    "privateAPIsUsed": false,
+    "probeSHA256": "33d72be4ffc535af4fa4d98011f61590bae358fa730daeafde22ffc01ed341fa",
+    "runtimeIdentifier": "com.apple.CoreSimulator.SimRuntime.iOS-18-5",
+    "schemaVersion": 1,
+    "simctlHelpExitCode": 0,
+    "simctlHelpMentionsBiometry": false,
+    "simctlLocateExitCode": 0,
+    "stage": "observer_before_container",
+    "status": "Blocked",
+    "systemEventsLaunchExitCode": 0,
+    "timeoutCommand": [
+      "xcrun",
+      "simctl",
+      "get_app_container"
+    ],
+    "timeoutElapsedSeconds": 31.14,
+    "timeoutSeconds": 30
+  },
+  "diagnosis": "Install passed in36.804seconds, but prelaunch get_app_container again timed out, now at30seconds (31.14observed). No LA observation was produced. Shutdown timed out but independent exact-owned deletion passed, verifying the cleanup correction without hiding its shutdown failure.",
+  "changeBeforeRetry": "Change the observation transport rather than extend the same failing query: use the installed public simctl console-launch option only after help confirms support, capture one nonce-bound allowlisted LA record, and avoid data-container lookup. This is a diagnostic transport hypothesis, not a proven platform root cause."
+}

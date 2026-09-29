@@ -1,0 +1,24 @@
+{
+  "scope": "Diagnostic workflow publication review",
+  "status": "Rejected before commit/ref update",
+  "reason": "Auto-review rejected uploading encrypted raw saved-credential screenshots and logs to public GitHub artifacts as unapproved sensitive-data egress.",
+  "response": "Replace archive/directory upload with explicitly listed structured reports containing strict allowlisted labels, numeric geometry and booleans. Keep all raw and encrypted credential diagnostics on the disposable runner; no alternate upload or bypass.",
+  "saferReplacement": {
+    "commit": "7adc165c11aaa6a369d14b83d1523dc629dcbd04",
+    "run": 36564260314,
+    "publication": "Accepted; separate diagnostic branch advanced without force",
+    "allowedArtifactFiles": [
+      "artifacts/source.json",
+      "artifacts/enrolled-autofill/report.json",
+      "artifacts/native-review/autofill-saved/result.json",
+      "artifacts/native-review/autofill-saved/early-passwords-entry.json",
+      "artifacts/native-review/autofill-saved/picker-accessibility-before_tap.json",
+      "artifacts/native-review/autofill-saved/picker-accessibility-after_tap.json",
+      "artifacts/native-review/autofill-saved/picker-accessibility-selection_failure.json"
+    ],
+    "rawImagesLogsArchivesUploaded": false,
+    "note": "Publication does not establish successful execution or complete diagnostic evidence; refer to the actual run result."
+  },
+  "applicationAcceptanceChanged": false,
+  "originalAssertionsRetained": true
+}

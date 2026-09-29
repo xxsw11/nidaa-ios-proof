@@ -1,0 +1,211 @@
+{
+  "suite": "autofill-saved",
+  "exitCode": 65,
+  "commit": "053de1c3113a88050e57906c186e415a59d055d9",
+  "run": "36541295372",
+  "attempt": "1",
+  "scope": "MOCK network with native AutoFill enabled",
+  "rawEvidence": "Private XCTest logs/xcresult/recordings excluded from publication",
+  "physicalDevice": "Not tested",
+  "savedCredentialSelection": "failed",
+  "summary": {
+    "result": "Failed",
+    "totalTestCount": 1,
+    "passedTests": 0,
+    "failedTests": 1,
+    "skippedTests": 0,
+    "expectedFailures": 0,
+    "startTime": 1790669830.55,
+    "finishTime": 1790670134.062,
+    "devicesAndConfigurations": [
+      {
+        "device": {
+          "architecture": "arm64",
+          "deviceId": "898A99F4-B6DB-4975-9ED4-2D317245EA92",
+          "deviceName": "NIDAA-Disposable-57F625CA-21F9-4C27-9BC8-0AC244C91B66",
+          "modelName": "iPhone 16 Pro",
+          "osBuildNumber": "22F77",
+          "osVersion": "18.5",
+          "platform": "iOS Simulator"
+        },
+        "expectedFailures": 0,
+        "failedTests": 1,
+        "passedTests": 0,
+        "skippedTests": 0,
+        "testPlanConfiguration": {
+          "configurationId": "1",
+          "configurationName": "Test Scheme Action"
+        }
+      }
+    ],
+    "environmentDescription": "NidaaProof-Local \u00b7 Built with macOS 15.7.9"
+  },
+  "failedTestIdentifiers": [
+    "AutoFillUITests/testSavedCredentialSelection()"
+  ],
+  "testCaseResults": [
+    [
+      "NidaaUITests.AutoFillUITests",
+      "testSavedCredentialSelection",
+      "failed"
+    ]
+  ],
+  "failureLocations": [
+    [
+      "AutoFillUITests.swift",
+      "179"
+    ]
+  ],
+  "infrastructureSignals": {
+    "runnerBootstrapFailure": false,
+    "runnerKilledBeforeTests": false,
+    "runnerEarlyExit": false,
+    "failedLaunch": false,
+    "failedInstall": false,
+    "testRunnerLost": false,
+    "timedOut": false,
+    "simulatorBootFailure": false,
+    "compileFailure": false,
+    "testFailed": true
+  },
+  "compilerDiagnostics": [],
+  "debugTestSucceeded": false,
+  "releaseBuildSucceeded": true,
+  "xcode": "Xcode 16.4\nBuild version 16F6",
+  "nativePickerState": {
+    "appForeground": true,
+    "appSavedIdentityVisible": false,
+    "passwordsForeground": false,
+    "passwordsSavedIdentityVisible": false,
+    "springboardForeground": true,
+    "springboardSavedIdentityVisible": false
+  },
+  "nativeProviderState": {
+    "globalEnabled": true,
+    "globalEnabledKnown": true,
+    "providerControlObserved": true,
+    "providerEnabled": false,
+    "providerEnabledKnown": false
+  },
+  "savedEntryPersistence": {
+    "allListOpened": true,
+    "passwordsForeground": true,
+    "persistedEntryFound": true
+  },
+  "nativeFormRoleGeometry": {
+    "controls": [
+      {
+        "frame": [
+          20,
+          163,
+          362,
+          86
+        ],
+        "hittable": true,
+        "role": "textField"
+      },
+      {
+        "frame": [
+          133.33333333333331,
+          260,
+          228.66666666666669,
+          22
+        ],
+        "hittable": true,
+        "role": "textField"
+      },
+      {
+        "frame": [
+          121.33333333333333,
+          304,
+          240.66666666666669,
+          22
+        ],
+        "hittable": true,
+        "role": "textField"
+      },
+      {
+        "frame": [
+          40,
+          404.3333333333333,
+          322,
+          64.33333333333337
+        ],
+        "hittable": true,
+        "role": "textField"
+      }
+    ],
+    "passwordLabelFound": true,
+    "userLabelFound": true,
+    "usernameFound": true,
+    "websiteFound": true
+  },
+  "pickerDiagnosticPhases": [
+    "selection_failure",
+    "after_tap",
+    "before_tap"
+  ],
+  "screenshots": [
+    {
+      "name": "autofill-native-picker-header-crop.png",
+      "originalExport": "29D6F944-2070-4A37-8180-8D555CEF2920.png",
+      "sha256": "85861129bd1af5d7024b1f988e6fc8124e554c8bc366615517ab24a86a12c218"
+    },
+    {
+      "name": "autofill-native-empty-identity-fields-crop.png",
+      "originalExport": "E421A6D7-BF44-4824-8D00-3FEA4C3D931E.png",
+      "sha256": "48e0da69edbf60a3a8e59e718fedae8b1d46f6c51b8dcfa19ab4d66fd5ac332f"
+    },
+    {
+      "name": "autofill-saved-credential-new-password-controls-header.png",
+      "originalExport": "94DBB0B8-0E24-4163-B492-E6401891D764.png",
+      "sha256": "1020b4a8cf98c0ec91486bc8f234f0a529ab838fca1bb97c44debfee7cf97a00"
+    },
+    {
+      "name": "disposable-simulator-autofill-passwords-and-passkeys-on.png",
+      "originalExport": "8F983A80-1C83-4037-A20E-DE797EAAD0E1.png",
+      "sha256": "ad349b1f6fe49b49c07c2fbf94fbe8a2177d769bfd05b615f1c425d57a82e9ec"
+    },
+    {
+      "name": "autofill-native-picker-full-screen-redacted-selection-failure.png",
+      "originalExport": "A105689E-2F47-4051-88E9-065F5F809618.png",
+      "sha256": "fc00643ef11f1c3b717864bdd5c46e2a299014c1ac0361e9e57f409dc33ca2dd",
+      "redacted": true,
+      "tree": "picker-accessibility-selection_failure.json"
+    },
+    {
+      "name": "autofill-native-picker-full-screen-redacted-after-tap.png",
+      "originalExport": "CD742BD5-C538-4417-9CCE-C0C1D811EE30.png",
+      "sha256": "4a3d77fcc072e891ae07d36b3ab00af5a0af9e7ed787b0e935b1c8b7a1598b7f",
+      "redacted": true,
+      "tree": "picker-accessibility-after_tap.json"
+    },
+    {
+      "name": "autofill-native-picker-full-screen-redacted-before-tap.png",
+      "originalExport": "49E7A0F1-A6ED-4270-B241-4C3143A9E436.png",
+      "sha256": "e1cc99b3d6703a98c1382ce195af9a63a2ff621d424eee65f32c6011cb9f0f05",
+      "redacted": true,
+      "tree": "picker-accessibility-before_tap.json"
+    }
+  ],
+  "draftReadiness": [],
+  "revealGeometry": [],
+  "nativeFormReadiness": [
+    {
+      "passwordFieldFound": true,
+      "passwordFieldHittable": true,
+      "phase": "after_password",
+      "saveEnabled": true,
+      "usernameMatches": true,
+      "websiteMatches": true
+    },
+    {
+      "passwordFieldFound": true,
+      "passwordFieldHittable": true,
+      "phase": "before_password",
+      "saveEnabled": false,
+      "usernameMatches": true,
+      "websiteMatches": true
+    }
+  ]
+}

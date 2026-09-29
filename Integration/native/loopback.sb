@@ -1,0 +1,9 @@
+(version 1)
+; A test-runner network boundary, not a production filesystem sandbox.
+(allow default)
+(deny network*)
+; Seatbelt accepts the special localhost selector, not numeric host strings.
+; Services themselves still bind only literal IPv4 loopback.
+(allow network-bind (local ip "localhost:*"))
+(allow network-inbound (local ip "localhost:*"))
+(allow network-outbound (remote ip "localhost:*"))

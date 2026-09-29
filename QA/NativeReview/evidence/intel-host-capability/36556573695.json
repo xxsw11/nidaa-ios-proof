@@ -1,0 +1,71 @@
+{
+  "commit": "dedabaf041be693b145243df55a163717be66cea",
+  "run": 36556573695,
+  "attempt": 1,
+  "job": 109367040837,
+  "artifact": 11027843041,
+  "artifactSHA256": "cf2b46c4308a73bf48c01ee94a60b7b7792078295a8ee42add800f76ea05fa70",
+  "scope": "Read-only standard Intel host capabilities; no isolation or VM execution",
+  "report": {
+    "architecture": "x86_64",
+    "budgetSeconds": 120,
+    "commandBudgetSeconds": 110,
+    "commandPresence": {
+      "colima": false,
+      "docker": false,
+      "podman": false,
+      "qemu-system-x86_64": false
+    },
+    "commands": [
+      {
+        "effectiveTimeoutSeconds": 10,
+        "elapsedSeconds": 0.031,
+        "exitCode": 0,
+        "maximumSeconds": 10,
+        "operation": "sysctl-kern-hv-support",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 10,
+        "elapsedSeconds": 6.86,
+        "exitCode": 0,
+        "maximumSeconds": 10,
+        "operation": "find-installed-swift-compiler",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 60,
+        "elapsedSeconds": 5.995,
+        "exitCode": 1,
+        "maximumSeconds": 60,
+        "operation": "compile-public-VZ-query",
+        "status": "Completed"
+      }
+    ],
+    "containerStarted": false,
+    "credentialsCreated": false,
+    "elapsedSeconds": 13.008,
+    "hypervisorFramework": {
+      "status": "Available",
+      "supported": true,
+      "value": 1
+    },
+    "isolationValidated": false,
+    "macOSVersion": "15.7.9",
+    "networkOrSocketTestsStarted": false,
+    "operatingSystem": "Darwin",
+    "probeSHA256": "8e6ba6ceb1b5cf69a8bd1a5c6362acb6502a43ee9bbb8842cf9f47dda3264cc6",
+    "schemaVersion": 1,
+    "servicesStarted": false,
+    "status": "Inspected",
+    "toolsInstalled": false,
+    "virtualMachineStarted": false,
+    "virtualizationFramework": {
+      "compileErrors": [],
+      "status": "Compile-unavailable",
+      "supported": null
+    }
+  },
+  "diagnosis": "OnmacOS15.7.9x86_64, kern.hv_support=1. Docker/Colima/Podman/QEMU are absent. The public VZ query failed compilation with exit1 and no parsed diagnostic; VZ support remains unknown. No VM, container, service, socket test or credentials were started. Hypervisor capability is not an isolation result.",
+  "changeBeforeRetry": "Use the selected macOS SDK through xcrun and explicit framework linking, and retain sanitized top-level compiler/link error categories. The exact prior compile cause was not captured and is not asserted."
+}

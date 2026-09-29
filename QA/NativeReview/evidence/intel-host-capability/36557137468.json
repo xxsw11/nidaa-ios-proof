@@ -1,0 +1,104 @@
+{
+  "commit": "569fbe03c072494130baad40fe2875947d5b4773",
+  "run": 36557137468,
+  "attempt": 1,
+  "job": 109368902162,
+  "artifact": 11027134696,
+  "artifactSHA256": "a1874edb6b57e6f29726387a133a7babd3967c82da8fed987e2dde0a1c6473eb",
+  "scope": "Read-only standard Intel host capabilities; no isolation or VM execution",
+  "report": {
+    "architecture": "x86_64",
+    "budgetSeconds": 120,
+    "commandBudgetSeconds": 110,
+    "commandPresence": {
+      "colima": false,
+      "docker": false,
+      "podman": false,
+      "qemu-system-x86_64": false
+    },
+    "commands": [
+      {
+        "effectiveTimeoutSeconds": 10,
+        "elapsedSeconds": 0.006,
+        "exitCode": 0,
+        "maximumSeconds": 10,
+        "operation": "sysctl-kern-hv-support",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 10,
+        "elapsedSeconds": 4.79,
+        "exitCode": 0,
+        "maximumSeconds": 10,
+        "operation": "find-macosx-swift-compiler",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 10,
+        "elapsedSeconds": 0.018,
+        "exitCode": 0,
+        "maximumSeconds": 10,
+        "operation": "locate-selected-macosx-SDK",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 60,
+        "elapsedSeconds": 23.971,
+        "exitCode": 0,
+        "maximumSeconds": 60,
+        "operation": "compile-public-VZ-query",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 10,
+        "elapsedSeconds": 0.018,
+        "exitCode": 0,
+        "maximumSeconds": 10,
+        "operation": "query-public-VZ-support",
+        "status": "Completed"
+      }
+    ],
+    "containerStarted": false,
+    "credentialsCreated": false,
+    "elapsedSeconds": 28.83,
+    "hypervisorFramework": {
+      "status": "Available",
+      "supported": true,
+      "value": 1
+    },
+    "isolationValidated": false,
+    "macOSVersion": "15.7.9",
+    "networkOrSocketTestsStarted": false,
+    "operatingSystem": "Darwin",
+    "probeSHA256": "33d15ac383cd8c9f2a4e308023cc25ea3e3aef14e3dbef82512140af384e9039",
+    "schemaVersion": 1,
+    "servicesStarted": false,
+    "status": "Inspected",
+    "toolchain": {
+      "compile": "Passed",
+      "compilerDiscovery": "Passed",
+      "framework": "Virtualization",
+      "query": "Passed",
+      "sdkDiscovery": "Passed",
+      "selectedSDK": "macosx"
+    },
+    "toolsInstalled": false,
+    "virtualMachineStarted": false,
+    "virtualizationFramework": {
+      "status": "Available",
+      "supported": true
+    }
+  },
+  "diagnosis": "Explicit selected macOS SDK/framework compilation and public query passed. OnmacOS15.7.9x86_64 both kern.hv_support and VZVirtualMachine.isSupported are true. Docker/Colima/Podman/QEMU remain absent. This establishes a potential virtualization capability, not a booted VM, wildcard-bind policy denial or an isolated native backend. No VM/container/services/credentials/socket tests were started.",
+  "notProven": [
+    "Successful VM boot",
+    "A replacement runtime isolation mechanism",
+    "Full14-check isolation gate",
+    "Native real-backend E2E"
+  ],
+  "intentionallySkippedJob": {
+    "job": 109368903437,
+    "scope": "biometry capability",
+    "reason": "Host-only read-only query correction; no unchanged Simulator rerun"
+  }
+}

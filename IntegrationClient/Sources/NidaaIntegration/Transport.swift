@@ -28,7 +28,10 @@ public struct TrialEnvironment: Sendable, Equatable {
 public struct HTTPResult: Sendable {
     public let status: Int
     public let body: Data
-    public init(status: Int, body: Data) { self.status = status; self.body = body }
+    public let authAPIVersion: String?
+    public init(status: Int, body: Data, authAPIVersion: String? = nil) {
+        self.status = status; self.body = body; self.authAPIVersion = authAPIVersion
+    }
 }
 public protocol HTTPTransport: Sendable {
     func send(_ request: URLRequest) async throws -> HTTPResult
@@ -47,6 +50,7 @@ public final class URLSessionTransport: HTTPTransport, @unchecked Sendable {
     public func send(_ request: URLRequest) async throws -> HTTPResult {
         let (data, response) = try await session.data(for: request)
         guard let http = response as? HTTPURLResponse else { throw ClientError.invalidResponse }
-        return HTTPResult(status: http.statusCode, body: data)
+        return HTTPResult(status: http.statusCode, body: data,
+                          authAPIVersion: http.value(forHTTPHeaderField: "X-Supabase-Api-Version"))
     }
 }

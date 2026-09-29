@@ -1,0 +1,553 @@
+{
+  "suite": "integration",
+  "exitCode": 65,
+  "commit": "031ffd5f5177b41fa2717409ac15a7e50ad8b4fa",
+  "run": "36516431563",
+  "attempt": "1",
+  "scope": "MOCK network with native AutoFill enabled",
+  "rawEvidence": "Private XCTest logs/xcresult/recordings excluded from publication",
+  "physicalDevice": "Not tested",
+  "savedCredentialSelection": "See bounded availability probe; not inferred from manual typing",
+  "summary": {
+    "result": "Failed",
+    "totalTestCount": 8,
+    "passedTests": 7,
+    "failedTests": 1,
+    "skippedTests": 0,
+    "expectedFailures": 0,
+    "startTime": 1790652179.212,
+    "finishTime": 1790652791.714,
+    "devicesAndConfigurations": [
+      {
+        "device": {
+          "architecture": "arm64",
+          "deviceId": "6F598FBE-E323-4B8D-91C4-58859FC14C2B",
+          "deviceName": "NIDAA-Disposable-15E6C8C6-6413-42BF-AFC5-40E0F3067889",
+          "modelName": "iPhone 16 Pro",
+          "osBuildNumber": "22F77",
+          "osVersion": "18.5",
+          "platform": "iOS Simulator"
+        },
+        "expectedFailures": 0,
+        "failedTests": 1,
+        "passedTests": 7,
+        "skippedTests": 0,
+        "testPlanConfiguration": {
+          "configurationId": "1",
+          "configurationName": "Test Scheme Action"
+        }
+      }
+    ],
+    "environmentDescription": "NidaaProof-Local \u00b7 Built with macOS 15.7.9"
+  },
+  "failedTestIdentifiers": [
+    "IntegrationUITests/testLargeArabicLayoutAndLogoutIsolation()"
+  ],
+  "testCaseResults": [
+    [
+      "NidaaUITests.IntegrationUITests",
+      "testBackgroundInvalidatesConfirmation",
+      "passed"
+    ],
+    [
+      "NidaaUITests.IntegrationUITests",
+      "testDeviceAcknowledgementDoesNotBecomeHumanResponse",
+      "passed"
+    ],
+    [
+      "NidaaUITests.IntegrationUITests",
+      "testFreshAuthenticationAndConfirmationNeverAutoSend",
+      "passed"
+    ],
+    [
+      "NidaaUITests.IntegrationUITests",
+      "testInvitationRequiresDirectionalConsent",
+      "passed"
+    ],
+    [
+      "NidaaUITests.IntegrationUITests",
+      "testLargeArabicLayoutAndLogoutIsolation",
+      "failed"
+    ],
+    [
+      "NidaaUITests.IntegrationUITests",
+      "testRegistrationRequiresExplicitVerification",
+      "passed"
+    ],
+    [
+      "NidaaUITests.IntegrationUITests",
+      "testSelectionChangeInvalidatesConfirmation",
+      "passed"
+    ],
+    [
+      "NidaaUITests.IntegrationUITests",
+      "testUnknownOutcomeQueriesOriginalOperation",
+      "passed"
+    ]
+  ],
+  "failureLocations": [
+    [
+      "IntegrationTestSupport.swift",
+      "150"
+    ]
+  ],
+  "infrastructureSignals": {
+    "runnerBootstrapFailure": false,
+    "runnerKilledBeforeTests": false,
+    "runnerEarlyExit": false,
+    "failedLaunch": false,
+    "failedInstall": false,
+    "testRunnerLost": false,
+    "timedOut": false,
+    "simulatorBootFailure": false,
+    "compileFailure": false,
+    "testFailed": true
+  },
+  "compilerDiagnostics": [],
+  "debugTestSucceeded": false,
+  "releaseBuildSucceeded": true,
+  "xcode": "Xcode 16.4\nBuild version 16F6",
+  "screenshots": [
+    {
+      "name": "disposable-simulator-autofill-passwords-and-passkeys-on.png",
+      "originalExport": "E971DA48-BF81-4DC7-9794-7D73D108818B.png",
+      "sha256": "ad349b1f6fe49b49c07c2fbf94fbe8a2177d769bfd05b615f1c425d57a82e9ec"
+    },
+    {
+      "name": "integration-mock-08-human-response-keeps-case-open.png",
+      "originalExport": "7FE3B5FF-E462-4126-8CA7-00EEAC954DF3.png",
+      "sha256": "4cc370511f3313e78f9a42b5e06a317302466f96207145e9ea30ae4c93883586"
+    },
+    {
+      "name": "integration-mock-07-acknowledged-not-responded.png",
+      "originalExport": "D4333CC6-0616-4227-ADA5-AD56F8D76AEB.png",
+      "sha256": "804337762221f4c946e90b923e0e085893c2366bb3d54d77eb06fd05aefdef80"
+    },
+    {
+      "name": "integration-mock-05-shared-outgoing.png",
+      "originalExport": "071ED7F4-3918-409C-9EA2-2223E5CF3FC8.png",
+      "sha256": "b375b78d7bcf3ced07b0408a6a8a733473a0b387b920f22b4d856df5dd29b65e"
+    },
+    {
+      "name": "integration-mock-04-explicit-confirmation.png",
+      "originalExport": "DA2B619F-EAAD-4780-9290-47C224F200BA.png",
+      "sha256": "9a4334eef6211ba59d4a823dca08aafcbff3e083e3b546a6a79db7147477876f"
+    },
+    {
+      "name": "integration-mock-03-directional-consent.png",
+      "originalExport": "03967B9F-7B03-4CFE-9676-855713AC4203.png",
+      "sha256": "00b8094072a96411a099d5cbaafc78d9ef6529679e5ec08c566872355f7c8030"
+    },
+    {
+      "name": "integration-mock-10-large-arabic-consent.png",
+      "originalExport": "062AAE4B-D8F1-4597-BFB9-EAE11DC2466E.png",
+      "sha256": "52bcafa7eed2f564b96fdc2b5395b7181d0c695b4d28660784baa267aa30c553"
+    },
+    {
+      "name": "integration-mock-09-large-arabic-auth.png",
+      "originalExport": "A5AD379D-167F-4122-87AE-55F4FEC9D49F.png",
+      "sha256": "a84c2a3721c4fac9c8726f31a11ec0c88ccd2f9eaec792b61c37e8c41a9f0d32"
+    },
+    {
+      "name": "integration-mock-02-awaiting-verification.png",
+      "originalExport": "1BB98FB5-DBA8-4153-BB7D-6D2E35077C4E.png",
+      "sha256": "96c73ffcab196231d001b5f75f9608f76ae81398b01746156877a574a1adaf39"
+    },
+    {
+      "name": "integration-mock-01-auth-rtl.png",
+      "originalExport": "5760CED0-1208-4DFB-A951-03BAED4DEE51.png",
+      "sha256": "3c5b6469bfc11e37fb6e3395a9ebc50dd5600022541b87fdca016348b359643d"
+    },
+    {
+      "name": "integration-mock-06-unknown-outcome.png",
+      "originalExport": "EA9573C4-F86E-48C0-A54E-D3BE0F863E83.png",
+      "sha256": "3a41ff78a7773d1ff17ce205ebfc082562d3a050c9a0c82ac5cf682633a1ca77"
+    }
+  ],
+  "draftReadiness": [
+    [
+      {
+        "phase": "before_keyboard_done",
+        "login_exists": true,
+        "login_enabled": true,
+        "signup_exists": true,
+        "signup_enabled": true,
+        "busy": false,
+        "latinKeys": true,
+        "arabicKeys": false,
+        "strongCover": false,
+        "native": {
+          "nativeReady": true,
+          "hasText": true,
+          "firstResponder": true,
+          "asciiKeyboard": true,
+          "secure": true,
+          "receivedSeveralEdits": true,
+          "inputEnglish": true,
+          "inputArabic": false,
+          "inputOther": false,
+          "bindingReady": true
+        }
+      },
+      {
+        "phase": "after_keyboard_done",
+        "login_exists": true,
+        "login_enabled": true,
+        "signup_exists": true,
+        "signup_enabled": true,
+        "busy": false,
+        "latinKeys": false,
+        "arabicKeys": false,
+        "strongCover": false,
+        "native": {
+          "nativeReady": true,
+          "hasText": true,
+          "firstResponder": false,
+          "asciiKeyboard": true,
+          "secure": true,
+          "receivedSeveralEdits": true,
+          "inputEnglish": true,
+          "inputArabic": false,
+          "inputOther": false,
+          "bindingReady": true
+        }
+      }
+    ],
+    [
+      {
+        "phase": "before_keyboard_done",
+        "login_exists": true,
+        "login_enabled": true,
+        "signup_exists": true,
+        "signup_enabled": true,
+        "busy": false,
+        "latinKeys": true,
+        "arabicKeys": false,
+        "strongCover": false,
+        "native": {
+          "nativeReady": true,
+          "hasText": true,
+          "firstResponder": true,
+          "asciiKeyboard": true,
+          "secure": true,
+          "receivedSeveralEdits": true,
+          "inputEnglish": true,
+          "inputArabic": false,
+          "inputOther": false,
+          "bindingReady": true
+        }
+      },
+      {
+        "phase": "after_keyboard_done",
+        "login_exists": true,
+        "login_enabled": true,
+        "signup_exists": true,
+        "signup_enabled": true,
+        "busy": false,
+        "latinKeys": false,
+        "arabicKeys": false,
+        "strongCover": false,
+        "native": {
+          "nativeReady": true,
+          "hasText": true,
+          "firstResponder": false,
+          "asciiKeyboard": true,
+          "secure": true,
+          "receivedSeveralEdits": true,
+          "inputEnglish": true,
+          "inputArabic": false,
+          "inputOther": false,
+          "bindingReady": true
+        }
+      }
+    ],
+    [
+      {
+        "phase": "before_keyboard_done",
+        "login_exists": true,
+        "login_enabled": true,
+        "signup_exists": true,
+        "signup_enabled": true,
+        "busy": false,
+        "latinKeys": true,
+        "arabicKeys": false,
+        "strongCover": false,
+        "native": {
+          "nativeReady": true,
+          "hasText": true,
+          "firstResponder": true,
+          "asciiKeyboard": true,
+          "secure": true,
+          "receivedSeveralEdits": true,
+          "inputEnglish": true,
+          "inputArabic": false,
+          "inputOther": false,
+          "bindingReady": true
+        }
+      },
+      {
+        "phase": "after_keyboard_done",
+        "login_exists": true,
+        "login_enabled": true,
+        "signup_exists": true,
+        "signup_enabled": true,
+        "busy": false,
+        "latinKeys": false,
+        "arabicKeys": false,
+        "strongCover": false,
+        "native": {
+          "nativeReady": true,
+          "hasText": true,
+          "firstResponder": false,
+          "asciiKeyboard": true,
+          "secure": true,
+          "receivedSeveralEdits": true,
+          "inputEnglish": true,
+          "inputArabic": false,
+          "inputOther": false,
+          "bindingReady": true
+        }
+      }
+    ],
+    [
+      {
+        "phase": "before_keyboard_done",
+        "login_exists": true,
+        "login_enabled": true,
+        "signup_exists": true,
+        "signup_enabled": true,
+        "busy": false,
+        "latinKeys": true,
+        "arabicKeys": false,
+        "strongCover": false,
+        "native": {
+          "nativeReady": true,
+          "hasText": true,
+          "firstResponder": true,
+          "asciiKeyboard": true,
+          "secure": true,
+          "receivedSeveralEdits": true,
+          "inputEnglish": true,
+          "inputArabic": false,
+          "inputOther": false,
+          "bindingReady": true
+        }
+      },
+      {
+        "phase": "after_keyboard_done",
+        "login_exists": true,
+        "login_enabled": true,
+        "signup_exists": true,
+        "signup_enabled": true,
+        "busy": false,
+        "latinKeys": false,
+        "arabicKeys": false,
+        "strongCover": false,
+        "native": {
+          "nativeReady": true,
+          "hasText": true,
+          "firstResponder": false,
+          "asciiKeyboard": true,
+          "secure": true,
+          "receivedSeveralEdits": true,
+          "inputEnglish": true,
+          "inputArabic": false,
+          "inputOther": false,
+          "bindingReady": true
+        }
+      }
+    ],
+    [
+      {
+        "phase": "before_keyboard_done",
+        "login_exists": true,
+        "login_enabled": true,
+        "signup_exists": true,
+        "signup_enabled": true,
+        "busy": false,
+        "latinKeys": true,
+        "arabicKeys": false,
+        "strongCover": false,
+        "native": {
+          "nativeReady": true,
+          "hasText": true,
+          "firstResponder": true,
+          "asciiKeyboard": true,
+          "secure": true,
+          "receivedSeveralEdits": true,
+          "inputEnglish": true,
+          "inputArabic": false,
+          "inputOther": false,
+          "bindingReady": true
+        }
+      },
+      {
+        "phase": "after_keyboard_done",
+        "login_exists": true,
+        "login_enabled": true,
+        "signup_exists": true,
+        "signup_enabled": true,
+        "busy": false,
+        "latinKeys": false,
+        "arabicKeys": false,
+        "strongCover": false,
+        "native": {
+          "nativeReady": true,
+          "hasText": true,
+          "firstResponder": false,
+          "asciiKeyboard": true,
+          "secure": true,
+          "receivedSeveralEdits": true,
+          "inputEnglish": true,
+          "inputArabic": false,
+          "inputOther": false,
+          "bindingReady": true
+        }
+      }
+    ],
+    [
+      {
+        "phase": "before_keyboard_done",
+        "login_exists": true,
+        "login_enabled": true,
+        "signup_exists": true,
+        "signup_enabled": true,
+        "busy": false,
+        "latinKeys": true,
+        "arabicKeys": false,
+        "strongCover": false,
+        "native": {
+          "nativeReady": true,
+          "hasText": true,
+          "firstResponder": true,
+          "asciiKeyboard": true,
+          "secure": true,
+          "receivedSeveralEdits": true,
+          "inputEnglish": true,
+          "inputArabic": false,
+          "inputOther": false,
+          "bindingReady": true
+        }
+      },
+      {
+        "phase": "after_keyboard_done",
+        "login_exists": true,
+        "login_enabled": true,
+        "signup_exists": true,
+        "signup_enabled": true,
+        "busy": false,
+        "latinKeys": false,
+        "arabicKeys": false,
+        "strongCover": false,
+        "native": {
+          "nativeReady": true,
+          "hasText": true,
+          "firstResponder": false,
+          "asciiKeyboard": true,
+          "secure": true,
+          "receivedSeveralEdits": true,
+          "inputEnglish": true,
+          "inputArabic": false,
+          "inputOther": false,
+          "bindingReady": true
+        }
+      }
+    ],
+    [
+      {
+        "phase": "before_keyboard_done",
+        "login_exists": true,
+        "login_enabled": true,
+        "signup_exists": true,
+        "signup_enabled": true,
+        "busy": false,
+        "latinKeys": true,
+        "arabicKeys": false,
+        "strongCover": false,
+        "native": {
+          "nativeReady": true,
+          "hasText": true,
+          "firstResponder": true,
+          "asciiKeyboard": true,
+          "secure": true,
+          "receivedSeveralEdits": true,
+          "inputEnglish": true,
+          "inputArabic": false,
+          "inputOther": false,
+          "bindingReady": true
+        }
+      },
+      {
+        "phase": "after_keyboard_done",
+        "login_exists": true,
+        "login_enabled": true,
+        "signup_exists": true,
+        "signup_enabled": true,
+        "busy": false,
+        "latinKeys": false,
+        "arabicKeys": false,
+        "strongCover": false,
+        "native": {
+          "nativeReady": true,
+          "hasText": true,
+          "firstResponder": false,
+          "asciiKeyboard": true,
+          "secure": true,
+          "receivedSeveralEdits": true,
+          "inputEnglish": true,
+          "inputArabic": false,
+          "inputOther": false,
+          "bindingReady": true
+        }
+      }
+    ],
+    [
+      {
+        "phase": "before_keyboard_done",
+        "login_exists": true,
+        "login_enabled": true,
+        "signup_exists": true,
+        "signup_enabled": true,
+        "busy": false,
+        "latinKeys": true,
+        "arabicKeys": false,
+        "strongCover": false,
+        "native": {
+          "nativeReady": true,
+          "hasText": true,
+          "firstResponder": true,
+          "asciiKeyboard": true,
+          "secure": true,
+          "receivedSeveralEdits": true,
+          "inputEnglish": true,
+          "inputArabic": false,
+          "inputOther": false,
+          "bindingReady": true
+        }
+      },
+      {
+        "phase": "after_keyboard_done",
+        "login_exists": true,
+        "login_enabled": true,
+        "signup_exists": true,
+        "signup_enabled": true,
+        "busy": false,
+        "latinKeys": false,
+        "arabicKeys": false,
+        "strongCover": false,
+        "native": {
+          "nativeReady": true,
+          "hasText": true,
+          "firstResponder": false,
+          "asciiKeyboard": true,
+          "secure": true,
+          "receivedSeveralEdits": true,
+          "inputEnglish": true,
+          "inputArabic": false,
+          "inputOther": false,
+          "bindingReady": true
+        }
+      }
+    ]
+  ]
+}

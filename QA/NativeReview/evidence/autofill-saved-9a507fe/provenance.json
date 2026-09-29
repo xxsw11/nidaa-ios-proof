@@ -1,0 +1,12 @@
+{
+  "run": 36525193498,
+  "attempt": 1,
+  "job": 109266577421,
+  "commit": "9a507fecd767020dbf575708f6ab69dc9fdc5acc",
+  "suite": "autofill-saved",
+  "artifact": 11015045015,
+  "artifactSHA256": "f3adbda2454586de87af40400e6081cfca5fc0c1ebae5dcd64e7706bbb24d325",
+  "result": "0 passed,1 failed,0 skipped; Release passed; UI test compiled and executed",
+  "observed": "Native Save and hittable Passwords tap completed. Dynamic identity discovery still failed at AutoFillUITests.swift147. No saved identity on queried foreground surfaces; Passwords not foreground. Original top120-point crop shows NIDAA integration header, not a Passwords header. No personal requirement or infrastructure signal. The crop does not reveal the rest of the screen or establish picker absence.",
+  "nextStep": "Unresolved selection path. Diagnose the actual system surface after the Passwords tap in a disposable Simulator using fixed nonsecret control observations before another targeted run. No unchanged rerun, unproven iCloud requirement, skipped assertion or claimed successful selection."
+}

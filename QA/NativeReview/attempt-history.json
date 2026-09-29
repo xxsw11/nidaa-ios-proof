@@ -1,0 +1,1198 @@
+[
+  {
+    "run": 36510172769,
+    "attempt": 1,
+    "job": 109220318078,
+    "commit": "a434233bcd678bbab014afdd690f87b8951884bd",
+    "result": "Failed during host inspection; no backend or native UI execution",
+    "category": "Environment preparation",
+    "observed": "go: command not found; exit127",
+    "changeBeforeRetry": "Use pinned official actions/setup-go to activate Go1.26.5; host inspection records missing tools without falsely claiming readiness.",
+    "artifact": 11008333405,
+    "artifactSHA256": "23c68e873d26589f6bf47792f36b82852f44de9be612dfcfe458597928e1eaea"
+  },
+  {
+    "run": 36511223723,
+    "attempt": 1,
+    "job": 109223559199,
+    "commit": "6fce9bb00f10a4fe127d71c2b77ddbe9b4398af9",
+    "result": "Failed during native dependency preparation; backend and native UI not executed",
+    "category": "Environment preparation",
+    "observed": "Host Python3.14 has no matching psycopg-binary3.2.9 distribution",
+    "changeBeforeRetry": "Activate official Python3.12 explicitly; retain pinned project dependencies.",
+    "artifact": 11008909283,
+    "artifactSHA256": "0e6794b4bdebb14e7851e625f059fdf3c658715be8059374ba16a614a5cdfb6e"
+  },
+  {
+    "run": 36511434710,
+    "attempt": 1,
+    "job": 109224221262,
+    "commit": "34ce20da23659981e803a507fe52b4d509c805ff",
+    "result": "Native dependencies built; policy probe failed before any backend starts",
+    "observed": "sandbox-exec probe exit65; no JSON or secret-bearing runtime yet",
+    "category": "Policy setup diagnosis pending",
+    "artifact": 11009305250,
+    "artifactSHA256": "06bcde31c76f9445963f50128c13af5656ed6b24915fff2c10ad5c19cf549cd4"
+  },
+  {
+    "runs": [
+      36511223723,
+      36511223783,
+      36511223671,
+      36511434710
+    ],
+    "attempt": 1,
+    "commits": [
+      "6fce9bb00f10a4fe127d71c2b77ddbe9b4398af9",
+      "34ce20da23659981e803a507fe52b4d509c805ff"
+    ],
+    "result": "Client suite 23 of24 passed; revoked-refresh test failed two assertions; UI gates not reached",
+    "category": "Product protocol defect",
+    "changeBeforeRetry": "Preserve provider API-version metadata end-to-end and exercise real versioned error response; keep original assertions."
+  },
+  {
+    "run": 36511820228,
+    "attempt": 1,
+    "job": 109225409609,
+    "commit": "966f80abae825e9e8ca9c55fa659c3cd76ef4527",
+    "result": "Policy profile compilation failed before services",
+    "category": "Configuration defect",
+    "observed": "sandbox-exec: host must be * or localhost in network address",
+    "changeBeforeRetry": "Use special localhost Seatbelt selector; retain deny-default, wildcard bind rejection, actual isolation probe and literal127.0.0.1 service binds.",
+    "artifact": 11009835317,
+    "artifactSHA256": "c00509dccc933b5c22b50ec5a7e60a20448424201506ff428dd98db747413370"
+  },
+  {
+    "run": 36512065014,
+    "attempt": 1,
+    "job": 109226173448,
+    "commit": "ea63b0f48bdc8e508792f065e3ccd3822893cdfb",
+    "result": "Environment blocked before services: wildcard binding not denied",
+    "category": "Concrete isolation limitation; do not repeat unchanged setup",
+    "observed": "External TCP/UDP denied and loopback permitted, but wildcardIPv4/IPv6BindDeniedByPolicy false",
+    "next": "Keep fail-closed gate. Disable automatic native setup retries; resume only after a verified isolation-capable environment is available.",
+    "artifact": 11009450865,
+    "artifactSHA256": "afaf368434969a2b04f33ef9425b7c496f8d8e6f13f8c279291f8bb93df3b5ca"
+  },
+  {
+    "runs": [
+      36511820228,
+      36511820230
+    ],
+    "attempt": 1,
+    "jobs": [
+      109225409776,
+      109225410089
+    ],
+    "commit": "966f80abae825e9e8ca9c55fa659c3cd76ef4527",
+    "result": "UI stage failed; sanitized evidence exporter crashed on numeric Xcode testIdentifier before saving its summary",
+    "category": "Evidence collector defect; underlying UI result not recoverable from published artifact",
+    "observed": "TypeError: expected string or bytes-like object, got int (export_native_review.py:28)",
+    "changeBeforeRetry": "Use testIdentifierString with a guarded string fallback; preserve fixed infrastructure categories and independent Release build. Regression uses the actual previously observed numeric Xcode failure shape;14 Python checks passed locally.",
+    "artifacts": [
+      {
+        "id": 11009887019,
+        "sha256": "80ac1b96d3934abf18e4a7ab8d08620df83c1f9dd9337d787a401bc9314aee16"
+      },
+      {
+        "id": 11009991984,
+        "sha256": "bd5980a710e99ec6781f911af8f2595fd1e80e7eb3b5cf2660cb0eadfac5df8e"
+      }
+    ]
+  },
+  {
+    "run": 36513217922,
+    "attempt": 1,
+    "job": 109229717353,
+    "commit": "3759e291e963dced98b41d6d04102f0ac56dd4e7",
+    "category": "Product input failure; diagnosed separately from infrastructure",
+    "result": "AutoFill actually ON; paste login/recovery passed, manual registration and visibility failed, saved selection skipped; Release succeeded",
+    "observed": "AutoFillUITests.swift:37 signup disabled after manual input; line83 noncredential demonstration differs after visibility toggle. Passwords probe reached Notifications onboarding, not a proven account requirement.",
+    "artifact": 11009588076,
+    "artifactSHA256": "06bddfa4247d8a9db4b821dd54e161384c604f0c68c35b040a404e78c8794cf1",
+    "changeBeforeRetry": "Diagnose UIKit manual input retention and preserve validation; extend observed disposable Passwords onboarding; keep AutoFill enabled."
+  },
+  {
+    "run": 36513218045,
+    "attempt": 1,
+    "job": 109229718078,
+    "commit": "3759e291e963dced98b41d6d04102f0ac56dd4e7",
+    "category": "Shared input failure; not infrastructure",
+    "result": "8 integration MOCK UI failed; Release succeeded",
+    "observed": "Failures at shared helper170 disabled action and205 password-draft validation. No runner/compiler infrastructure signals.",
+    "artifact": 11010635225,
+    "artifactSHA256": "eefe30a33e8f26bae068b07ec0100ec214eebef86597a66358618aef6a2413b2"
+  },
+  {
+    "run": 36513218045,
+    "attempt": 1,
+    "job": 109229718325,
+    "commit": "3759e291e963dced98b41d6d04102f0ac56dd4e7",
+    "artifact": 11010581252,
+    "artifactSHA256": "d85f2a1c71a591398f556e9e9aa5bd0b38c304b6573d518ff5f65053ebb1da41",
+    "suite": "local-b",
+    "result": "7 passed, 1 failed; Release succeeded",
+    "failure": "testContactAddEditDeleteAndBlock: LocalExperienceUITests.swift77 immediate assertion that deleted contact row no longer exists",
+    "evidence": [
+      "2026-09-29T02:51:05.4950340Z /Users/runner/work/nidaa-ios-proof/nidaa-ios-proof/UITests/LocalExperienceUITests.swift:77: error: -[NidaaUITests.LocalExperienceUITests testContactAddEditDeleteAndBlock] : XCTAssertFalse failed",
+      "2026-09-29T02:54:23.7235210Z \t Executed 8 tests, with 1 failure (0 unexpected) in 649.616 (649.624) seconds",
+      "2026-09-29T02:54:23.7573840Z \t Executed 8 tests, with 1 failure (0 unexpected) in 649.616 (649.626) seconds",
+      "2026-09-29T02:54:23.9822940Z \t Executed 8 tests, with 1 failure (0 unexpected) in 649.616 (649.634) seconds",
+      "2026-09-29T02:56:56.4944440Z ** BUILD SUCCEEDED **"
+    ]
+  },
+  {
+    "run": 36514868231,
+    "attempt": 1,
+    "job": 109234803353,
+    "commit": "aff2323d33cbe07702f293252efd1a4bac96bccf",
+    "artifact": 11011585233,
+    "artifactSHA256": "123065d3ad68bae348bdc1cd53fea86b52d6f130a7bc853f712d6bf95dd1703d",
+    "category": "Input defect not fixed by stable traits",
+    "result": "Manual registration and visibility still fail; paste/recovery passes; Release passes; selection skipped",
+    "observed": "Native and binding drafts below validation threshold before and after Done; native buffer nonempty, ASCII keyboard, fewer than8editingChanged events. No evidence of loss on keyboard dismissal. Passwords actualmainlist available without personal account.",
+    "changeBeforeRetry": "Isolate simultaneously mounted password/token steps; capture never-authenticated demonstration input to diagnose system UI; inspect observed New Password form."
+  },
+  {
+    "run": 36514868199,
+    "attempt": 1,
+    "job": 109234803119,
+    "commit": "aff2323d33cbe07702f293252efd1a4bac96bccf",
+    "artifact": 11010972261,
+    "artifactSHA256": "37d185699399552d0cfbc89828cff285cec94897fbcc6f381c85d16b6e407947",
+    "category": "Shared input defect; stability candidate not sufficient",
+    "result": "8 MOCK integration tests failed; Release passed",
+    "observed": "All8 manual password fills have nativeReady=false,bindingReady=false,receivedSeveralEdits=false before and after Done, with hasText=true and nativeASCIIKeyboard=true. Disabled action and minimum-password assertions still fail."
+  },
+  {
+    "run": 36516431643,
+    "attempt": 1,
+    "commit": "031ffd5f5177b41fa2717409ac15a7e50ad8b4fa",
+    "artifact": 11010673596,
+    "artifactSHA256": "0c11d555984f44edaf74ac59337d28bba0dbc4465f420ab0657874e18a1a1ed8",
+    "category": "Bounded correction of bind-only inference; no backend setup repeated",
+    "result": "Wildcard IPv4 and IPv6 bind AND listen allowed; external TCP/UDP denied; loopback works",
+    "observed": "Configured profile does not prevent wildcard listening. Remote accept/reachability was not measured; sockets immediately closed with no credentials/services.",
+    "next": "Retain failed runtime gate and no unchanged retries; require an isolation mechanism meeting the declared runtime boundary."
+  },
+  {
+    "run": 36516431533,
+    "attempt": 1,
+    "job": 109239632747,
+    "commit": "031ffd5f5177b41fa2717409ac15a7e50ad8b4fa",
+    "artifact": 11011492467,
+    "artifactSHA256": "421601e1ec5be75ed36b9211eb00b0538d7a24d232c7b064e26ccc13c8257a08",
+    "category": "Credential/token step separation fixes observed input failure",
+    "result": "3 functional AutoFill-On tests passed; saved-credential availability probe skipped; Debug and Release passed",
+    "observed": "Manual registration/navigation, paste login/recovery, exact noncredential visibility and focus passed. Saved selection is not inferred. Native and bound password gates ready before and after Done."
+  },
+  {
+    "run": 36516431563,
+    "attempt": 1,
+    "job": 109239633214,
+    "commit": "031ffd5f5177b41fa2717409ac15a7e50ad8b4fa",
+    "artifact": 11011816081,
+    "artifactSHA256": "f6e97e328e43e80c042989b4ea31154cea4d2cba00fe48d1d7a0fe39adf7e4e2",
+    "category": "MOCK UI now 7/8; remaining reveal query failure",
+    "result": "7 passed, 1 failed; Release passed",
+    "observed": "Large Arabic logout isolation fails in reveal at IntegrationTestSupport.swift150 while resolving the scroll frame; all8 password drafts ready. Consent screenshot precedes navigation failure.",
+    "changeBeforeRetry": "Resolve stable visible scroll container rather than descendant-dependent live query; retain ten-drag limit and all assertions; fixed geometry diagnostic."
+  },
+  {
+    "run": 36516431563,
+    "attempt": 1,
+    "job": 109239632960,
+    "commit": "031ffd5f5177b41fa2717409ac15a7e50ad8b4fa",
+    "artifact": 11011512841,
+    "artifactSHA256": "a61588a2d45d2f5e6e4f0e144f08d4ad06c113b1aba0b1acfb079103c8191022",
+    "category": "Local original recipient selection lacked verified precondition",
+    "result": "7 passed, 1 failed; Release passed; delete and persisted absence passed",
+    "observed": "testBothActionsBackgroundDuringAuthenticationAndConsentChanges line157 expected no Ahmad receipt. Confirmation absence and attempt count passed. Exact cause of initial switch state is not proven by logs.",
+    "changeBeforeRetry": "Verify initial enabled/hittable switch state; one tap; wait off; require Sara-only recipient set immediately before mutation tests. No authorization assertion removed."
+  },
+  {
+    "commit": "05ab0f275b3ae07d1eb3b5fd4b1ebecb5393d467",
+    "runs": [
+      36518608268,
+      36518608304
+    ],
+    "attempt": 1,
+    "category": "Test source compilation failure, not runtime infrastructure",
+    "result": "All four UI selections blocked before execution; Release builds passed",
+    "observed": "AutoFillUITests.swift83,89,90,91: array inference preserved optional XCUIApplication from shared IUO app property. Zero UI cases executed.",
+    "changeBeforeRetry": "d6f65ec explicitly guards a nonoptional application after launch and uses it in the two surface loops. Assertions unchanged.",
+    "artifacts": [
+      {
+        "id": 11012386892,
+        "sha256": "73914c1ee42c2c685ff547da8ae24b144f615e8b20bdb69a612be79700a85d60"
+      },
+      {
+        "id": 11012147673,
+        "sha256": "c473477ae737d4d9de9a76e6beb2253fb5e70cad11298b6ee021c46cd83e505d"
+      },
+      {
+        "id": 11012003418,
+        "sha256": "6014b258d25ef40e0328d64d783f1526d3b97527566f286949e5d89724c36b68"
+      },
+      {
+        "id": 11011818762,
+        "sha256": "5fff6e589bb9e17ae86aab995ae0a2e05a696ffdd00be649eb668c4cb3262ee1"
+      }
+    ]
+  },
+  {
+    "run": 36519447184,
+    "attempt": 1,
+    "job": 109248875221,
+    "commit": "d6f65ec253f6345e6ae2e368c4b2b8d7baf88681",
+    "suite": "integration",
+    "artifact": 11013470003,
+    "artifactSHA256": "48ffc9b9d9492b372d7b56e2b070165737fd050e154b57614c880dcc11941f36",
+    "result": "8/8 MOCK UI passed; Debug and Release passed; native AutoFill On",
+    "observed": "Large Arabic logout now passes using stable visible scroll container. No real backend or physical device."
+  },
+  {
+    "run": 36519447212,
+    "attempt": 1,
+    "job": 109248875012,
+    "commit": "d6f65ec253f6345e6ae2e368c4b2b8d7baf88681",
+    "suite": "autofill",
+    "artifact": 11012422205,
+    "artifactSHA256": "ef166a66b71d87012717b793050a92f2adc686e1ee48843c5771dbef0771b6bb",
+    "result": "3 functional tests passed; saved selection failed; Release passed",
+    "observed": "Saved test stopped at line40 before typing because website/username could not be identified safely; no personal-account requirement observed. Safe visible demonstration crop confirms light text against dark field.",
+    "changeBeforeRetry": "678d70b adds unique semantic-row geometry discovery, role/frame diagnostics and an empty identity-only crop strictly above Password. Targeted saved-only suite retains the completed functional results separately."
+  },
+  {
+    "run": 36519447184,
+    "attempt": 1,
+    "job": 109248875393,
+    "commit": "d6f65ec253f6345e6ae2e368c4b2b8d7baf88681",
+    "suite": "local-a",
+    "artifact": 11012452477,
+    "artifactSHA256": "a01111a86e039d0139d294bd43ced9e1ca9e827b3803b7d914581d3b1e59699d",
+    "result": "8 passed, 1 failed, 0 skipped; Release passed",
+    "category": "Test harness offscreen readiness regression",
+    "observed": "testLargeTextActionReviewRemainsUsable fails at LocalExperienceUITests.swift116 waiting for hittability before scrolling. The XXXL selection screenshot from local-b shows recipients below the initial explanation viewport.",
+    "changeBeforeRetry": "Bounded scroll before the unchanged enabled/selected/hittable predicate. Preserve one tap, off-state, Sara-only initial recipients and all later authorization assertions. Targeted local-large6a601cb; no app code change."
+  },
+  {
+    "run": 36519447184,
+    "attempt": 1,
+    "job": 109248875337,
+    "commit": "d6f65ec253f6345e6ae2e368c4b2b8d7baf88681",
+    "suite": "local-b",
+    "artifact": 11012657210,
+    "artifactSHA256": "c361bea5c82056032e649dc48691505267a51e5b68bce1b2e71c7939c54bf05f",
+    "result": "8 passed, 0 failed, 0 skipped; Release passed",
+    "category": "Passing strengthened initial-recipient and persisted-deletion checks",
+    "observed": "All8 local-b cases passed, including both-actions background/consent changes and contact deletion/non-reset persistence."
+  },
+  {
+    "run": 36521436098,
+    "attempt": 1,
+    "job": 109254961379,
+    "commit": "678d70b9e38a2e360248a2e0d68661ef04305d94",
+    "suite": "autofill-saved",
+    "artifact": 11013606714,
+    "artifactSHA256": "20fc9943e9fd7f01ff7c4d3d62e320b22b8ff1bf47925bd2d43a61ee40d18746",
+    "result": "0 passed,1 failed,0 skipped; Release passed",
+    "observed": "Native site/username discovery succeeded; test failed Save-enabled precondition at AutoFillUITests.swift51. No personal requirement observed. Original empty site-field crop shows Website or Label placeholder.",
+    "changeBeforeRetry": "Provide a random disposable credential through the unique native Password row instead of assuming automatic generation; fixed boolean readiness confirms fictional site/username and Save gate. No password read or published."
+  },
+  {
+    "run": 36522014170,
+    "attempt": 1,
+    "job": 109256733808,
+    "commit": "6a601cbe790815e7853ffd561262f4e93460f8ad",
+    "suite": "local-large",
+    "artifact": 11013089512,
+    "artifactSHA256": "6fb6b62b31c76348902ef3b14adfac80badf123979cea037b1f8f225435cb99e",
+    "result": "1 targeted XXXL action case passed,0 failed,0 skipped; Debug and Release passed",
+    "observed": "Bounded reveal reached Ahmad selection while preserving selected/enabled initial state, single deselection, Sara-only original recipients, local authentication and explicit follow-up confirmation. Actual screenshot shows both confirmation/cancel controls readable and visible. This is one targeted test, not a full17 rerun."
+  },
+  {
+    "run": 36522693759,
+    "attempt": 1,
+    "job": 109258835451,
+    "commit": "fdab801a00dfe85108a2d8e2f033f12646e34dbc",
+    "suite": "autofill-saved",
+    "artifact": 11014450578,
+    "artifactSHA256": "12373a8c165ebe223a2c668ae359a7185c01661053bb97e13b90472f5716e8a7",
+    "result": "0 passed,1 failed,0 skipped; Release passed",
+    "observed": "Safe readiness confirms exact fictional site/username, native Password row found, Save disabled before explicit random password and enabled afterwards. Save tap dismissed New Password form. Failure later at line90: AutoFill submenu unavailable; fixed control inventory nevertheless shows button:Passwords.",
+    "changeBeforeRetry": "07787d0 waits for native Passwords accessory before fallback, rechecks direct Passwords after long press, and waits for actual hittability. No injected autofill values, missing assertion or product change."
+  },
+  {
+    "run": 36523962665,
+    "attempt": 1,
+    "job": 109262750251,
+    "commit": "07787d025f0a6263982aa836c2f7a4f86885bd30",
+    "suite": "autofill-saved",
+    "artifact": 11014621891,
+    "artifactSHA256": "48624e3927b87529b483e4ae007e992d6a7c99dfa596ec3afbd94796287b450f",
+    "result": "0 passed,1 failed,0 skipped; Release passed",
+    "observed": "Native Save and Passwords action succeeded. Selection failed at line124: fictional saved identity not found; fixed control inventory shows button:Passwords. No personal requirement or infrastructure signal.",
+    "changeBeforeRetry": "Reevaluate eligible row/button/combined-label queries during bounded discovery, rather than selecting one absent query before native UI settles; inspect foreground-state booleans and header-only crop. Retain actual email/password validation and login assertions."
+  },
+  {
+    "run": 36525193498,
+    "attempt": 1,
+    "job": 109266577421,
+    "commit": "9a507fecd767020dbf575708f6ab69dc9fdc5acc",
+    "suite": "autofill-saved",
+    "artifact": 11015045015,
+    "artifactSHA256": "f3adbda2454586de87af40400e6081cfca5fc0c1ebae5dcd64e7706bbb24d325",
+    "result": "0 passed,1 failed,0 skipped; Release passed; UI test compiled and executed",
+    "observed": "Native Save and hittable Passwords tap completed. Dynamic identity discovery still failed at AutoFillUITests.swift147. No saved identity on queried foreground surfaces; Passwords not foreground. Original top120-point crop shows NIDAA integration header, not a Passwords header. No personal requirement or infrastructure signal. The crop does not reveal the rest of the screen or establish picker absence.",
+    "nextStep": "Unresolved selection path. Diagnose the actual system surface after the Passwords tap in a disposable Simulator using fixed nonsecret control observations before another targeted run. No unchanged rerun, unproven iCloud requirement, skipped assertion or claimed successful selection."
+  },
+  {
+    "run": 36539307560,
+    "attempt": 1,
+    "job": 109310637268,
+    "commit": "0c12b736a623f0da700e22fa9a0cbd18b154010d",
+    "artifact": 11019293813,
+    "artifactSHA256": "e48946f0254870eb6a0a18ac9ac7acf11e86d8e4f4e50be5b8882d44d5aef52b",
+    "category": "Changed precredential isolation candidate; not a product test or backend setup retry",
+    "result": "Candidate failed; deny-all control passed; no credentials or services",
+    "observed": "IPv4/IPv6 external TCP/UDP policy-denied; candidate allowed wildcard TCP bind/listen, UDP bind, implicit wildcard listen and loopback TCP/UDP. Deny-all control denied all operations. VZVirtualMachine.isSupported false; container commands absent; kern.hv_support unavailable, not zero.",
+    "nextStep": "No unchanged repeat or adopted candidate. Native UI/backend unexecuted until a mechanism meets the complete IPv4/IPv6 gate. Independent AutoFill and unified source verification continue."
+  },
+  {
+    "run": 36539142321,
+    "attempt": 1,
+    "job": 109310110027,
+    "commit": "4bb8b1244ee580dd280620737504323dcafdf513",
+    "artifact": 11019967118,
+    "artifactSHA256": "13e78b9804942061be4c384846b63a93663fa738bbb62e0c8b09be218c823800",
+    "suite": "autofill-saved",
+    "result": "0 passed,1 failed,0 skipped; Release passed",
+    "observed": "Three full redacted screen exports and complete sanitized accessibility trees actually inspected. Before tap: keyboard Passwords button at [30,538,342,45]. After tap: keyboard hidden, NIDAA visible underneath; app snapshot shrinks to14 empty ancestor nodes. At bounded selection failure: keyboard and same Passwords accessory return, fields remain blank. No stable credential chooser/identity or personal-account requirement observed.",
+    "category": "Unresolved system presentation transition; not evidence of a missing delayed row or proven Simulator limitation",
+    "changeBeforeRetry": "Verify saved entry persistence and native provider settings, and capture encrypted system diagnostics for local review. No product change, longer wait or weakened success assertion."
+  },
+  {
+    "run": 36541295372,
+    "attempt": 1,
+    "job": 109317080927,
+    "commit": "053de1c3113a88050e57906c186e415a59d055d9",
+    "artifact": 11020109342,
+    "artifactSHA256": "2352b9dea103cf8d1721a881f223ced2e3d1fe0f79a27634977274696233f2f0",
+    "suite": "autofill-saved",
+    "result": "0 passed,1 failed,0 skipped; Release passed",
+    "observed": "Saved entry persisted after native Passwords relaunch; global AutoFill enabled. Provider control observed but provider enabled state unknown. Full screens inspected: keyboard disappears after tap while blank NIDAA form remains visible, then returns; no stable picker. System diagnostic collection exited0 but sealing incomplete, no raw log uploaded.",
+    "category": "Unresolved system presentation; additional diagnostic tooling failure, not evidence of unsupported Simulator",
+    "changeBeforeRetry": "Bound system log capture to named processes and record coarse failure stage/size. Correct provider screenshot fallback and use Settings viewport geometry. Keep product and AutoFill assertions unchanged."
+  },
+  {
+    "run": 36543271512,
+    "attempt": 1,
+    "job": 109323515799,
+    "commit": "9494c13018f0a21aa0a384bd111df680cb1b34b5",
+    "artifact": 11022297535,
+    "artifactSHA256": "622a98c0eba845c858d9cde78d22b59af8979a3935c013e40f652ebda8755822",
+    "suite": "autofill-saved",
+    "result": "0 passed,1 failed,0 skipped; Release passed",
+    "observed": "Saved entry persisted. Provider reinspection had no matching controls; runner bounds320x480 differ from native window402x874. Two encrypted full picker screens decrypted and inspected: same blank form after tap, no stable chooser. Failure at savedIdentityTarget line378; no final failure snapshot produced. System collection succeeded with193619229 bytes and exceeded80MB guard; screenshot encryption itself succeeded.",
+    "category": "Unresolved picker plus concrete diagnostic size and provider-reinspection failures",
+    "changeBeforeRetry": "Compress bounded system interval and private XCTest log before encryption;512MB raw cap. Inspect provider on the already verified Settings fixture page through a no-navigation hook. Run all intended suites at one frozen source; retain every failure and selection assertion."
+  },
+  {
+    "commit": "9127b89e3cdcbaa48de965b50679ab29e945a874",
+    "run": 36545822641,
+    "attempt": 1,
+    "job": 109331829435,
+    "artifact": 11022527046,
+    "artifactSHA256": "b60b6c310f8dbb99e3772f2724eaa95e69688a1df5ae04dba3dc861198d02ee9",
+    "suite": "unified-backend",
+    "result": [
+      {
+        "scope": "Integration/tests",
+        "total": 55,
+        "passed": 55,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "scope": "SharedRules/tests",
+        "total": 45,
+        "passed": 45,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "scope": "QA",
+        "total": 20,
+        "passed": 20,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "scope": "Swift client",
+        "total": 24,
+        "passed": 24,
+        "failed": 0,
+        "skipped": 0
+      }
+    ],
+    "category": "Source-bound regression; no historical pass substitution",
+    "evidence": "evidence/unified-9127b89/backend.json"
+  },
+  {
+    "commit": "9127b89e3cdcbaa48de965b50679ab29e945a874",
+    "run": 36545822815,
+    "attempt": 1,
+    "job": 109331832168,
+    "artifact": 11022793971,
+    "artifactSHA256": "da785b851afb8d7c73b88a1e262a3aab7b22411d81d935779a85b28b60326241",
+    "suite": "unified-mock",
+    "result": [
+      {
+        "scope": "QA",
+        "total": 20,
+        "passed": 20,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "scope": "ProofCore/Tests",
+        "total": 45,
+        "passed": 45,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "scope": "IntegrationClient/Tests",
+        "total": 24,
+        "passed": 24,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "scope": "mock",
+        "total": 8,
+        "passed": 8,
+        "failed": 0,
+        "skipped": 0
+      }
+    ],
+    "category": "Source-bound regression; no historical pass substitution",
+    "evidence": "evidence/unified-9127b89/mock.json"
+  },
+  {
+    "commit": "9127b89e3cdcbaa48de965b50679ab29e945a874",
+    "run": 36545822815,
+    "attempt": 1,
+    "job": 109331832054,
+    "artifact": 11023636870,
+    "artifactSHA256": "c459a63ebd7b0980f334cd07e6d2297f2ce95fc018f4466c2903af5fa1de0cab",
+    "suite": "unified-local-a",
+    "result": [
+      {
+        "scope": "QA",
+        "total": 20,
+        "passed": 20,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "scope": "ProofCore/Tests",
+        "total": 45,
+        "passed": 45,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "scope": "IntegrationClient/Tests",
+        "total": 24,
+        "passed": 24,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "scope": "local-a",
+        "total": 9,
+        "passed": 9,
+        "failed": 0,
+        "skipped": 0
+      }
+    ],
+    "category": "Source-bound regression; no historical pass substitution",
+    "evidence": "evidence/unified-9127b89/local-a.json"
+  },
+  {
+    "commit": "9127b89e3cdcbaa48de965b50679ab29e945a874",
+    "run": 36545822815,
+    "attempt": 1,
+    "job": 109331831865,
+    "artifact": 11023972426,
+    "artifactSHA256": "ee6e277f664ec59d077a54fa5f3a635099bbae44435783811fb6a41d0c08b339",
+    "suite": "unified-local-b",
+    "result": [
+      {
+        "scope": "QA",
+        "total": 20,
+        "passed": 20,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "scope": "ProofCore/Tests",
+        "total": 45,
+        "passed": 45,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "scope": "IntegrationClient/Tests",
+        "total": 24,
+        "passed": 24,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "scope": "local-b",
+        "total": 8,
+        "passed": 8,
+        "failed": 0,
+        "skipped": 0
+      }
+    ],
+    "category": "Source-bound regression; no historical pass substitution",
+    "evidence": "evidence/unified-9127b89/local-b.json"
+  },
+  {
+    "commit": "9127b89e3cdcbaa48de965b50679ab29e945a874",
+    "run": 36545822792,
+    "attempt": 1,
+    "job": 109331830276,
+    "artifact": 11022659277,
+    "artifactSHA256": "c40ff6960f7564cc6ede73f5acde2f4cbfbd3488089d3527188cb01b79611546",
+    "suite": "unified-autofill",
+    "result": [
+      {
+        "scope": "IntegrationClient/Tests",
+        "total": 24,
+        "passed": 24,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "scope": "autofill",
+        "total": 4,
+        "passed": 3,
+        "failed": 1,
+        "skipped": 0
+      }
+    ],
+    "category": "Saved-selection assertion failure at system presentation; not runner/build failure",
+    "evidence": "evidence/unified-9127b89/autofill.json",
+    "observed": "Native entry persists and both provider switches visibly On. SafariViewService loads local record then reports LA code -7. Saved selection/fill/login remains failed; all four cases executed, no skips.",
+    "changeBeforeRetry": "Inspect official Simulator biometric enrollment capability on a separate branch; no unchanged saved-selection retry."
+  },
+  {
+    "commit": "e4f0d87dfc11552d7b697c1da1de336e218c3912",
+    "run": 36549189805,
+    "attempt": 1,
+    "job": 109342876150,
+    "artifact": 11023642824,
+    "artifactSHA256": "0caad6c6258edabbb8812de1fd2a0407c1e6dfbc303b906c8fe29076ec75a78a",
+    "scope": "Separate official Simulator biometry capability; not an app acceptance run",
+    "diagnosis": "AE status -600 means target process unavailable; the original generic blocker string does not prove denied permission.",
+    "changeBeforeRetry": "Launch System Events normally before no-prompt check and distinguish -600 from -1743/-1744.",
+    "category": "Diagnostic infrastructure result, no AutoFill product result",
+    "result": "Blocked: host_GUI_permissions_unavailable_without_prompt",
+    "evidence": "evidence/biometry-capability/36549189805.json"
+  },
+  {
+    "commit": "8dab633b9a402b85b15885cf97da8e0c1cbb3cc4",
+    "run": 36549558340,
+    "attempt": 1,
+    "job": 109344108002,
+    "artifact": 11024152185,
+    "artifactSHA256": "48c66c0bc9ae04937ef073c098c4684cedfc72e609a2c3ad79ae4b5c427d8078",
+    "scope": "Separate official Simulator biometry capability; not an app acceptance run",
+    "diagnosis": "Timeout before simctlHelpExitCode or any later stage: initial xcrun simctl help30s, not an authorization result.",
+    "changeBeforeRetry": "Separate installed tool lookup from initialization, allow bounded120s help initialization and record command/stage/elapsed within a390s overall budget.",
+    "category": "Diagnostic infrastructure result, no AutoFill product result",
+    "result": "Blocked: bounded_command_timeout",
+    "evidence": "evidence/biometry-capability/36549558340.json"
+  },
+  {
+    "commit": "7ba9212dda89aab9f8ae5ef7f8254b347f1216c4",
+    "run": 36550158799,
+    "attempt": 1,
+    "job": 109346087672,
+    "artifact": 11024635118,
+    "artifactSHA256": "02207cd5dc44e5582bae4995be484bf9248893a07457dc662895f13790366621",
+    "scope": "Separate official Simulator biometry capability; not an app acceptance run",
+    "category": "Diagnostic infrastructure result, no AutoFill product result",
+    "result": "Blocked: official_menu_inspection_or_enrollment_unavailable",
+    "evidence": "evidence/biometry-capability/36550158799.json",
+    "diagnosis": "Permissions are available: AX trusted, automation status0 and UI elements true. Owned iOS18.5 Simulator booted and was deleted. Menu query failed with AppleScript -1728 before a precise query stage; this is not evidence of denied permission or unsupported enrollment. Initial simctl help took46.796s, explaining the prior30s timeout.",
+    "changeBeforeRetry": "Resolve installed Simulator bundle and running PID, bound the process/owned-window readiness checks and report exact fixed menu query stage/error without host labels."
+  },
+  {
+    "commit": "6cdfe741acd667e2ce81a426a75345823542324e",
+    "run": 36551113299,
+    "attempt": 1,
+    "job": 109349237216,
+    "artifact": 11025226491,
+    "artifactSHA256": "e6f96711183c705a590f330a5f78dc0cc3572b79cd74534be9bce0c3a10fe34f",
+    "scope": "Separate official Simulator biometry capability; not an app acceptance run",
+    "category": "Diagnostic infrastructure result, no AutoFill product result",
+    "result": "Blocked: official_menu_inspection_or_enrollment_unavailable",
+    "evidence": "evidence/biometry-capability/36551113299.json",
+    "diagnosis": "Installed Simulator bundle matches expected, NSRunningApplication finds it, permissions are available, and owned boot/cleanup succeed. AppleScript -1728 occurs at system_events_process_wait before any window/menu observation; not a proven Simulator capability restriction.",
+    "changeBeforeRetry": "Replace the failed System Events process selector with public AXUIElementCreateApplication for the observed PID; retain explicit owned-window checks before menu actions and fixed nonsecret stages."
+  },
+  {
+    "commit": "8cfc35fd0548ea0368d25bcec359a8b9d44507ae",
+    "run": 36552319078,
+    "attempt": 1,
+    "job": 109353178656,
+    "artifact": 11025422745,
+    "artifactSHA256": "df873eea0d1e3cba2dd1105519e2b21afbcdd7dec57d184943346becf4295e81",
+    "scope": "Separate official Simulator biometry capability; not an app acceptance run",
+    "category": "Diagnostic infrastructure result, no AutoFill product result",
+    "result": "Blocked: official_menu_inspection_or_enrollment_unavailable",
+    "evidence": "evidence/biometry-capability/36552319078.json",
+    "diagnosis": "Public AX resolved the owned Simulator and official Features/Face ID/Enrolled menu. One enrollment press returned0, but immediate final mark remained false; enrollment is unproven. Matching Face was present/enabled but never invoked. No authentication or saved-picker test ran.",
+    "changeBeforeRetry": "Bounded fresh mark readback after one enrollment press, paired with a public LocalAuthentication canEvaluatePolicy observer on the same owned Simulator to distinguish stale UI from unchanged system state. No evaluatePolicy or repeated enrollment toggle."
+  },
+  {
+    "commit": "12de1dcc9f46e8a76e8ba3bed916eb613d2f589c",
+    "run": 36553496931,
+    "attempt": 1,
+    "job": 109357016020,
+    "artifact": 11024794812,
+    "artifactSHA256": "8c31c8203cc2d65dfe62cccb5d6842dfff7c48889ff2085875e36fc372f7de3f",
+    "scope": "Separate official Simulator biometry capability; not an app acceptance run",
+    "category": "Diagnostic infrastructure result, no AutoFill product result",
+    "result": "Blocked: bounded_command_timeout",
+    "evidence": "evidence/biometry-capability/36553496931.json",
+    "diagnosis": "The public LocalAuthentication observer compiled and installed. Its first get_app_container lookup exceeded the10-second command window (12.808seconds observed). No before/after LA result or enrollment observation was obtained. Owned Simulator shutdown/deletion passed. This is a diagnostic infrastructure timeout, not a platform capability result.",
+    "changeBeforeRetry": "Allow30seconds for read-only container discovery and45seconds for observer launch, clamped by the unchanged390-second total budget. Record running-stage and timeout status separately from budget skips."
+  },
+  {
+    "commit": "124615a720bd710cb58bc3fe695bd7ec516dc05b",
+    "run": 36554538395,
+    "attempt": 1,
+    "job": 109360416823,
+    "artifact": 11027855164,
+    "artifactSHA256": "de98c68bfff1da5907302fbbc3eaa6437a2e0a678feba4d1f25399c245d20858",
+    "scope": "Separate official Simulator biometry capability; not an app acceptance run",
+    "category": "Diagnostic infrastructure result, no AutoFill product result",
+    "result": "Blocked: owned_simulator_cleanup_failed",
+    "evidence": "evidence/biometry-capability/36554538395.json",
+    "diagnosis": "Observer compilation and owned boot succeeded, but install exceeded30seconds (31.624observed). Shutdown also timed out30seconds. The shared cleanup try block skipped deletion and overwrote the primary blocker; ownedDeviceDeleted=false is retained. No LA or menu observation was obtained in this run.",
+    "changeBeforeRetry": "Bound install to90seconds within the unchanged390-second overall budget. Attempt shutdown and exact-owned deletion independently within a separate60-second cleanup budget; retain the primary failure and report cleanup failure separately. No installation or menu retry."
+  },
+  {
+    "commit": "90fc194edbccd628c03fa16af85d7f65569a1bcd",
+    "run": 36555169553,
+    "attempt": 1,
+    "job": 109362466668,
+    "artifact": 11028181159,
+    "artifactSHA256": "0b539f00159fe584a29129951c0dba99396cb462566f9df5e20d173797c016ba",
+    "scope": "Separate official Simulator biometry capability; not an app acceptance run",
+    "category": "Diagnostic infrastructure result, no AutoFill product result",
+    "result": "Blocked: bounded_command_timeout",
+    "evidence": "evidence/biometry-capability/36555169553.json",
+    "diagnosis": "Install passed in36.804seconds, but prelaunch get_app_container again timed out, now at30seconds (31.14observed). No LA observation was produced. Shutdown timed out but independent exact-owned deletion passed, verifying the cleanup correction without hiding its shutdown failure.",
+    "changeBeforeRetry": "Change the observation transport rather than extend the same failing query: use the installed public simctl console-launch option only after help confirms support, capture one nonce-bound allowlisted LA record, and avoid data-container lookup. This is a diagnostic transport hypothesis, not a proven platform root cause."
+  },
+  {
+    "commit": "8bd6cbba72a40d39a31c695fe941ffa92b4c90b1",
+    "run": 36555942898,
+    "attempt": 1,
+    "job": 109365000595,
+    "artifact": 11028132514,
+    "artifactSHA256": "037ca86221b3e3186147ca3b7cadbff2755528e2633451e622cd90140efc0b9b",
+    "scope": "Separate official Simulator biometry capability; not an app acceptance run",
+    "category": "Diagnostic infrastructure result, no AutoFill product result",
+    "result": "Blocked: bounded_command_timeout",
+    "evidence": "evidence/biometry-capability/36555942898.json",
+    "diagnosis": "Installed simctl help confirmed the public console option; observer compilation and installation passed. First console launch exceeded45seconds (47.645observed), so no LA observation was obtained. Owned shutdown and deletion passed. This disproves neither Simulator support nor application correctness; lifecycle-command responsiveness remains the measured infrastructure problem.",
+    "changeBeforeRetry": "Compare the unchanged probe on the officially documented standard macos-15-intel public-repository runner, rather than repeating the ARM setup. Independently inspect actual Intel hypervisor/Virtualization capabilities without starting services, sockets, VMs or credentials."
+  },
+  {
+    "commit": "dedabaf041be693b145243df55a163717be66cea",
+    "run": 36556573695,
+    "attempt": 1,
+    "job": 109367040837,
+    "artifact": 11027843041,
+    "artifactSHA256": "cf2b46c4308a73bf48c01ee94a60b7b7792078295a8ee42add800f76ea05fa70",
+    "scope": "Read-only standard Intel host capabilities; no isolation or VM execution",
+    "diagnosis": "OnmacOS15.7.9x86_64, kern.hv_support=1. Docker/Colima/Podman/QEMU are absent. The public VZ query failed compilation with exit1 and no parsed diagnostic; VZ support remains unknown. No VM, container, service, socket test or credentials were started. Hypervisor capability is not an isolation result.",
+    "changeBeforeRetry": "Use the selected macOS SDK through xcrun and explicit framework linking, and retain sanitized top-level compiler/link error categories. The exact prior compile cause was not captured and is not asserted.",
+    "category": "Infrastructure capability inspection; not E2E",
+    "result": "Inspected: HVtrue; VZunknown due compile failure; no isolation established",
+    "evidence": "evidence/intel-host-capability/36556573695.json"
+  },
+  {
+    "commit": "dedabaf041be693b145243df55a163717be66cea",
+    "run": 36556573695,
+    "attempt": 1,
+    "job": 109367040537,
+    "artifact": 11027374353,
+    "artifactSHA256": "22ee40d3d84b06e2d6a8e7d489ceade7dab52381dc63787b10f5f6c2746415ad",
+    "scope": "Separate official Simulator biometry capability; not an app acceptance run",
+    "category": "Diagnostic infrastructure result, no AutoFill product result",
+    "result": "Blocked: bounded_command_timeout",
+    "evidence": "evidence/biometry-capability/36556573695.json",
+    "diagnosis": "The unchanged observer probe on standard Intel compiled and passed no-prompt GUI checks, but iOS18.6 bootstatus exceeded150seconds (159.83observed). Neither observer installation nor LA/menu inspection occurred. Shutdown and deletion also timed out; ownedDeviceDeleted=false is preserved. The ARM comparison usediOS18.5, so hardware alone is not isolated as the cause.",
+    "changeBeforeRetry": "Establish the exact owned Simulator GUI window before observer startup, retain nonce-validated partial console observations without converting a command timeout into success, and use explicit bounded cold-start windows. Return to the ARM runtime whose boot previously completed. No platform-wide biometric restriction is inferred."
+  },
+  {
+    "commit": "569fbe03c072494130baad40fe2875947d5b4773",
+    "run": 36557137468,
+    "attempt": 1,
+    "job": 109368902162,
+    "artifact": 11027134696,
+    "artifactSHA256": "a1874edb6b57e6f29726387a133a7babd3967c82da8fed987e2dde0a1c6473eb",
+    "scope": "Read-only standard Intel host capabilities; no isolation or VM execution",
+    "diagnosis": "Explicit selected macOS SDK/framework compilation and public query passed. OnmacOS15.7.9x86_64 both kern.hv_support and VZVirtualMachine.isSupported are true. Docker/Colima/Podman/QEMU remain absent. This establishes a potential virtualization capability, not a booted VM, wildcard-bind policy denial or an isolated native backend. No VM/container/services/credentials/socket tests were started.",
+    "notProven": [
+      "Successful VM boot",
+      "A replacement runtime isolation mechanism",
+      "Full14-check isolation gate",
+      "Native real-backend E2E"
+    ],
+    "intentionallySkippedJob": {
+      "job": 109368903437,
+      "scope": "biometry capability",
+      "reason": "Host-only read-only query correction; no unchanged Simulator rerun"
+    },
+    "category": "Read-only environment capability, not isolation/E2E",
+    "result": "Inspected: HVtrue and VZtrue; no runtime started or isolation validated",
+    "evidence": "evidence/intel-host-capability/36557137468.json"
+  },
+  {
+    "commit": "de753b3291465d7e0a261563bb21c29b66117ff6",
+    "run": 36557827143,
+    "attempt": 1,
+    "job": 109371151457,
+    "artifact": 11028266213,
+    "artifactSHA256": "4c208ed174a2d2159211e8d74d884278243ae5b0cf1e52d3ee17a6215b6b215d",
+    "scope": "Separate official Simulator biometry capability; not an app acceptance run",
+    "category": "Diagnostic infrastructure result, no AutoFill product result",
+    "result": "Blocked: bounded_command_timeout",
+    "evidence": "evidence/biometry-capability/36557827143.json",
+    "diagnosis": "Owned boot completed in69.54seconds and the exact Simulator window/focus were verified before observer startup. Custom observer installation still exceeded90seconds (92.379observed). No LA observation or enrollment action occurred; owned shutdown/deletion passed. Window readiness alone did not resolve the lifecycle failure.",
+    "changeBeforeRetry": "Replace the custom observer application transport with the existing Xcode UI-test runner that completed the frozen native suites. Select one diagnostic-only XCTest which reads canEvaluatePolicy without launching NIDAA or requesting authentication; validate nonce-bound before/after records around at most one official enrollment action. No application acceptance assertion is changed."
+  },
+  {
+    "commit": "710376d4bf1c95d1a27bdd5a9dd123aa25c287bf",
+    "run": 36559755385,
+    "attempt": 1,
+    "job": 109377491217,
+    "artifact": 11030195033,
+    "artifactSHA256": "59cdf80f47d1cf837b2a215cbbb4a105bbca6bf1c02499f294d1ccf18756c16e",
+    "scope": "Separate official Simulator biometry capability; not an app acceptance run",
+    "category": "Diagnostic infrastructure result, no AutoFill product result",
+    "result": "Blocked: official_menu_attempt_incomplete",
+    "evidence": "evidence/biometry-capability/36559755385.json",
+    "diagnosis": "The existing Xcode UI runner produced valid fresh before/after LocalAuthentication observations, each exactly1passed/0failed/0skipped. Both reported FaceID type2, canEvaluate=false and LA-7. The official menu helper returned AE-600 before inspecting a menu: System Events was no longer running after the331.392-second first XCTest invocation despite successful initial permission/window checks. This is target-process availability, not a permission denial. No enrollment action occurred. Owned cleanup passed.",
+    "changeBeforeRetry": "Reopen the same public System Events application immediately after the first XCTest and before the single menu inspection/enrollment attempt. Do not change TCC, repeat an enrollment action, alter app tests, or interpret observer-test passes as AutoFill success."
+  },
+  {
+    "commit": "951f78187860d56a34c026e0c54ab2e372c42204",
+    "run": 36560962845,
+    "attempt": 1,
+    "job": 109381448478,
+    "artifact": 11030496241,
+    "artifactSHA256": "d9cef0a742554d142ad595955f8fcfe51c728c46214ed9acd8dcf6cfba6d83e8",
+    "scope": "Separate official Simulator biometry capability; not an app acceptance run",
+    "category": "Diagnostic infrastructure result, no AutoFill product result",
+    "result": "Passed: XCTest-runner biometric capability only",
+    "evidence": "evidence/biometry-capability/36560962845.json",
+    "diagnosis": "Official Simulator enrollment is now proven on this disposable iOS18.5 device: fresh before LA observation false/-7, one Enrolled menu action, checked mark after1.420seconds, fresh after LA observation true/0. Each selected XCTest had1pass/0fail/0skip. Reopening System Events immediately before the menu corrected the preceding AE-600 lifecycle failure. Owned cleanup passed. No Matching Face, authentication prompt, saved credential selection, insertion or login was executed.",
+    "nextAction": "Run the intact native saved-credential test on an owned Simulator with this verified enrollment fixture, retaining selection/fill/login assertions and privately examining any actual system authentication transition."
+  },
+  {
+    "commit": "710376d4bf1c95d1a27bdd5a9dd123aa25c287bf",
+    "run": 36559755316,
+    "attempt": 1,
+    "job": 109377492056,
+    "artifact": 11029751821,
+    "artifactSHA256": "97d6ba2766efc837c810dbe8fd52216307bb1430b40cec356b7832f692731b9c",
+    "scope": "Incidental MOCK rerun on diagnostic branch; excluded from frozen9127 acceptance counts",
+    "diagnosis": "The large-Arabic logout test reached the offscreen Logout control and attempted one upward drag. The next combined guard found the scroll/window/target unavailable without recording which. Logout tap and its session-isolation assertions were not reached. No runner/bootstrap/install/compile failure signal was recorded. A transient accessibility/layout change is plausible but not proven; the cause remains unresolved.",
+    "result": "7passed/1failed/0skipped; Release passed",
+    "category": "Unresolved UI navigation/test stability; not a confirmed infrastructure-only or product cause",
+    "evidence": "evidence/incidental-710376d/mock.json"
+  },
+  {
+    "commit": "710376d4bf1c95d1a27bdd5a9dd123aa25c287bf",
+    "run": 36559755316,
+    "attempt": 1,
+    "job": 109377491713,
+    "artifact": 11030442448,
+    "artifactSHA256": "32e9d0fd1060b20a71e91add95ddcc32983961d74c5b3c5fc0eee8e8fc5db598",
+    "scope": "Incidental local-a diagnostic-branch rerun; excluded from frozen9127 acceptance counts",
+    "result": "Passed",
+    "evidence": "evidence/incidental-710376d/local-a.json",
+    "category": "Incidental repeated UI scope, not acceptance source"
+  },
+  {
+    "commit": "710376d4bf1c95d1a27bdd5a9dd123aa25c287bf",
+    "run": 36559755316,
+    "attempt": 1,
+    "job": 109377491917,
+    "artifact": 11030720652,
+    "artifactSHA256": "e3f63bd521244f9c3ab433eb048d7186610c7f9e177e7dae0235250ba174f0ec",
+    "scope": "Incidental local-b diagnostic-branch rerun; excluded from frozen9127 acceptance counts",
+    "result": "Passed",
+    "evidence": "evidence/incidental-710376d/local-b.json",
+    "category": "Incidental repeated UI scope, not acceptance source"
+  },
+  {
+    "commit": "854ca3fd29657ecc1b52de8c14b2e0a085b392dc",
+    "run": 36562586850,
+    "attempt": 1,
+    "job": 109386734917,
+    "artifact": 11031187533,
+    "artifactSHA256": "747cebe6f50305a9b618eac34cef561350488445c487005f6995522493e8bc9f",
+    "scope": "Diagnostic MOCK navigation run; excluded from frozen9127 acceptance counts",
+    "diagnosis": "All eight unchanged behavioral assertions passed, including large Arabic navigation and logout isolation. Only failure telemetry changed. The previous reveal-guard failure was not reproduced; empty presence/geometry diagnostics provide no cause or proof of a behavioral fix.",
+    "result": "8 passed / 0 failed / 0 skipped; Debug and Release passed",
+    "category": "Diagnostic navigation pass; earlier failure unreproduced and unresolved, not a behavioral fix",
+    "evidence": "evidence/navigation-854ca3f/mock.json"
+  },
+  {
+    "commit": "7adc165c11aaa6a369d14b83d1523dc629dcbd04",
+    "run": 36564260314,
+    "attempt": 1,
+    "job": 109392242255,
+    "artifact": 11031034224,
+    "artifactSHA256": "8b74e4dc80dde1629d395b82a7c1d49139ea270fb48ca8b16e7802f65bd4bbbe",
+    "scope": "Saved-selection diagnostic on verified enrolled Simulator; setup failed before test body",
+    "diagnosis": "The original selected test failed in setUpWithError before its body: IntegrationTestSupport.swift:52 requires a Simulator name beginning NIDAA-Disposable-, but the diagnostic driver created NIDAA Biometry Probe. Fresh enrollment capability passed before/after on the same owned Simulator; this setup naming mismatch prevented any saved-selection result. No early-entry or picker tree was produced. Release and cleanup passed.",
+    "changeBeforeRetry": "Use NIDAA-Disposable-Biometry- for the driver-owned device and the strict host helper; preserve the original NIDAA-Disposable- test guard and all behavioral assertions.",
+    "result": "Selected XCTest 0 passed / 1 failed / 0 skipped before body; enrollment capability, Release and cleanup passed",
+    "category": "Diagnostic fixture naming mismatch; no saved-selection result",
+    "evidence": "evidence/enrolled-autofill/36564260314.json"
+  },
+  {
+    "commit": "4763d7f37b41eb890b3deffd6af401ef9fbea99d",
+    "run": 36565871957,
+    "attempt": 1,
+    "job": 109397504173,
+    "artifact": 11032591480,
+    "artifactSHA256": "12e1c179e6dea0bda07e0ac4e8d44778dfc59b9ed8e67f0bd0ef273971e65b34",
+    "scope": "Saved-selection diagnostic on verified enrolled Simulator; original assertions preserved",
+    "diagnosis": "The corrected disposable-name fixture passed. Fresh LA observations changed false/-7 to true/0. Early Passwords showed its main list and New Password. Reaching before_tap and after_tap establishes that the original save/persistence gates passed. The complete, untruncated after_tap tree has four app ancestor nodes and no recognized authentication prompt. The selected test failed at AutoFillUITests.swift:372 in savedIdentityTarget query evaluation before selection_failure capture. Only filename and line were exported; neither query timeout, Face ID prompt nor root cause is established. Selection/fill/login remain unproven. Release and owned cleanup passed; Matching Face was not invoked.",
+    "nextAction": "Prepare one telemetry-only diagnostic with fixed error-category booleans to distinguish the query failure; no behavioral selector change or Matching Face action.",
+    "result": "Selected XCTest 0 passed / 1 failed / 0 skipped; enrollment capability, Release and cleanup passed",
+    "category": "Saved-identity query failure; error type and root cause unresolved",
+    "evidence": "evidence/enrolled-autofill/36565871957.json"
+  },
+  {
+    "commit": "0443973b91b6dea928eb8fea33df129862903a25",
+    "run": 36568028502,
+    "attempt": 1,
+    "job": 109404716926,
+    "artifact": 11033417267,
+    "artifactSHA256": "7f8f69ecdd379cdefbe0e308a8a2a1fd93a25dc48e86a5d0198ccef2e28c12a9",
+    "scope": "Saved-selection diagnostic on verified enrolled Simulator; original assertions preserved",
+    "diagnosis": "The corrected disposable-name fixture passed. Fresh LA observations changed false/-7 to true/0. Early Passwords showed its main list and New Password. Reaching before_tap and after_tap establishes that the original save/persistence gates passed. The complete, untruncated after_tap tree has four app ancestor nodes and no recognized authentication prompt. The selected test failed at AutoFillUITests.swift:371 in savedIdentityTarget query evaluation before selection_failure capture. Two error lines were classified; the only positive fixed signature is accessibility_connection_failure. No raw error/query text was exported. Other false signatures do not prove the corresponding error absent. This narrows the observed failure but does not establish a query timeout, Face ID prompt/response or sole root cause. Selection/fill/login remain unproven. Release and owned cleanup passed; Matching Face was not invoked.",
+    "nextAction": "Pending controlled experiment c9a42a31926053effcf5f7167e2e3e23d7da50d7: one Matching Face action after a nonce-bound actual Passwords tap, exact owned-window/focus checks and checked enrollment, retaining selection/fill/login assertions. This tests a hypothesis; no observed auth prompt or executed response is claimed. Only seven explicit safe JSON uploads are permitted.",
+    "result": "Selected XCTest 0 passed / 1 failed / 0 skipped; enrollment capability, Release and cleanup passed",
+    "category": "Saved-identity query failure with fixed accessibility-connection signature; root cause unresolved",
+    "evidence": "evidence/enrolled-autofill/36568028502.json"
+  },
+  {
+    "commit": "c9a42a31926053effcf5f7167e2e3e23d7da50d7",
+    "run": 36570261175,
+    "attempt": 1,
+    "job": 109412194416,
+    "artifact": 11035101866,
+    "artifactSHA256": "a54d4cdacf1438b777c1f8091111af6f95f92b8a749f3b5b08efa64927f035ef",
+    "scope": "Saved-selection diagnostic on verified enrolled Simulator; original assertions preserved",
+    "diagnosis": "One official Matching Face action executed after exactly one nonce-matched completed Passwords-tap event, with exact owned window/focus and known checked enrollment verified; actionCode=0 and no late/foreign transport event. No authentication prompt or authentication success is inferred from that action. The original test advanced through the selection guard and selectedTarget.tap, then failed the eight-second emailFilled assertion at AutoFillUITests.swift:182. This is progress, not an AutoFill pass: field insertion and login remain unproven. The complete after_tap AX has four empty app ancestors but was captured BEFORE the later selection tap, so it cannot describe the post-selection surface. No post-selection capture exists. Two error lines were classified and all fixed signatures were false; this does not establish absence of the errors or root cause. Fresh LA false/-7 to true/0, Release and owned cleanup passed. Original assertions were retained.",
+    "nextAction": "Prepare a controlled diagnostic adding a complete sanitized post-selection AX snapshot and fixed state to identify the row/detail/fill transition. No extra action, selector change or relaxed assertion; pending work is not evidence.",
+    "result": "Selected XCTest 0 passed / 1 failed / 0 skipped; enrollment capability, Release and cleanup passed",
+    "category": "Saved-item tap reached after one controlled Matching Face action; email insertion assertion failed, root cause unresolved",
+    "evidence": "evidence/enrolled-autofill/36570261175.json"
+  },
+  {
+    "commit": "65acf45bb0325e67e70ed423e2f6a888a67b2a7d",
+    "run": 36573777845,
+    "attempt": 1,
+    "job": 109424027082,
+    "artifact": 11037410851,
+    "artifactSHA256": "f7cfbeaf559dc353e5d67203ed96b66bad63aa4896b1b7657ca57f6e40bd5891",
+    "scope": "Saved-selection diagnostic on verified enrolled Simulator; original assertions preserved",
+    "diagnosis": "The selected test failed at AutoFillUITests.swift:403 in the second eager cells.matching identity query, before the new before_selection/after_fill_wait phases or selection-state capture were reached. Two error lines were classified; accessibility_connection_failure is the only positive fixed signature. It does not establish a query timeout or sole root cause; unmatched signatures do not prove errors absent. One official Matching Face action returned0 after exactly one nonce-matched Passwords-tap event, with owned window/focus and known checked enrollment verified and no late/foreign event. No auth prompt or authentication success is inferred. The earlierc9 run reached selectedTarget.tap, but this run aborted earlier and supplies no post-selection evidence or explanation of the earlier insertion failure. Fresh LA false/-7 to true/0, Release and cleanup passed. The two new telemetry phases retained the original tap-to-eight-second email wait and all assertions; none of their new data was produced. Nine explicit JSON files were permitted, six produced.",
+    "nextAction": "A guarded snapshot-positive selector candidate is being prepared because the accessibility connection error recurred despite the controlled Matching Face action. Retain every original role alternative and selection/fill/login assertion. Not yet run or published at this checkpoint; no result claimed.",
+    "result": "Selected XCTest 0 passed / 1 failed / 0 skipped; enrollment capability, Release and cleanup passed",
+    "category": "Accessibility-connection signature in eager cells query before new selection telemetry; no post-selection result",
+    "evidence": "evidence/enrolled-autofill/36573777845.json"
+  },
+  {
+    "commit": "5ec19a7d65c5505c75b137a4dc752157688d71ed",
+    "run": 36576126856,
+    "attempt": 1,
+    "job": 109432091166,
+    "artifact": 11037848671,
+    "artifactSHA256": "50af4e0cf8135caa38aef3ccf12348618cc6559c857f5fe2c88f1bea6f36737c",
+    "scope": "Guarded saved-identity diagnostic; helper also affected native fixture, failed persistence before picker stage",
+    "diagnosis": "The original selected XCTest failed at AutoFillUITests.swift:119 in the native Passwords relaunch persistence guard, before NIDAA app launch or picker tap. No Matching Face event or action occurred; query state, selection state and all picker trees were unavailable. The snapshot-gated savedIdentityTarget helper did execute in the native fixture checks, but later picker-stage selection was not reached or validated. Static review found that the helper replacement affected both homeReady and persisted calls although the intended scope was the picker; only counters were gated by the diagnostics flag. This scope regression is established in source, but it does not prove the actual persistence failure cause. Fresh LA false/-7 to true/0, Release and cleanup passed. All fixed error signatures were false; this does not prove errors absent or establish a product/selector root cause. The earlierc9 saved-item tap followed by failed email insertion remains the furthest verified progress. This result supplies no post-selection evidence and no fix. Six transport and seven schema tests passed in the verified job logs, separately from the failed original UI test.",
+    "nextAction": "Corrective source fb6a9c82b3d9d717b4f3dca20afa3b8015700f58/run36578165918 is running: restore the exact original native fixture helper for homeReady/persisted and restrict guarded selection to the later picker. All assertions remain unchanged. No persistence root cause, remedy or passed candidate is inferred.",
+    "result": "Selected XCTest 0 passed / 1 failed / 0 skipped before app/picker; enrollment, Release, cleanup and supporting6+7 checks passed",
+    "category": "Native persistence guard failure with source-established helper scope regression; picker stage not reached, causal link unproven",
+    "evidence": "evidence/enrolled-autofill/36576126856.json"
+  },
+  {
+    "commit": "fb6a9c82b3d9d717b4f3dca20afa3b8015700f58",
+    "run": 36578165918,
+    "attempt": 1,
+    "job": 109439072535,
+    "artifact": 11039406727,
+    "artifactSHA256": "bd55e5858d674fe6065d14ba9273f9abc61d2711a8baf5d770957e3ba31daaa5",
+    "scope": "Independent saved-credential Simulator success; native fixture preserved, guarded selector scoped to picker",
+    "diagnosis": "Independent diagnostic success: the original saved-selection, expected email insertion, password validation gate and MOCK login assertions all passed. The exact original native fixture helper was restored for homeReady/persisted; snapshot-gated selection was confined to the picker. Selection state confirms emailMatchesExpected=true, emailBlank=false, signupEnabled=true and selectedRole=75 with all selected-label identity flags false, consistent with the parent-cell fallback rather than a directly matching cell label. Query telemetry records nine complete snapshots without identity, three observed identities and zero snapshot failures. Full before_selection and after_fill_wait AX are complete/untruncated, with51 and107 app nodes respectively. One nonce-bound official Matching Face action returned0 with exact owned focus/enrollment guards; fresh LA false/-7 to true/0, Release and cleanup passed. The test success proves this controlled Simulator journey, not a sole cause for earlier failures, observed auth prompt, hardware biometrics, real backend authentication or APNs. Six transport and seven schema tests passed separately in verified job logs. Frozen9127 remains217/218 until a new unified-source cohort is completed.",
+    "nextAction": "Parent is preparing promotion and a full regression cohort on one new source SHA. Do not substitute this independent1/1 pass into frozen9127 counts or infer native real-backend/physical validation.",
+    "result": "Passed1/1 with zero failures/skips; original saved-selection/fill/MOCK login assertions passed; Debug/Release/enrollment/cleanup passed",
+    "category": "Independent controlled Simulator saved-credential success; not a new unified acceptance cohort",
+    "evidence": "evidence/enrolled-autofill/36578165918.json"
+  },
+  {
+    "commit": "0432a8b58953dfd1e2cc85667d29a1881a6b8672",
+    "run": 36581107751,
+    "attempt": 1,
+    "job": 109449212377,
+    "artifact": 11038894690,
+    "artifactSHA256": "24f1b825ce82950843db7e2af00d95408f003d5a34a51afe72b9d90f6715c61e",
+    "scope": "New0432 unified-cohort backend job; other groups independently pending",
+    "result": "55 backend /45 reference /20 QA /24 Swift client passed, zero failed/skipped; real officialSDK journey passed",
+    "evidence": "evidence/unified-0432a8b/backend.json",
+    "category": "Source-bound real Linux integration; not native UI or physical validation"
+  },
+  {
+    "commit": "0432a8b58953dfd1e2cc85667d29a1881a6b8672",
+    "run": 36581107977,
+    "attempt": 1,
+    "job": 109449214144,
+    "artifact": 11040276583,
+    "artifactSHA256": "db5be35147c38b6a9959956b999bfa724d88954b57636e16eb0e9a76ff7dfba9",
+    "scope": "Unified0432 saved-credential case",
+    "result": "0passed/1failed/0skipped; Release/enrollment/one MatchingFace action/cleanup passed",
+    "diagnosis": "The original saved-selection guard failed at202. Complete snapshots reported34lookups withoutidentity,0identity observations and0snapshot failures. The final fullAX shows Face ID staticText on SpringBoard (node32,role48,visible label frame143.59,475.74,115,20.33), after the one immediate post-Passwords-tap Matching Face action had returned0. This demonstrates an unhandled native authentication surface remained at failure; it does not establish completed authentication, an application defect or universal Simulator limitation. The justified correction is to wait for the actually observed native Face ID surface before emitting the one nonce-bound response event, preserving all selection/fill/login assertions. No unchanged retry is credited.",
+    "evidence": "evidence/unified-0432a8b/autofill-saved.json"
+  },
+  {
+    "commit": "0432a8b58953dfd1e2cc85667d29a1881a6b8672",
+    "run": 36581107828,
+    "attempt": 1,
+    "job": 109449213697,
+    "artifact": 11040207009,
+    "artifactSHA256": "bcf45c27f6733ffab5eec4680fcab22065fa8ed4db1ab828716679480b5c8a09",
+    "scope": "Unified0432 AutoFill input3",
+    "result": "3passed/0failed/0skipped; client24passed; Debug/Release passed",
+    "diagnosis": "All three original named input cases executed with AutoFill enabled. Saved selection executes in the separate owned-Simulator job and is not credited from manual/paste input. Artifact contains no P7M/ZIP/raw credential export.",
+    "evidence": "evidence/unified-0432a8b/autofill-input.json"
+  },
+  {
+    "commit": "4c473eea63280e8379983b60f443cae41e3caa50",
+    "run": 36583722795,
+    "attempt": 1,
+    "job": 109458341903,
+    "artifact": 11041521482,
+    "artifactSHA256": "2a40001eba5bc1691450adc949061f9c7c4f9d712cbc608bf2f88df78e52203d",
+    "scope": "Independent visible-Face-ID-gated saved-credential diagnostic; failed email insertion after target tap",
+    "diagnosis": "Independent prompt-gated diagnostic failed0/1/0 at AutoFillUITests.swift:247, the email-fill assertion after the saved-target tap. Selection state confirms emailMatchesExpected=false, emailBlank=true, signupEnabled=false and selectedRole=75 with all selected-label identity flags false. Query telemetry records nine complete snapshots without identity, three observed identities and zero snapshot failures. The test observed a visible Face ID prompt, captured after_tap, rechecked it and emitted one exact nonce-bound event; one official Matching Face action returned0 with owned-window/focus and known checked enrollment verified. No late/foreign event or callback failure occurred. Full before_selection and after_fill_wait AX are complete/untruncated; each has51 app picker nodes and26 SpringBoard nodes including Face ID. Thus the saved-target tap did not establish insertion or login; prompt observation and menu success do not establish authentication success or a sole cause. All fixed error signatures are false, which does not prove absence. Fresh LA false/-7 to true/0, Release and cleanup passed. Nine transport and seven schema tests passed separately in verified job logs. Final frozen0432 remains217/218; no diagnostic result replaces it.",
+    "nextAction": "Parent is reviewing transition and target evidence. No promotion or retry is scheduled at this checkpoint; preserve all original assertions and do not infer a sole cause or remedy.",
+    "result": "0 passed /1 failed /0 skipped; target tap reached but email insertion failed; Release/enrollment/cleanup passed",
+    "category": "Observed-prompt-gated response executed; insertion failure and picker/prompt persisted in AX, cause unresolved",
+    "evidence": "evidence/enrolled-autofill/36583722795.json"
+  },
+  {
+    "commit": "8dbaa8b46c793b4ef94f9ad627cfcc4cb210a9e4",
+    "run": 36586447920,
+    "attempt": 1,
+    "job": 109467953892,
+    "artifact": 11042900345,
+    "artifactSHA256": "bd74d4204e421b9a80f69a1e061f0300e477c3d294299e45e38c43ec1255f1c3",
+    "scope": "Independent saved-credential Simulator success after verified Face ID dismissal before selection",
+    "diagnosis": "Independent dismissal-gated diagnostic passed the original saved-selection, email insertion, password validation and MOCK login assertions1/1, with no failures/skips. After one nonce-bound response to an actually observed Face ID prompt, complete snapshots confirmed dismissal before selection; all35 original assertions and the8second fill wait remained. The after_tap tree has13app/26SpringBoard nodes includingFaceID; before_selection has51app/127SpringBoard with noFaceID; after_fill_wait has107app/137SpringBoard with noFaceID. All snapshots are complete/untruncated. Selection state is emailMatchesExpected=true, emailBlank=false, signupEnabled=true, selectedRole75 with direct identity-label flags false. Query telemetry is1 complete snapshot without identity,4 identities observed,0 snapshot failures. One official Matching Face action returned0 with exact owned focus/enrollment guards; fresh LA false/-7 to true/0, Debug/Release and cleanup passed. Nine transport and seven schema tests separately passed in verified job logs. This proves the measured controlled Simulator journey, not a sole cause for earlier failures, hardware biometrics, real backend login or APNs. Completed0432 remains217/218; new frozenprimaryd0502cb75f032b0771d3a3f6ed048807b32a8b2b cohort is running and cannot borrow earlier passes.",
+    "nextAction": "Five test/harness/trigger paths promoted to primaryd0502cb75f032b0771d3a3f6ed048807b32a8b2b. Fullnewcohort is running; retain0432failedcohort and all earlierdiagnostics, no pass substitution or physical/native-real-backend inference.",
+    "result": "Passed1/1 with zero failures/skips; original saved-selection/fill/MOCK login assertions passed; Debug/Release/enrollment/cleanup passed",
+    "category": "Independent controlled Simulator saved-credential success; not a new unified acceptance cohort",
+    "evidence": "evidence/enrolled-autofill/36586447920.json"
+  },
+  {
+    "commit": "d0502cb75f032b0771d3a3f6ed048807b32a8b2b",
+    "run": 36588386185,
+    "attempt": 1,
+    "job": 109474710646,
+    "artifact": 11042399366,
+    "artifactSHA256": "fce36ae352c1a60e6ddecf8b423362f3ec283b64aa68b0aee69578d8ff39de2d",
+    "scope": "Newd0502cb unified-cohort backend job; other groups independently pending",
+    "result": "55 backend /45 reference /20 QA /24 Swift client passed, zero failed/skipped; real officialSDK journey passed",
+    "evidence": "evidence/unified-d0502cb/backend.json",
+    "category": "Source-bound real Linux integration; not native UI or physical validation"
+  },
+  {
+    "commit": "d0502cb75f032b0771d3a3f6ed048807b32a8b2b",
+    "run": 36588386229,
+    "attempt": 1,
+    "job": 109474712256,
+    "artifact": 11043881408,
+    "artifactSHA256": "1a51b7c403d9a38ffaa0de0dccc978072f70115425724cee11a80151dca99931",
+    "scope": "Unified d050 AutoFill enabled input",
+    "result": "Passed3/3 original input cases,0failed/0skipped; client24 passed; Debug/Release passed",
+    "category": "Same-source input regression; no saved-selection substitution",
+    "evidence": "evidence/unified-d0502cb/autofill-input.json"
+  },
+  {
+    "commit": "d0502cb75f032b0771d3a3f6ed048807b32a8b2b",
+    "run": 36588386135,
+    "attempt": 1,
+    "job": 109474710204,
+    "artifact": 11042759801,
+    "artifactSHA256": "409924e0e10ae7895110b7c0b3a53f57a26c257693f7b73f97d11112e025137e",
+    "scope": "Unified d050 saved-credential AutoFill",
+    "result": "Passed1/1 original saved selection, email/password gates and MOCK login;0failed/0skipped; Debug/Release/enrollment/cleanup passed;9transport+7schema auxiliary checks passed",
+    "category": "Same-source native saved-credential regression; not native real-backend E2E or hardware evidence",
+    "evidence": "evidence/unified-d0502cb/autofill-saved.json"
+  },
+  {
+    "commit": "d0502cb75f032b0771d3a3f6ed048807b32a8b2b",
+    "run": 36588386114,
+    "attempt": 1,
+    "job": 109474712080,
+    "artifact": 11043289396,
+    "artifactSHA256": "2e93252efe8dd28e2b5e44eb410da98b8dce39bb05ab91c8413efdb65ac5aa0f",
+    "scope": "Unified d050 mock UI",
+    "result": "7 passed / 1 failed / 0 skipped; exact intended cases matched; QA20/core45/client24 passed; Debug test failed; Release passed",
+    "category": "Source-bound MOCK/local Simulator regression; no native backend or physical validation",
+    "evidence": "evidence/unified-d0502cb/mock.json",
+    "diagnosis": "Large-Arabic logout test failed at IntegrationTestSupport.swift:179. After one directed drag, integrationLogout was absent from accessibility while the same scroll, window and app foreground remained available. Last observed logout frame was (39.5,2209.83,323,157.67), below viewport (0,72,402,802). The helper abort on any missing target is established; the cause of accessibility omission is not. ScreenBody uses plain ScrollView/VStack, not LazyVStack. All fixed infrastructure signals are false. The actual failure screenshot was excluded from public safe export and was not inspected. The historical710 failure and0432 pass remain separate; no prior pass replaces this failure."
+  },
+  {
+    "commit": "d0502cb75f032b0771d3a3f6ed048807b32a8b2b",
+    "run": 36588386114,
+    "attempt": 1,
+    "job": 109474711839,
+    "artifact": 11043069634,
+    "artifactSHA256": "ab41d3cba5754b9878828a3909ba2569137e7d25401edd65e86a704d76efeb6a",
+    "scope": "Unified d050 local-a UI",
+    "result": "9 passed / 0 failed / 0 skipped; exact intended cases matched; QA20/core45/client24 passed; Debug test passed; Release passed",
+    "category": "Source-bound MOCK/local Simulator regression; no native backend or physical validation",
+    "evidence": "evidence/unified-d0502cb/local-a.json"
+  },
+  {
+    "commit": "d0502cb75f032b0771d3a3f6ed048807b32a8b2b",
+    "run": 36588386114,
+    "attempt": 1,
+    "job": 109474711590,
+    "artifact": 11044105809,
+    "artifactSHA256": "a10367eccc39186cc0072ce69c2dc44e48b76c4a7a0a8228e325f0aad6b1a510",
+    "scope": "Unified d050 local-b UI",
+    "result": "8 passed / 0 failed / 0 skipped; exact intended cases matched; QA20/core45/client24 passed; Debug test passed; Release passed",
+    "category": "Source-bound MOCK/local Simulator regression; no native backend or physical validation",
+    "evidence": "evidence/unified-d0502cb/local-b.json"
+  },
+  {
+    "commit": "e6b7ffdbd76ba44c576078eebb07bd6614fa8844",
+    "run": 36592112064,
+    "attempt": 1,
+    "job": 109487573258,
+    "artifact": 11043809600,
+    "artifactSHA256": "052766facb009d48d13e83016ed2fd86fd9330429fc6bbc95bdc4c123117d9d7",
+    "scope": "Newe6b7ffd unified-cohort backend job; other groups independently pending",
+    "result": "55 backend /45 reference /20 QA /24 Swift client passed, zero failed/skipped; real officialSDK journey passed",
+    "evidence": "evidence/unified-e6b7ffd/backend.json",
+    "category": "Source-bound real Linux integration; not native UI or physical validation"
+  },
+  {
+    "commit": "e6b7ffdbd76ba44c576078eebb07bd6614fa8844",
+    "run": 36592112080,
+    "attempt": 1,
+    "job": 109487573726,
+    "artifact": 11045490449,
+    "artifactSHA256": "7e80f7a469431c67dfa0d0e8f574b806534fec0091ba8b0fb9ddebca7396abca",
+    "scope": "Unified e6b autofill-input",
+    "result": "Passed3/3 original input cases; client24 passed;0failed/0skipped;Debug/Release passed",
+    "category": "Same-source native input/AutoFill regression; not native real-backend E2E or physical validation",
+    "evidence": "evidence/unified-e6b7ffd/autofill-input.json"
+  },
+  {
+    "commit": "e6b7ffdbd76ba44c576078eebb07bd6614fa8844",
+    "run": 36592111967,
+    "attempt": 1,
+    "job": 109487571768,
+    "artifact": 11044952890,
+    "artifactSHA256": "5905482cbca1b04990a2e9d6696dca2c0627e0fd322e72361c9356dde303a392",
+    "scope": "Unified e6b autofill-saved",
+    "result": "Passed1/1 original saved selection, email/password gates and MOCK login; enrollment/cleanup and9transport+7schema auxiliary checks passed;0failed/0skipped;Debug/Release passed",
+    "category": "Same-source native input/AutoFill regression; not native real-backend E2E or physical validation",
+    "evidence": "evidence/unified-e6b7ffd/autofill-saved.json"
+  },
+  {
+    "commit": "e6b7ffdbd76ba44c576078eebb07bd6614fa8844",
+    "run": 36592111986,
+    "attempt": 1,
+    "job": 109487572898,
+    "artifact": 11044574162,
+    "artifactSHA256": "28bbfa8aeb477a5fb8e31d62cc6470638efdc4fff24733ccd292fd762fb1b8ec",
+    "scope": "Unified e6b7 mock UI",
+    "result": "7 passed / 1 failed / 0 skipped; exact intended cases; QA20/core45/client24 passed; Debug test failed; Release passed",
+    "category": "Source-bound MOCK/local Simulator regression; not native backend or physical validation",
+    "evidence": "evidence/unified-e6b7ffd/mock.json",
+    "diagnosis": "Large-Arabic logout test exhausted all ten directed drags at IntegrationTestSupport.swift:230. First target absence after one drag was recorded with appForeground, scrollExists and windowExists true. Only initial target frame below the viewport was available. This establishes that bounded recovery executed, but it did not regain the target or complete logout. It does not establish whether the content scrolled, page changed or accessibility omitted the control. Fixed infrastructure signals are false. Actual failure screenshot was excluded from safe export and not inspected; individual successful subjourney screenshots do not replace this failure."
+  },
+  {
+    "commit": "e6b7ffdbd76ba44c576078eebb07bd6614fa8844",
+    "run": 36592111986,
+    "attempt": 1,
+    "job": 109487573120,
+    "artifact": 11045461629,
+    "artifactSHA256": "5b610c5d9e1241f5537e0ae32c72ed5d5cd2b67a716b3a3ff3b2e2e72e21ce93",
+    "scope": "Unified e6b7 local-a UI",
+    "result": "9 passed / 0 failed / 0 skipped; exact intended cases; QA20/core45/client24 passed; Debug test passed; Release passed",
+    "category": "Source-bound MOCK/local Simulator regression; not native backend or physical validation",
+    "evidence": "evidence/unified-e6b7ffd/local-a.json"
+  },
+  {
+    "commit": "e6b7ffdbd76ba44c576078eebb07bd6614fa8844",
+    "run": 36592111986,
+    "attempt": 1,
+    "job": 109487573161,
+    "artifact": 11046195706,
+    "artifactSHA256": "46d4d2224f0491371e432626ef81843c1d44608139b279ee64523bbbf0c5b416",
+    "scope": "Unified e6b7 local-b UI",
+    "result": "8 passed / 0 failed / 0 skipped; exact intended cases; QA20/core45/client24 passed; Debug test passed; Release passed",
+    "category": "Source-bound MOCK/local Simulator regression; not native backend or physical validation",
+    "evidence": "evidence/unified-e6b7ffd/local-b.json"
+  },
+  {
+    "commit": "af8019cc9d8237fd83c9c4e942cf5779257db21a",
+    "run": 36596361949,
+    "attempt": 1,
+    "job": 109502176390,
+    "artifact": 11048540519,
+    "artifactSHA256": "484b5b4bb006da47a7fd7664bb01b712d85816ec809739aa41f63ffecfcfeb51",
+    "scope": "Separate logout surface diagnostic; unchanged eight MOCK business cases",
+    "result": "8passed/0failed/0skipped; QA21/core45/client24 passed; Debug/Release passed",
+    "category": "Passing non-reproduction with complete safe navigation telemetry; earlier missing-target failure unresolved",
+    "diagnosis": "Four accepted checkpoints, zero rejected; before_drag0/1/2 then finished3, all complete67-node app snapshots. One scroll surface persists; account controls remain, no login/consent-page transition. Logout y2043.83 to1499.83 to1108.83 to717.83 remains present and becomes hittable. Requested/actual drag screenPoints agree, zero app/window origins. revealPresence is empty: missing target and recovery-from-absence were not exercised. Starting target position differs166points from the failed e6 run, but no failing full snapshot supports attributing a cause. Telemetry adds observation time; no remedy or product rootcause is established. Primarye6 remains separatefailed217/218; no substitution.",
+    "evidence": "evidence/navigation-af8019c/mock.json"
+  },
+  {
+    "commit": "2580c228e7f4844485fb10e147be8634619827cb",
+    "run": 36620786727,
+    "attempt": 1,
+    "job": 109585343826,
+    "artifact": 11058487664,
+    "artifactSHA256": "5448137189a967efdc42b56b21e31e59eb232809939643b4eae57af34941d0d7",
+    "scope": "Changed post-first-drag logout diagnostic; first checkpoint performs no extra XCTest query/snapshot",
+    "result": "8passed/0failed/0skipped; QA21/core45/client24 passed; Debug/Release passed",
+    "category": "Passing non-reproduction; first snapshot intentionally unknown, later account scroll fully observed",
+    "diagnosis": "Four safe checkpoints accepted, none rejected. Initial checkpoint has no snapshot/nodes/actualcoordinates by design, while existing loop data reports target present at y1990.5. Complete post-first snapshots retain account-specific refresh-session/new-password/logout/revoke-all controls and one scroll view. Logout y1599.5→1208.5→817.5 stays present and becomes hittable after three drags. Later actual/requested gesture coordinates match. revealPresence is empty: missing-target recovery was not exercised. Initial y differs from both af and e6, but no uniform shift/page-transition cause is inferred. Removing the pre-first snapshot did not reproduce failure; no causal fix or definitive observer-effect explanation established. Primarye6 failed217/218 remains unchanged.",
+    "evidence": "evidence/navigation-2580c22/mock.json"
+  }
+]

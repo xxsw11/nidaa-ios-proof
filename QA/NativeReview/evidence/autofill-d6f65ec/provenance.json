@@ -1,0 +1,12 @@
+{
+  "run": 36519447212,
+  "attempt": 1,
+  "job": 109248875012,
+  "commit": "d6f65ec253f6345e6ae2e368c4b2b8d7baf88681",
+  "suite": "autofill",
+  "artifact": 11012422205,
+  "artifactSHA256": "ef166a66b71d87012717b793050a92f2adc686e1ee48843c5771dbef0771b6bb",
+  "result": "3 functional tests passed; saved selection failed; Release passed",
+  "observed": "Saved test stopped at line40 before typing because website/username could not be identified safely; no personal-account requirement observed. Safe visible demonstration crop confirms light text against dark field.",
+  "changeBeforeRetry": "678d70b adds unique semantic-row geometry discovery, role/frame diagnostics and an empty identity-only crop strictly above Password. Targeted saved-only suite retains the completed functional results separately."
+}

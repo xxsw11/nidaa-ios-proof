@@ -1,0 +1,55 @@
+{
+  "checkedAt": "2026-09-29 19:51:00 UTC",
+  "order": [
+    2,
+    3,
+    4
+  ],
+  "pullRequests": [
+    {
+      "number": 2,
+      "state": "open",
+      "merged": false,
+      "draft": false,
+      "head": "ab479a345aa6f5c2a98a369a7f7ed23819957a48",
+      "headRef": "codex/identity-consent-sync-design",
+      "base": "a1ffbec01bd7cc39409bbd740639606fe2f29e39",
+      "baseRef": "main",
+      "mergeable": true,
+      "mergeable_state": "clean",
+      "reviews": []
+    },
+    {
+      "number": 3,
+      "state": "open",
+      "merged": false,
+      "draft": false,
+      "head": "180d9650b88e90b604d6837b5f2eea78ee83257d",
+      "headRef": "codex/local-supabase-integration",
+      "base": "ab479a345aa6f5c2a98a369a7f7ed23819957a48",
+      "baseRef": "codex/identity-consent-sync-design",
+      "mergeable": true,
+      "mergeable_state": "clean",
+      "reviews": []
+    },
+    {
+      "number": 4,
+      "state": "open",
+      "merged": false,
+      "draft": true,
+      "head": "e6b7ffdbd76ba44c576078eebb07bd6614fa8844",
+      "headRef": "codex/native-integration-review",
+      "base": "180d9650b88e90b604d6837b5f2eea78ee83257d",
+      "baseRef": "codex/local-supabase-integration",
+      "mergeable": true,
+      "mergeable_state": "unstable",
+      "reviews": []
+    }
+  ],
+  "protection": {
+    "status": "Unknown",
+    "reason": "GitHub integration returned403 for branch protection; required reviews/checks cannot be inferred absent."
+  },
+  "recommendation": "Not ready to merge; preserve #2 then #3 then #4 after their required reviews/checks. No automatic merge.",
+  "scope": "Prepublication snapshot; a report-only delivery child may advance PR4 without changing its tested executable/workflow blobs."
+}

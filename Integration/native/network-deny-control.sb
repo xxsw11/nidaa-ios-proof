@@ -1,0 +1,4 @@
+(version 1)
+; Negative control: loopback must fail too. Never a service configuration.
+(allow default)
+(deny network*)

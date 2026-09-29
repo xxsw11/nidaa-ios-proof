@@ -1,0 +1,45 @@
+{
+  "commit": "710376d4bf1c95d1a27bdd5a9dd123aa25c287bf",
+  "run": 36559755316,
+  "attempt": 1,
+  "job": 109377492056,
+  "artifact": 11029751821,
+  "artifactSHA256": "97d6ba2766efc837c810dbe8fd52216307bb1430b40cec356b7832f692731b9c",
+  "scope": "Incidental MOCK rerun on diagnostic branch; excluded from frozen9127 acceptance counts",
+  "counts": {
+    "totalTestCount": 8,
+    "passedTests": 7,
+    "failedTests": 1,
+    "skippedTests": 0
+  },
+  "failedTestIdentifiers": [
+    "IntegrationUITests/testLargeArabicLayoutAndLogoutIsolation()"
+  ],
+  "failureLocations": [
+    [
+      "IntegrationTestSupport.swift",
+      "163"
+    ]
+  ],
+  "infrastructureSignals": {
+    "runnerBootstrapFailure": false,
+    "runnerKilledBeforeTests": false,
+    "runnerEarlyExit": false,
+    "failedLaunch": false,
+    "failedInstall": false,
+    "testRunnerLost": false,
+    "timedOut": false,
+    "simulatorBootFailure": false,
+    "compileFailure": false,
+    "testFailed": true
+  },
+  "releaseBuildSucceeded": true,
+  "revealGeometry": [
+    [
+      "controlID=integrationLogout",
+      "control=(39.5, 2209.833251953125, 323.0, 157.666748046875);viewport=(0.0, 72.0, 402.0, 802.0)"
+    ]
+  ],
+  "diagnosis": "The large-Arabic logout test reached the offscreen Logout control and attempted one upward drag. The next combined guard found the scroll/window/target unavailable without recording which. Logout tap and its session-isolation assertions were not reached. No runner/bootstrap/install/compile failure signal was recorded. A transient accessibility/layout change is plausible but not proven; the cause remains unresolved.",
+  "acceptanceImpact": "The earlier9127 MOCK8/8 result remains source-bound history, but this later7/8 result exposes unresolved navigation/test stability and cannot be omitted or called infrastructure-only. No application regression is proven from the combined guard alone."
+}

@@ -1,0 +1,8 @@
+(version 1)
+; Diagnostic candidate only. Not selected by runtime.py.
+; Remove the explicit bind grant; measure whether inbound authorization alone
+; permits loopback while retaining wildcard denial on this actual OS build.
+(allow default)
+(deny network*)
+(allow network-inbound (local ip "localhost:*"))
+(allow network-outbound (remote ip "localhost:*"))

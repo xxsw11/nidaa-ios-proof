@@ -1,0 +1,12 @@
+{
+  "run": 36523962665,
+  "attempt": 1,
+  "job": 109262750251,
+  "commit": "07787d025f0a6263982aa836c2f7a4f86885bd30",
+  "suite": "autofill-saved",
+  "artifact": 11014621891,
+  "artifactSHA256": "48624e3927b87529b483e4ae007e992d6a7c99dfa596ec3afbd94796287b450f",
+  "result": "0 passed,1 failed,0 skipped; Release passed",
+  "observed": "Native Save and Passwords action succeeded. Selection failed at line124: fictional saved identity not found; fixed control inventory shows button:Passwords. No personal requirement or infrastructure signal.",
+  "changeBeforeRetry": "Reevaluate eligible row/button/combined-label queries during bounded discovery, rather than selecting one absent query before native UI settles; inspect foreground-state booleans and header-only crop. Retain actual email/password validation and login assertions."
+}

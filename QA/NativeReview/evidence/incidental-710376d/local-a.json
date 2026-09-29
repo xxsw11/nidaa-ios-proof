@@ -1,0 +1,27 @@
+{
+  "commit": "710376d4bf1c95d1a27bdd5a9dd123aa25c287bf",
+  "run": 36559755316,
+  "attempt": 1,
+  "job": 109377491713,
+  "artifact": 11030442448,
+  "artifactSHA256": "32e9d0fd1060b20a71e91add95ddcc32983961d74c5b3c5fc0eee8e8fc5db598",
+  "scope": "Incidental local-a diagnostic-branch rerun; excluded from frozen9127 acceptance counts",
+  "counts": {
+    "totalTestCount": 9,
+    "passedTests": 9,
+    "failedTests": 0,
+    "skippedTests": 0
+  },
+  "releaseBuildSucceeded": true,
+  "source": {
+    "commit": "710376d4bf1c95d1a27bdd5a9dd123aa25c287bf",
+    "eventCommit": "710376d4bf1c95d1a27bdd5a9dd123aa25c287bf",
+    "run": "36559755316",
+    "attempt": "1",
+    "workflow": "NIDAA - iOS Simulator Proof",
+    "runnerOS": "macOS",
+    "runnerArchitecture": "ARM64"
+  },
+  "rawEvidenceIncluded": false,
+  "result": "Passed"
+}

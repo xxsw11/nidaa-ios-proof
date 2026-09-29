@@ -1,0 +1,18 @@
+{
+  "run": 36513218045,
+  "attempt": 1,
+  "job": 109229718325,
+  "commit": "3759e291e963dced98b41d6d04102f0ac56dd4e7",
+  "artifact": 11010581252,
+  "artifactSHA256": "d85f2a1c71a591398f556e9e9aa5bd0b38c304b6573d518ff5f65053ebb1da41",
+  "suite": "local-b",
+  "result": "7 passed, 1 failed; Release succeeded",
+  "failure": "testContactAddEditDeleteAndBlock: LocalExperienceUITests.swift77 immediate assertion that deleted contact row no longer exists",
+  "evidence": [
+    "2026-09-29T02:51:05.4950340Z /Users/runner/work/nidaa-ios-proof/nidaa-ios-proof/UITests/LocalExperienceUITests.swift:77: error: -[NidaaUITests.LocalExperienceUITests testContactAddEditDeleteAndBlock] : XCTAssertFalse failed",
+    "2026-09-29T02:54:23.7235210Z \t Executed 8 tests, with 1 failure (0 unexpected) in 649.616 (649.624) seconds",
+    "2026-09-29T02:54:23.7573840Z \t Executed 8 tests, with 1 failure (0 unexpected) in 649.616 (649.626) seconds",
+    "2026-09-29T02:54:23.9822940Z \t Executed 8 tests, with 1 failure (0 unexpected) in 649.616 (649.634) seconds",
+    "2026-09-29T02:56:56.4944440Z ** BUILD SUCCEEDED **"
+  ]
+}

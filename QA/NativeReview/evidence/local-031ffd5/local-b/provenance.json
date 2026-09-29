@@ -1,0 +1,12 @@
+{
+  "run": 36516431563,
+  "attempt": 1,
+  "job": 109239632960,
+  "commit": "031ffd5f5177b41fa2717409ac15a7e50ad8b4fa",
+  "artifact": 11011512841,
+  "artifactSHA256": "a61588a2d45d2f5e6e4f0e144f08d4ad06c113b1aba0b1acfb079103c8191022",
+  "category": "Local original recipient selection lacked verified precondition",
+  "result": "7 passed, 1 failed; Release passed; delete and persisted absence passed",
+  "observed": "testBothActionsBackgroundDuringAuthenticationAndConsentChanges line157 expected no Ahmad receipt. Confirmation absence and attempt count passed. Exact cause of initial switch state is not proven by logs.",
+  "changeBeforeRetry": "Verify initial enabled/hittable switch state; one tap; wait off; require Sara-only recipient set immediately before mutation tests. No authorization assertion removed."
+}

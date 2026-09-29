@@ -1,0 +1,49 @@
+{
+  "devicesAndConfigurations" : [
+    {
+      "device" : {
+        "architecture" : "arm64",
+        "deviceId" : "6CF4F6AC-0686-4405-A418-5CEAFB78FAEA",
+        "deviceName" : "NIDAA-Disposable-B48EE5CB-ED35-4AB8-913B-8E3FBFEDC2B1",
+        "modelName" : "iPhone 16 Pro",
+        "osBuildNumber" : "22F77",
+        "osVersion" : "18.5",
+        "platform" : "iOS Simulator"
+      },
+      "expectedFailures" : 0,
+      "failedTests" : 1,
+      "passedTests" : 8,
+      "skippedTests" : 0,
+      "testPlanConfiguration" : {
+        "configurationId" : "1",
+        "configurationName" : "Test Scheme Action"
+      }
+    }
+  ],
+  "environmentDescription" : "NidaaProof-Local · Built with macOS 15.7.9",
+  "expectedFailures" : 0,
+  "failedTests" : 1,
+  "finishTime" : 1790655576.404,
+  "passedTests" : 8,
+  "result" : "Failed",
+  "skippedTests" : 0,
+  "startTime" : 1790654673.852,
+  "statistics" : [
+
+  ],
+  "testFailures" : [
+    {
+      "failureText" : "XCTAssertEqual failed: (\"XCTWaiterResult(rawValue: 2)\") is not equal to (\"XCTWaiterResult(rawValue: 1)\") - Recipient selection must settle before changing it",
+      "targetName" : "NidaaUITests",
+      "testIdentifier" : 7,
+      "testIdentifierString" : "LocalExperienceUITests/testLargeTextActionReviewRemainsUsable()",
+      "testIdentifierURL" : "test://com.apple.xcode/NidaaProof/NidaaUITests/LocalExperienceUITests/testLargeTextActionReviewRemainsUsable",
+      "testName" : "testLargeTextActionReviewRemainsUsable()"
+    }
+  ],
+  "title" : "Test - NidaaProof-Local",
+  "topInsights" : [
+
+  ],
+  "totalTestCount" : 9
+}

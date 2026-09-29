@@ -1,0 +1,12 @@
+{
+  "commit": "9494c13018f0a21aa0a384bd111df680cb1b34b5",
+  "run": "36543271512",
+  "attempt": "1",
+  "plaintextUploaded": false,
+  "purpose": "Disposable saved-picker transition only; review locally before publishing redacted findings",
+  "collectionExitCode": 0,
+  "collectionBytes": 193619229,
+  "diagnosticIncomplete": true,
+  "failureStage": "size_validation",
+  "failureCategory": "AssertionError"
+}

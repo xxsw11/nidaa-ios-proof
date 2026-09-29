@@ -1,0 +1,448 @@
+{
+  "commit": "7adc165c11aaa6a369d14b83d1523dc629dcbd04",
+  "run": 36564260314,
+  "attempt": 1,
+  "job": 109392242255,
+  "artifact": 11031034224,
+  "artifactSHA256": "8b74e4dc80dde1629d395b82a7c1d49139ea270fb48ca8b16e7802f65bd4bbbe",
+  "scope": "Saved-selection diagnostic on verified enrolled Simulator; setup failed before test body",
+  "source": {
+    "commit": "7adc165c11aaa6a369d14b83d1523dc629dcbd04",
+    "eventCommit": "7adc165c11aaa6a369d14b83d1523dc629dcbd04",
+    "run": "36564260314",
+    "attempt": "1",
+    "workflow": "NIDAA - Bounded Simulator biometry capability",
+    "runnerOS": "macOS",
+    "runnerArchitecture": "ARM64"
+  },
+  "report": {
+    "TCCChanged": false,
+    "afterCanEvaluate": true,
+    "autoFillValidated": false,
+    "beforeCanEvaluate": false,
+    "biometryObserverAuthenticationPromptRequested": false,
+    "blocker": "enrolled_saved_credential_diagnostic_failed",
+    "cleanup": {
+      "delete": {
+        "exitCode": 0
+      },
+      "shutdown": {
+        "exitCode": 0
+      }
+    },
+    "cleanupBudgetSeconds": 90,
+    "combinedCapabilityStatus": "Passed",
+    "commands": [
+      {
+        "effectiveTimeoutSeconds": 90,
+        "elapsedSeconds": 15.037,
+        "exitCode": 0,
+        "maximumSeconds": 90,
+        "operation": "compile_public_AX_helper",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 10,
+        "elapsedSeconds": 0.172,
+        "exitCode": 0,
+        "maximumSeconds": 10,
+        "operation": "launch_system_events",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 30,
+        "elapsedSeconds": 0.771,
+        "exitCode": 0,
+        "maximumSeconds": 30,
+        "operation": "no_prompt_permission_check",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 120,
+        "elapsedSeconds": 28.378,
+        "exitCode": 0,
+        "maximumSeconds": 120,
+        "operation": "simulator_inventory",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 30,
+        "elapsedSeconds": 2.262,
+        "exitCode": 0,
+        "maximumSeconds": 30,
+        "operation": "create_owned_simulator",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 30,
+        "elapsedSeconds": 6.005,
+        "exitCode": 0,
+        "maximumSeconds": 30,
+        "operation": "boot_owned_simulator",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 240,
+        "elapsedSeconds": 80.523,
+        "exitCode": 0,
+        "maximumSeconds": 240,
+        "operation": "owned_bootstatus",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 30,
+        "elapsedSeconds": 3.106,
+        "exitCode": 0,
+        "maximumSeconds": 30,
+        "operation": "selected_developer_directory",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 30,
+        "elapsedSeconds": 2.197,
+        "exitCode": 0,
+        "maximumSeconds": 30,
+        "operation": "open_owned_simulator_window",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 60,
+        "elapsedSeconds": 10.317,
+        "exitCode": 0,
+        "maximumSeconds": 60,
+        "operation": "verify_owned_window_before_xctest",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 600,
+        "elapsedSeconds": 271.962,
+        "exitCode": 0,
+        "maximumSeconds": 600,
+        "operation": "xctest_before",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 20,
+        "elapsedSeconds": 9.883,
+        "exitCode": 0,
+        "maximumSeconds": 20,
+        "operation": "verify_before_one_test_summary",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 10,
+        "elapsedSeconds": 0.257,
+        "exitCode": 0,
+        "maximumSeconds": 10,
+        "operation": "reopen_system_events_after_xctest",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 90,
+        "elapsedSeconds": 4.874,
+        "exitCode": 0,
+        "maximumSeconds": 90,
+        "operation": "official_menu_single_enrollment_attempt",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 360,
+        "elapsedSeconds": 47.886,
+        "exitCode": 0,
+        "maximumSeconds": 360,
+        "operation": "xctest_after",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 20,
+        "elapsedSeconds": 0.671,
+        "exitCode": 0,
+        "maximumSeconds": 20,
+        "operation": "verify_after_one_test_summary",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 720,
+        "elapsedSeconds": 81.505,
+        "exitCode": 65,
+        "maximumSeconds": 720,
+        "operation": "autofill_saved_selected_test",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 60,
+        "elapsedSeconds": 0.403,
+        "exitCode": 0,
+        "maximumSeconds": 60,
+        "operation": "export_private_saved_test_attachments",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 30,
+        "elapsedSeconds": 0.099,
+        "exitCode": 0,
+        "maximumSeconds": 30,
+        "operation": "read_private_saved_test_summary",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 360,
+        "elapsedSeconds": 122.793,
+        "exitCode": 0,
+        "maximumSeconds": 360,
+        "operation": "autofill_independent_release_build",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 30,
+        "elapsedSeconds": 8.35,
+        "exitCode": 0,
+        "maximumSeconds": 30,
+        "operation": "cleanup_shutdown",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 60,
+        "elapsedSeconds": 2.489,
+        "exitCode": 0,
+        "maximumSeconds": 60,
+        "operation": "cleanup_delete",
+        "status": "Completed"
+      }
+    ],
+    "customObserverAppInstalled": false,
+    "executionBudgetSeconds": 1800,
+    "fictionalCredentialFixtureAttempted": true,
+    "hostHelperCompileExitCode": 0,
+    "hostHelperSHA256": "88bdc45da32101356f06a97a3613f4ccee19942c1545d467b51ce5da256331a0",
+    "matchingFaceInvoked": false,
+    "menu": {
+      "accessibilityTrusted": true,
+      "automationPromptRequested": false,
+      "automationStatus": 0,
+      "axActionCodes": {
+        "press_enrolled_once": 0,
+        "press_face_id": 0,
+        "press_features_hardware": 0,
+        "raise_owned_AX_window": 0,
+        "reopen_face_id": 0,
+        "reopen_features": 0
+      },
+      "axReturnCode": 0,
+      "enrolledAfter": true,
+      "enrolledBefore": false,
+      "enrolledMarkReadable": true,
+      "enrolledMenuPresent": true,
+      "enrollmentActionAttempted": true,
+      "enrollmentChanged": true,
+      "enrollmentOutcomeProven": true,
+      "enrollmentReadbackElapsedSeconds": 1.876518874999988,
+      "enrollmentReadbackSamples": [
+        {
+          "axReturnCode": -25212,
+          "checked": false,
+          "elapsedSeconds": 0.003543583333339484,
+          "markKnown": true
+        },
+        {
+          "axReturnCode": -25212,
+          "checked": false,
+          "elapsedSeconds": 0.6438787916666797,
+          "markKnown": true
+        },
+        {
+          "axReturnCode": -25212,
+          "checked": false,
+          "elapsedSeconds": 1.3008457916666885,
+          "markKnown": true
+        },
+        {
+          "axReturnCode": 0,
+          "checked": true,
+          "elapsedSeconds": 1.8765141666666523,
+          "markKnown": true
+        }
+      ],
+      "enrollmentReadbackTimedOut": false,
+      "faceIDMenuPresent": true,
+      "featuresMenuPresent": true,
+      "hardwareMenuPresent": false,
+      "matchingFaceInvoked": false,
+      "matchingFaceMenuEnabled": true,
+      "matchingFaceMenuEnabledBefore": true,
+      "matchingFaceMenuPresent": true,
+      "matchingFaceMenuPresentBefore": true,
+      "menuCancelReturnCode": 0,
+      "ownedFocusVerified": true,
+      "ownedWindowVerified": true,
+      "queryStage": "complete",
+      "simulatorProcessObserved": true,
+      "uiElementsEnabled": true
+    },
+    "menuHelperExitCode": 0,
+    "menuOnlyStatus": "Passed",
+    "observations": {
+      "after": {
+        "nonceMatched": true,
+        "observationSource": "Validated-console-record",
+        "recordParseStatus": "Validated",
+        "result": {
+          "authenticationPromptRequested": false,
+          "biometryType": 2,
+          "canEvaluate": true,
+          "errorIsLocalAuthentication": true,
+          "laErrorCode": 0,
+          "phase": "after",
+          "policy": 1,
+          "schemaVersion": 1
+        },
+        "status": "Observed",
+        "testExitCode": 0,
+        "testSummary": {
+          "failedTests": 0,
+          "passedTests": 1,
+          "queryExitCode": 0,
+          "skippedTests": 0,
+          "status": "Validated",
+          "totalTestCount": 1
+        }
+      },
+      "before": {
+        "nonceMatched": true,
+        "observationSource": "Validated-console-record",
+        "recordParseStatus": "Validated",
+        "result": {
+          "authenticationPromptRequested": false,
+          "biometryType": 2,
+          "canEvaluate": false,
+          "errorIsLocalAuthentication": true,
+          "laErrorCode": -7,
+          "phase": "before",
+          "policy": 1,
+          "schemaVersion": 1
+        },
+        "status": "Observed",
+        "testExitCode": 0,
+        "testSummary": {
+          "failedTests": 0,
+          "passedTests": 1,
+          "queryExitCode": 0,
+          "skippedTests": 0,
+          "status": "Validated",
+          "totalTestCount": 1
+        }
+      }
+    },
+    "orchestrationSHA256": "bcc9a308a5a17c14f454192fd89ee03031e2042bddd2901dcd068e09fbb8da94",
+    "ownedDeviceCreated": true,
+    "ownedDeviceDeleted": true,
+    "permissions": {
+      "accessibilityTrusted": true,
+      "automationPromptRequested": false,
+      "automationStatus": 0,
+      "uiElementsEnabled": true
+    },
+    "physicalBiometryProven": false,
+    "privateAPIsUsed": false,
+    "privateTemporaryOutputsRemoved": true,
+    "probeSHA256": "62d8facd91e3eb61dadd7a5ae866932cfdc84af3cbffed17510fee01b678b780",
+    "realAccountsCreated": false,
+    "runtimeIdentifier": "com.apple.CoreSimulator.SimRuntime.iOS-18-5",
+    "savedCredentialDiagnostic": {
+      "acceptanceGate": "Original saved-credential selector: exactly one passed test and no skips/failures; Release build passed; fixed-field result and strictly validated early-entry tree exported. No raw or encrypted credential evidence exported.",
+      "attachmentExportExitCode": 0,
+      "debugTestSucceeded": false,
+      "earlyEntryTreeStatus": "Unavailable",
+      "failureCategory": "selected_test_failure",
+      "matchingFaceInvoked": false,
+      "rawEvidenceLocation": "Owned private runner directory; never uploaded in any form",
+      "rawEvidencePolicy": "Runner-private only; never exported or uploaded, including encrypted archives.",
+      "rawEvidencePublic": false,
+      "releaseBuildSucceeded": true,
+      "releaseExitCode": 0,
+      "releaseStatus": "Passed",
+      "safeExportStatus": "Fixed-fields-written",
+      "sameOwnedEnrolledSimulator": true,
+      "savedCredentialSelection": "failed",
+      "status": "Failed",
+      "systemLogsCollected": false,
+      "testExitCode": 65,
+      "testSelector": "NidaaUITests/AutoFillUITests/testSavedCredentialSelection",
+      "testSummary": {
+        "failedTests": 1,
+        "passedTests": 0,
+        "skippedTests": 0,
+        "totalTestCount": 1
+      }
+    },
+    "savedJourneySystemAuthentication": "Inspect strictly sanitized UI trees; raw evidence remains runner-private",
+    "schemaVersion": 1,
+    "scope": "Original saved-password UI test on verified enrolled owned Simulator",
+    "stage": "autofill_independent_release_build",
+    "status": "Blocked",
+    "testSelector": "NidaaUITests/BiometryCapabilityUITests/testObserveBiometry",
+    "windowReadiness": {
+      "accessibilityTrusted": true,
+      "automationPromptRequested": false,
+      "automationStatus": 0,
+      "axActionCodes": {
+        "raise_owned_AX_window": 0
+      },
+      "axReturnCode": 0,
+      "enrollmentActionAttempted": false,
+      "ownedFocusVerified": true,
+      "ownedWindowVerified": true,
+      "queryStage": "owned_window_ready",
+      "simulatorProcessObserved": true,
+      "uiElementsEnabled": true,
+      "windowOnly": true
+    }
+  },
+  "testResult": {
+    "schemaVersion": 1,
+    "suite": "autofill-saved",
+    "testIdentifier": "AutoFillUITests/testSavedCredentialSelection()",
+    "testResult": "failed",
+    "exitCode": 65,
+    "summary": {
+      "totalTestCount": 1,
+      "passedTests": 0,
+      "failedTests": 1,
+      "skippedTests": 0
+    },
+    "debugTestSucceeded": false,
+    "releaseBuildSucceeded": true,
+    "failureLocations": [
+      {
+        "fileName": "IntegrationTestSupport.swift",
+        "line": 52
+      }
+    ],
+    "rawEvidenceUploaded": false,
+    "encryptedEvidenceUploaded": false,
+    "screenshotsUploaded": false,
+    "sameOwnedEnrolledSimulator": true,
+    "matchingFaceInvoked": false,
+    "earlyEntryTree": {
+      "status": "Unavailable",
+      "reason": "attachment-count"
+    },
+    "pickerTrees": {
+      "status": "Unavailable",
+      "reason": "attachment-count",
+      "before_tap": false,
+      "after_tap": false,
+      "selection_failure": false
+    },
+    "failureCategory": "selected_test_failure"
+  },
+  "diagnosis": "The original selected test failed in setUpWithError before its body: IntegrationTestSupport.swift:52 requires a Simulator name beginning NIDAA-Disposable-, but the diagnostic driver created NIDAA Biometry Probe. Fresh enrollment capability passed before/after on the same owned Simulator; this setup naming mismatch prevented any saved-selection result. No early-entry or picker tree was produced. Release and cleanup passed.",
+  "interpretation": "Failed selected XCTest; saved credential selection, insertion and login were not reached or validated.",
+  "privacy": "Downloaded artifact contains three explicit JSON files only. Raw and encrypted credential evidence were not uploaded.",
+  "changeBeforeRetry": "Use NIDAA-Disposable-Biometry- for the driver-owned device and the strict host helper; preserve the original NIDAA-Disposable- test guard and all behavioral assertions.",
+  "nextDiagnostic": {
+    "commit": "4763d7f37b41eb890b3deffd6af401ef9fbea99d",
+    "run": 36565871957,
+    "status": "Pending at reporting checkpoint"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "commit": "966f80abae825e9e8ca9c55fa659c3cd76ef4527",
+  "run": 36511820230,
+  "attempt": 1,
+  "artifact": 11010111908,
+  "artifactSHA256": "d623a0ee1eeba4dc5dd6fbe6eafa59430367e13e845cb4251afe9bec362fdbd5",
+  "debugTestSucceeded": true,
+  "releaseBuildSucceeded": true,
+  "originalDebugLogSHA256": "e0a7ed2d0f78b6731571285d31687ef7b04afa1f4220bf36e0a6a35471b22925",
+  "originalReleaseLogSHA256": "3b52d3f87bcf8b61bcf26627a799541bb497db186f1ebd4b5240a37da79e2083",
+  "originalArchivePreserved": "work/review-nidaa-simulator-23-1-local-a.zip"
+}

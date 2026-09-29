@@ -17,6 +17,7 @@ import NidaaIntegration
                     .font(.headline).accessibilityIdentifier("integrationMode")
                 Text(store.isMock ? "الحسابات والنتائج التالية خيالية داخل الواجهة. لا يثبت هذا اختبارًا من المحاكي إلى الخادم." : "Supabase Auth وPostgreSQL على هذا المضيف فقط. شغّل البيئة المحلية أولًا؛ لا يوجد اتصال بخدمة مستضافة.")
                     .font(.footnote)
+                if store.simulatesDeviceAuthentication { Text("تحقق الجهاز محاكى فقط؛ مصادقة الحساب مستقلة.").font(.footnote).accessibilityIdentifier("integrationSimulatedDeviceAuth") }
                 Text("الإرسال مزيف للاختبار · APNs غير مفعّل · لا إشعار أو صوت على هاتف.").font(.footnote)
             }
             if !store.message.isEmpty {
@@ -112,12 +113,13 @@ import NidaaIntegration
     private var emailValid: Bool { email.lowercased().hasSuffix(".invalid") && email.contains("@") }
     var body: some View {
         VStack(alignment: .leading, spacing: 22) {
+        if !store.verifying {
         NidaaCard {
             Text("حساب خيالي مستقل").font(.title2.bold())
             Text("استخدم بريدًا ينتهي بـ ‎.invalid. التحقق يصل إلى صندوق محلي معزول؛ لا تستخدم بيانات شخصية.").font(.footnote)
             TextField("البريد الخيالي", text: $email).textContentType(.username).keyboardType(.emailAddress).textInputAutocapitalization(.never).autocorrectionDisabled()
                 .textFieldStyle(.roundedBorder).environment(\.layoutDirection, .leftToRight).accessibilityIdentifier("integrationEmail")
-            SecureField("كلمة المرور", text: $password).textContentType(.password).keyboardType(.asciiCapable).textInputAutocapitalization(.never).autocorrectionDisabled().textFieldStyle(.roundedBorder).environment(\.layoutDirection, .leftToRight).accessibilityIdentifier("integrationPassword")
+            IntegrationCredentialField(title: "كلمة المرور", text: $password, id: "integrationPassword", contentType: .password, allowsVisibility: true)
             NidaaButton(title: "تسجيل الدخول", icon: "person.crop.circle", id: "integrationLogin") {
                 let value = password; password = ""; Task { await store.signIn(email: email, password: value) }
             }.disabled(!emailValid || password.isEmpty || store.busy)
@@ -127,18 +129,26 @@ import NidaaIntegration
             NidaaButton(title: "طلب استعادة كلمة المرور", icon: "key", secondary: true, id: "integrationRecover") {
                 password = ""; recovery = true; Task { await store.recover(email: email) }
             }.disabled(!emailValid || store.busy)
+            NidaaButton(title: "لديّ رمز تحقق أو استعادة", icon: "envelope.badge", secondary: true, id: "integrationExistingToken") {
+                password = ""; token = ""; recovery = false; store.verifying = true
+            }.disabled(store.busy)
         }
+        } else {
         NidaaCard {
             Text("التحقق من البريد المحلي").font(.headline)
             if store.verifying { Text("بانتظار تحقق البريد؛ لم نفترض وصول رسالة أو نجاح تفعيل.").accessibilityIdentifier("integrationAwaitingVerification") }
             Text("افتح Mailpit على المضيف عبر ‎127.0.0.1:55424، وانسخ قيمة token من رابط التحقق المحلي. لا تُشارك الرمز أو صورته.").font(.footnote)
             Toggle("هذا رمز استعادة كلمة المرور", isOn: $recovery).accessibilityIdentifier("integrationRecoveryKind")
-            SecureField("رمز التحقق المحلي", text: $token).textContentType(.oneTimeCode).keyboardType(.asciiCapable).textInputAutocapitalization(.never).autocorrectionDisabled().textFieldStyle(.roundedBorder).environment(\.layoutDirection, .leftToRight).accessibilityIdentifier("integrationVerificationToken")
+            IntegrationCredentialField(title: "رمز التحقق المحلي", text: $token, id: "integrationVerificationToken", contentType: .oneTimeCode)
             NidaaButton(title: "التحقق من البريد", icon: "checkmark.seal", secondary: true, id: "integrationVerify") {
                 let value = token; token = ""; Task { await store.verify(token: value, recovery: recovery) }
             }.disabled(token.isEmpty || store.busy)
+            NidaaButton(title: "العودة إلى تسجيل الدخول", icon: "arrow.uturn.backward", secondary: true, id: "integrationBackToCredentials") {
+                token = ""; password = ""; recovery = false; store.verifying = false
+            }.disabled(store.busy)
         }
         .id("integration-verification-step")
+        }
         }
         .onDisappear { password = ""; token = "" }
     }
@@ -154,7 +164,7 @@ import NidaaIntegration
             Text(store.accountName.isEmpty ? "حساب اختبار محلي" : store.accountName)
             Text("هوية الحساب من خدمة المصادقة. Face ID أو رمز الجهاز يحمي تنفيذ الإجراء على هذا الجهاز، ولا يحل محل الحساب.").font(.footnote)
             NidaaButton(title: "تجديد الجلسة", icon: "arrow.clockwise", secondary: true, id: "integrationRefreshSession") { Task { await store.refreshSession() } }.disabled(store.busy)
-            SecureField("كلمة مرور جديدة بعد الاستعادة", text: $password).textContentType(.newPassword).keyboardType(.asciiCapable).textInputAutocapitalization(.never).autocorrectionDisabled().textFieldStyle(.roundedBorder).environment(\.layoutDirection, .leftToRight).accessibilityIdentifier("integrationNewPassword")
+            IntegrationCredentialField(title: "كلمة مرور جديدة بعد الاستعادة", text: $password, id: "integrationNewPassword", contentType: .newPassword, allowsVisibility: true)
             NidaaButton(title: "حفظ كلمة المرور الجديدة", icon: "key", secondary: true, id: "integrationUpdatePassword") {
                 let value = password; password = ""; Task { await store.updatePassword(value) }
             }.disabled(password.count < 8 || store.busy)
@@ -193,7 +203,7 @@ import NidaaIntegration
         }
         NidaaCard {
             Text("قبول دعوة واردة").font(.headline)
-            SecureField("رمز الدعوة", text: $token).keyboardType(.asciiCapable).textInputAutocapitalization(.never).autocorrectionDisabled().textFieldStyle(.roundedBorder).environment(\.layoutDirection, .leftToRight).accessibilityIdentifier("integrationInviteToken")
+            IntegrationCredentialField(title: "رمز الدعوة", text: $token, id: "integrationInviteToken")
             Toggle("أوافق على استقبال نداءات صاحب هذه الدعوة", isOn: $consent).accessibilityIdentifier("integrationConsentToggle")
             NidaaButton(title: "قبول هذا الاتجاه فقط", icon: "checkmark", id: "integrationAcceptInvite") {
                 let value = token; token = ""; consent = false; Task { await store.command("decide_invite", payload: ["token": .string(value), "decision": .string("accepted")]) }

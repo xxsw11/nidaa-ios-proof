@@ -1,0 +1,12 @@
+{
+  "run": 36539307560,
+  "attempt": 1,
+  "job": 109310637268,
+  "commit": "0c12b736a623f0da700e22fa9a0cbd18b154010d",
+  "artifact": 11019293813,
+  "artifactSHA256": "e48946f0254870eb6a0a18ac9ac7acf11e86d8e4f4e50be5b8882d44d5aef52b",
+  "category": "Changed precredential isolation candidate; not a product test or backend setup retry",
+  "result": "Candidate failed; deny-all control passed; no credentials or services",
+  "observed": "IPv4/IPv6 external TCP/UDP policy-denied; candidate allowed wildcard TCP bind/listen, UDP bind, implicit wildcard listen and loopback TCP/UDP. Deny-all control denied all operations. VZVirtualMachine.isSupported false; container commands absent; kern.hv_support unavailable, not zero.",
+  "nextStep": "No unchanged repeat or adopted candidate. Native UI/backend unexecuted until a mechanism meets the complete IPv4/IPv6 gate. Independent AutoFill and unified source verification continue."
+}

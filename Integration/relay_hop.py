@@ -15,7 +15,7 @@ def main():
         with httpx.Client(timeout=15, follow_redirects=False, trust_env=False) as client:
             reply = client.request(data['method'], destination + path,
                                    headers=data['headers'], content=base64.b64decode(data['body']))
-        headers = {k:v for k,v in reply.headers.items() if k.lower() in ('content-type','location','retry-after')}
+        headers = {k:v for k,v in reply.headers.items() if k.lower() in ('content-type','location','retry-after','x-supabase-api-version')}
         result = {'status':reply.status_code,'headers':headers,'body':base64.b64encode(reply.content).decode()}
     except Exception:
         result = {'status':503,'headers':{},'body':''}

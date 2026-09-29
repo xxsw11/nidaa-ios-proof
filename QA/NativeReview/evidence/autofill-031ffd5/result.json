@@ -1,0 +1,218 @@
+{
+  "suite": "autofill",
+  "exitCode": 0,
+  "commit": "031ffd5f5177b41fa2717409ac15a7e50ad8b4fa",
+  "run": "36516431533",
+  "attempt": "1",
+  "scope": "MOCK network with native AutoFill enabled",
+  "rawEvidence": "Private XCTest logs/xcresult/recordings excluded from publication",
+  "physicalDevice": "Not tested",
+  "savedCredentialSelection": "See bounded availability probe; not inferred from manual typing",
+  "summary": {
+    "result": "Passed",
+    "totalTestCount": 4,
+    "passedTests": 3,
+    "failedTests": 0,
+    "skippedTests": 1,
+    "expectedFailures": 0,
+    "startTime": 1790652282.217,
+    "finishTime": 1790652588.218,
+    "devicesAndConfigurations": [
+      {
+        "device": {
+          "architecture": "arm64",
+          "deviceId": "20CD5BE7-1061-42D0-88C0-D40D1B58B7C9",
+          "deviceName": "NIDAA-Disposable-15929339-73C6-47CD-BAC3-C1C4F13C1A45",
+          "modelName": "iPhone 16 Pro",
+          "osBuildNumber": "22F77",
+          "osVersion": "18.5",
+          "platform": "iOS Simulator"
+        },
+        "expectedFailures": 0,
+        "failedTests": 0,
+        "passedTests": 3,
+        "skippedTests": 1,
+        "testPlanConfiguration": {
+          "configurationId": "1",
+          "configurationName": "Test Scheme Action"
+        }
+      }
+    ],
+    "environmentDescription": "NidaaProof-Local \u00b7 Built with macOS 15.7.9"
+  },
+  "failedTestIdentifiers": [],
+  "testCaseResults": [
+    [
+      "NidaaUITests.AutoFillUITests",
+      "testEnabledManualRegistrationAndFieldNavigation",
+      "passed"
+    ],
+    [
+      "NidaaUITests.AutoFillUITests",
+      "testEnabledPasteLoginAndRecovery",
+      "passed"
+    ],
+    [
+      "NidaaUITests.AutoFillUITests",
+      "testEnabledVisibilityUsesOnlyNonCredentialDemonstration",
+      "passed"
+    ],
+    [
+      "NidaaUITests.AutoFillUITests",
+      "testSavedCredentialEnvironmentProbe",
+      "skipped"
+    ]
+  ],
+  "failureLocations": [],
+  "infrastructureSignals": {
+    "runnerBootstrapFailure": false,
+    "runnerKilledBeforeTests": false,
+    "runnerEarlyExit": false,
+    "failedLaunch": false,
+    "failedInstall": false,
+    "testRunnerLost": false,
+    "timedOut": false,
+    "simulatorBootFailure": false,
+    "compileFailure": false,
+    "testFailed": false
+  },
+  "compilerDiagnostics": [],
+  "debugTestSucceeded": true,
+  "releaseBuildSucceeded": true,
+  "xcode": "Xcode 16.4\nBuild version 16F6",
+  "screenshots": [
+    {
+      "name": "integration-mock-autofill-enabled-registration-complete-mock.png",
+      "originalExport": "51067244-E6E8-4D60-A975-40D31CCBCCCC.png",
+      "sha256": "ae532215785d305dc5e8c2d7a54451d664ce9a0a451ec01ee0579eb30fa7c5b8"
+    },
+    {
+      "name": "disposable-simulator-autofill-passwords-and-passkeys-on.png",
+      "originalExport": "00C7E78A-A32B-47CD-9DA5-A899123B17C6.png",
+      "sha256": "ad349b1f6fe49b49c07c2fbf94fbe8a2177d769bfd05b615f1c425d57a82e9ec"
+    },
+    {
+      "name": "integration-mock-autofill-enabled-recovery-complete-mock.png",
+      "originalExport": "16CA2B9F-896B-4AB5-8636-25FADB75CB22.png",
+      "sha256": "eea43af731536b7ea635cdc53e829258559395df5ded9fa74e21ec23d10b6a7a"
+    },
+    {
+      "name": "integration-mock-autofill-enabled-large-rtl-hidden-demonstration.png",
+      "originalExport": "72EE2435-F78C-49A1-9B96-4BB7475C3188.png",
+      "sha256": "14a17718706acd6d617d92d4f5771d46cbad4e82079a9bbd8d1e448fdb0883c9"
+    },
+    {
+      "name": "autofill-noncredential-secure-field-crop.png",
+      "originalExport": "76970748-7F5A-46EF-AA02-51801599BCE3.png",
+      "sha256": "a6af23b7508ec85350e70ef23fcdef22a59ee0a9f57bb49e1cd9ddf47416ba74"
+    },
+    {
+      "name": "autofill-saved-credential-new-password-controls-header.png",
+      "originalExport": "9EC212B0-B3E5-4366-A327-6D4ADEC2705F.png",
+      "sha256": "1020b4a8cf98c0ec91486bc8f234f0a529ab838fca1bb97c44debfee7cf97a00"
+    },
+    {
+      "name": "autofill-saved-credential-availability-screen.png",
+      "originalExport": "3455F94A-F89A-4BAB-9E5B-7D915168497F.png",
+      "sha256": "37cf94e7c12af50ab9d32035609353420de7a682bf71d53fd14e518afc00ed5b"
+    }
+  ],
+  "draftReadiness": [
+    [
+      {
+        "phase": "before_keyboard_done",
+        "login_exists": true,
+        "login_enabled": true,
+        "signup_exists": true,
+        "signup_enabled": true,
+        "busy": false,
+        "latinKeys": true,
+        "arabicKeys": false,
+        "strongCover": false,
+        "native": {
+          "nativeReady": true,
+          "hasText": true,
+          "firstResponder": true,
+          "asciiKeyboard": true,
+          "secure": true,
+          "receivedSeveralEdits": true,
+          "inputEnglish": true,
+          "inputArabic": false,
+          "inputOther": false,
+          "bindingReady": true
+        }
+      },
+      {
+        "phase": "after_keyboard_done",
+        "login_exists": true,
+        "login_enabled": true,
+        "signup_exists": true,
+        "signup_enabled": true,
+        "busy": false,
+        "latinKeys": false,
+        "arabicKeys": false,
+        "strongCover": false,
+        "native": {
+          "nativeReady": true,
+          "hasText": true,
+          "firstResponder": false,
+          "asciiKeyboard": true,
+          "secure": true,
+          "receivedSeveralEdits": true,
+          "inputEnglish": true,
+          "inputArabic": false,
+          "inputOther": false,
+          "bindingReady": true
+        }
+      }
+    ],
+    [
+      {
+        "phase": "before_keyboard_done",
+        "login_exists": true,
+        "login_enabled": false,
+        "signup_exists": true,
+        "signup_enabled": false,
+        "busy": false,
+        "latinKeys": true,
+        "arabicKeys": false,
+        "strongCover": false,
+        "native": {
+          "nativeReady": true,
+          "hasText": true,
+          "firstResponder": true,
+          "asciiKeyboard": true,
+          "secure": true,
+          "receivedSeveralEdits": true,
+          "inputEnglish": true,
+          "inputArabic": false,
+          "inputOther": false,
+          "bindingReady": true
+        }
+      },
+      {
+        "phase": "after_keyboard_done",
+        "login_exists": true,
+        "login_enabled": false,
+        "signup_exists": true,
+        "signup_enabled": false,
+        "busy": false,
+        "latinKeys": false,
+        "arabicKeys": false,
+        "strongCover": false,
+        "native": {
+          "nativeReady": true,
+          "hasText": true,
+          "firstResponder": false,
+          "asciiKeyboard": true,
+          "secure": true,
+          "receivedSeveralEdits": true,
+          "inputEnglish": true,
+          "inputArabic": false,
+          "inputOther": false,
+          "bindingReady": true
+        }
+      }
+    ]
+  ]
+}

@@ -1,3 +1,5 @@
+> Current follow-up: [integration review and native verification](NATIVE_REVIEW_STATUS.md), [PR4](https://github.com/xxsw11/nidaa-ios-proof/pull/4). The results below are the preserved prior-stage baseline, including its AutoFill-Off limitation.
+
 # Local integration trial — implemented and verified
 
 Updated 2026-09-28. [Implementation PR #3](https://github.com/xxsw11/nidaa-ios-proof/pull/3) depends on the still-open [design PR #2](https://github.com/xxsw11/nidaa-ios-proof/pull/2). Neither is merged. Main remains `a1ffbec01bd7cc39409bbd740639606fe2f29e39`; the implementation is based on PR #2 head `ab479a345aa6f5c2a98a369a7f7ed23819957a48`.

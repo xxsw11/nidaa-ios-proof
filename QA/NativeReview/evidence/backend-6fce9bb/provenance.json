@@ -1,0 +1,9 @@
+{
+  "commit": "6fce9bb00f10a4fe127d71c2b77ddbe9b4398af9",
+  "run": 36511223671,
+  "attempt": 1,
+  "job": 109223558989,
+  "artifact": 11009183645,
+  "sha256": "bf6a7b891a85b751774e72789184a6c90fc683664775dcfc165e197a12d7e8f0",
+  "result": "54 backend tests passed; later client revoked-refresh regression failed"
+}

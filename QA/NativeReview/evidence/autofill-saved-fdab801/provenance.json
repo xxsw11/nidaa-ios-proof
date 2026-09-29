@@ -1,0 +1,12 @@
+{
+  "run": 36522693759,
+  "attempt": 1,
+  "job": 109258835451,
+  "commit": "fdab801a00dfe85108a2d8e2f033f12646e34dbc",
+  "suite": "autofill-saved",
+  "artifact": 11014450578,
+  "artifactSHA256": "12373a8c165ebe223a2c668ae359a7185c01661053bb97e13b90472f5716e8a7",
+  "result": "0 passed,1 failed,0 skipped; Release passed",
+  "observed": "Safe readiness confirms exact fictional site/username, native Password row found, Save disabled before explicit random password and enabled afterwards. Save tap dismissed New Password form. Failure later at line90: AutoFill submenu unavailable; fixed control inventory nevertheless shows button:Passwords.",
+  "changeBeforeRetry": "07787d0 waits for native Passwords accessory before fallback, rechecks direct Passwords after long press, and waits for actual hittability. No injected autofill values, missing assertion or product change."
+}

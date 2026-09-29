@@ -1,0 +1,265 @@
+{
+  "commit": "710376d4bf1c95d1a27bdd5a9dd123aa25c287bf",
+  "run": 36559755385,
+  "attempt": 1,
+  "job": 109377491217,
+  "artifact": 11030195033,
+  "artifactSHA256": "59cdf80f47d1cf837b2a215cbbb4a105bbca6bf1c02499f294d1ccf18756c16e",
+  "scope": "Separate official Simulator biometry capability; not an app acceptance run",
+  "report": {
+    "TCCChanged": false,
+    "appCredentialsCreated": false,
+    "authenticationPromptRequested": false,
+    "autoFillValidated": false,
+    "blocker": "official_menu_attempt_incomplete",
+    "cleanup": {
+      "delete": {
+        "exitCode": 0
+      },
+      "shutdown": {
+        "exitCode": 0
+      }
+    },
+    "cleanupBudgetSeconds": 90,
+    "combinedCapabilityStatus": "Failed",
+    "commands": [
+      {
+        "effectiveTimeoutSeconds": 90,
+        "elapsedSeconds": 13.958,
+        "exitCode": 0,
+        "maximumSeconds": 90,
+        "operation": "compile_public_AX_helper",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 10,
+        "elapsedSeconds": 0.184,
+        "exitCode": 0,
+        "maximumSeconds": 10,
+        "operation": "launch_system_events",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 30,
+        "elapsedSeconds": 0.804,
+        "exitCode": 0,
+        "maximumSeconds": 30,
+        "operation": "no_prompt_permission_check",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 120,
+        "elapsedSeconds": 83.027,
+        "exitCode": 0,
+        "maximumSeconds": 120,
+        "operation": "simulator_inventory",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 30,
+        "elapsedSeconds": 1.346,
+        "exitCode": 0,
+        "maximumSeconds": 30,
+        "operation": "create_owned_simulator",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 30,
+        "elapsedSeconds": 2.758,
+        "exitCode": 0,
+        "maximumSeconds": 30,
+        "operation": "boot_owned_simulator",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 240,
+        "elapsedSeconds": 78.047,
+        "exitCode": 0,
+        "maximumSeconds": 240,
+        "operation": "owned_bootstatus",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 30,
+        "elapsedSeconds": 1.569,
+        "exitCode": 0,
+        "maximumSeconds": 30,
+        "operation": "selected_developer_directory",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 30,
+        "elapsedSeconds": 1.476,
+        "exitCode": 0,
+        "maximumSeconds": 30,
+        "operation": "open_owned_simulator_window",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 60,
+        "elapsedSeconds": 5.306,
+        "exitCode": 0,
+        "maximumSeconds": 60,
+        "operation": "verify_owned_window_before_xctest",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 600,
+        "elapsedSeconds": 331.392,
+        "exitCode": 0,
+        "maximumSeconds": 600,
+        "operation": "xctest_before",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 20,
+        "elapsedSeconds": 4.415,
+        "exitCode": 0,
+        "maximumSeconds": 20,
+        "operation": "verify_before_one_test_summary",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 90,
+        "elapsedSeconds": 0.052,
+        "exitCode": 3,
+        "maximumSeconds": 90,
+        "operation": "official_menu_single_enrollment_attempt",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 360,
+        "elapsedSeconds": 39.109,
+        "exitCode": 0,
+        "maximumSeconds": 360,
+        "operation": "xctest_after",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 20,
+        "elapsedSeconds": 1.454,
+        "exitCode": 0,
+        "maximumSeconds": 20,
+        "operation": "verify_after_one_test_summary",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 30,
+        "elapsedSeconds": 6.704,
+        "exitCode": 0,
+        "maximumSeconds": 30,
+        "operation": "cleanup_shutdown",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 60,
+        "elapsedSeconds": 1.079,
+        "exitCode": 0,
+        "maximumSeconds": 60,
+        "operation": "cleanup_delete",
+        "status": "Completed"
+      }
+    ],
+    "customObserverAppInstalled": false,
+    "executionBudgetSeconds": 1200,
+    "hostHelperCompileExitCode": 0,
+    "hostHelperSHA256": "92e4c4bf7eda931ef0d3958ea98bef57c7626ac602bbb0a512c26d786c256935",
+    "matchingFaceInvoked": false,
+    "menu": {
+      "accessibilityTrusted": true,
+      "automationPromptRequested": false,
+      "automationStatus": -600,
+      "uiElementsEnabled": false
+    },
+    "menuHelperExitCode": 3,
+    "menuOnlyStatus": "Failed",
+    "observations": {
+      "after": {
+        "nonceMatched": true,
+        "observationSource": "Validated-console-record",
+        "recordParseStatus": "Validated",
+        "result": {
+          "authenticationPromptRequested": false,
+          "biometryType": 2,
+          "canEvaluate": false,
+          "errorIsLocalAuthentication": true,
+          "laErrorCode": -7,
+          "phase": "after",
+          "policy": 1,
+          "schemaVersion": 1
+        },
+        "status": "Observed",
+        "testExitCode": 0,
+        "testSummary": {
+          "failedTests": 0,
+          "passedTests": 1,
+          "queryExitCode": 0,
+          "skippedTests": 0,
+          "status": "Validated",
+          "totalTestCount": 1
+        }
+      },
+      "before": {
+        "nonceMatched": true,
+        "observationSource": "Validated-console-record",
+        "recordParseStatus": "Validated",
+        "result": {
+          "authenticationPromptRequested": false,
+          "biometryType": 2,
+          "canEvaluate": false,
+          "errorIsLocalAuthentication": true,
+          "laErrorCode": -7,
+          "phase": "before",
+          "policy": 1,
+          "schemaVersion": 1
+        },
+        "status": "Observed",
+        "testExitCode": 0,
+        "testSummary": {
+          "failedTests": 0,
+          "passedTests": 1,
+          "queryExitCode": 0,
+          "skippedTests": 0,
+          "status": "Validated",
+          "totalTestCount": 1
+        }
+      }
+    },
+    "ownedDeviceCreated": true,
+    "ownedDeviceDeleted": true,
+    "permissions": {
+      "accessibilityTrusted": true,
+      "automationPromptRequested": false,
+      "automationStatus": 0,
+      "uiElementsEnabled": true
+    },
+    "physicalBiometryProven": false,
+    "privateAPIsUsed": false,
+    "privateTemporaryOutputsRemoved": true,
+    "probeSHA256": "053b99be1d4e4873c64ae68a2897e71baf3551aa4b348daf231b717822bdc6de",
+    "runtimeIdentifier": "com.apple.CoreSimulator.SimRuntime.iOS-18-5",
+    "schemaVersion": 1,
+    "scope": "XCTest-runner biometric capability only",
+    "stage": "verify_after_one_test_summary",
+    "status": "Blocked",
+    "testSelector": "NidaaUITests/BiometryCapabilityUITests/testObserveBiometry",
+    "windowReadiness": {
+      "accessibilityTrusted": true,
+      "automationPromptRequested": false,
+      "automationStatus": 0,
+      "axActionCodes": {
+        "raise_owned_AX_window": 0
+      },
+      "axReturnCode": 0,
+      "enrollmentActionAttempted": false,
+      "ownedFocusVerified": true,
+      "ownedWindowVerified": true,
+      "queryStage": "owned_window_ready",
+      "simulatorProcessObserved": true,
+      "uiElementsEnabled": true,
+      "windowOnly": true
+    }
+  },
+  "diagnosis": "The existing Xcode UI runner produced valid fresh before/after LocalAuthentication observations, each exactly1passed/0failed/0skipped. Both reported FaceID type2, canEvaluate=false and LA-7. The official menu helper returned AE-600 before inspecting a menu: System Events was no longer running after the331.392-second first XCTest invocation despite successful initial permission/window checks. This is target-process availability, not a permission denial. No enrollment action occurred. Owned cleanup passed.",
+  "changeBeforeRetry": "Reopen the same public System Events application immediately after the first XCTest and before the single menu inspection/enrollment attempt. Do not change TCC, repeat an enrollment action, alter app tests, or interpret observer-test passes as AutoFill success."
+}

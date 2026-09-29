@@ -1,0 +1,72 @@
+{
+  "commit": "854ca3fd29657ecc1b52de8c14b2e0a085b392dc",
+  "run": 36562586850,
+  "attempt": 1,
+  "job": 109386734917,
+  "artifact": 11031187533,
+  "artifactSHA256": "747cebe6f50305a9b618eac34cef561350488445c487005f6995522493e8bc9f",
+  "scope": "Diagnostic MOCK navigation run; excluded from frozen9127 acceptance counts",
+  "result": "Passed",
+  "counts": {
+    "totalTestCount": 8,
+    "passedTests": 8,
+    "failedTests": 0,
+    "skippedTests": 0
+  },
+  "testCaseResults": [
+    [
+      "NidaaUITests.IntegrationUITests",
+      "testBackgroundInvalidatesConfirmation",
+      "passed"
+    ],
+    [
+      "NidaaUITests.IntegrationUITests",
+      "testDeviceAcknowledgementDoesNotBecomeHumanResponse",
+      "passed"
+    ],
+    [
+      "NidaaUITests.IntegrationUITests",
+      "testFreshAuthenticationAndConfirmationNeverAutoSend",
+      "passed"
+    ],
+    [
+      "NidaaUITests.IntegrationUITests",
+      "testInvitationRequiresDirectionalConsent",
+      "passed"
+    ],
+    [
+      "NidaaUITests.IntegrationUITests",
+      "testLargeArabicLayoutAndLogoutIsolation",
+      "passed"
+    ],
+    [
+      "NidaaUITests.IntegrationUITests",
+      "testRegistrationRequiresExplicitVerification",
+      "passed"
+    ],
+    [
+      "NidaaUITests.IntegrationUITests",
+      "testSelectionChangeInvalidatesConfirmation",
+      "passed"
+    ],
+    [
+      "NidaaUITests.IntegrationUITests",
+      "testUnknownOutcomeQueriesOriginalOperation",
+      "passed"
+    ]
+  ],
+  "failedTestIdentifiers": [],
+  "failureLocations": [],
+  "debugTestSucceeded": true,
+  "releaseBuildSucceeded": true,
+  "revealPresence": [],
+  "revealGeometry": [],
+  "diagnosis": "All eight unchanged behavioral assertions passed, including large Arabic navigation and logout isolation. Only failure telemetry changed. The previous reveal-guard failure was not reproduced; empty presence/geometry diagnostics provide no cause or proof of a behavioral fix.",
+  "limits": [
+    "Not a new unified acceptance source",
+    "Earlier710376d failure remains unresolved",
+    "Saved credential selection not tested",
+    "Native real-backend E2E not tested",
+    "Physical device not tested"
+  ]
+}

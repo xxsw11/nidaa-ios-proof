@@ -1,0 +1,354 @@
+Fetching https://github.com/apple/swift-asn1.git
+Fetching https://github.com/pointfreeco/swift-concurrency-extras
+[1/1058] Fetching swift-concurrency-extras
+[12/3044] Fetching swift-concurrency-extras, swift-asn1
+Fetched https://github.com/pointfreeco/swift-concurrency-extras from cache (0.90s)
+Fetched https://github.com/apple/swift-asn1.git from cache (0.90s)
+Fetching https://github.com/apple/swift-crypto.git
+Fetching https://github.com/pointfreeco/xctest-dynamic-overlay
+[1/18573] Fetching swift-crypto
+[2/21300] Fetching swift-crypto, xctest-dynamic-overlay
+Fetched https://github.com/pointfreeco/xctest-dynamic-overlay from cache (1.57s)
+Fetched https://github.com/apple/swift-crypto.git from cache (1.57s)
+Fetching https://github.com/pointfreeco/swift-clocks
+Fetching https://github.com/apple/swift-http-types.git
+[1/1939] Fetching swift-http-types
+[2/3385] Fetching swift-http-types, swift-clocks
+Fetched https://github.com/pointfreeco/swift-clocks from cache (0.85s)
+Fetched https://github.com/apple/swift-http-types.git from cache (0.86s)
+Fetching https://github.com/supabase/supabase-swift.git
+[1/33690] Fetching supabase-swift
+Fetched https://github.com/supabase/supabase-swift.git from cache (2.04s)
+Creating working copy for https://github.com/apple/swift-asn1.git
+Working copy of https://github.com/apple/swift-asn1.git resolved at 1.7.3
+Creating working copy for https://github.com/pointfreeco/xctest-dynamic-overlay
+Working copy of https://github.com/pointfreeco/xctest-dynamic-overlay resolved at 1.13.1
+Creating working copy for https://github.com/supabase/supabase-swift.git
+Working copy of https://github.com/supabase/supabase-swift.git resolved at 2.55.2
+Creating working copy for https://github.com/pointfreeco/swift-concurrency-extras
+Working copy of https://github.com/pointfreeco/swift-concurrency-extras resolved at 1.4.1
+Creating working copy for https://github.com/apple/swift-crypto.git
+Working copy of https://github.com/apple/swift-crypto.git resolved at 4.5.2
+Creating working copy for https://github.com/pointfreeco/swift-clocks
+Working copy of https://github.com/pointfreeco/swift-clocks resolved at 1.1.1
+Creating working copy for https://github.com/apple/swift-http-types.git
+Working copy of https://github.com/apple/swift-http-types.git resolved at 1.8.0
+Updating https://github.com/pointfreeco/swift-clocks
+Updating https://github.com/apple/swift-http-types.git
+Updated https://github.com/apple/swift-http-types.git (0.46s)
+Updated https://github.com/pointfreeco/swift-clocks (0.46s)
+Updating https://github.com/pointfreeco/swift-concurrency-extras
+Updating https://github.com/apple/swift-asn1.git
+Updated https://github.com/pointfreeco/swift-concurrency-extras (0.42s)
+Updated https://github.com/apple/swift-asn1.git (0.43s)
+Updating https://github.com/apple/swift-crypto.git
+Updating https://github.com/supabase/supabase-swift.git
+Updated https://github.com/supabase/supabase-swift.git (0.57s)
+Computing version for https://github.com/supabase/supabase-swift.git
+Updating https://github.com/pointfreeco/xctest-dynamic-overlay
+Updated https://github.com/apple/swift-crypto.git (0.61s)
+Updated https://github.com/pointfreeco/xctest-dynamic-overlay (0.43s)
+Computed https://github.com/supabase/supabase-swift.git at 2.55.2 (1.96s)
+Fetching https://github.com/open-telemetry/opentelemetry-swift-core.git
+[1/15117] Fetching opentelemetry-swift-core
+Fetched https://github.com/open-telemetry/opentelemetry-swift-core.git from cache (1.41s)
+Computing version for https://github.com/pointfreeco/xctest-dynamic-overlay
+Computed https://github.com/pointfreeco/xctest-dynamic-overlay at 1.13.1 (1.86s)
+Computing version for https://github.com/pointfreeco/swift-concurrency-extras
+Computed https://github.com/pointfreeco/swift-concurrency-extras at 1.4.1 (0.30s)
+Computing version for https://github.com/pointfreeco/swift-clocks
+Computed https://github.com/pointfreeco/swift-clocks at 1.1.1 (0.31s)
+Computing version for https://github.com/apple/swift-http-types.git
+Computed https://github.com/apple/swift-http-types.git at 1.8.0 (0.33s)
+Computing version for https://github.com/apple/swift-crypto.git
+Computed https://github.com/apple/swift-crypto.git at 4.5.2 (0.93s)
+Computing version for https://github.com/apple/swift-asn1.git
+Computed https://github.com/apple/swift-asn1.git at 1.7.3 (0.41s)
+Computing version for https://github.com/open-telemetry/opentelemetry-swift-core.git
+Computed https://github.com/open-telemetry/opentelemetry-swift-core.git at 2.6.0 (0.43s)
+Fetching https://github.com/apple/swift-atomics.git
+[1/1885] Fetching swift-atomics
+Fetched https://github.com/apple/swift-atomics.git from cache (0.94s)
+Computing version for https://github.com/apple/swift-atomics.git
+Computed https://github.com/apple/swift-atomics.git at 1.3.1 (1.26s)
+Creating working copy for https://github.com/apple/swift-atomics.git
+Working copy of https://github.com/apple/swift-atomics.git resolved at 1.3.1
+Creating working copy for https://github.com/open-telemetry/opentelemetry-swift-core.git
+Working copy of https://github.com/open-telemetry/opentelemetry-swift-core.git resolved at 2.6.0
+Building for debugging...
+[0/21] /Users/runner/work/nidaa-ios-proof/nidaa-ios-proof/IntegrationClient/.build/arm64-apple-macosx/debug/NidaaIntegrationPackageTests.derived/runner.swift
+[1/21] Write sources
+[2/21] Copying PrivacyInfo.xcprivacy
+[3/21] Write sources
+[14/21] Write IntegrationTrialCLI-entitlement.plist
+[15/21] Write swift-version--79AA4F9932D1E87A.txt
+[17/94] Emitting module Crypto
+[18/118] Emitting module HTTPTypes
+[19/121] Compiling Crypto HashFunctions.swift
+[20/121] Compiling Crypto HashFunctions_SHA2.swift
+[21/121] Compiling Crypto HashFunctions_SHA3.swift
+[22/121] Compiling Crypto CryptoKitErrors.swift
+[23/121] Compiling Crypto Digest_boring.swift
+[24/121] Compiling Crypto Digest.swift
+[25/121] Compiling Crypto Digests.swift
+[26/121] Compiling HTTPTypes HTTPRequest+URL.swift
+[27/121] Compiling HTTPTypes HTTPRequest.swift
+[28/121] Compiling HTTPTypes HTTPResponse.swift
+[31/121] Compiling Crypto HPKE-KDF.swift
+[32/121] Compiling Crypto HPKE-KexKeyDerivation.swift
+[33/121] Compiling Crypto HPKE-LabeledExtract.swift
+[34/121] Compiling Crypto HPKE-Utils.swift
+[35/121] Compiling Crypto DHKEM.swift
+[36/128] Compiling Crypto AES-GCM.swift
+[37/128] Compiling Crypto AES-GCM_boring.swift
+[38/128] Compiling Crypto ChaChaPoly_boring.swift
+[39/128] Compiling Crypto ChaChaPoly.swift
+[40/128] Compiling Crypto Cipher.swift
+[41/128] Compiling Crypto Nonces.swift
+[42/128] Compiling Crypto ASN1.swift
+[43/128] Compiling Crypto ASN1Any.swift
+[44/128] Compiling Crypto ASN1BitString.swift
+[45/128] Compiling Crypto ASN1Boolean.swift
+[46/128] Compiling Crypto ASN1Identifier.swift
+[47/128] Compiling Crypto ASN1Integer.swift
+[48/128] Compiling Crypto ASN1Null.swift
+[49/128] Compiling Crypto ASN1OctetString.swift
+[50/128] Compiling Crypto ASN1Strings.swift
+[51/128] Compiling Crypto ArraySliceBigint.swift
+[52/128] Compiling Crypto GeneralizedTime.swift
+[53/128] Compiling Crypto ObjectIdentifier.swift
+[54/128] Compiling Crypto ECDSASignature.swift
+[55/128] Compiling Crypto PEMDocument.swift
+[56/128] Compiling Crypto PKCS8PrivateKey.swift
+[57/128] Compiling Crypto SEC1PrivateKey.swift
+[58/128] Compiling Crypto SubjectPublicKeyInfo.swift
+[59/128] Compiling Crypto CryptoError_boring.swift
+[60/160] Emitting module IssueReporting
+[61/160] Compiling ConcurrencyExtras ActorIsolated.swift
+[62/160] Compiling ConcurrencyExtras AnyHashableSendable.swift
+[63/160] Compiling ConcurrencyExtras AsyncStream.swift
+[64/160] Compiling ConcurrencyExtras AsyncThrowingStream.swift
+[65/160] Compiling ConcurrencyExtras Locking.swift
+[66/160] Compiling ConcurrencyExtras UncheckedBox.swift
+[67/160] Compiling ConcurrencyExtras LockIsolated.swift
+[68/160] Compiling ConcurrencyExtras MainSerialExecutor.swift
+[69/160] Compiling Crypto Insecure_HashFunctions.swift
+[70/160] Compiling Crypto MLKEM_boring.swift
+[71/160] Compiling Crypto MLKEM_wrapper.swift
+[72/160] Compiling Crypto XWing_boring.swift
+[73/160] Compiling Crypto KEM-Errors.swift
+[74/160] Compiling Crypto KEM.swift
+[75/160] Compiling Crypto MLKEM.swift
+[76/160] Compiling Crypto XWing.swift
+[77/160] Compiling Crypto ECDH_boring.swift
+[78/160] Compiling Crypto DH.swift
+[79/160] Compiling Crypto ECDH.swift
+[80/160] Compiling Crypto ANSIx963.swift
+[81/160] Compiling Crypto HKDF.swift
+[82/160] Compiling Crypto AESWrap.swift
+[83/160] Compiling Crypto AESWrap_boring.swift
+[84/160] Compiling Crypto Ed25519_boring.swift
+[85/160] Compiling Crypto NISTCurvesKeys_boring.swift
+[86/160] Compiling Crypto X25519Keys_boring.swift
+[87/160] Compiling Crypto Curve25519.swift
+[88/160] Compiling Crypto Ed25519Keys.swift
+[89/160] Compiling Crypto NISTCurvesKeys.swift
+[90/160] Compiling Crypto X25519Keys.swift
+[91/160] Compiling Crypto SymmetricKeys.swift
+[92/160] Compiling Crypto HMAC.swift
+[108/160] Compiling IssueReporting IssueSeverity.swift
+[109/160] Compiling IssueReporting ReportIssue.swift
+[110/160] Compiling IssueReporting _Test.swift
+[111/160] Compiling IssueReporting TestContext.swift
+[112/160] Compiling IssueReporting Unimplemented.swift
+[113/160] Compiling IssueReporting WithExpectedIssue.swift
+[114/160] Compiling IssueReporting WithIssueContext.swift
+[115/160] Compiling Crypto HPKE-Modes.swift
+[116/160] Compiling Crypto Insecure.swift
+[117/160] Emitting module ConcurrencyExtras
+[133/163] Compiling Crypto MACFunctions.swift
+[134/163] Compiling Crypto MessageAuthenticationCode.swift
+[135/163] Compiling Crypto AES.swift
+[136/163] Compiling Crypto ECDSASignature_boring.swift
+[137/163] Compiling Crypto ECDSA_boring.swift
+[138/163] Compiling Crypto EdDSA_boring.swift
+[139/163] Compiling Crypto MLDSA_boring.swift
+[140/163] Compiling Crypto MLDSA_wrapper.swift
+[141/163] Compiling Crypto ECDSA.swift
+[142/163] Compiling Crypto Ed25519.swift
+[143/163] Compiling Crypto MLDSA.swift
+[144/163] Compiling Crypto Signature.swift
+[145/163] Compiling Crypto CryptoKitErrors_boring.swift
+[146/163] Compiling Crypto Optional+withUnsafeBytes_boring.swift
+[147/163] Compiling Crypto RNG_boring.swift
+[148/163] Compiling Crypto SafeCompare_boring.swift
+[149/163] Compiling Crypto Zeroization_boring.swift
+[150/163] Compiling Crypto _CryptoModuleAnchor.swift
+[151/163] Compiling Crypto PrettyBytes.swift
+[152/163] Compiling Crypto SafeCompare.swift
+[153/163] Compiling Crypto SecureBytes.swift
+[154/163] Compiling Crypto Zeroization.swift
+[155/163] Compiling Crypto resource_bundle_accessor.swift
+[156/163] Compiling ConcurrencyExtras Result.swift
+[157/163] Compiling ConcurrencyExtras Task.swift
+[158/163] Compiling ConcurrencyExtras UncheckedSendable.swift
+[159/173] Compiling XCTestDynamicOverlay Exports.swift
+[160/174] Compiling XCTestDynamicOverlay Fail.swift
+[161/174] Compiling XCTestDynamicOverlay Deprecations.swift
+[162/174] Emitting module XCTestDynamicOverlay
+[163/174] Emitting module Clocks
+[164/176] Compiling Clocks Timer.swift
+[165/176] Compiling Clocks UnimplementedClock.swift
+[166/176] Compiling Clocks AnyClock.swift
+[167/176] Compiling Clocks ImmediateClock.swift
+[168/176] Compiling Clocks Lock.swift
+[169/176] Compiling Clocks _AsyncTimerSequence.swift
+[170/176] Compiling Clocks SwiftUI.swift
+[171/176] Compiling Clocks TestClock.swift
+[172/193] Compiling Helpers APIKeyFormat.swift
+[173/193] Compiling Helpers AnyJSON+Codable.swift
+[174/193] Compiling Helpers AnyJSON.swift
+[175/193] Compiling Helpers Base64URL.swift
+[176/193] Compiling Helpers Codable.swift
+[177/193] Compiling Helpers DateFormatter.swift
+[178/193] Compiling Helpers EventEmitter.swift
+[179/193] Compiling Helpers FoundationExtensions.swift
+[180/200] Compiling Helpers HTTPClient.swift
+[181/200] Compiling Helpers HTTPFields.swift
+[182/200] Compiling Helpers HTTPRequest.swift
+[183/200] Compiling Helpers HTTPResponse.swift
+[184/200] Compiling Helpers LoggerInterceptor.swift
+[185/200] Compiling Helpers RetryRequestInterceptor.swift
+[186/200] Compiling Helpers JWT.swift
+[187/200] Compiling Helpers OSLogSupabaseLogger.swift
+[188/200] Emitting module Helpers
+[189/200] Compiling Helpers SupabaseLogger.swift
+[190/200] Compiling Helpers PostgRESTFilterValue.swift
+[191/200] Compiling Helpers HTTPError.swift
+[192/200] Compiling Helpers PostgrestError.swift
+[193/200] Compiling Helpers Task+withTimeout.swift
+[194/200] Compiling Helpers TaskLocalHelpers.swift
+[195/200] Compiling Helpers Version.swift
+[196/224] Emitting module Auth
+[197/224] Compiling Auth CodeVerifierStorage.swift
+[198/224] Compiling Auth Constants.swift
+[199/224] Compiling Auth Dependencies.swift
+[200/224] Compiling Auth EventEmitter.swift
+[201/224] Compiling Auth FixedWidthInteger+Random.swift
+[202/224] Compiling Auth Helpers.swift
+[203/224] Compiling Auth JWK+RSA.swift
+[204/224] Compiling Auth JWTAlgorithm.swift
+[205/224] Compiling Auth Keychain.swift
+[206/224] Compiling Auth PKCE.swift
+[207/224] Compiling Auth SessionManager.swift
+[208/224] Compiling Auth AuthAdmin.swift
+[209/224] Compiling Auth AuthAdminOAuth.swift
+[210/224] Compiling Auth AuthClient.swift
+[211/224] Compiling Auth AuthClientConfiguration.swift
+[212/224] Compiling Auth AuthError.swift
+[213/224] Compiling Auth AuthMFA.swift
+[214/224] Compiling Auth AuthOAuthServer.swift
+[215/224] Compiling Auth AuthStateChangeListener.swift
+[216/224] Compiling Auth Defaults.swift
+[217/224] Compiling Auth Deprecated.swift
+[218/224] Compiling Auth Exports.swift
+[219/224] Compiling Auth APIClient.swift
+[220/235] Compiling Auth SessionStorage.swift
+[221/235] Compiling Auth URLOpener.swift
+[222/235] Compiling Auth AuthLocalStorage.swift
+[223/235] Compiling Auth KeychainLocalStorage.swift
+[224/235] Compiling Auth WinCredLocalStorage.swift
+[225/235] Compiling Auth Types.swift
+[226/235] Compiling Auth AuthAdmin+Passkey.swift
+[227/235] Compiling Auth AuthClient+Passkey.swift
+[228/235] Compiling Auth AuthMFA+WebAuthn.swift
+[229/235] Compiling Auth WebAuthnAuthenticator.swift
+[230/235] Compiling Auth WebAuthnTypes.swift
+[231/239] Emitting module NidaaIntegration
+[232/240] Compiling NidaaIntegration Transport.swift
+[233/240] Compiling NidaaIntegration Storage.swift
+[234/240] Compiling NidaaIntegration Models.swift
+[235/240] Compiling NidaaIntegration NidaaClient.swift
+[236/247] Compiling IntegrationTrialCLI Trial.swift
+[237/247] Emitting module IntegrationTrialCLI
+[238/247] Compiling IntegrationTrialCLI LocalMailbox.swift
+[238/247] Write Objects.LinkFileList
+[239/247] Linking IntegrationTrialCLI
+[240/247] Applying IntegrationTrialCLI
+[242/247] Compiling NidaaIntegrationTests ClientReviewRegressionTests.swift
+[243/247] Compiling NidaaIntegrationTests ClientSafetyTests.swift
+[244/247] Emitting module NidaaIntegrationTests
+[245/247] Compiling NidaaIntegrationTests StorageBoundaryTests.swift
+[246/248] Compiling NidaaIntegrationTests TestTransport.swift
+[247/250] Emitting module NidaaIntegrationPackageTests
+[248/250] Compiling NidaaIntegrationPackageTests runner.swift
+[248/250] Write Objects.LinkFileList
+[249/250] Linking NidaaIntegrationPackageTests
+Build complete! (77.62s)
+Test Suite 'All tests' started at 2026-09-29 02:18:42.008.
+Test Suite 'NidaaIntegrationPackageTests.xctest' started at 2026-09-29 02:18:42.011.
+Test Suite 'ClientReviewRegressionTests' started at 2026-09-29 02:18:42.011.
+Test Case '-[NidaaIntegrationTests.ClientReviewRegressionTests testCorruptPendingStorageCannotPublishAuthenticatedAccount]' started.
+Test Case '-[NidaaIntegrationTests.ClientReviewRegressionTests testCorruptPendingStorageCannotPublishAuthenticatedAccount]' passed (0.030 seconds).
+Test Case '-[NidaaIntegrationTests.ClientReviewRegressionTests testDomainRevocationClearsPreviouslyFetchedAccountData]' started.
+Test Case '-[NidaaIntegrationTests.ClientReviewRegressionTests testDomainRevocationClearsPreviouslyFetchedAccountData]' passed (0.005 seconds).
+Test Case '-[NidaaIntegrationTests.ClientReviewRegressionTests testMismatchedPendingOwnerCannotPublishAuthenticatedAccount]' started.
+Test Case '-[NidaaIntegrationTests.ClientReviewRegressionTests testMismatchedPendingOwnerCannotPublishAuthenticatedAccount]' passed (0.002 seconds).
+Test Case '-[NidaaIntegrationTests.ClientReviewRegressionTests testRevokedRefreshClearsCacheButRetainsUnknownForReauthentication]' started.
+Test Case '-[NidaaIntegrationTests.ClientReviewRegressionTests testRevokedRefreshClearsCacheButRetainsUnknownForReauthentication]' passed (0.006 seconds).
+Test Case '-[NidaaIntegrationTests.ClientReviewRegressionTests testUnrecognizedLookupStatusCannotReleaseUnknownOperation]' started.
+Test Case '-[NidaaIntegrationTests.ClientReviewRegressionTests testUnrecognizedLookupStatusCannotReleaseUnknownOperation]' passed (0.004 seconds).
+Test Suite 'ClientReviewRegressionTests' passed at 2026-09-29 02:18:42.058.
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.047 (0.047) seconds
+Test Suite 'ClientSafetyTests' started at 2026-09-29 02:18:42.058.
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testAccountSwitchClearsOtherAccountsPendingAndCachedDetails]' started.
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testAccountSwitchClearsOtherAccountsPendingAndCachedDetails]' passed (0.002 seconds).
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testDelayedOldAuthCannotOverwriteNewSessionsStorage]' started.
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testDelayedOldAuthCannotOverwriteNewSessionsStorage]' passed (0.014 seconds).
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testDelayedOldCommandResponseCannotMutateNewAccount]' started.
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testDelayedOldCommandResponseCannotMutateNewAccount]' passed (0.012 seconds).
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testDelayedOldSyncCannotRepopulateAfterSameAccountRelogin]' started.
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testDelayedOldSyncCannotRepopulateAfterSameAccountRelogin]' passed (0.010 seconds).
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testLogoutWipesBeforeAwaitingServerAndOfflineLogoutIsHonest]' started.
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testLogoutWipesBeforeAwaitingServerAndOfflineLogoutIsHonest]' passed (0.012 seconds).
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testMalformedOrMismatchedReceiptStaysUnknown]' started.
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testMalformedOrMismatchedReceiptStaysUnknown]' passed (0.003 seconds).
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testNeverSentDraftAndReconnectDoNotDispatch]' started.
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testNeverSentDraftAndReconnectDoNotDispatch]' passed (0.001 seconds).
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testOutOfOrderSnapshotCannotReopenTerminalAlert]' started.
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testOutOfOrderSnapshotCannotReopenTerminalAlert]' passed (0.003 seconds).
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testSecurePendingWriteFailurePreventsPost]' started.
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testSecurePendingWriteFailurePreventsPost]' passed (0.001 seconds).
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testStaleDraftRemainsNeverSentWithoutNetworkMutation]' started.
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testStaleDraftRemainsNeverSentWithoutNetworkMutation]' passed (0.001 seconds).
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testTombstonesRemoveDetailsAndPartialSnapshotFailsClosed]' started.
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testTombstonesRemoveDetailsAndPartialSnapshotFailsClosed]' passed (0.003 seconds).
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testTransportFailureRetainsUnknownAndSameOperationLookupOnly]' started.
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testTransportFailureRetainsUnknownAndSameOperationLookupOnly]' passed (0.004 seconds).
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testUnknownReceipt404CannotBecomeNeverSentOrBeDiscarded]' started.
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testUnknownReceipt404CannotBecomeNeverSentOrBeDiscarded]' passed (0.003 seconds).
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testUnknownStateSurvivesSameAccountReauthenticationWithoutResend]' started.
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testUnknownStateSurvivesSameAccountReauthenticationWithoutResend]' passed (0.003 seconds).
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testVerificationAccountSwitchRejectsPreviousAccountsDelayedSync]' started.
+Test Case '-[NidaaIntegrationTests.ClientSafetyTests testVerificationAccountSwitchRejectsPreviousAccountsDelayedSync]' passed (0.011 seconds).
+Test Suite 'ClientSafetyTests' passed at 2026-09-29 02:18:42.143.
+	 Executed 15 tests, with 0 failures (0 unexpected) in 0.084 (0.085) seconds
+Test Suite 'StorageBoundaryTests' started at 2026-09-29 02:18:42.143.
+Test Case '-[NidaaIntegrationTests.StorageBoundaryTests testClearingAuthPreservesUncertainPendingReceiptForReauthentication]' started.
+Test Case '-[NidaaIntegrationTests.StorageBoundaryTests testClearingAuthPreservesUncertainPendingReceiptForReauthentication]' passed (0.000 seconds).
+Test Case '-[NidaaIntegrationTests.StorageBoundaryTests testClearingOneEnvironmentDoesNotClearAnotherEnvironment]' started.
+Test Case '-[NidaaIntegrationTests.StorageBoundaryTests testClearingOneEnvironmentDoesNotClearAnotherEnvironment]' passed (0.000 seconds).
+Test Case '-[NidaaIntegrationTests.StorageBoundaryTests testEnvironmentRejectsExternalCredentialsQueriesAndPaths]' started.
+Test Case '-[NidaaIntegrationTests.StorageBoundaryTests testEnvironmentRejectsExternalCredentialsQueriesAndPaths]' passed (0.000 seconds).
+Test Case '-[NidaaIntegrationTests.StorageBoundaryTests testInvalidatedAuthCallbackCannotRecreateCredentials]' started.
+Test Case '-[NidaaIntegrationTests.StorageBoundaryTests testInvalidatedAuthCallbackCannotRecreateCredentials]' passed (0.000 seconds).
+Test Suite 'StorageBoundaryTests' passed at 2026-09-29 02:18:42.144.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'NidaaIntegrationPackageTests.xctest' passed at 2026-09-29 02:18:42.145.
+	 Executed 24 tests, with 0 failures (0 unexpected) in 0.132 (0.134) seconds
+Test Suite 'All tests' passed at 2026-09-29 02:18:42.145.
+	 Executed 24 tests, with 0 failures (0 unexpected) in 0.132 (0.136) seconds
+◇ Test run started.
+↳ Testing Library Version: 124.4
+↳ Target Platform: arm64e-apple-macos14.0
+✔ Test run with 0 tests passed after 0.001 seconds.

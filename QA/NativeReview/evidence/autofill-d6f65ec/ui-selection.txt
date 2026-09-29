@@ -1,0 +1,2 @@
+UI suite: autofill
+-only-testing:NidaaUITests/AutoFillUITests

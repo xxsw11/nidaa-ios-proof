@@ -1,0 +1,3212 @@
+{
+  "commit": "5ec19a7d65c5505c75b137a4dc752157688d71ed",
+  "run": 36576126856,
+  "attempt": 1,
+  "job": 109432091166,
+  "artifact": 11037848671,
+  "artifactSHA256": "50af4e0cf8135caa38aef3ccf12348618cc6559c857f5fe2c88f1bea6f36737c",
+  "scope": "Guarded saved-identity diagnostic; helper also affected native fixture, failed persistence before picker stage",
+  "source": {
+    "commit": "5ec19a7d65c5505c75b137a4dc752157688d71ed",
+    "eventCommit": "5ec19a7d65c5505c75b137a4dc752157688d71ed",
+    "run": "36576126856",
+    "attempt": "1",
+    "workflow": "NIDAA - Bounded Simulator biometry capability",
+    "runnerOS": "macOS",
+    "runnerArchitecture": "ARM64"
+  },
+  "report": {
+    "TCCChanged": false,
+    "afterCanEvaluate": true,
+    "autoFillValidated": false,
+    "beforeCanEvaluate": false,
+    "biometryObserverAuthenticationPromptRequested": false,
+    "blocker": "enrolled_saved_credential_diagnostic_failed",
+    "cleanup": {
+      "delete": {
+        "exitCode": 0
+      },
+      "shutdown": {
+        "exitCode": 0
+      }
+    },
+    "cleanupBudgetSeconds": 90,
+    "combinedCapabilityStatus": "Passed",
+    "commands": [
+      {
+        "effectiveTimeoutSeconds": 90,
+        "elapsedSeconds": 13.75,
+        "exitCode": 0,
+        "maximumSeconds": 90,
+        "operation": "compile_public_AX_helper",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 10,
+        "elapsedSeconds": 0.127,
+        "exitCode": 0,
+        "maximumSeconds": 10,
+        "operation": "launch_system_events",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 30,
+        "elapsedSeconds": 0.55,
+        "exitCode": 0,
+        "maximumSeconds": 30,
+        "operation": "no_prompt_permission_check",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 120,
+        "elapsedSeconds": 39.186,
+        "exitCode": 0,
+        "maximumSeconds": 120,
+        "operation": "simulator_inventory",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 30,
+        "elapsedSeconds": 0.94,
+        "exitCode": 0,
+        "maximumSeconds": 30,
+        "operation": "create_owned_simulator",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 30,
+        "elapsedSeconds": 2.355,
+        "exitCode": 0,
+        "maximumSeconds": 30,
+        "operation": "boot_owned_simulator",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 240,
+        "elapsedSeconds": 66.492,
+        "exitCode": 0,
+        "maximumSeconds": 240,
+        "operation": "owned_bootstatus",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 30,
+        "elapsedSeconds": 2.411,
+        "exitCode": 0,
+        "maximumSeconds": 30,
+        "operation": "selected_developer_directory",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 30,
+        "elapsedSeconds": 5.581,
+        "exitCode": 0,
+        "maximumSeconds": 30,
+        "operation": "open_owned_simulator_window",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 60,
+        "elapsedSeconds": 2.955,
+        "exitCode": 0,
+        "maximumSeconds": 60,
+        "operation": "verify_owned_window_before_xctest",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 600,
+        "elapsedSeconds": 248.746,
+        "exitCode": 0,
+        "maximumSeconds": 600,
+        "operation": "xctest_before",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 20,
+        "elapsedSeconds": 6.376,
+        "exitCode": 0,
+        "maximumSeconds": 20,
+        "operation": "verify_before_one_test_summary",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 10,
+        "elapsedSeconds": 0.271,
+        "exitCode": 0,
+        "maximumSeconds": 10,
+        "operation": "reopen_system_events_after_xctest",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 90,
+        "elapsedSeconds": 4.132,
+        "exitCode": 0,
+        "maximumSeconds": 90,
+        "operation": "official_menu_single_enrollment_attempt",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 360,
+        "elapsedSeconds": 34.738,
+        "exitCode": 0,
+        "maximumSeconds": 360,
+        "operation": "xctest_after",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 20,
+        "elapsedSeconds": 0.562,
+        "exitCode": 0,
+        "maximumSeconds": 20,
+        "operation": "verify_after_one_test_summary",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 720,
+        "elapsedSeconds": 191.745,
+        "exitCode": 65,
+        "maximumSeconds": 720,
+        "operation": "autofill_saved_selected_test",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 60,
+        "elapsedSeconds": 1.037,
+        "exitCode": 0,
+        "maximumSeconds": 60,
+        "operation": "export_private_saved_test_attachments",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 30,
+        "elapsedSeconds": 0.164,
+        "exitCode": 0,
+        "maximumSeconds": 30,
+        "operation": "read_private_saved_test_summary",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 360,
+        "elapsedSeconds": 96.193,
+        "exitCode": 0,
+        "maximumSeconds": 360,
+        "operation": "autofill_independent_release_build",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 30,
+        "elapsedSeconds": 6.202,
+        "exitCode": 0,
+        "maximumSeconds": 30,
+        "operation": "cleanup_shutdown",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 60,
+        "elapsedSeconds": 1.58,
+        "exitCode": 0,
+        "maximumSeconds": 60,
+        "operation": "cleanup_delete",
+        "status": "Completed"
+      }
+    ],
+    "customObserverAppInstalled": false,
+    "executionBudgetSeconds": 1800,
+    "fictionalCredentialFixtureAttempted": true,
+    "hostHelperCompileExitCode": 0,
+    "hostHelperSHA256": "70b1f729b9e9d7e026937976e220639645c03cab5a2a21ca69d55c1bc0368314",
+    "matchingExperiment": {
+      "actionAttempted": false,
+      "actionOutcomeUncertain": false,
+      "authenticationPromptObserved": false,
+      "hypothesis": "picker_requires_biometric_response",
+      "maximumMatchingActions": 1,
+      "originalAssertionsRetained": true,
+      "rawEvidenceUploaded": false,
+      "status": "Waiting-for-event",
+      "transport": {
+        "callbackFailed": false,
+        "elapsedSeconds": 191.74,
+        "exactEventCount": 0,
+        "foreignEventObserved": false,
+        "lateEventObserved": false,
+        "lineTerminated": true
+      },
+      "trigger": "exact_nonce_event_after_completed_native_passwords_tap"
+    },
+    "matchingFaceInvoked": false,
+    "menu": {
+      "accessibilityTrusted": true,
+      "automationPromptRequested": false,
+      "automationStatus": 0,
+      "axActionCodes": {
+        "press_enrolled_once": 0,
+        "press_face_id": 0,
+        "press_features_hardware": 0,
+        "raise_owned_AX_window": 0,
+        "reopen_face_id": 0,
+        "reopen_features": 0
+      },
+      "axReturnCode": 0,
+      "enrolledAfter": true,
+      "enrolledBefore": false,
+      "enrolledMarkReadable": true,
+      "enrolledMenuPresent": true,
+      "enrollmentActionAttempted": true,
+      "enrollmentChanged": true,
+      "enrollmentOutcomeProven": true,
+      "enrollmentReadbackElapsedSeconds": 1.903014374999998,
+      "enrollmentReadbackSamples": [
+        {
+          "axReturnCode": -25212,
+          "checked": false,
+          "elapsedSeconds": 0.012898041666630888,
+          "markKnown": true
+        },
+        {
+          "axReturnCode": -25212,
+          "checked": false,
+          "elapsedSeconds": 0.6498925416666452,
+          "markKnown": true
+        },
+        {
+          "axReturnCode": -25212,
+          "checked": false,
+          "elapsedSeconds": 1.2693397083332911,
+          "markKnown": true
+        },
+        {
+          "axReturnCode": 0,
+          "checked": true,
+          "elapsedSeconds": 1.9030094999999392,
+          "markKnown": true
+        }
+      ],
+      "enrollmentReadbackTimedOut": false,
+      "faceIDMenuPresent": true,
+      "featuresMenuPresent": true,
+      "hardwareMenuPresent": false,
+      "matchingFaceInvoked": false,
+      "matchingFaceMenuEnabled": true,
+      "matchingFaceMenuEnabledBefore": true,
+      "matchingFaceMenuPresent": true,
+      "matchingFaceMenuPresentBefore": true,
+      "menuCancelReturnCode": 0,
+      "ownedFocusVerified": true,
+      "ownedWindowVerified": true,
+      "queryStage": "complete",
+      "simulatorProcessObserved": true,
+      "uiElementsEnabled": true
+    },
+    "menuHelperExitCode": 0,
+    "menuOnlyStatus": "Passed",
+    "observations": {
+      "after": {
+        "nonceMatched": true,
+        "observationSource": "Validated-console-record",
+        "recordParseStatus": "Validated",
+        "result": {
+          "authenticationPromptRequested": false,
+          "biometryType": 2,
+          "canEvaluate": true,
+          "errorIsLocalAuthentication": true,
+          "laErrorCode": 0,
+          "phase": "after",
+          "policy": 1,
+          "schemaVersion": 1
+        },
+        "status": "Observed",
+        "testExitCode": 0,
+        "testSummary": {
+          "failedTests": 0,
+          "passedTests": 1,
+          "queryExitCode": 0,
+          "skippedTests": 0,
+          "status": "Validated",
+          "totalTestCount": 1
+        }
+      },
+      "before": {
+        "nonceMatched": true,
+        "observationSource": "Validated-console-record",
+        "recordParseStatus": "Validated",
+        "result": {
+          "authenticationPromptRequested": false,
+          "biometryType": 2,
+          "canEvaluate": false,
+          "errorIsLocalAuthentication": true,
+          "laErrorCode": -7,
+          "phase": "before",
+          "policy": 1,
+          "schemaVersion": 1
+        },
+        "status": "Observed",
+        "testExitCode": 0,
+        "testSummary": {
+          "failedTests": 0,
+          "passedTests": 1,
+          "queryExitCode": 0,
+          "skippedTests": 0,
+          "status": "Validated",
+          "totalTestCount": 1
+        }
+      }
+    },
+    "orchestrationSHA256": "b300f3510b2e3a9be9782f03f427f188473f916e9fa4950e35bb90b881a26247",
+    "ownedDeviceCreated": true,
+    "ownedDeviceDeleted": true,
+    "permissions": {
+      "accessibilityTrusted": true,
+      "automationPromptRequested": false,
+      "automationStatus": 0,
+      "uiElementsEnabled": true
+    },
+    "physicalBiometryProven": false,
+    "privateAPIsUsed": false,
+    "privateTemporaryOutputsRemoved": true,
+    "probeSHA256": "21a70ae44321b0acd098a03e0f3db6c97800f7b849fc5cb5de7680a77b5e689c",
+    "realAccountsCreated": false,
+    "runtimeIdentifier": "com.apple.CoreSimulator.SimRuntime.iOS-18-5",
+    "savedCredentialDiagnostic": {
+      "acceptanceGate": "One nonce-bound official Matching Face action, without inferring a prompt or authentication from the action alone. Original saved-credential selector: exactly one passed test and no skips/failures; Release build passed; fixed-field result and strictly validated early-entry tree exported. No raw or encrypted credential evidence exported.",
+      "attachmentExportExitCode": 0,
+      "debugTestSucceeded": false,
+      "earlyEntryTreeStatus": "Exported",
+      "failureCategory": "selected_test_failure",
+      "matchingExperimentCompleted": false,
+      "matchingFaceInvoked": false,
+      "rawEvidenceLocation": "Owned private runner directory; never uploaded in any form",
+      "rawEvidencePolicy": "Runner-private only; never exported or uploaded, including encrypted archives.",
+      "rawEvidencePublic": false,
+      "releaseBuildSucceeded": true,
+      "releaseExitCode": 0,
+      "releaseStatus": "Passed",
+      "safeExportStatus": "Fixed-fields-written",
+      "sameOwnedEnrolledSimulator": true,
+      "savedCredentialSelection": "failed",
+      "status": "Failed",
+      "systemLogsCollected": false,
+      "testExitCode": 65,
+      "testSelector": "NidaaUITests/AutoFillUITests/testSavedCredentialSelection",
+      "testSummary": {
+        "failedTests": 1,
+        "passedTests": 0,
+        "skippedTests": 0,
+        "totalTestCount": 1
+      }
+    },
+    "savedJourneySystemAuthentication": "Inspect strictly sanitized UI trees; raw evidence remains runner-private",
+    "schemaVersion": 1,
+    "scope": "Controlled one-shot official Matching Face response after native Passwords tap on verified enrolled owned Simulator",
+    "stage": "autofill_independent_release_build",
+    "status": "Blocked",
+    "testSelector": "NidaaUITests/BiometryCapabilityUITests/testObserveBiometry",
+    "windowReadiness": {
+      "accessibilityTrusted": true,
+      "automationPromptRequested": false,
+      "automationStatus": 0,
+      "axActionCodes": {
+        "raise_owned_AX_window": 0
+      },
+      "axReturnCode": 0,
+      "enrollmentActionAttempted": false,
+      "ownedFocusVerified": true,
+      "ownedWindowVerified": true,
+      "queryStage": "owned_window_ready",
+      "simulatorProcessObserved": true,
+      "uiElementsEnabled": true,
+      "windowOnly": true
+    }
+  },
+  "testResult": {
+    "schemaVersion": 1,
+    "suite": "autofill-saved",
+    "testIdentifier": "AutoFillUITests/testSavedCredentialSelection()",
+    "testResult": "failed",
+    "exitCode": 65,
+    "summary": {
+      "totalTestCount": 1,
+      "passedTests": 0,
+      "failedTests": 1,
+      "skippedTests": 0
+    },
+    "debugTestSucceeded": false,
+    "releaseBuildSucceeded": true,
+    "failureLocations": [
+      {
+        "fileName": "AutoFillUITests.swift",
+        "line": 119
+      }
+    ],
+    "rawEvidenceUploaded": false,
+    "encryptedEvidenceUploaded": false,
+    "screenshotsUploaded": false,
+    "sameOwnedEnrolledSimulator": true,
+    "matchingFaceInvoked": false,
+    "earlyEntryTree": {
+      "status": "Exported",
+      "reason": "validated-fixed-schema"
+    },
+    "selectionState": {
+      "status": "Unavailable",
+      "reason": "attachment-missing"
+    },
+    "queryState": {
+      "status": "Unavailable",
+      "reason": "attachment-missing"
+    },
+    "pickerTrees": {
+      "status": "Unavailable",
+      "reason": "attachment-count",
+      "before_tap": false,
+      "after_tap": false,
+      "selection_failure": false
+    },
+    "matchingExperiment": {
+      "hypothesis": "picker_requires_biometric_response",
+      "authenticationPromptObserved": false,
+      "trigger": "exact_nonce_event_after_completed_native_passwords_tap",
+      "maximumMatchingActions": 1,
+      "status": "Waiting-for-event",
+      "actionAttempted": false,
+      "actionOutcomeUncertain": false,
+      "originalAssertionsRetained": true,
+      "rawEvidenceUploaded": false,
+      "transport": {
+        "exactEventCount": 0,
+        "foreignEventObserved": false,
+        "lateEventObserved": false,
+        "callbackFailed": false,
+        "lineTerminated": true,
+        "elapsedSeconds": 191.74
+      }
+    },
+    "failureCategory": "selected_test_failure",
+    "failureSignatures": {
+      "matching_snapshot_failure": false,
+      "snapshot_failure": false,
+      "query_timeout": false,
+      "multiple_matches": false,
+      "no_matching_elements": false,
+      "application_not_running": false,
+      "accessibility_connection_failure": false,
+      "element_not_hittable": false,
+      "interrupted_query": false,
+      "test_process_terminated": false
+    },
+    "classifiedErrorLineCount": 2,
+    "failureSignatureLimit": "Fixed substring signatures on error lines only; no message or query text exported. An unmatched signature does not prove an error absent."
+  },
+  "sanitizedTrees": {
+    "early-passwords-entry.json": {
+      "nodes": [
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "Passwords",
+          "node": 0,
+          "parent": -1,
+          "role": 2,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 1,
+          "parent": 0,
+          "role": 4,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 2,
+          "parent": 1,
+          "role": 1,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 3,
+          "parent": 2,
+          "role": 1,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 4,
+          "parent": 3,
+          "role": 1,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 5,
+          "parent": 4,
+          "role": 1,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            141,
+            325.3333333333333,
+            120,
+            120
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 6,
+          "parent": 5,
+          "role": 43,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            239.66666666666666,
+            406.6666666666667,
+            44.66666793823245,
+            63
+          ],
+          "identifier": "[redacted]",
+          "label": "[redacted]",
+          "node": 7,
+          "parent": 5,
+          "role": 43,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            64.83333333333334,
+            485.7008463541667,
+            272.33333333333326,
+            33.666666666666686
+          ],
+          "identifier": "",
+          "label": "[redacted]",
+          "node": 8,
+          "parent": 5,
+          "role": 48,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            153.33333333333331,
+            548.6666666666666,
+            95.66666666666666,
+            50.33333333333337
+          ],
+          "identifier": "",
+          "label": "[redacted]",
+          "node": 9,
+          "parent": 5,
+          "role": 9,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 10,
+          "parent": 0,
+          "role": 4,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 11,
+          "parent": 10,
+          "role": 1,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 12,
+          "parent": 11,
+          "role": 1,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 13,
+          "parent": 12,
+          "role": 1,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 14,
+          "parent": 13,
+          "role": 1,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "[redacted]",
+          "label": "",
+          "node": 15,
+          "parent": 14,
+          "role": 1,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            0,
+            56.33333333333334,
+            402,
+            148
+          ],
+          "identifier": "Passwords",
+          "label": "",
+          "node": 16,
+          "parent": 15,
+          "role": 21,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            16,
+            104.00000000000001,
+            172.66666666666666,
+            40.66666666666667
+          ],
+          "identifier": "",
+          "label": "Passwords",
+          "node": 17,
+          "parent": 16,
+          "role": 48,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            16,
+            153.33333333333334,
+            370,
+            36
+          ],
+          "identifier": "",
+          "label": "Search",
+          "node": 18,
+          "parent": 16,
+          "role": 45,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            360.6666666666667,
+            160.33333333333334,
+            17.333333333333314,
+            22
+          ],
+          "identifier": "[redacted]",
+          "label": "[redacted]",
+          "node": 19,
+          "parent": 18,
+          "role": 9,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            22,
+            161.66666666666669,
+            20.33333333333333,
+            18.666666666666657
+          ],
+          "identifier": "[redacted]",
+          "label": "Search",
+          "node": 20,
+          "parent": 18,
+          "role": 43,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            360.6666666666667,
+            160.33333333333334,
+            17.333333333333314,
+            22
+          ],
+          "identifier": "[redacted]",
+          "label": "[redacted]",
+          "node": 21,
+          "parent": 18,
+          "role": 9,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 22,
+          "parent": 15,
+          "role": 1,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 23,
+          "parent": 22,
+          "role": 1,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 24,
+          "parent": 23,
+          "role": 1,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 25,
+          "parent": 24,
+          "role": 1,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "[redacted]",
+          "label": "",
+          "node": 26,
+          "parent": 25,
+          "role": 32,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            -20,
+            -1543.6666666666667,
+            442,
+            3787
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 27,
+          "parent": 26,
+          "role": 1,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            20,
+            204.33333333333334,
+            362,
+            271
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 28,
+          "parent": 26,
+          "role": 75,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            20,
+            204.33333333333334,
+            362,
+            271
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 29,
+          "parent": 28,
+          "role": 1,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            20,
+            204.33333333333334,
+            362,
+            271
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 30,
+          "parent": 29,
+          "role": 1,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            20,
+            204.33333333333334,
+            362,
+            271
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 31,
+          "parent": 30,
+          "role": 1,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            20,
+            204.33333333333334,
+            362,
+            271
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 32,
+          "parent": 28,
+          "role": 1,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            20,
+            204.33333333333334,
+            362,
+            271
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 33,
+          "parent": 32,
+          "role": 1,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            20,
+            204.33333333333334,
+            362,
+            271
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 34,
+          "parent": 33,
+          "role": 1,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            20,
+            204.33333333333334,
+            175,
+            82.33333333333334
+          ],
+          "identifier": "[redacted]",
+          "label": "[redacted]",
+          "node": 35,
+          "parent": 34,
+          "role": 9,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            33,
+            216.33333333333334,
+            30,
+            30
+          ],
+          "identifier": "[redacted]",
+          "label": "Passwords",
+          "node": 36,
+          "parent": 35,
+          "role": 43,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            159.33333333333337,
+            221.16666666666669,
+            10.333333333333343,
+            20.333333333333314
+          ],
+          "identifier": "",
+          "label": "[redacted]",
+          "node": 37,
+          "parent": 35,
+          "role": 48,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            175.33333333333331,
+            225.33333333333334,
+            7,
+            12
+          ],
+          "identifier": "[redacted]",
+          "label": "",
+          "node": 38,
+          "parent": 35,
+          "role": 43,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            31.999999999999872,
+            254.33333333333334,
+            19,
+            20.333333333333343
+          ],
+          "identifier": "",
+          "label": "All",
+          "node": 39,
+          "parent": 35,
+          "role": 48,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            207,
+            204.33333333333334,
+            175,
+            82.33333333333334
+          ],
+          "identifier": "[redacted]",
+          "label": "[redacted]",
+          "node": 40,
+          "parent": 34,
+          "role": 9,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            220,
+            216.33333333333334,
+            30,
+            30
+          ],
+          "identifier": "[redacted]",
+          "label": "[redacted]",
+          "node": 41,
+          "parent": 40,
+          "role": 43,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            346.3333333333335,
+            221.16666666666669,
+            10.333333333333314,
+            20.333333333333314
+          ],
+          "identifier": "",
+          "label": "[redacted]",
+          "node": 42,
+          "parent": 40,
+          "role": 48,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            362.3333333333333,
+            225.33333333333334,
+            7,
+            12
+          ],
+          "identifier": "[redacted]",
+          "label": "",
+          "node": 43,
+          "parent": 40,
+          "role": 43,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            219.00000000000003,
+            254.33333333333334,
+            70.33333333333334,
+            20.333333333333343
+          ],
+          "identifier": "",
+          "label": "Passkeys",
+          "node": 44,
+          "parent": 40,
+          "role": 48,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            20,
+            298.6666666666667,
+            175,
+            82.33333333333331
+          ],
+          "identifier": "[redacted]",
+          "label": "[redacted]",
+          "node": 45,
+          "parent": 34,
+          "role": 9,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            33,
+            310.6666666666667,
+            30,
+            29.999999999999943
+          ],
+          "identifier": "[redacted]",
+          "label": "[redacted]",
+          "node": 46,
+          "parent": 45,
+          "role": 43,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            159.33333333333337,
+            315.5,
+            10.333333333333343,
+            20.33333333333337
+          ],
+          "identifier": "",
+          "label": "[redacted]",
+          "node": 47,
+          "parent": 45,
+          "role": 48,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            175.33333333333331,
+            319.6666666666667,
+            7,
+            12
+          ],
+          "identifier": "[redacted]",
+          "label": "",
+          "node": 48,
+          "parent": 45,
+          "role": 43,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            31.999999999999872,
+            348.66666666666663,
+            49.33333333333333,
+            20.33333333333337
+          ],
+          "identifier": "",
+          "label": "Codes",
+          "node": 49,
+          "parent": 45,
+          "role": 48,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            207,
+            298.6666666666667,
+            175,
+            82.33333333333331
+          ],
+          "identifier": "[redacted]",
+          "label": "[redacted]",
+          "node": 50,
+          "parent": 34,
+          "role": 9,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            220,
+            310.6666666666667,
+            30,
+            29.999999999999943
+          ],
+          "identifier": "[redacted]",
+          "label": "[redacted]",
+          "node": 51,
+          "parent": 50,
+          "role": 43,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            336.66666666666663,
+            315.6666666666667,
+            20,
+            19.999999999999943
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 52,
+          "parent": 50,
+          "role": 36,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            336.66666666666663,
+            315.6666666666667,
+            20,
+            20
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 53,
+          "parent": 52,
+          "role": 36,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            362.3333333333333,
+            319.6666666666667,
+            7,
+            12
+          ],
+          "identifier": "[redacted]",
+          "label": "",
+          "node": 54,
+          "parent": 50,
+          "role": 43,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            219,
+            348.66666666666663,
+            62.666666666666686,
+            20.33333333333337
+          ],
+          "identifier": "",
+          "label": "[redacted]",
+          "node": 55,
+          "parent": 50,
+          "role": 48,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            20,
+            393,
+            175,
+            82.33333333333337
+          ],
+          "identifier": "[redacted]",
+          "label": "[redacted]",
+          "node": 56,
+          "parent": 34,
+          "role": 9,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            33,
+            405,
+            30,
+            30
+          ],
+          "identifier": "[redacted]",
+          "label": "[redacted]",
+          "node": 57,
+          "parent": 56,
+          "role": 43,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            159.33333333333334,
+            409.83333333333337,
+            10.333333333333343,
+            20.333333333333314
+          ],
+          "identifier": "",
+          "label": "[redacted]",
+          "node": 58,
+          "parent": 56,
+          "role": 48,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            175.33333333333331,
+            413.66666666666663,
+            7,
+            12
+          ],
+          "identifier": "[redacted]",
+          "label": "",
+          "node": 59,
+          "parent": 56,
+          "role": 43,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            31.999999999999886,
+            443,
+            59.33333333333333,
+            20.33333333333337
+          ],
+          "identifier": "",
+          "label": "Deleted",
+          "node": 60,
+          "parent": 56,
+          "role": 48,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            369,
+            158,
+            30,
+            632.9999999999999
+          ],
+          "identifier": "",
+          "label": "[redacted]",
+          "node": 61,
+          "parent": 26,
+          "role": 1,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            396,
+            780.9999999999999,
+            3,
+            7
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 62,
+          "parent": 61,
+          "role": 1,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            369,
+            158,
+            30,
+            632.9999999999999
+          ],
+          "identifier": "",
+          "label": "[redacted]",
+          "node": 63,
+          "parent": 26,
+          "role": 1,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            396,
+            780.9999999999999,
+            3,
+            7
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 64,
+          "parent": 63,
+          "role": 1,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            0,
+            791,
+            402,
+            49
+          ],
+          "identifier": "[redacted]",
+          "label": "[redacted]",
+          "node": 65,
+          "parent": 15,
+          "role": 24,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            0,
+            791,
+            402,
+            49
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 66,
+          "parent": 65,
+          "role": 1,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            0,
+            791,
+            402,
+            49
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 67,
+          "parent": 66,
+          "role": 1,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            347,
+            796,
+            55,
+            44
+          ],
+          "identifier": "[redacted]",
+          "label": "New Password",
+          "node": 68,
+          "parent": 67,
+          "role": 9,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 69,
+          "parent": 0,
+          "role": 4,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 70,
+          "parent": 69,
+          "role": 1,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 71,
+          "parent": 70,
+          "role": 1,
+          "surface": "passwords"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "[redacted]",
+          "node": 72,
+          "parent": -1,
+          "role": 2,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 73,
+          "parent": 72,
+          "role": 4,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 74,
+          "parent": 73,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 75,
+          "parent": 72,
+          "role": 4,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 76,
+          "parent": 75,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 77,
+          "parent": 76,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            138.33333333333331,
+            14.000000000000007,
+            125.33333333333331,
+            36.66666666666667
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 78,
+          "parent": 77,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            138.33333333333331,
+            14.000000000000007,
+            125.33333333333331,
+            36.666666666666664
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 79,
+          "parent": 78,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 80,
+          "parent": 72,
+          "role": 4,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 81,
+          "parent": 80,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 82,
+          "parent": 81,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 83,
+          "parent": 82,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            138.33333333333334,
+            13.999999999999996,
+            125.33333333333334,
+            36.66666666666666
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 84,
+          "parent": 83,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            138.33333333333334,
+            13.999999999999996,
+            125.33333333333334,
+            36.66666666666666
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 85,
+          "parent": 84,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            138.33333333333334,
+            13.999999999999996,
+            125.33333333333334,
+            36.66666666666666
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 86,
+          "parent": 84,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            138.33333333333334,
+            13.999999999999996,
+            125.33333333333334,
+            36.66666666666666
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 87,
+          "parent": 86,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            139.33333333333334,
+            14.999999999999996,
+            123.33333333333334,
+            34.66666666666666
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 88,
+          "parent": 84,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 89,
+          "parent": 82,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            138.33333333333334,
+            13.999999999999996,
+            125.33333333333334,
+            36.66666666666666
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 90,
+          "parent": 89,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            138.33333333333334,
+            13.999999999999996,
+            125.33333333333334,
+            36.66666666666666
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 91,
+          "parent": 90,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            138.33333333333334,
+            13.999999999999996,
+            125.33333333333334,
+            36.66666666666666
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 92,
+          "parent": 89,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            139,
+            14.666666666666664,
+            124,
+            35.33333333333333
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 93,
+          "parent": 92,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 94,
+          "parent": 82,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            138.33333333333334,
+            13.999999999999996,
+            125.33333333333334,
+            36.66666666666666
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 95,
+          "parent": 94,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            128.33333333333334,
+            10,
+            145.33333333333334,
+            52
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 96,
+          "parent": 95,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            138.33333333333334,
+            13.999999999999996,
+            125.33333333333334,
+            36.66666666666666
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 97,
+          "parent": 95,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            138.33333333333334,
+            13.999999999999996,
+            125.33333333333334,
+            36.66666666666666
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 98,
+          "parent": 97,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            138.33333333333334,
+            13.999999999999996,
+            125.33333333333334,
+            36.66666666666666
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 99,
+          "parent": 98,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            218,
+            28,
+            9,
+            9
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 100,
+          "parent": 82,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            1206,
+            2622
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 101,
+          "parent": 72,
+          "role": 4,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            1206,
+            2622
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 102,
+          "parent": 101,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            1206,
+            2622
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 103,
+          "parent": 72,
+          "role": 4,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            1206,
+            2622
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 104,
+          "parent": 103,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            1206,
+            2622
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 105,
+          "parent": 104,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            1206,
+            2622
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 106,
+          "parent": 105,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            1206,
+            2622
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 107,
+          "parent": 106,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            1206,
+            2622
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 108,
+          "parent": 107,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            1206,
+            2622
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 109,
+          "parent": 107,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            1206,
+            2622
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 110,
+          "parent": 107,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            1206,
+            2622
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 111,
+          "parent": 107,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            1206,
+            2622
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 112,
+          "parent": 107,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            1206,
+            2622
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 113,
+          "parent": 107,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            1206,
+            2622
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 114,
+          "parent": 107,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            1206,
+            2622
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 115,
+          "parent": 107,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            1206,
+            2622
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 116,
+          "parent": 107,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            1206,
+            2622
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 117,
+          "parent": 104,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            1206,
+            2622
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 118,
+          "parent": 117,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            1206,
+            2622
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 119,
+          "parent": 118,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            1206,
+            2622
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 120,
+          "parent": 119,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            1206,
+            2622
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 121,
+          "parent": 119,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            1206,
+            2622
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 122,
+          "parent": 104,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            1206,
+            2622
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 123,
+          "parent": 122,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            1206,
+            2622
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 124,
+          "parent": 123,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            1206,
+            2622
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 125,
+          "parent": 124,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            1206,
+            2622
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 126,
+          "parent": 124,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "[redacted]",
+          "label": "",
+          "node": 127,
+          "parent": 72,
+          "role": 4,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 128,
+          "parent": 127,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 129,
+          "parent": 128,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 130,
+          "parent": 129,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 131,
+          "parent": 130,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 132,
+          "parent": 131,
+          "role": 46,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "[redacted]",
+          "label": "",
+          "node": 133,
+          "parent": 131,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 134,
+          "parent": 133,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 135,
+          "parent": 134,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 136,
+          "parent": 135,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "[redacted]",
+          "label": "Passwords",
+          "node": 137,
+          "parent": 133,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 138,
+          "parent": 137,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            -437,
+            402,
+            1311
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 139,
+          "parent": 138,
+          "role": 46,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 140,
+          "parent": 139,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 141,
+          "parent": 140,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 142,
+          "parent": 141,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 143,
+          "parent": 142,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 144,
+          "parent": 143,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 145,
+          "parent": 144,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 146,
+          "parent": 145,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 147,
+          "parent": 146,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 148,
+          "parent": 147,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            54
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 149,
+          "parent": 148,
+          "role": 25,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            54
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 150,
+          "parent": 149,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            54
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 151,
+          "parent": 150,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            55.66666666666667,
+            14.666666666666686,
+            36.66666666666667,
+            36.666666666666664
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 152,
+          "parent": 151,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            56.66666666666666,
+            22.333333333333314,
+            35,
+            20.33333333333333
+          ],
+          "identifier": "",
+          "label": "[redacted]",
+          "node": 153,
+          "parent": 151,
+          "role": 48,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            309,
+            14.666666666666686,
+            36.666666666666686,
+            36.666666666666664
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 154,
+          "parent": 151,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            288.3333333333333,
+            26.333333333333314,
+            19.333333333333314,
+            12.333333333333336
+          ],
+          "identifier": "",
+          "label": "[redacted]",
+          "node": 155,
+          "parent": 151,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            315,
+            26.333333333333314,
+            17,
+            12.333333333333336
+          ],
+          "identifier": "[redacted]",
+          "label": "",
+          "node": 156,
+          "parent": 151,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            339.3333333333333,
+            26,
+            27.333333333333314,
+            13
+          ],
+          "identifier": "",
+          "label": "[redacted]",
+          "node": 157,
+          "parent": 151,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 158,
+          "parent": 145,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 159,
+          "parent": 158,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 160,
+          "parent": 159,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 161,
+          "parent": 141,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 162,
+          "parent": 141,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 163,
+          "parent": 133,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 164,
+          "parent": 163,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 165,
+          "parent": 164,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 166,
+          "parent": 165,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "[redacted]",
+          "label": "",
+          "node": 167,
+          "parent": 166,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            129,
+            861,
+            144,
+            5
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 168,
+          "parent": 167,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            129,
+            861,
+            144,
+            5
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 169,
+          "parent": 168,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            129,
+            861,
+            144,
+            5
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 170,
+          "parent": 169,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            129,
+            861,
+            144,
+            5
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 171,
+          "parent": 170,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 172,
+          "parent": 72,
+          "role": 4,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 173,
+          "parent": 172,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 174,
+          "parent": 173,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 175,
+          "parent": 72,
+          "role": 4,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 176,
+          "parent": 175,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 177,
+          "parent": 176,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 178,
+          "parent": 72,
+          "role": 4,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 179,
+          "parent": 178,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 180,
+          "parent": 179,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 181,
+          "parent": 72,
+          "role": 4,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 182,
+          "parent": 181,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 183,
+          "parent": 182,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 184,
+          "parent": 72,
+          "role": 4,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            54
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 185,
+          "parent": 184,
+          "role": 25,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 186,
+          "parent": 72,
+          "role": 4,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 187,
+          "parent": 186,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 188,
+          "parent": 72,
+          "role": 4,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 189,
+          "parent": 188,
+          "role": 1,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 190,
+          "parent": 72,
+          "role": 4,
+          "surface": "springboard"
+        },
+        {
+          "frame": [
+            0,
+            0,
+            402,
+            874
+          ],
+          "identifier": "",
+          "label": "",
+          "node": 191,
+          "parent": 190,
+          "role": 1,
+          "surface": "springboard"
+        }
+      ],
+      "passwordsForeground": true,
+      "phase": "passwords_entry_after_onboarding",
+      "snapshotsComplete": true,
+      "springboardForeground": true,
+      "truncated": false
+    }
+  },
+  "supportingChecks": {
+    "source": "Verified job logs, separately reported by parent task",
+    "transportTests": {
+      "passed": 6
+    },
+    "schemaTests": {
+      "passed": 7
+    },
+    "includedInFrozenCounts": false
+  },
+  "diagnosis": "The original selected XCTest failed at AutoFillUITests.swift:119 in the native Passwords relaunch persistence guard, before NIDAA app launch or picker tap. No Matching Face event or action occurred; query state, selection state and all picker trees were unavailable. The snapshot-gated savedIdentityTarget helper did execute in the native fixture checks, but later picker-stage selection was not reached or validated. Static review found that the helper replacement affected both homeReady and persisted calls although the intended scope was the picker; only counters were gated by the diagnostics flag. This scope regression is established in source, but it does not prove the actual persistence failure cause. Fresh LA false/-7 to true/0, Release and cleanup passed. All fixed error signatures were false; this does not prove errors absent or establish a product/selector root cause. The earlierc9 saved-item tap followed by failed email insertion remains the furthest verified progress. This result supplies no post-selection evidence and no fix. Six transport and seven schema tests passed in the verified job logs, separately from the failed original UI test.",
+  "privacy": "Exactly four safe JSON files were produced. No raw or encrypted credential evidence was uploaded.",
+  "nextAction": "Corrective source fb6a9c82b3d9d717b4f3dca20afa3b8015700f58/run36578165918 is running: restore the exact original native fixture helper for homeReady/persisted and restrict guarded selection to the later picker. All assertions remain unchanged. No persistence root cause, remedy or passed candidate is inferred."
+}

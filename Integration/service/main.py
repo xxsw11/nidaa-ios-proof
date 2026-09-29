@@ -13,7 +13,7 @@ from .domain import Domain, RuleError, connect, validate
 
 app = FastAPI(docs_url=None,redoc_url=None,openapi_url=None)
 ERROR_STATUS = {'invalid_request':400,'unauthenticated':401,'not_found':404,'conflict':409,
-                'expired':410,'rate_limited':429,'reauthentication_required':403,'forbidden':403}
+                'expired':410,'rate_limited':429,'reauthentication_required':403,'forbidden':403,'limit_reached':409}
 
 
 @app.middleware('http')
@@ -71,6 +71,8 @@ def health():
     try:
         with connect() as conn:
             conn.execute('SELECT 1 FROM nidaa.accounts LIMIT 1')
+            if conn.execute('SELECT quiesced FROM nidaa.maintenance_state WHERE singleton').fetchone()['quiesced']:
+                return Response(status_code=503)
         return {'status':'ok','delivery_adapter':'fake'}
     except Exception:
         return Response(status_code=503)
@@ -133,7 +135,10 @@ def logout_transaction(request,all_devices):
         token=bearer(request)
         with connect() as conn:
             d=Domain(conn)
-            s=d.principal(token)
+            # An expired but correctly signed access token still identifies the
+            # session to revoke. All other validation remains mandatory; normal
+            # endpoints continue rejecting expired access tokens.
+            s=d.principal(token,expired_logout=True)
             d.revoke(s,all_devices)
         # Whether provider cleanup succeeds or not, expired/revoked session cannot call domain.
         provider_logout(token,all_devices)

@@ -1,0 +1,2 @@
+UI suite: local-large
+-only-testing:NidaaUITests/LocalExperienceUITests/testLargeTextActionReviewRemainsUsable

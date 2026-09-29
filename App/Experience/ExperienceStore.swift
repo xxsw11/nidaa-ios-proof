@@ -97,7 +97,7 @@ enum AppScreen: Equatable { case compose, action, alert(UUID), incoming(UUID), e
         } catch { storageIssue = "تعذرت قراءة أو حفظ السجل المحلي. لم تُستبدل البيانات؛ أعد المحاولة أو اضبط بيانات العرض صراحةً." }
         // All authorization gates are new empty values on every process launch.
         #if DEBUG && targetEnvironment(simulator)
-        if ProcessInfo.processInfo.arguments.contains("-nidaa-integration-mock") { screen = .integration }
+        if ProcessInfo.processInfo.arguments.contains("-nidaa-integration-mock") || ProcessInfo.processInfo.arguments.contains("-nidaa-integration-live-ui") { screen = .integration }
         #endif
     }
     func startCompose() {

@@ -1,0 +1,27 @@
+name: NIDAA - Bounded native isolation diagnostic
+on:
+  push:
+    branches: ['codex/native-integration-review']
+    paths: ['Integration/native/isolation_candidate.py', 'Integration/native/loopback-inbound-candidate.sb', 'Integration/native/network-deny-control.sb', '.github/workflows/native-isolation-diagnostic.yml']
+permissions:
+  contents: read
+jobs:
+  policy:
+    # The measured candidate failed. Only an explicitly changed diagnostic may
+    # retry it; ordinary regression/gate hardening must not repeat the policy.
+    if: ${{ github.event.repository.private == false && contains(github.event.head_commit.message, '[diagnostic:isolation]') }}
+    runs-on: macos-15
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Test stricter candidate and negative control before credentials or services
+        run: |
+          python3 Integration/native/isolation_candidate.py --output artifacts/isolation-candidate/report.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: ${{ always() }}
+        with:
+          name: isolation-diagnostic-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/isolation-candidate/
+          retention-days: 7

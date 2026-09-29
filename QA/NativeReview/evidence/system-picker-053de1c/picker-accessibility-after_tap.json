@@ -1,0 +1,1844 @@
+{
+  "emailBlank": true,
+  "maskCount": 3,
+  "newPasswordFormClosed": true,
+  "nodes": [
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 0,
+      "parent": -1,
+      "role": 2,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 1,
+      "parent": 0,
+      "role": 4,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 2,
+      "parent": 1,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 3,
+      "parent": 2,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 4,
+      "parent": -1,
+      "role": 2,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 5,
+      "parent": 4,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 6,
+      "parent": 5,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 7,
+      "parent": 4,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 8,
+      "parent": 7,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 9,
+      "parent": 8,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        138.33333333333331,
+        14.000000000000007,
+        125.33333333333331,
+        36.66666666666667
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 10,
+      "parent": 9,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        138.33333333333331,
+        14.000000000000007,
+        125.33333333333331,
+        36.666666666666664
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 11,
+      "parent": 10,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 12,
+      "parent": 4,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 13,
+      "parent": 12,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 14,
+      "parent": 13,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 15,
+      "parent": 14,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        138.33333333333334,
+        13.999999999999996,
+        125.33333333333334,
+        36.66666666666666
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 16,
+      "parent": 15,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        138.33333333333334,
+        13.999999999999996,
+        125.33333333333334,
+        36.66666666666666
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 17,
+      "parent": 16,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        138.33333333333334,
+        13.999999999999996,
+        125.33333333333334,
+        36.66666666666666
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 18,
+      "parent": 16,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        138.33333333333334,
+        13.999999999999996,
+        125.33333333333334,
+        36.66666666666666
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 19,
+      "parent": 18,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        139.33333333333334,
+        14.999999999999996,
+        123.33333333333334,
+        34.66666666666666
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 20,
+      "parent": 16,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 21,
+      "parent": 14,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        138.33333333333334,
+        13.999999999999996,
+        125.33333333333334,
+        36.66666666666666
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 22,
+      "parent": 21,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        138.33333333333334,
+        13.999999999999996,
+        125.33333333333334,
+        36.66666666666666
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 23,
+      "parent": 22,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        138.33333333333334,
+        13.999999999999996,
+        125.33333333333334,
+        36.66666666666666
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 24,
+      "parent": 21,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        139,
+        14.666666666666664,
+        124,
+        35.33333333333333
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 25,
+      "parent": 24,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 26,
+      "parent": 14,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        138.33333333333334,
+        13.999999999999996,
+        125.33333333333334,
+        36.66666666666666
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 27,
+      "parent": 26,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        128.33333333333334,
+        10,
+        145.33333333333334,
+        52
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 28,
+      "parent": 27,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        138.33333333333334,
+        13.999999999999996,
+        125.33333333333334,
+        36.66666666666666
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 29,
+      "parent": 27,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        138.33333333333334,
+        13.999999999999996,
+        125.33333333333334,
+        36.66666666666666
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 30,
+      "parent": 29,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        138.33333333333334,
+        13.999999999999996,
+        125.33333333333334,
+        36.66666666666666
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 31,
+      "parent": 30,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        218,
+        28,
+        9,
+        9
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 32,
+      "parent": 14,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 33,
+      "parent": 4,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 34,
+      "parent": 33,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 35,
+      "parent": 4,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 36,
+      "parent": 35,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 37,
+      "parent": 36,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 38,
+      "parent": 37,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 39,
+      "parent": 38,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 40,
+      "parent": 39,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 41,
+      "parent": 39,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 42,
+      "parent": 39,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 43,
+      "parent": 39,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 44,
+      "parent": 39,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 45,
+      "parent": 39,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 46,
+      "parent": 39,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 47,
+      "parent": 39,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 48,
+      "parent": 39,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 49,
+      "parent": 39,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 50,
+      "parent": 36,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 51,
+      "parent": 50,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 52,
+      "parent": 51,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 53,
+      "parent": 52,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 54,
+      "parent": 52,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 55,
+      "parent": 36,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 56,
+      "parent": 55,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 57,
+      "parent": 56,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 58,
+      "parent": 57,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 59,
+      "parent": 57,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "[redacted]",
+      "label": "",
+      "node": 60,
+      "parent": 4,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 61,
+      "parent": 60,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 62,
+      "parent": 61,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 63,
+      "parent": 62,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 64,
+      "parent": 63,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 65,
+      "parent": 64,
+      "role": 46,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "[redacted]",
+      "label": "",
+      "node": 66,
+      "parent": 64,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 67,
+      "parent": 66,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 68,
+      "parent": 67,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 69,
+      "parent": 68,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "[redacted]",
+      "label": "[redacted]",
+      "node": 70,
+      "parent": 66,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 71,
+      "parent": 70,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        -437,
+        402,
+        1311
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 72,
+      "parent": 71,
+      "role": 46,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 73,
+      "parent": 72,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 74,
+      "parent": 73,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 75,
+      "parent": 74,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 76,
+      "parent": 75,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 77,
+      "parent": 76,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 78,
+      "parent": 77,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 79,
+      "parent": 78,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 80,
+      "parent": 79,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 81,
+      "parent": 80,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        54
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 82,
+      "parent": 81,
+      "role": 25,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        54
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 83,
+      "parent": 82,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        54
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 84,
+      "parent": 83,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        56.66666666666667,
+        22.333333333333314,
+        34.66666666666667,
+        20.33333333333333
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 85,
+      "parent": 84,
+      "role": 48,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        288.3333333333333,
+        26.333333333333314,
+        19.333333333333314,
+        12.333333333333336
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 86,
+      "parent": 84,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        315,
+        26.333333333333314,
+        17,
+        12.333333333333336
+      ],
+      "identifier": "[redacted]",
+      "label": "",
+      "node": 87,
+      "parent": 84,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        339.3333333333333,
+        26,
+        27.333333333333314,
+        13
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 88,
+      "parent": 84,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 89,
+      "parent": 78,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 90,
+      "parent": 89,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 91,
+      "parent": 90,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 92,
+      "parent": 74,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 93,
+      "parent": 74,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 94,
+      "parent": 66,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 95,
+      "parent": 94,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 96,
+      "parent": 95,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 97,
+      "parent": 96,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "[redacted]",
+      "label": "",
+      "node": 98,
+      "parent": 97,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        129,
+        861,
+        144,
+        5
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 99,
+      "parent": 98,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        129,
+        861,
+        144,
+        5
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 100,
+      "parent": 99,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        129,
+        861,
+        144,
+        5
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 101,
+      "parent": 100,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        129,
+        861,
+        144,
+        5
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 102,
+      "parent": 101,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 103,
+      "parent": 4,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 104,
+      "parent": 103,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 105,
+      "parent": 104,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 106,
+      "parent": 105,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 107,
+      "parent": 106,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 108,
+      "parent": 4,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 109,
+      "parent": 108,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 110,
+      "parent": 109,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 111,
+      "parent": 4,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 112,
+      "parent": 111,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 113,
+      "parent": 112,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 114,
+      "parent": 4,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 115,
+      "parent": 114,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 116,
+      "parent": 115,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 117,
+      "parent": 4,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 118,
+      "parent": 117,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 119,
+      "parent": 118,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 120,
+      "parent": 4,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 121,
+      "parent": 120,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 122,
+      "parent": 121,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 123,
+      "parent": 4,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        54
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 124,
+      "parent": 123,
+      "role": 25,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 125,
+      "parent": 4,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 126,
+      "parent": 125,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 127,
+      "parent": 4,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 128,
+      "parent": 127,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 129,
+      "parent": 4,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 130,
+      "parent": 129,
+      "role": 1,
+      "surface": "springboard"
+    }
+  ],
+  "phase": "after_tap",
+  "snapshotsComplete": true,
+  "truncated": false
+}

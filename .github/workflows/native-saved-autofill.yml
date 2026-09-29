@@ -1,0 +1,40 @@
+name: NIDAA - Native saved credential AutoFill
+on:
+  push:
+    branches: ['codex/native-integration-review']
+    paths: ['Integration/**', 'IntegrationClient/**', 'App/**', 'UITests/**', 'Scripts/**', 'Diagnostics/**', 'QA/NativeReview/**', '.github/workflows/native-review.yml', '.github/workflows/native-saved-autofill.yml', '.github/full-regression-trigger.json']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  saved-autofill:
+    if: ${{ github.event.repository.private == false && github.ref == 'refs/heads/codex/native-integration-review' && !contains(github.event.head_commit.message, '[ui:local-large]') && !contains(github.event.head_commit.message, '[diagnostic:isolation]') }}
+    runs-on: macos-15
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Record exact source
+        run: python3 Scripts/record_ci_source.py
+      - name: Check bounded one-shot Simulator response transport
+        run: python3 -m unittest discover -s Diagnostics -p test_matching_diagnostic.py -v
+      - name: Check strict post-selection evidence schema
+        run: python3 -m unittest discover -s Diagnostics -p test_post_selection_diagnostic.py -v
+      - name: Verify native saved credential selection and login on owned Simulator
+        run: python3 Diagnostics/matching_autofill_probe.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: ${{ always() }}
+        with:
+          name: enrolled-autofill-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            artifacts/source.json
+            artifacts/enrolled-autofill/report.json
+            artifacts/native-review/autofill-saved/result.json
+            artifacts/native-review/autofill-saved/early-passwords-entry.json
+            artifacts/native-review/autofill-saved/picker-accessibility-before_tap.json
+            artifacts/native-review/autofill-saved/picker-accessibility-after_tap.json
+            artifacts/native-review/autofill-saved/picker-accessibility-selection_failure.json
+            artifacts/native-review/autofill-saved/picker-accessibility-before_selection.json
+            artifacts/native-review/autofill-saved/picker-accessibility-after_fill_wait.json
+          retention-days: 7

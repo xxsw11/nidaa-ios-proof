@@ -1,0 +1,3678 @@
+{
+  "emailBlank": true,
+  "maskCount": 49,
+  "newPasswordFormClosed": true,
+  "nodes": [
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 0,
+      "parent": -1,
+      "role": 2,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 1,
+      "parent": 0,
+      "role": 4,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 2,
+      "parent": 1,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        -402,
+        -874,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 3,
+      "parent": 2,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        72,
+        402,
+        802
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 4,
+      "parent": 2,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        72,
+        402,
+        802
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 5,
+      "parent": 4,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        72,
+        402,
+        802
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 6,
+      "parent": 5,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        72,
+        402,
+        802
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 7,
+      "parent": 6,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        72,
+        402,
+        802
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 8,
+      "parent": 7,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        72,
+        402,
+        802
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 9,
+      "parent": 8,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        72,
+        402,
+        56
+      ],
+      "identifier": "[redacted]",
+      "label": "",
+      "node": 10,
+      "parent": 9,
+      "role": 21,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        343.6666666666667,
+        85,
+        42.333333333333314,
+        30.33333333333333
+      ],
+      "identifier": "[redacted]",
+      "label": "إغلاق",
+      "node": 11,
+      "parent": 10,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        343.6666666666667,
+        85,
+        42.333333333333314,
+        30.33333333333333
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 12,
+      "parent": 11,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        343.6666666666667,
+        85,
+        42.333333333333314,
+        30.33333333333333
+      ],
+      "identifier": "[redacted]",
+      "label": "إغلاق",
+      "node": 13,
+      "parent": 12,
+      "role": 9,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        125.66666666666669,
+        87.66666666666667,
+        151,
+        24.33333333333333
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 14,
+      "parent": 10,
+      "role": 48,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        72,
+        402,
+        802
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 15,
+      "parent": 9,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        72,
+        402,
+        802
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 16,
+      "parent": 15,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        72,
+        402,
+        802
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 17,
+      "parent": 16,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        72,
+        402,
+        802
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 18,
+      "parent": 17,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        72,
+        402,
+        802
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 19,
+      "parent": 18,
+      "role": 46,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        46,
+        402,
+        925.6666666666666
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 20,
+      "parent": 19,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        113,
+        68,
+        267,
+        42.66666666666666
+      ],
+      "identifier": "",
+      "label": "تجربة الربط المحلي",
+      "node": 21,
+      "parent": 20,
+      "role": 48,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        137.6666717529297,
+        150.6666717529297,
+        222.3333282470703,
+        22.333328247070312
+      ],
+      "identifier": "[redacted]",
+      "label": "MOCK · محاكاة واجهة فقط",
+      "node": 22,
+      "parent": 20,
+      "role": 48,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        66.33333333333337,
+        187,
+        295.66666666666663,
+        37.66666666666666
+      ],
+      "identifier": "",
+      "label": "الحسابات والنتائج التالية خيالية داخل الواجهة. لا يثبت هذا اختبارًا من المحاكي إلى الخادم.",
+      "node": 23,
+      "parent": 20,
+      "role": 48,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        99.33333333333337,
+        238.66666666666666,
+        262.66666666666663,
+        17.666666666666657
+      ],
+      "identifier": "[redacted]",
+      "label": "[redacted]",
+      "node": 24,
+      "parent": 20,
+      "role": 48,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        60.666666666666686,
+        270.3333333333333,
+        301.3333333333333,
+        37.666666666666686
+      ],
+      "identifier": "",
+      "label": "الإرسال مزيف للاختبار · APNs غير مفعّل · لا إشعار أو صوت على هاتف.",
+      "node": 25,
+      "parent": 20,
+      "role": 48,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        171,
+        366,
+        191,
+        28.333333333333314
+      ],
+      "identifier": "",
+      "label": "حساب خيالي مستقل",
+      "node": 26,
+      "parent": 20,
+      "role": 48,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        41.666666666666686,
+        408.3333333333333,
+        320.3333333333333,
+        37.666666666666686
+      ],
+      "identifier": "",
+      "label": "استخدم بريدًا ينتهي بـ ‎.invalid. التحقق يصل إلى صندوق محلي معزول؛ لا تستخدم بيانات شخصية.",
+      "node": 27,
+      "parent": 20,
+      "role": 48,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        40,
+        460,
+        322,
+        34
+      ],
+      "identifier": "integrationEmail",
+      "label": "",
+      "node": 28,
+      "parent": 20,
+      "role": 49,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        308.6666666666667,
+        508,
+        53.333333333333314,
+        16.333333333333258
+      ],
+      "identifier": "",
+      "label": "كلمة المرور",
+      "node": 29,
+      "parent": 20,
+      "role": 48,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        321,
+        539.3333333333333,
+        41,
+        34.33333333333337
+      ],
+      "identifier": "integrationPasswordPaste",
+      "label": "[redacted]",
+      "node": 30,
+      "parent": 20,
+      "role": 9,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        269,
+        534.3333333333333,
+        44,
+        44
+      ],
+      "identifier": "integrationPasswordVisibility",
+      "label": "إظهار كلمة المرور",
+      "node": 31,
+      "parent": 20,
+      "role": 9,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        40,
+        532.3333333333333,
+        221,
+        48
+      ],
+      "identifier": "integrationPassword",
+      "label": "كلمة المرور",
+      "node": 32,
+      "parent": 20,
+      "role": 50,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        276,
+        588.3333333333333,
+        86,
+        15.333333333333371
+      ],
+      "identifier": "[redacted]",
+      "label": "[redacted]",
+      "node": 33,
+      "parent": 20,
+      "role": 48,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        39.5,
+        617.1666870117188,
+        323,
+        69
+      ],
+      "identifier": "integrationLogin",
+      "label": "تسجيل الدخول",
+      "node": 34,
+      "parent": 20,
+      "role": 9,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        249.33333333333334,
+        642.6666666666666,
+        17.333333969116183,
+        17.33333396911621
+      ],
+      "identifier": "[redacted]",
+      "label": "[redacted]",
+      "node": 35,
+      "parent": 34,
+      "role": 43,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        134.1666717529297,
+        640.5,
+        132.49998474121094,
+        22.33331298828125
+      ],
+      "identifier": "",
+      "label": "تسجيل الدخول",
+      "node": 36,
+      "parent": 34,
+      "role": 48,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        39.5,
+        699.1666870117188,
+        323,
+        69
+      ],
+      "identifier": "integrationSignup",
+      "label": "إنشاء حساب تجريبي",
+      "node": 37,
+      "parent": 20,
+      "role": 9,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        267,
+        724.6666666666666,
+        20,
+        19.666667938232422
+      ],
+      "identifier": "[redacted]",
+      "label": "[redacted]",
+      "node": 38,
+      "parent": 37,
+      "role": 43,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        118,
+        721.8278198242188,
+        169,
+        22.50555419921875
+      ],
+      "identifier": "",
+      "label": "إنشاء حساب تجريبي",
+      "node": 39,
+      "parent": 37,
+      "role": 48,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        39.5,
+        781.1666870117188,
+        323,
+        69
+      ],
+      "identifier": "integrationRecover",
+      "label": "طلب استعادة كلمة المرور",
+      "node": 40,
+      "parent": 20,
+      "role": 9,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        287.66666666666663,
+        805,
+        11.666666984558105,
+        21.33333396911621
+      ],
+      "identifier": "[redacted]",
+      "label": "كلمات السر",
+      "node": 41,
+      "parent": 40,
+      "role": 43,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        100.66666412353516,
+        804.989013671875,
+        198.66665649414062,
+        22.33331298828125
+      ],
+      "identifier": "",
+      "label": "طلب استعادة كلمة المرور",
+      "node": 42,
+      "parent": 40,
+      "role": 48,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        39.5,
+        863.1666870117188,
+        323,
+        69
+      ],
+      "identifier": "integrationExistingToken",
+      "label": "لديّ رمز تحقق أو استعادة",
+      "node": 43,
+      "parent": 20,
+      "role": 9,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        279,
+        887.3333333333334,
+        24,
+        17.666667938232422
+      ],
+      "identifier": "[redacted]",
+      "label": "[redacted]",
+      "node": 44,
+      "parent": 43,
+      "role": 43,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        97.16666412353516,
+        886.9945068359375,
+        205.83334350585938,
+        22.33331298828125
+      ],
+      "identifier": "",
+      "label": "لديّ رمز تحقق أو استعادة",
+      "node": 45,
+      "parent": 43,
+      "role": 48,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        -24,
+        128,
+        30,
+        366
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 46,
+      "parent": 19,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        3,
+        152.66666666666669,
+        3,
+        212
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 47,
+      "parent": 46,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        -24,
+        128,
+        30,
+        366
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 48,
+      "parent": 19,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        3,
+        152.66666666666669,
+        3,
+        212
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 49,
+      "parent": 48,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 50,
+      "parent": 0,
+      "role": 4,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 51,
+      "parent": 50,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 52,
+      "parent": 51,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        494,
+        402,
+        380
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 53,
+      "parent": 51,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        494,
+        402,
+        44
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 54,
+      "parent": 53,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        494,
+        402,
+        44
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 55,
+      "parent": 54,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        494,
+        402,
+        44
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 56,
+      "parent": 55,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        494,
+        402,
+        44
+      ],
+      "identifier": "[redacted]",
+      "label": "[redacted]",
+      "node": 57,
+      "parent": 56,
+      "role": 24,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        494,
+        402,
+        44
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 58,
+      "parent": 57,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        16,
+        494,
+        386,
+        44
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 59,
+      "parent": 58,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        16,
+        501,
+        32.333333333333336,
+        30.33333333333337
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 60,
+      "parent": 59,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        16,
+        501,
+        32.333333333333336,
+        30.33333333333337
+      ],
+      "identifier": "integrationKeyboardDone",
+      "label": "تم",
+      "node": 61,
+      "parent": 60,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        16,
+        501,
+        32.333333333333336,
+        30.33333333333337
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 62,
+      "parent": 61,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        16,
+        501,
+        32.33333333333333,
+        30.33333333333337
+      ],
+      "identifier": "integrationKeyboardDone",
+      "label": "تم",
+      "node": 63,
+      "parent": 62,
+      "role": 9,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        538,
+        402,
+        278
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 64,
+      "parent": 53,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 65,
+      "parent": 0,
+      "role": 4,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 66,
+      "parent": 65,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        494,
+        402,
+        380
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 67,
+      "parent": 66,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        494,
+        402,
+        44
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 68,
+      "parent": 67,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        538,
+        402,
+        45
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 69,
+      "parent": 67,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        538,
+        402,
+        45
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 70,
+      "parent": 69,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        538,
+        402,
+        45
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 71,
+      "parent": 70,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        538,
+        402,
+        45
+      ],
+      "identifier": "[redacted]",
+      "label": "",
+      "node": 72,
+      "parent": 67,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        538,
+        402,
+        45
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 73,
+      "parent": 72,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        538,
+        402,
+        45
+      ],
+      "identifier": "[redacted]",
+      "label": "",
+      "node": 74,
+      "parent": 73,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        -62,
+        402,
+        1245
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 75,
+      "parent": 74,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        538,
+        402,
+        45
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 76,
+      "parent": 75,
+      "role": 46,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        538,
+        402,
+        45
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 77,
+      "parent": 74,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        538,
+        402,
+        45
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 78,
+      "parent": 77,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        538,
+        402,
+        45
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 79,
+      "parent": 78,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        30,
+        538,
+        342,
+        45
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 80,
+      "parent": 79,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        30,
+        538,
+        342,
+        45
+      ],
+      "identifier": "",
+      "label": "Passwords",
+      "node": 81,
+      "parent": 80,
+      "role": 9,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        238.28759765625,
+        549,
+        13,
+        23
+      ],
+      "identifier": "[redacted]",
+      "label": "",
+      "node": 82,
+      "parent": 81,
+      "role": 43,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        583,
+        402,
+        233
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 83,
+      "parent": 67,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        583,
+        402,
+        291
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 84,
+      "parent": 83,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        583,
+        402,
+        291
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 85,
+      "parent": 84,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        583,
+        402,
+        291
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 86,
+      "parent": 85,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        583,
+        402,
+        233
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 87,
+      "parent": 67,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        583,
+        402,
+        233
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 88,
+      "parent": 87,
+      "role": 19,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        583,
+        402,
+        233
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 89,
+      "parent": 88,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        583,
+        402,
+        233
+      ],
+      "identifier": "[redacted]",
+      "label": "",
+      "node": 90,
+      "parent": 89,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        361.6666666666667,
+        590,
+        40.333333333333314,
+        46
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 91,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        321.6666666666667,
+        590,
+        40,
+        46
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 92,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        281.33333333333337,
+        590,
+        40.333333333333314,
+        46
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 93,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        241.33333333333337,
+        590,
+        40,
+        46
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 94,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        201.00000000000003,
+        590,
+        40.33333333333334,
+        46
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 95,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        160.66666666666669,
+        590,
+        40.33333333333334,
+        46
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 96,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        120.66666666666669,
+        590,
+        40,
+        46
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 97,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        80.33333333333334,
+        590,
+        40.33333333333334,
+        46
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 98,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        40.333333333333336,
+        590,
+        40.00000000000001,
+        46
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 99,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        590,
+        40.333333333333336,
+        46
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 100,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        341.8693333333333,
+        644,
+        40.333333333333314,
+        46
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 101,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        301.536,
+        644,
+        40.333333333333314,
+        46
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 102,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        261.536,
+        644,
+        40,
+        46
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 103,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        221.2026666666667,
+        644,
+        40.333333333333314,
+        46
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 104,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        181.2026666666667,
+        644,
+        40,
+        46
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 105,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        140.33333333333334,
+        644,
+        40.33333333333334,
+        46
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 106,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        100.33333333333334,
+        644,
+        40,
+        46
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 107,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        60,
+        644,
+        40.33333333333334,
+        46
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 108,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        19.666666666666668,
+        644,
+        40.33333333333333,
+        46
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 109,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        350.42133333333334,
+        698,
+        51.333333333333314,
+        46
+      ],
+      "identifier": "[redacted]",
+      "label": "[redacted]",
+      "node": 110,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        301.536,
+        698,
+        40.333333333333314,
+        46
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 111,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        261.536,
+        698,
+        40,
+        46
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 112,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        221.2026666666667,
+        698,
+        40.333333333333314,
+        46
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 113,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        181.2026666666667,
+        698,
+        40,
+        46
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 114,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        140.33333333333334,
+        698,
+        40.33333333333334,
+        46
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 115,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        100.33333333333334,
+        698,
+        40,
+        46
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 116,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        60,
+        698,
+        40.33333333333334,
+        46
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 117,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        698,
+        51.333333333333336,
+        46
+      ],
+      "identifier": "[redacted]",
+      "label": "[redacted]",
+      "node": 118,
+      "parent": 90,
+      "role": 9,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        301.6666666666667,
+        752,
+        100.33333333333331,
+        46
+      ],
+      "identifier": "[redacted]",
+      "label": "[redacted]",
+      "node": 119,
+      "parent": 90,
+      "role": 9,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        251.33333333333334,
+        752,
+        50.33333333333334,
+        46
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 120,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        201,
+        752,
+        50.33333333333334,
+        46
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 121,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        100.33333333333334,
+        752,
+        100.66666666666666,
+        46
+      ],
+      "identifier": "[redacted]",
+      "label": "[redacted]",
+      "node": 122,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        50,
+        752,
+        50.33333333333334,
+        46
+      ],
+      "identifier": "[redacted]",
+      "label": "[redacted]",
+      "node": 123,
+      "parent": 90,
+      "role": 9,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        752,
+        50,
+        46
+      ],
+      "identifier": "[redacted]",
+      "label": "[redacted]",
+      "node": 124,
+      "parent": 90,
+      "role": 20,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        583,
+        402,
+        291
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 125,
+      "parent": 67,
+      "role": 1,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        8.47726568115926,
+        805.6989567998571,
+        68.0852958475086,
+        68.73516393505099
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 126,
+      "parent": 125,
+      "role": 9,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        8.47726568115926,
+        805.6989567998571,
+        0,
+        0
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 127,
+      "parent": 126,
+      "role": 48,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        325.43743847133214,
+        805.3656234665239,
+        68.08529584750863,
+        68.73516393505099
+      ],
+      "identifier": "[redacted]",
+      "label": "[redacted]",
+      "node": 128,
+      "parent": 125,
+      "role": 9,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        325.43743847133214,
+        805.3656234665239,
+        0,
+        0
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 129,
+      "parent": 128,
+      "role": 48,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        325.43743847133214,
+        805.3656234665239,
+        68.08529584750863,
+        68.73516393505099
+      ],
+      "identifier": "[redacted]",
+      "label": "[redacted]",
+      "node": 130,
+      "parent": 125,
+      "role": 9,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        325.43743847133214,
+        805.3656234665239,
+        0,
+        0
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 131,
+      "parent": 130,
+      "role": 48,
+      "surface": "app"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 132,
+      "parent": -1,
+      "role": 2,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 133,
+      "parent": 132,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 134,
+      "parent": 133,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 135,
+      "parent": 132,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 136,
+      "parent": 135,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 137,
+      "parent": 136,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        138.33333333333331,
+        14.000000000000007,
+        125.33333333333331,
+        36.66666666666667
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 138,
+      "parent": 137,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        138.33333333333331,
+        14.000000000000007,
+        125.33333333333331,
+        36.666666666666664
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 139,
+      "parent": 138,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 140,
+      "parent": 132,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 141,
+      "parent": 140,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 142,
+      "parent": 141,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 143,
+      "parent": 142,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        138.33333333333334,
+        13.999999999999996,
+        125.33333333333334,
+        36.66666666666666
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 144,
+      "parent": 143,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        138.33333333333334,
+        13.999999999999996,
+        125.33333333333334,
+        36.66666666666666
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 145,
+      "parent": 144,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        138.33333333333334,
+        13.999999999999996,
+        125.33333333333334,
+        36.66666666666666
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 146,
+      "parent": 144,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        138.33333333333334,
+        13.999999999999996,
+        125.33333333333334,
+        36.66666666666666
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 147,
+      "parent": 146,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        139.33333333333334,
+        14.999999999999996,
+        123.33333333333334,
+        34.66666666666666
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 148,
+      "parent": 144,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 149,
+      "parent": 142,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        138.33333333333334,
+        13.999999999999996,
+        125.33333333333334,
+        36.66666666666666
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 150,
+      "parent": 149,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        138.33333333333334,
+        13.999999999999996,
+        125.33333333333334,
+        36.66666666666666
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 151,
+      "parent": 150,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        138.33333333333334,
+        13.999999999999996,
+        125.33333333333334,
+        36.66666666666666
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 152,
+      "parent": 149,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        139,
+        14.666666666666664,
+        124,
+        35.33333333333333
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 153,
+      "parent": 152,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 154,
+      "parent": 142,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        138.33333333333334,
+        13.999999999999996,
+        125.33333333333334,
+        36.66666666666666
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 155,
+      "parent": 154,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        128.33333333333334,
+        10,
+        145.33333333333334,
+        52
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 156,
+      "parent": 155,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        138.33333333333334,
+        13.999999999999996,
+        125.33333333333334,
+        36.66666666666666
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 157,
+      "parent": 155,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        138.33333333333334,
+        13.999999999999996,
+        125.33333333333334,
+        36.66666666666666
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 158,
+      "parent": 157,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        138.33333333333334,
+        13.999999999999996,
+        125.33333333333334,
+        36.66666666666666
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 159,
+      "parent": 158,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        218,
+        28,
+        9,
+        9
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 160,
+      "parent": 142,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 161,
+      "parent": 132,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 162,
+      "parent": 161,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 163,
+      "parent": 132,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 164,
+      "parent": 163,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 165,
+      "parent": 164,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 166,
+      "parent": 165,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 167,
+      "parent": 166,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 168,
+      "parent": 167,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 169,
+      "parent": 167,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 170,
+      "parent": 167,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 171,
+      "parent": 167,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 172,
+      "parent": 167,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 173,
+      "parent": 167,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 174,
+      "parent": 167,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 175,
+      "parent": 167,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 176,
+      "parent": 167,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 177,
+      "parent": 164,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 178,
+      "parent": 164,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 179,
+      "parent": 178,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 180,
+      "parent": 179,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 181,
+      "parent": 180,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 182,
+      "parent": 180,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 183,
+      "parent": 164,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 184,
+      "parent": 183,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 185,
+      "parent": 184,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 186,
+      "parent": 185,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        1206,
+        2622
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 187,
+      "parent": 185,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "[redacted]",
+      "label": "",
+      "node": 188,
+      "parent": 132,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 189,
+      "parent": 188,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 190,
+      "parent": 189,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 191,
+      "parent": 190,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 192,
+      "parent": 191,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 193,
+      "parent": 192,
+      "role": 46,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "[redacted]",
+      "label": "",
+      "node": 194,
+      "parent": 192,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 195,
+      "parent": 194,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 196,
+      "parent": 195,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 197,
+      "parent": 196,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "[redacted]",
+      "label": "[redacted]",
+      "node": 198,
+      "parent": 194,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 199,
+      "parent": 198,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        -437,
+        402,
+        1311
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 200,
+      "parent": 199,
+      "role": 46,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 201,
+      "parent": 200,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 202,
+      "parent": 201,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 203,
+      "parent": 202,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 204,
+      "parent": 203,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 205,
+      "parent": 204,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 206,
+      "parent": 205,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 207,
+      "parent": 206,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 208,
+      "parent": 207,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 209,
+      "parent": 208,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        54
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 210,
+      "parent": 209,
+      "role": 25,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        54
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 211,
+      "parent": 210,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        54
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 212,
+      "parent": 211,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        55,
+        22.333333333333314,
+        38,
+        20.33333333333333
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 213,
+      "parent": 212,
+      "role": 48,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        288.3333333333333,
+        26.333333333333314,
+        19.333333333333314,
+        12.333333333333336
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 214,
+      "parent": 212,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        315,
+        26.333333333333314,
+        17,
+        12.333333333333336
+      ],
+      "identifier": "[redacted]",
+      "label": "",
+      "node": 215,
+      "parent": 212,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        339.3333333333333,
+        26,
+        27.333333333333314,
+        13
+      ],
+      "identifier": "",
+      "label": "[redacted]",
+      "node": 216,
+      "parent": 212,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 217,
+      "parent": 206,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 218,
+      "parent": 217,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 219,
+      "parent": 218,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 220,
+      "parent": 202,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 221,
+      "parent": 202,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 222,
+      "parent": 194,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 223,
+      "parent": 222,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 224,
+      "parent": 223,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 225,
+      "parent": 224,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "[redacted]",
+      "label": "",
+      "node": 226,
+      "parent": 225,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        129,
+        861,
+        144,
+        5
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 227,
+      "parent": 226,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        129,
+        861,
+        144,
+        5
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 228,
+      "parent": 227,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        129,
+        861,
+        144,
+        5
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 229,
+      "parent": 228,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        129,
+        861,
+        144,
+        5
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 230,
+      "parent": 229,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 231,
+      "parent": 132,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 232,
+      "parent": 231,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 233,
+      "parent": 232,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 234,
+      "parent": 132,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 235,
+      "parent": 234,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 236,
+      "parent": 235,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        874,
+        402,
+        278
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 237,
+      "parent": 235,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        874,
+        402,
+        278
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 238,
+      "parent": 237,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 239,
+      "parent": 132,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 240,
+      "parent": 239,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 241,
+      "parent": 240,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        874,
+        402,
+        278
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 242,
+      "parent": 240,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        874,
+        402,
+        278
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 243,
+      "parent": 242,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 244,
+      "parent": 132,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 245,
+      "parent": 244,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 246,
+      "parent": 245,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        874,
+        402,
+        278
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 247,
+      "parent": 245,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        874,
+        402,
+        278
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 248,
+      "parent": 247,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 249,
+      "parent": 132,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 250,
+      "parent": 249,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 251,
+      "parent": 250,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        874,
+        402,
+        278
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 252,
+      "parent": 250,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        874,
+        402,
+        278
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 253,
+      "parent": 252,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 254,
+      "parent": 132,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        54
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 255,
+      "parent": 254,
+      "role": 25,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 256,
+      "parent": 132,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 257,
+      "parent": 256,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 258,
+      "parent": 132,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 259,
+      "parent": 258,
+      "role": 1,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 260,
+      "parent": 132,
+      "role": 4,
+      "surface": "springboard"
+    },
+    {
+      "frame": [
+        0,
+        0,
+        402,
+        874
+      ],
+      "identifier": "",
+      "label": "",
+      "node": 261,
+      "parent": 260,
+      "role": 1,
+      "surface": "springboard"
+    }
+  ],
+  "phase": "before_tap",
+  "snapshotsComplete": true,
+  "truncated": false
+}

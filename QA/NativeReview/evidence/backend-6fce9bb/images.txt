@@ -1,0 +1,10 @@
+nidaa-integration-client local <none>
+axllent/mailpit v1.31.3 sha256:ed9b00c609e77e99c79b93f1178255ebc271868920f2c69a8d166bd5634ed10d
+ghcr.io/github/gh-aw-mcpg latest sha256:9be0a86220e807a0ecc89e53d7453468f7a53fbc6b3d1efd2299025ffe01d086
+ghcr.io/github/gh-aw-firewall/agent latest sha256:1bacef0f405d77999d01d8c00cb731222531b3f43ef9dc8312c513d6d9038bb1
+ghcr.io/github/github-mcp-server latest sha256:508a0857ec762b1ab1cece29193345b501fab1dd9d1228a7b617062954cecac6
+ghcr.io/dependabot/dependabot-updater-core latest sha256:9449e9908fd44ed006f2fbde2066eba314d45c564c765d50eaa1aedb96cabde0
+ghcr.io/github/gh-aw-firewall/api-proxy latest sha256:30ab6d3261dd95364281fa0b52ab78450e1c01aa074eccc3a8d4f04b12a6560b
+supabase/gotrue v2.196.0 sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232
+ghcr.io/github/gh-aw-firewall/squid latest sha256:cba5f56857e4869c4a00c1cce29c3056516cf1a746e18ce380753ecfbe40f112
+postgres 17.6-bookworm sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3

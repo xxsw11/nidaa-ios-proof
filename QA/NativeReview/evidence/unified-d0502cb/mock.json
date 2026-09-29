@@ -1,0 +1,1135 @@
+{
+  "commit": "d0502cb75f032b0771d3a3f6ed048807b32a8b2b",
+  "tree": "e790c303ee8f7dfe48b27b8387dc8405d3dddffa",
+  "run": 36588386114,
+  "attempt": 1,
+  "job": 109474712080,
+  "jobConclusion": "failure",
+  "artifact": 11043289396,
+  "artifactSHA256": "2e93252efe8dd28e2b5e44eb410da98b8dce39bb05ab91c8413efdb65ac5aa0f",
+  "artifactDigestVerified": true,
+  "source": {
+    "commit": "d0502cb75f032b0771d3a3f6ed048807b32a8b2b",
+    "eventCommit": "d0502cb75f032b0771d3a3f6ed048807b32a8b2b",
+    "run": "36588386114",
+    "attempt": "1",
+    "workflow": "NIDAA - iOS Simulator Proof",
+    "runnerOS": "macOS",
+    "runnerArchitecture": "ARM64"
+  },
+  "groups": [
+    {
+      "scope": "QA",
+      "total": 20,
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0,
+      "cases": [
+        [
+          "test_evidence_export.NativeEvidenceExportTests",
+          "test_numeric_xcode_failure_id_preserves_failure_without_exporting_raw_text",
+          "passed"
+        ],
+        [
+          "test_isolation_gate.IsolationGateTests",
+          "test_actual_candidate_wildcard_success_never_passes",
+          "passed"
+        ],
+        [
+          "test_isolation_gate.IsolationGateTests",
+          "test_complete_matrix_and_wire_contract",
+          "passed"
+        ],
+        [
+          "test_isolation_gate.IsolationGateTests",
+          "test_deny_everything_is_only_a_control_not_a_working_runtime",
+          "passed"
+        ],
+        [
+          "test_isolation_gate.IsolationGateTests",
+          "test_missing_family_or_malformed_observation_fails_closed",
+          "passed"
+        ],
+        [
+          "test_isolation_gate.IsolationGateTests",
+          "test_runtime_probe_reports_failed_full_matrix_without_network_calls",
+          "passed"
+        ],
+        [
+          "test_isolation_gate.IsolationGateTests",
+          "test_unreachability_and_socket_creation_denial_are_not_operation_proof",
+          "passed"
+        ],
+        [
+          "test_native_stage.NativeStagePackagingTests",
+          "test_authentication_bypass_only_inside_debug_simulator_compilation",
+          "passed"
+        ],
+        [
+          "test_native_stage.NativeStagePackagingTests",
+          "test_existing_project_includes_all_app_sources",
+          "passed"
+        ],
+        [
+          "test_native_stage.NativeStagePackagingTests",
+          "test_notification_and_remote_registration_guarded",
+          "passed"
+        ],
+        [
+          "test_native_stage.NativeStagePackagingTests",
+          "test_privacy_manifest_declares_local_preferences",
+          "passed"
+        ],
+        [
+          "test_native_stage.NativeStagePackagingTests",
+          "test_ui_test_scheme_is_wired",
+          "passed"
+        ],
+        [
+          "test_payload.OfflinePayloadTests",
+          "test_aliases_no_personal_name_or_unbounded_input",
+          "passed"
+        ],
+        [
+          "test_payload.OfflinePayloadTests",
+          "test_bad_windows_rejected",
+          "passed"
+        ],
+        [
+          "test_payload.OfflinePayloadTests",
+          "test_expiration_bounded_by_window_and_one_minute",
+          "passed"
+        ],
+        [
+          "test_payload.OfflinePayloadTests",
+          "test_naive_time_rejected",
+          "passed"
+        ],
+        [
+          "test_payload.OfflinePayloadTests",
+          "test_no_delivery_claim_or_token_collected",
+          "passed"
+        ],
+        [
+          "test_payload.OfflinePayloadTests",
+          "test_only_sandbox_alert_headers",
+          "passed"
+        ],
+        [
+          "test_payload.OfflinePayloadTests",
+          "test_ordinary_alert_without_critical_or_background_fields",
+          "passed"
+        ],
+        [
+          "test_payload.OfflinePayloadTests",
+          "test_unique_correlated_ids_and_utf8_size",
+          "passed"
+        ]
+      ]
+    },
+    {
+      "scope": "ProofCore/Tests",
+      "total": 45,
+      "passed": 45,
+      "failed": 0,
+      "skipped": 0,
+      "cases": [
+        [
+          "ProofCoreTests.AppearanceTests",
+          "testAppearancePersistsAcrossRepositoryInstancesAndRestores",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.AppearanceTests",
+          "testCorruptPersistenceFallsBackAndResetRemovesStoredContactsAndLock",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.AppearanceTests",
+          "testInvalidHexAndFutureSchemaAreRejected",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.AppearanceTests",
+          "testReadableInkAndAccentMeetThresholdAcrossColors",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.AppearanceTests",
+          "testSystemAndIndependentPalettes",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testCancellationPreventsHumanResponseAndLateScheduling",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testDuplicateObservationDoesNotResetFirstEvidence",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testEnvelopeRejectsUnmarkedMalformedAndMissingExpiration",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testLateObservationIsRecordedButCannotReopenExpiredTest",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testLocalScheduleIsNeitherProviderAcceptanceNorDeviceReceipt",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testOpeningNotificationNeverAcceptsResponsibility",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testProviderAcceptanceDoesNotProveDeviceReceipt",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testResponseRequiresObservationAndAuthentication",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testScheduleMustRemainInsideConfirmedWindow",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testWindowRejectsBlankAliasAndOverlongOrExpiredScope",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testBackgroundInvalidationAndExpiredGrantCannotCreate",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testChangedRecipientOrAssistanceInvalidatesGrant",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testContactCRUDValidationAndNormalization",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testCreationRequiresFreshAuthenticationNotAnUnlockedApp",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testDeclineDoesNotResolveAndAllowsConsentingAlternative",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testDeleteContactPreventsLaterSendButRetainsSessionSnapshot",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testExpiredCancelledAndResolvedStatesNeverReopen",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testFailureOrCancelledAuthenticationCreatesNothing",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testIncomingConsentIsIndependentAndOpeningDoesNotRespond",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testOneUseGrantAndDuplicatePrevention",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testPendingDeclinedBlockedAndMissingConsentCannotSend",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testReceiptOpeningAndResponseAreDifferentTransitions",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testRetryKeepsIdentityAndResponse",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testRevocationAfterAuthenticationIsRechecked",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testSilenceAndDismissDoNotRespondResolveOrDisableNonresponse",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testAdditionPreservesExistingStateDeadlineAndAttempts",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testAllTerminalStatesStayTerminalAfterRestoreAndClockRollback",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testAuthorizationNeverEncodedOrRestored",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testBothActionsRequireSuccessAndSingleUseBoundGrant",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testCorruptAndFutureSchemaBlockSavesWithoutReplacingBytes",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testDeletionBlockingConsentAndChangedDetailsRejectAuthenticatedAction",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testExpiryOnRestoreDoesNotExtendOrRepeatEvents",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testExplicitResetRecoversCorruptionAndClearsPersistentHistory",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testGrantExpiryBackgroundAndMismatchedActionOrAlert",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testReadFailureIsNotMissingAndSaveFailureRetainsValidCopy",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testRealFileIOAndSeparateTestDirectory",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testRetryExcludesResponsesAndPreservesIdentityAndTimestamps",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testRoundTripPreservesCompleteEventHistoryAndDirection",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testSemanticallyInvalidArchiveDoesNotReplaceValidCopy",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testVersionOneMigrationIsAtomicAndPreservesDeadlines",
+          "passed"
+        ]
+      ]
+    },
+    {
+      "scope": "IntegrationClient/Tests",
+      "total": 24,
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0,
+      "cases": [
+        [
+          "NidaaIntegrationTests.ClientReviewRegressionTests",
+          "testCorruptPendingStorageCannotPublishAuthenticatedAccount",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientReviewRegressionTests",
+          "testDomainRevocationClearsPreviouslyFetchedAccountData",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientReviewRegressionTests",
+          "testMismatchedPendingOwnerCannotPublishAuthenticatedAccount",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientReviewRegressionTests",
+          "testRevokedRefreshClearsCacheButRetainsUnknownForReauthentication",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientReviewRegressionTests",
+          "testUnrecognizedLookupStatusCannotReleaseUnknownOperation",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testAccountSwitchClearsOtherAccountsPendingAndCachedDetails",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testDelayedOldAuthCannotOverwriteNewSessionsStorage",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testDelayedOldCommandResponseCannotMutateNewAccount",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testDelayedOldSyncCannotRepopulateAfterSameAccountRelogin",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testLogoutWipesBeforeAwaitingServerAndOfflineLogoutIsHonest",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testMalformedOrMismatchedReceiptStaysUnknown",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testNeverSentDraftAndReconnectDoNotDispatch",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testOutOfOrderSnapshotCannotReopenTerminalAlert",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testSecurePendingWriteFailurePreventsPost",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testStaleDraftRemainsNeverSentWithoutNetworkMutation",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testTombstonesRemoveDetailsAndPartialSnapshotFailsClosed",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testTransportFailureRetainsUnknownAndSameOperationLookupOnly",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testUnknownReceipt404CannotBecomeNeverSentOrBeDiscarded",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testUnknownStateSurvivesSameAccountReauthenticationWithoutResend",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testVerificationAccountSwitchRejectsPreviousAccountsDelayedSync",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.StorageBoundaryTests",
+          "testClearingAuthPreservesUncertainPendingReceiptForReauthentication",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.StorageBoundaryTests",
+          "testClearingOneEnvironmentDoesNotClearAnotherEnvironment",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.StorageBoundaryTests",
+          "testEnvironmentRejectsExternalCredentialsQueriesAndPaths",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.StorageBoundaryTests",
+          "testInvalidatedAuthCallbackCannotRecreateCredentials",
+          "passed"
+        ]
+      ]
+    },
+    {
+      "scope": "mock",
+      "total": 8,
+      "passed": 7,
+      "failed": 1,
+      "skipped": 0,
+      "cases": [
+        [
+          "NidaaUITests.IntegrationUITests",
+          "testBackgroundInvalidatesConfirmation",
+          "passed"
+        ],
+        [
+          "NidaaUITests.IntegrationUITests",
+          "testDeviceAcknowledgementDoesNotBecomeHumanResponse",
+          "passed"
+        ],
+        [
+          "NidaaUITests.IntegrationUITests",
+          "testFreshAuthenticationAndConfirmationNeverAutoSend",
+          "passed"
+        ],
+        [
+          "NidaaUITests.IntegrationUITests",
+          "testInvitationRequiresDirectionalConsent",
+          "passed"
+        ],
+        [
+          "NidaaUITests.IntegrationUITests",
+          "testLargeArabicLayoutAndLogoutIsolation",
+          "failed"
+        ],
+        [
+          "NidaaUITests.IntegrationUITests",
+          "testRegistrationRequiresExplicitVerification",
+          "passed"
+        ],
+        [
+          "NidaaUITests.IntegrationUITests",
+          "testSelectionChangeInvalidatesConfirmation",
+          "passed"
+        ],
+        [
+          "NidaaUITests.IntegrationUITests",
+          "testUnknownOutcomeQueriesOriginalOperation",
+          "passed"
+        ]
+      ],
+      "intendedCaseNamesMatched": true
+    }
+  ],
+  "debugBuildSucceeded": false,
+  "releaseBuildSucceeded": true,
+  "result": {
+    "suite": "integration",
+    "exitCode": 65,
+    "commit": "d0502cb75f032b0771d3a3f6ed048807b32a8b2b",
+    "run": "36588386114",
+    "attempt": "1",
+    "scope": "MOCK network with native AutoFill enabled",
+    "rawEvidence": "Private XCTest logs/xcresult/recordings excluded from publication",
+    "physicalDevice": "Not tested",
+    "savedCredentialSelection": "Not tested in this suite",
+    "summary": {
+      "result": "Failed",
+      "totalTestCount": 8,
+      "passedTests": 7,
+      "failedTests": 1,
+      "skippedTests": 0,
+      "expectedFailures": 0,
+      "startTime": 1790695148.622,
+      "finishTime": 1790695791.447,
+      "devicesAndConfigurations": [
+        {
+          "device": {
+            "architecture": "arm64",
+            "deviceId": "C37440F6-622A-4062-9C0A-C73C4D9AC4C2",
+            "deviceName": "NIDAA-Disposable-72DF37CF-7398-4D46-855D-53646E115D4A",
+            "modelName": "iPhone 16 Pro",
+            "osBuildNumber": "22F77",
+            "osVersion": "18.5",
+            "platform": "iOS Simulator"
+          },
+          "expectedFailures": 0,
+          "failedTests": 1,
+          "passedTests": 7,
+          "skippedTests": 0,
+          "testPlanConfiguration": {
+            "configurationId": "1",
+            "configurationName": "Test Scheme Action"
+          }
+        }
+      ],
+      "environmentDescription": "NidaaProof-Local آ· Built with macOS 15.7.9"
+    },
+    "failedTestIdentifiers": [
+      "IntegrationUITests/testLargeArabicLayoutAndLogoutIsolation()"
+    ],
+    "testCaseResults": [
+      [
+        "NidaaUITests.IntegrationUITests",
+        "testBackgroundInvalidatesConfirmation",
+        "passed"
+      ],
+      [
+        "NidaaUITests.IntegrationUITests",
+        "testDeviceAcknowledgementDoesNotBecomeHumanResponse",
+        "passed"
+      ],
+      [
+        "NidaaUITests.IntegrationUITests",
+        "testFreshAuthenticationAndConfirmationNeverAutoSend",
+        "passed"
+      ],
+      [
+        "NidaaUITests.IntegrationUITests",
+        "testInvitationRequiresDirectionalConsent",
+        "passed"
+      ],
+      [
+        "NidaaUITests.IntegrationUITests",
+        "testLargeArabicLayoutAndLogoutIsolation",
+        "failed"
+      ],
+      [
+        "NidaaUITests.IntegrationUITests",
+        "testRegistrationRequiresExplicitVerification",
+        "passed"
+      ],
+      [
+        "NidaaUITests.IntegrationUITests",
+        "testSelectionChangeInvalidatesConfirmation",
+        "passed"
+      ],
+      [
+        "NidaaUITests.IntegrationUITests",
+        "testUnknownOutcomeQueriesOriginalOperation",
+        "passed"
+      ]
+    ],
+    "failureLocations": [
+      [
+        "IntegrationTestSupport.swift",
+        "179"
+      ]
+    ],
+    "infrastructureSignals": {
+      "runnerBootstrapFailure": false,
+      "runnerKilledBeforeTests": false,
+      "runnerEarlyExit": false,
+      "failedLaunch": false,
+      "failedInstall": false,
+      "testRunnerLost": false,
+      "timedOut": false,
+      "simulatorBootFailure": false,
+      "compileFailure": false,
+      "testFailed": true
+    },
+    "compilerDiagnostics": [],
+    "debugTestSucceeded": false,
+    "releaseBuildSucceeded": true,
+    "xcode": "Xcode 16.4\nBuild version 16F6",
+    "pickerScreenshotsEncrypted": false,
+    "rawEvidenceUploaded": false,
+    "encryptedEvidenceUploaded": false,
+    "privateEvidencePolicy": "Raw XCTest logs, recordings, full Settings/picker images and system diagnostics remain runner-private; no raw or encrypted export.",
+    "pickerDiagnosticPhases": [],
+    "screenshots": [
+      {
+        "name": "disposable-simulator-autofill-passwords-and-passkeys-on.png",
+        "originalExport": "5F0B2F30-1BAC-4A5B-BAEC-9FA3CCF701DD.png",
+        "sha256": "ad349b1f6fe49b49c07c2fbf94fbe8a2177d769bfd05b615f1c425d57a82e9ec"
+      },
+      {
+        "name": "integration-mock-08-human-response-keeps-case-open.png",
+        "originalExport": "C25C7868-7D6C-464D-A439-E7615F0C8499.png",
+        "sha256": "9f8ab1dc7f44b3603ff31a07a26359d59069b3db6a3eed58d6c0e46618f66ded"
+      },
+      {
+        "name": "integration-mock-07-acknowledged-not-responded.png",
+        "originalExport": "6A800BDD-BF01-4C9D-B447-214580A93EC5.png",
+        "sha256": "5c51a7a8ca4f7f45a48378b87ebfaaa0a3ce91f838414aec701b80e206c4709b"
+      },
+      {
+        "name": "integration-mock-05-shared-outgoing.png",
+        "originalExport": "C35257C5-E83F-4B22-B117-8738D07BEAB5.png",
+        "sha256": "59cf2d994dfaa7097d1cad59b29a1f31047c13d5b6d392512f7ee7dd95c1a06a"
+      },
+      {
+        "name": "integration-mock-04-explicit-confirmation.png",
+        "originalExport": "9A4B09F1-EA8B-40E5-9D17-414DABBAE4FE.png",
+        "sha256": "253575fc55f0a59c63bc282e6f684642a040e1a0b48c3d66bc5abce9508987f3"
+      },
+      {
+        "name": "integration-mock-03-directional-consent.png",
+        "originalExport": "E5922B16-BB24-4791-8DBC-4A964BAF42E7.png",
+        "sha256": "c8e1e1d933eb4883e388be707ef26641fc2de43df10b20d1e094a09ca6053e15"
+      },
+      {
+        "name": "integration-mock-10-large-arabic-consent.png",
+        "originalExport": "774E0968-369F-4114-AF6D-C5AACA182864.png",
+        "sha256": "776b08195ac9ada80041951673141e68d81c36aed993c15bc632e0bef0a80219"
+      },
+      {
+        "name": "integration-mock-09-large-arabic-auth.png",
+        "originalExport": "2F684125-E580-4838-A0E3-53AE6ADB1F00.png",
+        "sha256": "4e0677c09cb360c769750533a1832ba0fba64856645df41f1a4209c143b4da04"
+      },
+      {
+        "name": "integration-mock-02-awaiting-verification.png",
+        "originalExport": "47C41FFE-3B25-49C3-B593-04486C96D767.png",
+        "sha256": "d6061c549d4af963a088779a1791aaa1cba543ff54785a7b49f81a7e3fcffba2"
+      },
+      {
+        "name": "integration-mock-01-auth-rtl.png",
+        "originalExport": "8232489A-046A-4440-876E-2C3521E0E79A.png",
+        "sha256": "3c85ad5899755efc50d8bec7cb1d564bfb52bc19bf034580a03105a8bec2f796"
+      },
+      {
+        "name": "integration-mock-06-unknown-outcome.png",
+        "originalExport": "648341E3-85B2-46FE-8065-4304D6E59143.png",
+        "sha256": "9c7bce662c14d9d4ad671eb1ee06ab2cbc053546e8d91c9939e07bc82e087ed4"
+      }
+    ],
+    "draftReadiness": [
+      [
+        {
+          "phase": "before_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": true,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": true,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        },
+        {
+          "phase": "after_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": false,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": false,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        }
+      ],
+      [
+        {
+          "phase": "before_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": true,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": true,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        },
+        {
+          "phase": "after_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": false,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": false,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        }
+      ],
+      [
+        {
+          "phase": "before_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": true,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": true,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        },
+        {
+          "phase": "after_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": false,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": false,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        }
+      ],
+      [
+        {
+          "phase": "before_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": true,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": true,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        },
+        {
+          "phase": "after_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": false,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": false,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        }
+      ],
+      [
+        {
+          "phase": "before_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": true,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": true,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        },
+        {
+          "phase": "after_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": false,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": false,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        }
+      ],
+      [
+        {
+          "phase": "before_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": true,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": true,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        },
+        {
+          "phase": "after_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": false,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": false,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        }
+      ],
+      [
+        {
+          "phase": "before_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": true,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": true,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        },
+        {
+          "phase": "after_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": false,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": false,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        }
+      ],
+      [
+        {
+          "phase": "before_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": true,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": true,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        },
+        {
+          "phase": "after_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": false,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": false,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        }
+      ]
+    ],
+    "revealGeometry": [
+      [
+        "controlID=integrationLogout",
+        "control=(39.5, 2209.833251953125, 323.0, 157.666748046875);viewport=(0.0, 72.0, 402.0, 802.0)"
+      ]
+    ],
+    "revealPresence": [
+      {
+        "appForeground": true,
+        "completedDrags": 1,
+        "controlID": "integrationLogout",
+        "phase": "existence_guard_failed",
+        "scrollExists": true,
+        "targetExists": false,
+        "windowExists": true
+      }
+    ],
+    "nativeFormReadiness": []
+  },
+  "nativeBackend": "Not connected; local simulation or MOCK",
+  "physicalDevice": "Not tested",
+  "historicalFailure": {
+    "commit": "710376d4bf1c95d1a27bdd5a9dd123aa25c287bf",
+    "run": 36559755316,
+    "evidence": "../incidental-710376d/mock.json",
+    "total": 8,
+    "passed": 7,
+    "failed": 1,
+    "skipped": 0,
+    "preserved": true,
+    "note": "The new source-bound result is 7 passed and 1 failed. It preserves the prior large-Arabic logout navigation failure and does not establish the sole cause of either failure."
+  }
+}

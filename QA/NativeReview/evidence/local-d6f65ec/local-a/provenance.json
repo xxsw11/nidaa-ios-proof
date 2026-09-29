@@ -1,0 +1,13 @@
+{
+  "run": 36519447184,
+  "attempt": 1,
+  "job": 109248875393,
+  "commit": "d6f65ec253f6345e6ae2e368c4b2b8d7baf88681",
+  "suite": "local-a",
+  "artifact": 11012452477,
+  "artifactSHA256": "a01111a86e039d0139d294bd43ced9e1ca9e827b3803b7d914581d3b1e59699d",
+  "result": "8 passed, 1 failed, 0 skipped; Release passed",
+  "category": "Test harness offscreen readiness regression",
+  "observed": "testLargeTextActionReviewRemainsUsable fails at LocalExperienceUITests.swift116 waiting for hittability before scrolling. The XXXL selection screenshot from local-b shows recipients below the initial explanation viewport.",
+  "changeBeforeRetry": "Bounded scroll before the unchanged enabled/selected/hittable predicate. Preserve one tap, off-state, Sara-only initial recipients and all later authorization assertions. Targeted local-large6a601cb; no app code change."
+}

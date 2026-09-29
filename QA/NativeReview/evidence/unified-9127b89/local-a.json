@@ -1,0 +1,531 @@
+{
+  "commit": "9127b89e3cdcbaa48de965b50679ab29e945a874",
+  "run": 36545822815,
+  "attempt": 1,
+  "job": 109331832054,
+  "artifact": 11023636870,
+  "artifactSHA256": "c459a63ebd7b0980f334cd07e6d2297f2ce95fc018f4466c2903af5fa1de0cab",
+  "source": {
+    "commit": "9127b89e3cdcbaa48de965b50679ab29e945a874",
+    "eventCommit": "9127b89e3cdcbaa48de965b50679ab29e945a874",
+    "run": "36545822815",
+    "attempt": "1",
+    "workflow": "NIDAA - iOS Simulator Proof",
+    "runnerOS": "macOS",
+    "runnerArchitecture": "ARM64"
+  },
+  "groups": [
+    {
+      "scope": "QA",
+      "total": 20,
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "scope": "ProofCore/Tests",
+      "total": 45,
+      "passed": 45,
+      "failed": 0,
+      "skipped": 0,
+      "cases": [
+        [
+          "ProofCoreTests.AppearanceTests",
+          "testAppearancePersistsAcrossRepositoryInstancesAndRestores",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.AppearanceTests",
+          "testCorruptPersistenceFallsBackAndResetRemovesStoredContactsAndLock",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.AppearanceTests",
+          "testInvalidHexAndFutureSchemaAreRejected",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.AppearanceTests",
+          "testReadableInkAndAccentMeetThresholdAcrossColors",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.AppearanceTests",
+          "testSystemAndIndependentPalettes",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testCancellationPreventsHumanResponseAndLateScheduling",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testDuplicateObservationDoesNotResetFirstEvidence",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testEnvelopeRejectsUnmarkedMalformedAndMissingExpiration",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testLateObservationIsRecordedButCannotReopenExpiredTest",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testLocalScheduleIsNeitherProviderAcceptanceNorDeviceReceipt",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testOpeningNotificationNeverAcceptsResponsibility",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testProviderAcceptanceDoesNotProveDeviceReceipt",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testResponseRequiresObservationAndAuthentication",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testScheduleMustRemainInsideConfirmedWindow",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testWindowRejectsBlankAliasAndOverlongOrExpiredScope",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testBackgroundInvalidationAndExpiredGrantCannotCreate",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testChangedRecipientOrAssistanceInvalidatesGrant",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testContactCRUDValidationAndNormalization",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testCreationRequiresFreshAuthenticationNotAnUnlockedApp",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testDeclineDoesNotResolveAndAllowsConsentingAlternative",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testDeleteContactPreventsLaterSendButRetainsSessionSnapshot",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testExpiredCancelledAndResolvedStatesNeverReopen",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testFailureOrCancelledAuthenticationCreatesNothing",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testIncomingConsentIsIndependentAndOpeningDoesNotRespond",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testOneUseGrantAndDuplicatePrevention",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testPendingDeclinedBlockedAndMissingConsentCannotSend",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testReceiptOpeningAndResponseAreDifferentTransitions",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testRetryKeepsIdentityAndResponse",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testRevocationAfterAuthenticationIsRechecked",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testSilenceAndDismissDoNotRespondResolveOrDisableNonresponse",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testAdditionPreservesExistingStateDeadlineAndAttempts",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testAllTerminalStatesStayTerminalAfterRestoreAndClockRollback",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testAuthorizationNeverEncodedOrRestored",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testBothActionsRequireSuccessAndSingleUseBoundGrant",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testCorruptAndFutureSchemaBlockSavesWithoutReplacingBytes",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testDeletionBlockingConsentAndChangedDetailsRejectAuthenticatedAction",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testExpiryOnRestoreDoesNotExtendOrRepeatEvents",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testExplicitResetRecoversCorruptionAndClearsPersistentHistory",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testGrantExpiryBackgroundAndMismatchedActionOrAlert",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testReadFailureIsNotMissingAndSaveFailureRetainsValidCopy",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testRealFileIOAndSeparateTestDirectory",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testRetryExcludesResponsesAndPreservesIdentityAndTimestamps",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testRoundTripPreservesCompleteEventHistoryAndDirection",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testSemanticallyInvalidArchiveDoesNotReplaceValidCopy",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testVersionOneMigrationIsAtomicAndPreservesDeadlines",
+          "passed"
+        ]
+      ],
+      "intendedCaseNamesMatched": true
+    },
+    {
+      "scope": "IntegrationClient/Tests",
+      "total": 24,
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0,
+      "cases": [
+        [
+          "NidaaIntegrationTests.ClientReviewRegressionTests",
+          "testCorruptPendingStorageCannotPublishAuthenticatedAccount",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientReviewRegressionTests",
+          "testDomainRevocationClearsPreviouslyFetchedAccountData",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientReviewRegressionTests",
+          "testMismatchedPendingOwnerCannotPublishAuthenticatedAccount",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientReviewRegressionTests",
+          "testRevokedRefreshClearsCacheButRetainsUnknownForReauthentication",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientReviewRegressionTests",
+          "testUnrecognizedLookupStatusCannotReleaseUnknownOperation",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testAccountSwitchClearsOtherAccountsPendingAndCachedDetails",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testDelayedOldAuthCannotOverwriteNewSessionsStorage",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testDelayedOldCommandResponseCannotMutateNewAccount",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testDelayedOldSyncCannotRepopulateAfterSameAccountRelogin",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testLogoutWipesBeforeAwaitingServerAndOfflineLogoutIsHonest",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testMalformedOrMismatchedReceiptStaysUnknown",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testNeverSentDraftAndReconnectDoNotDispatch",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testOutOfOrderSnapshotCannotReopenTerminalAlert",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testSecurePendingWriteFailurePreventsPost",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testStaleDraftRemainsNeverSentWithoutNetworkMutation",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testTombstonesRemoveDetailsAndPartialSnapshotFailsClosed",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testTransportFailureRetainsUnknownAndSameOperationLookupOnly",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testUnknownReceipt404CannotBecomeNeverSentOrBeDiscarded",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testUnknownStateSurvivesSameAccountReauthenticationWithoutResend",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testVerificationAccountSwitchRejectsPreviousAccountsDelayedSync",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.StorageBoundaryTests",
+          "testClearingAuthPreservesUncertainPendingReceiptForReauthentication",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.StorageBoundaryTests",
+          "testClearingOneEnvironmentDoesNotClearAnotherEnvironment",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.StorageBoundaryTests",
+          "testEnvironmentRejectsExternalCredentialsQueriesAndPaths",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.StorageBoundaryTests",
+          "testInvalidatedAuthCallbackCannotRecreateCredentials",
+          "passed"
+        ]
+      ],
+      "intendedCaseNamesMatched": true
+    },
+    {
+      "scope": "local-a",
+      "total": 9,
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "cases": [
+        [
+          "NidaaUITests.LocalExperienceUITests",
+          "testAdditionRequiresConfirmationAndPersistsWithoutChangingIdentity",
+          "passed"
+        ],
+        [
+          "NidaaUITests.LocalExperienceUITests",
+          "testApplicationAndUITestStorageAreIsolated",
+          "passed"
+        ],
+        [
+          "NidaaUITests.LocalExperienceUITests",
+          "testBackgroundInvalidatesPendingAuthentication",
+          "passed"
+        ],
+        [
+          "NidaaUITests.LocalExperienceUITests",
+          "testBothActionsFailureCancellationAndRestartHaveNoAuthorization",
+          "passed"
+        ],
+        [
+          "NidaaUITests.LocalExperienceUITests",
+          "testCompleteLocalAlertJourney",
+          "passed"
+        ],
+        [
+          "NidaaUITests.LocalExperienceUITests",
+          "testCorruptionIsNotOverwrittenAndExplicitResetClearsHistory",
+          "passed"
+        ],
+        [
+          "NidaaUITests.LocalExperienceUITests",
+          "testLargeTextActionReviewRemainsUsable",
+          "passed"
+        ],
+        [
+          "NidaaUITests.LocalExperienceUITests",
+          "testLockDoesNotSuppressIncomingButProtectsDetails",
+          "passed"
+        ],
+        [
+          "NidaaUITests.LocalExperienceUITests",
+          "testStorageFailuresAreVisibleAndRetainValidData",
+          "passed"
+        ]
+      ],
+      "intendedCaseNamesMatched": true
+    }
+  ],
+  "debugBuildSucceeded": true,
+  "releaseBuildSucceeded": true,
+  "result": {
+    "summary": {
+      "result": "Passed",
+      "totalTestCount": 9,
+      "passedTests": 9,
+      "failedTests": 0,
+      "skippedTests": 0,
+      "expectedFailures": 0,
+      "devicesAndConfigurations": [
+        {
+          "device": {
+            "architecture": "arm64",
+            "deviceId": "5FAC2801-2067-4665-A7D1-24316A54BD15",
+            "deviceName": "NIDAA-Disposable-DA682F5C-0FC5-4F50-BEC8-1ECD78EF9AA4",
+            "modelName": "iPhone 16 Pro",
+            "osBuildNumber": "22F77",
+            "osVersion": "18.5",
+            "platform": "iOS Simulator"
+          },
+          "expectedFailures": 0,
+          "failedTests": 0,
+          "passedTests": 9,
+          "skippedTests": 0,
+          "testPlanConfiguration": {
+            "configurationId": "1",
+            "configurationName": "Test Scheme Action"
+          }
+        }
+      ],
+      "environmentDescription": "NidaaProof-Local \u00b7 Built with macOS 15.7.9"
+    },
+    "testCaseResults": [
+      [
+        "NidaaUITests.LocalExperienceUITests",
+        "testAdditionRequiresConfirmationAndPersistsWithoutChangingIdentity",
+        "passed"
+      ],
+      [
+        "NidaaUITests.LocalExperienceUITests",
+        "testApplicationAndUITestStorageAreIsolated",
+        "passed"
+      ],
+      [
+        "NidaaUITests.LocalExperienceUITests",
+        "testBackgroundInvalidatesPendingAuthentication",
+        "passed"
+      ],
+      [
+        "NidaaUITests.LocalExperienceUITests",
+        "testBothActionsFailureCancellationAndRestartHaveNoAuthorization",
+        "passed"
+      ],
+      [
+        "NidaaUITests.LocalExperienceUITests",
+        "testCompleteLocalAlertJourney",
+        "passed"
+      ],
+      [
+        "NidaaUITests.LocalExperienceUITests",
+        "testCorruptionIsNotOverwrittenAndExplicitResetClearsHistory",
+        "passed"
+      ],
+      [
+        "NidaaUITests.LocalExperienceUITests",
+        "testLargeTextActionReviewRemainsUsable",
+        "passed"
+      ],
+      [
+        "NidaaUITests.LocalExperienceUITests",
+        "testLockDoesNotSuppressIncomingButProtectsDetails",
+        "passed"
+      ],
+      [
+        "NidaaUITests.LocalExperienceUITests",
+        "testStorageFailuresAreVisibleAndRetainValidData",
+        "passed"
+      ]
+    ],
+    "debugTestSucceeded": true,
+    "releaseBuildSucceeded": true
+  },
+  "nativeBackend": "Not connected; local simulation or MOCK",
+  "physicalDevice": "Not tested"
+}

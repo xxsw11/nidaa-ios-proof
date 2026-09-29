@@ -1,0 +1,36 @@
+{
+  "scope": "Windows prepublication checks; no local Xcode/iOS execution claimed",
+  "promotedSource": "0432a8b58953dfd1e2cc85667d29a1881a6b8672",
+  "attempts": [
+    {
+      "suite": "QA",
+      "passed": 19,
+      "failed": 1,
+      "skipped": 0,
+      "diagnosis": "Existing evidence-export regression required encrypted Settings export. The new runner-private policy intentionally forbids it. This was an outdated privacy-contract expectation, not an iOS product failure.",
+      "correction": "Retained existing private-sentinel and failure checks; now require false raw/encrypted flags, no openssl call, no sealed-image metadata and no P7M/ZIP export."
+    },
+    {
+      "suite": "QA after privacy-contract update",
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "Diagnostic transport and strict evidence schema",
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "Outside promotion input/export tests",
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "testHelperSHA256": "13040f2e6d95c90501dfa3fb63f68f1c4eb44e7fe731fcb5056c0a4404d560e7",
+      "limit": "Preparation checks reported by independent reviewer; not additional application test cases."
+    }
+  ],
+  "shellSyntax": "Both modified shell entry points passed bash -n",
+  "sourceValidation": "All 17 intended executable/workflow deltas reviewed; remaining authoring deltas are reports only. Fresh Git tree matches the promoted executable blobs modulo preserved text line endings."
+}

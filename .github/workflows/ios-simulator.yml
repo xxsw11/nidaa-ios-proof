@@ -2,6 +2,13 @@ name: NIDAA - iOS Simulator Proof
 
 on:
   workflow_dispatch:
+    inputs:
+      ui_suite:
+        description: 'Run only the affected suite after diagnosis, or all regression suites'
+        required: false
+        type: choice
+        default: all
+        options: [all, integration, local-a, local-b, local-large]
   push:
     branches: [main, 'codex/**']
     paths:
@@ -15,24 +22,27 @@ on:
       - 'QA/test_native_stage.py'
       - 'UITests/**'
       - '.github/workflows/ios-simulator.yml'
+      - '.github/full-regression-trigger.json'
 
 permissions:
   contents: read
 
 concurrency:
-  group: nidaa-ios-proof-${{ github.ref }}
+  group: nidaa-ios-proof-${{ github.ref }}-${{ inputs.ui_suite || (contains(github.event.head_commit.message, '[ui:local-large]') && 'local-large') || (contains(github.event.head_commit.message, '[ui:saved]') && 'saved') || (contains(github.event.head_commit.message, '[ui:review]') && 'review') || (contains(github.event.head_commit.message, '[ui:integration]') && 'integration') || 'all' }}
   cancel-in-progress: true
 
 jobs:
   simulator:
     name: Simulator - ${{ matrix.ui-suite }}
-    if: ${{ github.event.repository.private == false }}
+    if: ${{ github.event.repository.private == false && !contains(github.event.head_commit.message, '[ui:saved]') && !contains(github.event.head_commit.message, '[diagnostic:isolation]') }}
     runs-on: macos-15
     timeout-minutes: 45
     strategy:
       fail-fast: false
       matrix:
-        ui-suite: [integration, local-a, local-b]
+        # Explicit narrow reruns retain prior same-source local-a/local-b evidence;
+        # ordinary pushes still select every regression suite.
+        ui-suite: ${{ fromJSON(github.event_name == 'workflow_dispatch' && inputs.ui_suite != 'all' && format('["{0}"]', inputs.ui_suite) || contains(github.event.head_commit.message, '[ui:local-large]') && '["local-large"]' || contains(github.event.head_commit.message, '[ui:review]') && '["integration","local-b"]' || contains(github.event.head_commit.message, '[ui:integration]') && '["integration"]' || '["integration","local-a","local-b"]') }}
     env:
       NIDAA_UI_SUITE: ${{ matrix.ui-suite }}
     steps:
@@ -42,6 +52,7 @@ jobs:
           persist-credentials: false
       - name: Record environment
         run: |
+          python3 Scripts/record_ci_source.py
           mkdir -p artifacts
           { sw_vers; xcodebuild -version; swift --version; } > artifacts/environment.txt
           xcrun simctl list devices available -j > artifacts/devices.json
@@ -56,12 +67,17 @@ jobs:
           swift test --package-path IntegrationClient 2>&1 | tee artifacts/swift-client-tests.log
       - name: Test local SwiftUI journey and build Release
         timeout-minutes: 30
-        run: bash Scripts/ci_simulator.sh
+        run: |
+          if [[ "$NIDAA_UI_SUITE" == integration ]]; then
+            bash Scripts/ci_native_review.sh integration
+          else
+            bash Scripts/ci_simulator.sh
+          fi
       - name: Upload logs and simulator evidence
         if: ${{ always() }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
-          name: nidaa-simulator-${{ github.run_number }}-${{ matrix.ui-suite }}
+          name: nidaa-simulator-${{ github.run_number }}-${{ github.run_attempt }}-${{ matrix.ui-suite }}
           path: artifacts/
           retention-days: 7
           if-no-files-found: warn

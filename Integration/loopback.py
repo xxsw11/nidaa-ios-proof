@@ -60,7 +60,7 @@ def main():
             if length < 0 or length > 16384:
                 self.respond(413)
                 return
-            headers = {k:v for k,v in self.headers.items() if k.lower() in ('authorization','content-type','apikey','x-client-info')}
+            headers = {k:v for k,v in self.headers.items() if k.lower() in ('authorization','content-type','apikey','x-client-info','x-supabase-api-version')}
             payload = {'method':self.command,'path':self.path,'headers':headers,
                        'body':base64.b64encode(self.rfile.read(length)).decode()}
             try:

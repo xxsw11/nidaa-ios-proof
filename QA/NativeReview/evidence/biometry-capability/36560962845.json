@@ -1,0 +1,326 @@
+{
+  "commit": "951f78187860d56a34c026e0c54ab2e372c42204",
+  "run": 36560962845,
+  "attempt": 1,
+  "job": 109381448478,
+  "artifact": 11030496241,
+  "artifactSHA256": "d9cef0a742554d142ad595955f8fcfe51c728c46214ed9acd8dcf6cfba6d83e8",
+  "scope": "Separate official Simulator biometry capability; not an app acceptance run",
+  "report": {
+    "TCCChanged": false,
+    "afterCanEvaluate": true,
+    "appCredentialsCreated": false,
+    "authenticationPromptRequested": false,
+    "autoFillValidated": false,
+    "beforeCanEvaluate": false,
+    "cleanup": {
+      "delete": {
+        "exitCode": 0
+      },
+      "shutdown": {
+        "exitCode": 0
+      }
+    },
+    "cleanupBudgetSeconds": 90,
+    "combinedCapabilityStatus": "Passed",
+    "commands": [
+      {
+        "effectiveTimeoutSeconds": 90,
+        "elapsedSeconds": 19.563,
+        "exitCode": 0,
+        "maximumSeconds": 90,
+        "operation": "compile_public_AX_helper",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 10,
+        "elapsedSeconds": 0.252,
+        "exitCode": 0,
+        "maximumSeconds": 10,
+        "operation": "launch_system_events",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 30,
+        "elapsedSeconds": 0.861,
+        "exitCode": 0,
+        "maximumSeconds": 30,
+        "operation": "no_prompt_permission_check",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 120,
+        "elapsedSeconds": 10.812,
+        "exitCode": 0,
+        "maximumSeconds": 120,
+        "operation": "simulator_inventory",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 30,
+        "elapsedSeconds": 1.287,
+        "exitCode": 0,
+        "maximumSeconds": 30,
+        "operation": "create_owned_simulator",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 30,
+        "elapsedSeconds": 3.659,
+        "exitCode": 0,
+        "maximumSeconds": 30,
+        "operation": "boot_owned_simulator",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 240,
+        "elapsedSeconds": 82.864,
+        "exitCode": 0,
+        "maximumSeconds": 240,
+        "operation": "owned_bootstatus",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 30,
+        "elapsedSeconds": 3.566,
+        "exitCode": 0,
+        "maximumSeconds": 30,
+        "operation": "selected_developer_directory",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 30,
+        "elapsedSeconds": 10.086,
+        "exitCode": 0,
+        "maximumSeconds": 30,
+        "operation": "open_owned_simulator_window",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 60,
+        "elapsedSeconds": 6.275,
+        "exitCode": 0,
+        "maximumSeconds": 60,
+        "operation": "verify_owned_window_before_xctest",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 600,
+        "elapsedSeconds": 297.741,
+        "exitCode": 0,
+        "maximumSeconds": 600,
+        "operation": "xctest_before",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 20,
+        "elapsedSeconds": 5.584,
+        "exitCode": 0,
+        "maximumSeconds": 20,
+        "operation": "verify_before_one_test_summary",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 10,
+        "elapsedSeconds": 0.295,
+        "exitCode": 0,
+        "maximumSeconds": 10,
+        "operation": "reopen_system_events_after_xctest",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 90,
+        "elapsedSeconds": 5.538,
+        "exitCode": 0,
+        "maximumSeconds": 90,
+        "operation": "official_menu_single_enrollment_attempt",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 360,
+        "elapsedSeconds": 53.653,
+        "exitCode": 0,
+        "maximumSeconds": 360,
+        "operation": "xctest_after",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 20,
+        "elapsedSeconds": 0.774,
+        "exitCode": 0,
+        "maximumSeconds": 20,
+        "operation": "verify_after_one_test_summary",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 30,
+        "elapsedSeconds": 12.636,
+        "exitCode": 0,
+        "maximumSeconds": 30,
+        "operation": "cleanup_shutdown",
+        "status": "Completed"
+      },
+      {
+        "effectiveTimeoutSeconds": 60,
+        "elapsedSeconds": 1.697,
+        "exitCode": 0,
+        "maximumSeconds": 60,
+        "operation": "cleanup_delete",
+        "status": "Completed"
+      }
+    ],
+    "customObserverAppInstalled": false,
+    "executionBudgetSeconds": 1200,
+    "gate": "Fresh before/after observations with exactly one passed, zero failed and zero skipped selected XCTest per phase; completed owned menu inspection and after canEvaluate true. Menu mark result remains separate.",
+    "hostHelperCompileExitCode": 0,
+    "hostHelperSHA256": "92e4c4bf7eda931ef0d3958ea98bef57c7626ac602bbb0a512c26d786c256935",
+    "matchingFaceInvoked": false,
+    "menu": {
+      "accessibilityTrusted": true,
+      "automationPromptRequested": false,
+      "automationStatus": 0,
+      "axActionCodes": {
+        "press_enrolled_once": 0,
+        "press_face_id": 0,
+        "press_features_hardware": 0,
+        "raise_owned_AX_window": 0,
+        "reopen_face_id": 0,
+        "reopen_features": 0
+      },
+      "axReturnCode": 0,
+      "enrolledAfter": true,
+      "enrolledBefore": false,
+      "enrolledMarkReadable": true,
+      "enrolledMenuPresent": true,
+      "enrollmentActionAttempted": true,
+      "enrollmentChanged": true,
+      "enrollmentOutcomeProven": true,
+      "enrollmentReadbackElapsedSeconds": 1.420475958333327,
+      "enrollmentReadbackSamples": [
+        {
+          "axReturnCode": -25212,
+          "checked": false,
+          "elapsedSeconds": 0.002008458333307317,
+          "markKnown": true
+        },
+        {
+          "axReturnCode": -25212,
+          "checked": false,
+          "elapsedSeconds": 0.7467783749999626,
+          "markKnown": true
+        },
+        {
+          "axReturnCode": 0,
+          "checked": true,
+          "elapsedSeconds": 1.4204502500000444,
+          "markKnown": true
+        }
+      ],
+      "enrollmentReadbackTimedOut": false,
+      "faceIDMenuPresent": true,
+      "featuresMenuPresent": true,
+      "hardwareMenuPresent": false,
+      "matchingFaceInvoked": false,
+      "matchingFaceMenuEnabled": true,
+      "matchingFaceMenuEnabledBefore": true,
+      "matchingFaceMenuPresent": true,
+      "matchingFaceMenuPresentBefore": true,
+      "menuCancelReturnCode": 0,
+      "ownedFocusVerified": true,
+      "ownedWindowVerified": true,
+      "queryStage": "complete",
+      "simulatorProcessObserved": true,
+      "uiElementsEnabled": true
+    },
+    "menuHelperExitCode": 0,
+    "menuOnlyStatus": "Passed",
+    "observations": {
+      "after": {
+        "nonceMatched": true,
+        "observationSource": "Validated-console-record",
+        "recordParseStatus": "Validated",
+        "result": {
+          "authenticationPromptRequested": false,
+          "biometryType": 2,
+          "canEvaluate": true,
+          "errorIsLocalAuthentication": true,
+          "laErrorCode": 0,
+          "phase": "after",
+          "policy": 1,
+          "schemaVersion": 1
+        },
+        "status": "Observed",
+        "testExitCode": 0,
+        "testSummary": {
+          "failedTests": 0,
+          "passedTests": 1,
+          "queryExitCode": 0,
+          "skippedTests": 0,
+          "status": "Validated",
+          "totalTestCount": 1
+        }
+      },
+      "before": {
+        "nonceMatched": true,
+        "observationSource": "Validated-console-record",
+        "recordParseStatus": "Validated",
+        "result": {
+          "authenticationPromptRequested": false,
+          "biometryType": 2,
+          "canEvaluate": false,
+          "errorIsLocalAuthentication": true,
+          "laErrorCode": -7,
+          "phase": "before",
+          "policy": 1,
+          "schemaVersion": 1
+        },
+        "status": "Observed",
+        "testExitCode": 0,
+        "testSummary": {
+          "failedTests": 0,
+          "passedTests": 1,
+          "queryExitCode": 0,
+          "skippedTests": 0,
+          "status": "Validated",
+          "totalTestCount": 1
+        }
+      }
+    },
+    "ownedDeviceCreated": true,
+    "ownedDeviceDeleted": true,
+    "permissions": {
+      "accessibilityTrusted": true,
+      "automationPromptRequested": false,
+      "automationStatus": 0,
+      "uiElementsEnabled": true
+    },
+    "physicalBiometryProven": false,
+    "privateAPIsUsed": false,
+    "privateTemporaryOutputsRemoved": true,
+    "probeSHA256": "62d8facd91e3eb61dadd7a5ae866932cfdc84af3cbffed17510fee01b678b780",
+    "runtimeIdentifier": "com.apple.CoreSimulator.SimRuntime.iOS-18-5",
+    "schemaVersion": 1,
+    "scope": "XCTest-runner biometric capability only",
+    "stage": "verify_after_one_test_summary",
+    "status": "Passed",
+    "testSelector": "NidaaUITests/BiometryCapabilityUITests/testObserveBiometry",
+    "windowReadiness": {
+      "accessibilityTrusted": true,
+      "automationPromptRequested": false,
+      "automationStatus": 0,
+      "axActionCodes": {
+        "raise_owned_AX_window": 0
+      },
+      "axReturnCode": 0,
+      "enrollmentActionAttempted": false,
+      "ownedFocusVerified": true,
+      "ownedWindowVerified": true,
+      "queryStage": "owned_window_ready",
+      "simulatorProcessObserved": true,
+      "uiElementsEnabled": true,
+      "windowOnly": true
+    }
+  },
+  "diagnosis": "Official Simulator enrollment is now proven on this disposable iOS18.5 device: fresh before LA observation false/-7, one Enrolled menu action, checked mark after1.420seconds, fresh after LA observation true/0. Each selected XCTest had1pass/0fail/0skip. Reopening System Events immediately before the menu corrected the preceding AE-600 lifecycle failure. Owned cleanup passed. No Matching Face, authentication prompt, saved credential selection, insertion or login was executed.",
+  "nextAction": "Run the intact native saved-credential test on an owned Simulator with this verified enrollment fixture, retaining selection/fill/login assertions and privately examining any actual system authentication transition."
+}

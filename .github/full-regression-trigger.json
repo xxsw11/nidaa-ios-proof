@@ -1,0 +1,31 @@
+{
+  "stage": "native-acceptance-v02-after-bounded-offscreen-recovery",
+  "selection": "all-feasible-regression-groups",
+  "source": "Every job checks out its event github.sha; all acceptance results must match that single frozen SHA.",
+  "expectedUniqueCases": {
+    "backend": 55,
+    "referenceRules": 45,
+    "qa": 20,
+    "swiftClient": 24,
+    "swiftCore": 45,
+    "localA": 9,
+    "localB": 8,
+    "mockUI": 8,
+    "autoFill": 4
+  },
+  "autoFillExecution": {
+    "inputCases": 3,
+    "savedCredentialCases": 1,
+    "required": "Both independent jobs must pass with zero skipped cases at the same SHA; input/manual success never substitutes for saved selection."
+  },
+  "additionalRequired": [
+    "real Swift SDK journey",
+    "Debug build and UI execution",
+    "Release build",
+    "16 diagnostic transport/privacy checks",
+    "fresh before/after Simulator enrollment observations"
+  ],
+  "requiredSkips": 0,
+  "nativeBackendUI": "Not executed unless the complete precredential isolation gate succeeds; do not retry the known failed policy.",
+  "physicalDevice": "Not tested; outside this stage"
+}

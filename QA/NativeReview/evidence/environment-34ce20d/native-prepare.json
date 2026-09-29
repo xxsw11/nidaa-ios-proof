@@ -1,0 +1,13 @@
+{
+  "kind": "Native dependency preparation; not runtime execution",
+  "authVersion": "v2.196.0",
+  "authSourceCommit": "0204331ca41a5b49f076b6fa3dc6c0d20b996590",
+  "authBuildGoToolchain": "go1.26.5",
+  "authBinarySHA256": "8cc2e45e7197ce9134724b086817adb4633ff63738d0ba78f6e9a24f64de2075",
+  "mailpitVersion": "v1.31.3",
+  "mailpitArchiveSHA256": "f72ac5bae2c8ef6bd719c1aa11237500e9a81e50ba759f92b9b1e80812920a85",
+  "postgresVersion": "postgres (PostgreSQL) 17.11 (Homebrew)",
+  "postgresSelection": "Homebrew postgresql@17; observed minor recorded, not claimed identical to Docker17.6",
+  "architecture": "arm64",
+  "macOS": "15.7.9"
+}

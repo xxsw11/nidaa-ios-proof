@@ -1,0 +1,13 @@
+{
+  "run": 36543271512,
+  "attempt": 1,
+  "job": 109323515799,
+  "commit": "9494c13018f0a21aa0a384bd111df680cb1b34b5",
+  "artifact": 11022297535,
+  "artifactSHA256": "622a98c0eba845c858d9cde78d22b59af8979a3935c013e40f652ebda8755822",
+  "suite": "autofill-saved",
+  "result": "0 passed,1 failed,0 skipped; Release passed",
+  "observed": "Saved entry persisted. Provider reinspection had no matching controls; runner bounds320x480 differ from native window402x874. Two encrypted full picker screens decrypted and inspected: same blank form after tap, no stable chooser. Failure at savedIdentityTarget line378; no final failure snapshot produced. System collection succeeded with193619229 bytes and exceeded80MB guard; screenshot encryption itself succeeded.",
+  "category": "Unresolved picker plus concrete diagnostic size and provider-reinspection failures",
+  "changeBeforeRetry": "Compress bounded system interval and private XCTest log before encryption;512MB raw cap. Inspect provider on the already verified Settings fixture page through a no-navigation hook. Run all intended suites at one frozen source; retain every failure and selection assertion."
+}
