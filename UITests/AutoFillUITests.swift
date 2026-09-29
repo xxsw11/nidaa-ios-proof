@@ -80,19 +80,26 @@ final class AutoFillUITests: IntegrationTestCase {
         XCTAssertTrue(app.keyboards.firstMatch.waitForExistence(timeout: 8))
         let passwordLabels = ["Passwords", "Password AutoFill", "AutoFill Password", "كلمات السر", "كلمات المرور", "تعبئة كلمات السر"]
         var pickerButton = namedButton(passwordLabels, in: app)
-        if !pickerButton.exists {
+        // The keyboard can exist before its Passwords accessory appears. The
+        // observed fdab801 failure recorded that button after an early fallback.
+        if !pickerButton.waitForExistence(timeout: 8) {
             // The public edit menu is also a user-initiated AutoFill route; no
             // clipboard, keychain injection or credential text typing is used.
             emailField.press(forDuration: 1)
-            let autoFill = namedButton(["AutoFill", "تعبئة تلقائية", "تعبئة تلقائية…"], in: app)
-            guard autoFill.waitForExistence(timeout: 5), autoFill.isHittable else {
-                recordKnownSystemControls(in: app, stage: "autofill-launch")
-                XCTFail("Native AutoFill entry control unavailable"); return
+            // Some native edit menus expose Passwords directly. Only open an
+            // AutoFill submenu when the actual Passwords control is still absent.
+            if !pickerButton.waitForExistence(timeout: 3) {
+                let autoFill = namedButton(["AutoFill", "تعبئة تلقائية", "تعبئة تلقائية…"], in: app)
+                guard autoFill.waitForExistence(timeout: 5), autoFill.isHittable else {
+                    recordKnownSystemControls(in: app, stage: "autofill-launch")
+                    XCTFail("Native AutoFill entry control unavailable"); return
+                }
+                autoFill.tap()
             }
-            autoFill.tap()
             pickerButton = namedButton(passwordLabels, in: app)
         }
-        guard pickerButton.waitForExistence(timeout: 5), pickerButton.isHittable else {
+        let pickerReady = XCTNSPredicateExpectation(predicate: NSPredicate(format: "exists == true AND hittable == true"), object: pickerButton)
+        guard XCTWaiter.wait(for: [pickerReady], timeout: 5) == .completed else {
             recordKnownSystemControls(in: app, stage: "password-picker-launch")
             XCTFail("Native Passwords picker control unavailable"); return
         }
