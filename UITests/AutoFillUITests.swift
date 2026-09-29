@@ -589,3 +589,81 @@ final class AutoFillUITests: IntegrationTestCase {
         shot("autofill-enabled-large-rtl-hidden-demonstration")
     }
 }
+
+import Foundation
+import XCTest
+import LocalAuthentication
+
+/// Diagnostic-branch only. Append to the existing UI-test source file so the
+/// proven Xcode UI runner executes this without a separate observer app.
+/// Host variables TEST_RUNNER_NIDAA_BIOMETRY_* arrive here without TEST_RUNNER_.
+/// This records availability; an XCTest pass is not biometric authentication
+/// or evidence that Password AutoFill succeeded.
+final class BiometryCapabilityUITests: XCTestCase {
+    func testObserveBiometry() {
+        #if targetEnvironment(simulator)
+        let environment = ProcessInfo.processInfo.environment
+        guard let phase = environment["NIDAA_BIOMETRY_PHASE"],
+              phase == "before" || phase == "after" else {
+            XCTFail("Missing or invalid biometry diagnostic phase")
+            return
+        }
+        guard let nonce = environment["NIDAA_BIOMETRY_NONCE"],
+              nonce.utf8.count == 32,
+              nonce.utf8.allSatisfy({ (48...57).contains($0) || (65...70).contains($0) || (97...102).contains($0) }) else {
+            XCTFail("Missing or invalid biometry diagnostic nonce")
+            return
+        }
+        guard let owned = environment["NIDAA_BIOMETRY_OWNED_UDID"],
+              UUID(uuidString: owned) != nil,
+              environment["SIMULATOR_UDID"] == owned else {
+            // Never include either device identifier in an assertion message.
+            XCTFail("Biometry diagnostic does not match the owned Simulator")
+            return
+        }
+
+        guard let usageDescription = Bundle.main.object(forInfoDictionaryKey: "NSFaceIDUsageDescription") as? String,
+              !usageDescription.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            XCTFail("Biometry diagnostic runner is missing its Face ID usage description")
+            return
+        }
+        let context = LAContext()
+        defer { context.invalidate() }
+        var error: NSError?
+        let available = context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
+        let observation: [String: Any] = [
+            "schemaVersion": 1,
+            "phase": phase,
+            "nonce": nonce,
+            "policy": 1,
+            "canEvaluate": available,
+            "laErrorCode": error?.code ?? 0,
+            "errorIsLocalAuthentication": error == nil || error?.domain == LAError.errorDomain,
+            "biometryType": context.biometryType.rawValue,
+            "authenticationPromptRequested": false
+        ]
+        do {
+            let data = try JSONSerialization.data(withJSONObject: observation, options: [.sortedKeys])
+            var output = Data("NIDAA_BIOMETRY_OBSERVATION:".utf8)
+            output.append(data)
+            output.append(10)
+            // One complete parser record. The nonce is a nonsecret freshness
+            // marker; the host validates and strips it before public export.
+            // No device ID, localized error, credentials or app data is emitted.
+            FileHandle.standardOutput.write(output)
+            guard let line = String(data: output, encoding: .utf8) else {
+                XCTFail("Biometry diagnostic record could not be encoded")
+                return
+            }
+            let attachment = XCTAttachment(string: line)
+            attachment.name = "nidaa-biometry-observation-" + phase
+            attachment.lifetime = .keepAlways
+            add(attachment)
+        } catch {
+            XCTFail("Biometry diagnostic record could not be serialized")
+        }
+        #else
+        XCTFail("Biometry diagnostic requires the owned disposable Simulator")
+        #endif
+    }
+}
