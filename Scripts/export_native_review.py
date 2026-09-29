@@ -76,6 +76,8 @@ images=[]
 draft_diagnostics=[]
 reveal_diagnostics=[]
 reveal_presence=[]
+reveal_surface=[]
+reveal_surface_exports={"accepted":0,"rejected":0}
 native_form_readiness=[]
 # Full-screen diagnostics are accepted only with a matching strict tree report.
 picker_diagnostics=[]
@@ -91,6 +93,76 @@ def valid_reveal_presence(value):
     if type(value['completedDrags']) is not int or not 0<=value['completedDrags']<=10: return False
     if not all(type(value[k]) is bool for k in flags): return False
     return not (value['scrollExists'] and value['windowExists'] and value['targetExists'])
+
+def valid_reveal_surface(value):
+    """Accept only bounded structural telemetry, never arbitrary UI content."""
+    identifiers = {'', 'integrationLogout', 'integrationAccountTab', 'integrationContactsTab',
+        'integrationAlertsTab', 'integrationLogin', 'integrationSection', 'integrationNewPassword',
+        'integrationBusy', 'integrationAcceptInvite', 'integrationDeclineInvite', 'integrationClose',
+        'integrationKeyboardDone', 'integrationMode', 'integrationRefreshSession',
+        'integrationRevokeAll', 'integrationInviteEmail', 'closeScreen'}
+    flags = {'appForeground', 'scrollExists', 'windowExists', 'targetExists', 'targetHittable',
+        'snapshotAvailable', 'snapshotComplete', 'truncated'}
+    frames = {'appFrame', 'windowFrame', 'selectedScrollFrame', 'viewport', 'lastTargetFrame'}
+    points = {'requestedStart', 'requestedEnd', 'actualStart', 'actualEnd'}
+    def number(v):
+        return type(v) in (int, float) and abs(v) <= 1000000 and math.isfinite(v)
+    def vector(v, size, empty=False):
+        return isinstance(v, list) and (len(v) == size or (empty and not v)) and all(number(x) for x in v) and (size != 4 or not v or (v[2] >= 0 and v[3] >= 0))
+    if not isinstance(value, dict) or set(value) != {'schemaVersion', 'controlID', 'steps'}: return False
+    if type(value['schemaVersion']) is not int or value['schemaVersion'] != 1 or value['controlID'] != 'integrationLogout': return False
+    steps = value['steps']
+    if not isinstance(steps, list) or not 1 <= len(steps) <= 11: return False
+    for index, step in enumerate(steps):
+        if not isinstance(step, dict) or set(step) != flags | frames | points | {'phase', 'completedDrags', 'nodes', 'scrollNodeIndices'}: return False
+        final = step['phase'] == 'finished'
+        if step['phase'] not in ('before_drag', 'finished') or (final and index != len(steps) - 1): return False
+        if not final and index >= 10: return False
+        # A before-drag prefix is a checkpoint, not a completed gesture/result.
+        # A terminal observation may follow an interrupted final gesture.
+        allowed_drags = {index, index - 1} if final and index > 0 else {index}
+        if type(step['completedDrags']) is not int or step['completedDrags'] not in allowed_drags: return False
+        if not all(type(step[k]) is bool for k in flags): return False
+        if step['targetHittable'] and not step['targetExists']: return False
+        if not all(vector(step[k], 4, True) for k in frames): return False
+        if not all(vector(step[k], 2, True) for k in points): return False
+        if final and any(step[k] for k in points): return False
+        if not final and (len(step['requestedStart']) != 2 or len(step['requestedEnd']) != 2): return False
+        if len(step['actualStart']) != len(step['actualEnd']): return False
+        nodes, scrolls = step['nodes'], step['scrollNodeIndices']
+        if not isinstance(nodes, list) or len(nodes) > 2000 or not isinstance(scrolls, list): return False
+        if not step['snapshotAvailable']:
+            if step['snapshotComplete'] or step['truncated'] or nodes or scrolls: return False
+        elif step['snapshotComplete'] != (not step['truncated']): return False
+        if step['snapshotComplete'] and not nodes: return False
+        depths = []
+        for i, node in enumerate(nodes):
+            if not isinstance(node, dict) or set(node) != {'node', 'parent', 'role', 'identifier', 'frame'}: return False
+            if type(node['node']) is not int or node['node'] != i or type(node['parent']) is not int: return False
+            if (i == 0 and node['parent'] != -1) or (i > 0 and not 0 <= node['parent'] < i): return False
+            depth = 0 if i == 0 else depths[node['parent']] + 1
+            if depth >= 50: return False
+            depths.append(depth)
+            if type(node['role']) is not int or not 0 <= node['role'] <= 1000: return False
+            if not isinstance(node['identifier'], str) or node['identifier'] not in identifiers: return False
+            if not vector(node['frame'], 4): return False
+        if any(type(i) is not int or not 0 <= i < len(nodes) for i in scrolls): return False
+        if scrolls != sorted(set(scrolls)): return False
+    return True
+
+def reveal_surface_json(raw):
+    def unique(pairs):
+        result = {}
+        for key, item in pairs:
+            if key in result: raise ValueError('Duplicate key')
+            result[key] = item
+        return result
+    try:
+        value = json.loads(raw, object_pairs_hook=unique)
+    except (ValueError, UnicodeError, RecursionError):
+        return None
+    return value if valid_reveal_surface(value) else None
+
 
 def valid_picker_tree(value):
     flags={'newPasswordFormClosed','emailBlank','snapshotsComplete','truncated'}
@@ -241,6 +313,20 @@ if manifest.exists():
                     try: state=json.loads(source.read_text(encoding='utf-8'))
                     except (ValueError,UnicodeError): pass
                 if valid_reveal_presence(state): reveal_presence.append(state)
+            if human=='integration-reveal-surface-state' and source.suffix in ('.txt','.text'):
+                state=None
+                if source.stat().st_size<=4*1024*1024:
+                    try: state=reveal_surface_json(source.read_text(encoding='utf-8'))
+                    except (ValueError,UnicodeError,RecursionError): pass
+                # Keep the fullest consistent checkpoint, including interrupted
+                # before-drag prefixes. They are not completed gestures/results.
+                prior=reveal_surface[0]['steps'] if reveal_surface else []
+                overlap=min(len(prior),len(state['steps'])) if state is not None else 0
+                if state is not None and state['steps'][:overlap]==prior[:overlap]:
+                    if len(state['steps'])>=len(prior): reveal_surface[:]=[state]
+                    reveal_surface_exports['accepted']+=1
+                else:
+                    reveal_surface_exports['rejected']+=1
             if human=='integration-reveal-geometry' and source.suffix in ('.txt','.text'):
                 note=source.read_text(encoding='utf-8')
                 lines=note.strip().splitlines()
@@ -263,6 +349,8 @@ report['screenshots']=images
 report['draftReadiness']=draft_diagnostics
 report['revealGeometry']=reveal_diagnostics
 report['revealPresence']=reveal_presence
+report['revealSurfaceState']=reveal_surface
+report['revealSurfaceExports']=reveal_surface_exports
 report['nativeFormReadiness']=native_form_readiness
 text=json.dumps(report,indent=2)+'\n'
 assert not re.search(r'eyJ[A-Za-z0-9_-]{15,}\.[A-Za-z0-9_-]{15,}|-----BEGIN .*PRIVATE KEY|Native-Fictional-Only', text)

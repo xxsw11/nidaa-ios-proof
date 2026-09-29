@@ -156,6 +156,27 @@ class IntegrationTestCase: XCTestCase {
         guard scroll.exists else { XCTFail("No scroll container for: \(element.identifier)"); return }
         var geometry: [String] = []
         var completedDrags = 0
+        var surfaceSteps: [[String: Any]] = []
+        var lastObservedTargetFrame: CGRect?
+        var finalSurfaceEmission = false
+        func emitSurfaceEvidence() {
+            guard controlID == "integrationLogout" else { return }
+            let payload: [String: Any] = ["schemaVersion": 1, "controlID": controlID, "steps": surfaceSteps]
+            if let data = try? JSONSerialization.data(withJSONObject: payload, options: [.sortedKeys]),
+               let text = String(data: data, encoding: .utf8) {
+                let evidence = XCTAttachment(string: text)
+                evidence.name = "integration-reveal-surface-state"
+                evidence.lifetime = .keepAlways; add(evidence)
+            }
+        }
+        func finishSurfaceEvidence() {
+            guard controlID == "integrationLogout", !finalSurfaceEmission else { return }
+            finalSurfaceEmission = true
+            surfaceSteps.append(revealSurfaceStep(phase: "finished", completedDrags: completedDrags,
+                element: element, scroll: scroll, lastTarget: lastObservedTargetFrame, start: nil, end: nil))
+            emitSurfaceEvidence()
+        }
+        defer { finishSurfaceEvidence() }
         // Retain only a direction proven by an entirely offscreen target.
         // Accessibility can omit that target after a drag; its cause is unknown.
         var lastOffscreenAbove: Bool?
@@ -186,6 +207,7 @@ class IntegrationTestCase: XCTestCase {
             }
             guard scrollExists, windowExists, appForeground, targetExists || targetCanRecover else {
                 recordRevealGeometry(controlID, steps: geometry)
+                finishSurfaceEvidence()
                 XCTFail("Scroll/window/foreground lost or missing target has no prior offscreen direction"); return
             }
             if targetExists && element.isHittable { return }
@@ -194,6 +216,7 @@ class IntegrationTestCase: XCTestCase {
                   [viewport.minX, viewport.minY, viewport.width, viewport.height].allSatisfy({ $0.isFinite }),
                   viewport.width > 0, viewport.height > 80 else {
                 recordRevealGeometry(controlID, steps: geometry)
+                finishSurfaceEvidence()
                 XCTFail("Invalid viewport for: \(element.identifier)"); return
             }
             let above: Bool
@@ -203,8 +226,10 @@ class IntegrationTestCase: XCTestCase {
                 guard [control.minX, control.minY, control.width, control.height].allSatisfy({ $0.isFinite }),
                       control.width > 0, control.height > 0 else {
                     recordRevealGeometry(controlID, steps: geometry)
+                    finishSurfaceEvidence()
                     XCTFail("Invalid control geometry during reveal"); return
                 }
+                lastObservedTargetFrame = control
                 above = control.midY < viewport.midY
                 // Never extrapolate from an occluded but onscreen control.
                 if control.maxY <= viewport.minY { lastOffscreenAbove = true }
@@ -213,6 +238,7 @@ class IntegrationTestCase: XCTestCase {
             } else {
                 guard let priorAbove = lastOffscreenAbove else {
                     recordRevealGeometry(controlID, steps: geometry)
+                    finishSurfaceEvidence()
                     XCTFail("Missing target lacks an observed offscreen direction"); return
                 }
                 above = priorAbove
@@ -220,6 +246,13 @@ class IntegrationTestCase: XCTestCase {
             let x = viewport.midX
             let upper = viewport.minY + viewport.height * 0.25
             let lower = viewport.minY + viewport.height * 0.75
+            if controlID == "integrationLogout" {
+                surfaceSteps.append(revealSurfaceStep(phase: "before_drag", completedDrags: completedDrags,
+                    element: element, scroll: scroll, lastTarget: lastObservedTargetFrame,
+                    start: CGPoint(x: x, y: above ? upper : lower), end: CGPoint(x: x, y: above ? lower : upper)))
+                // Persist a bounded prefix before XCTest can abort the gesture.
+                emitSurfaceEvidence()
+            }
             drag(from: CGPoint(x: x, y: above ? upper : lower), to: CGPoint(x: x, y: above ? lower : upper))
             completedDrags += 1
         }
@@ -227,8 +260,82 @@ class IntegrationTestCase: XCTestCase {
         // accessibility dumps, credentials or invitation/verification tokens.
         if app.state == .runningForeground && scroll.exists && app.windows.firstMatch.exists && element.exists && element.isHittable { return }
         recordRevealGeometry(controlID, steps: geometry)
+        finishSurfaceEvidence()
         XCTFail("Control not hittable after 10 directed scrolls: \(element.identifier); frame=\(element.frame); scroll=\(scroll.frame)")
     }
+    // Diagnostic only. No label, value, error description or screenshot is read.
+    // Unknown/incomplete snapshots never establish a control's absence.
+    private func revealSurfaceStep(phase: String, completedDrags: Int,
+        element: XCUIElement, scroll: XCUIElement, lastTarget: CGRect?,
+        start: CGPoint?, end: CGPoint?) -> [String: Any] {
+        let allowed: Set<String> = ["integrationLogout", "integrationAccountTab", "integrationContactsTab",
+            "integrationAlertsTab", "integrationLogin", "integrationSection", "integrationNewPassword",
+            "integrationBusy", "integrationAcceptInvite", "integrationDeclineInvite", "integrationClose",
+            "integrationKeyboardDone", "integrationMode", "integrationRefreshSession", "integrationRevokeAll",
+            "integrationInviteEmail", "closeScreen"]
+        func numbers(_ frame: CGRect?) -> [Double] {
+            guard let frame,
+                  [frame.minX, frame.minY, frame.width, frame.height].allSatisfy({ $0.isFinite }),
+                  frame.width >= 0, frame.height >= 0 else { return [] }
+            return [Double(frame.minX), Double(frame.minY), Double(frame.width), Double(frame.height)]
+        }
+        func point(_ value: CGPoint?) -> [Double] {
+            guard let value, value.x.isFinite, value.y.isFinite else { return [] }
+            return [Double(value.x), Double(value.y)]
+        }
+        var nodes: [[String: Any]] = []
+        var scrollNodeIndices: [Int] = []
+        var snapshotAvailable = false
+        var snapshotComplete = false
+        var truncated = false
+        if let root = try? app.snapshot() {
+            snapshotAvailable = true
+            snapshotComplete = true
+            func visit(_ node: XCUIElementSnapshot, parent: Int, depth: Int) {
+                guard snapshotComplete else { return }
+                let frame = numbers(node.frame)
+                guard nodes.count < 2000, depth < 50, frame.count == 4 else {
+                    snapshotComplete = false; truncated = true; return
+                }
+                let index = nodes.count
+                let identifier = allowed.contains(node.identifier) ? node.identifier : ""
+                nodes.append(["node": index, "parent": parent, "role": Int(node.elementType.rawValue),
+                    "identifier": identifier, "frame": frame])
+                if node.elementType == .scrollView { scrollNodeIndices.append(index) }
+                for child in node.children { visit(child, parent: index, depth: depth + 1) }
+            }
+            visit(root, parent: -1, depth: 0)
+        }
+        let appExists = app.exists
+        let window = app.windows.firstMatch
+        let windowExists = window.exists
+        let scrollExists = scroll.exists
+        let targetExists = element.exists
+        let appFrame: CGRect? = appExists ? app.frame : nil
+        let windowFrame: CGRect? = windowExists ? window.frame : nil
+        let scrollFrame: CGRect? = scrollExists ? scroll.frame : nil
+        let viewport: CGRect? = windowFrame.flatMap { window in scrollFrame.map { $0.intersection(window) } }
+        var actualStart: [Double] = []
+        var actualEnd: [Double] = []
+        if appExists, let start, let end {
+            // Public coordinates are dynamic; capture their current screenPoint
+            // immediately before the unchanged drag helper is invoked.
+            let origin = app.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0))
+            actualStart = point(origin.withOffset(CGVector(dx: start.x, dy: start.y)).screenPoint)
+            actualEnd = point(origin.withOffset(CGVector(dx: end.x, dy: end.y)).screenPoint)
+        }
+        return ["phase": phase, "completedDrags": completedDrags,
+            "appForeground": app.state == .runningForeground,
+            "scrollExists": scrollExists, "windowExists": windowExists,
+            "targetExists": targetExists, "targetHittable": targetExists && element.isHittable,
+            "snapshotAvailable": snapshotAvailable, "snapshotComplete": snapshotComplete, "truncated": truncated,
+            "appFrame": numbers(appFrame), "windowFrame": numbers(windowFrame),
+            "selectedScrollFrame": numbers(scrollFrame), "viewport": numbers(viewport),
+            "lastTargetFrame": numbers(lastTarget), "requestedStart": point(start), "requestedEnd": point(end),
+            "actualStart": actualStart, "actualEnd": actualEnd,
+            "nodes": nodes, "scrollNodeIndices": scrollNodeIndices]
+    }
+
     private func recordRevealGeometry(_ control: String, steps: [String]) {
         let evidence = XCTAttachment(string: "controlID=" + control + "\n" + steps.joined(separator: "\n"))
         evidence.name = "integration-reveal-geometry"
