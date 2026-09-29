@@ -395,13 +395,20 @@ def build_observer(directory, report):
     return app
 
 
-def observe_local_authentication(owned, phase, report, minimum_remaining=20):
+def observe_local_authentication(owned, phase, report, minimum_remaining=30):
     observation = report['localAuthenticationObserver']
     entry = observation[phase] = {'status': 'Notexecuted-budget'}
     if remaining_seconds() < minimum_remaining:
         return
+    entry['status'] = 'Running-container'
     report['stage'] = 'observer_'+phase+'_container'
-    container = command(['xcrun', 'simctl', 'get_app_container', owned, OBSERVER_BUNDLE, 'data'], timeout=10)
+    # The measured first container lookup exceeded the old 10-second window
+    # after a successful cold install. Keep the overall 390-second clamp.
+    try:
+        container = command(['xcrun', 'simctl', 'get_app_container', owned, OBSERVER_BUNDLE, 'data'], timeout=30)
+    except ProbeTimeout:
+        entry['status'] = 'Failed-container-timeout'
+        raise
     entry['containerExitCode'] = container.returncode
     if container.returncode:
         entry['status'] = 'Failed-container'
@@ -417,12 +424,18 @@ def observe_local_authentication(owned, phase, report, minimum_remaining=20):
         entry['status'] = 'Failed-stale-output'
         return
     report['stage'] = 'observer_'+phase+'_launch'
-    launched = command(['xcrun', 'simctl', 'launch', '--terminate-running-process', owned, OBSERVER_BUNDLE, '--phase', phase], timeout=15)
+    entry['status'] = 'Running-launch'
+    try:
+        launched = command(['xcrun', 'simctl', 'launch', '--terminate-running-process', owned, OBSERVER_BUNDLE, '--phase', phase], timeout=45)
+    except ProbeTimeout:
+        entry['status'] = 'Failed-launch-timeout'
+        raise
     entry['launchExitCode'] = launched.returncode
     if launched.returncode:
         entry['status'] = 'Failed-launch'
         return
     report['stage'] = 'observer_'+phase+'_readback'
+    entry['status'] = 'Running-readback'
     deadline = min(time.monotonic()+10, COMMAND_DEADLINE)
     while not output.is_file() and time.monotonic() < deadline:
         time.sleep(0.2)
