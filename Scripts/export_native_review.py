@@ -76,6 +76,7 @@ manifest = private/'screenshots/manifest.json'
 images=[]
 draft_diagnostics=[]
 reveal_diagnostics=[]
+reveal_presence=[]
 native_form_readiness=[]
 # Full-screen diagnostics are accepted only with a matching strict tree report.
 picker_diagnostics=[]
@@ -83,6 +84,15 @@ picker_images=[]
 private_settings_images=[]
 picker_labels=set(['', '[redacted]', 'Passwords', 'Password', 'Password AutoFill', 'AutoFill Password', 'Fill Password', 'AutoFill', 'AutoFill…', 'Other Passwords', 'Other Passwords…', 'Open Passwords', 'Search', 'Search Passwords', 'Allow', 'Don’t Allow', "Don't Allow", 'Continue', 'Cancel', 'Done', 'Close', 'Back', 'Save', 'New Password', 'User Name', 'Username', 'Website or Label', 'Website or App', 'Notes', 'All', 'Passkeys', 'Codes', 'Deleted', 'Sign In to iCloud', 'Sign in to your Apple Account', 'Set Up a Passcode', 'Enter iPhone Passcode', 'Use Passcode', 'Face ID', 'Touch ID', 'Authentication Required', 'Unlock Passwords', 'Select All', 'Select', 'Paste', 'Copy', 'Cut', 'كلمات السر', 'كلمات المرور', 'تعبئة كلمات السر', 'تعبئة تلقائية', 'تعبئة تلقائية…', 'كلمات سر أخرى', 'كلمات مرور أخرى', 'بحث', 'إلغاء', 'تم', 'متابعة', 'السماح', 'عدم السماح', 'فتح كلمات السر', 'تسجيل الدخول إلى iCloud', 'إدخال رمز دخول iPhone', 'NIDAA', 'نداء', 'تجربة الربط المحلي', 'MOCK · محاكاة واجهة فقط', 'حساب خيالي مستقل', 'البريد الإلكتروني', 'كلمة المرور', 'تسجيل الدخول', 'إنشاء حساب تجريبي', 'طلب استعادة كلمة المرور', 'لديّ رمز تحقق أو استعادة', 'إغلاق', 'إظهار كلمة المرور', 'إخفاء كلمة المرور', 'الحسابات والنتائج التالية خيالية داخل الواجهة. لا يثبت هذا اختبارًا من المحاكي إلى الخادم.', 'الإرسال مزيف للاختبار · APNs غير مفعّل · لا إشعار أو صوت على هاتف.', 'استخدم بريدًا ينتهي بـ \u200e.invalid. التحقق يصل إلى صندوق محلي معزول؛ لا تستخدم بيانات شخصية.', 'integrationEmail', 'integrationPassword', 'integrationPasswordVisibility', 'integrationPasswordPaste', 'integrationLogin', 'integrationSignup', 'integrationRecover', 'integrationExistingToken', 'integrationKeyboardDone', 'integrationMockBanner'])
 picker_phases={'before_tap','after_tap','selection_failure'}
+def valid_reveal_presence(value):
+    flags={'scrollExists','windowExists','targetExists','appForeground'}
+    if not isinstance(value,dict) or set(value)!=flags|{'phase','controlID','completedDrags'}: return False
+    # Narrowly retain the observed large-Arabic logout control only.
+    if value['phase']!='existence_guard_failed' or value['controlID']!='integrationLogout': return False
+    if type(value['completedDrags']) is not int or not 0<=value['completedDrags']<=10: return False
+    if not all(type(value[k]) is bool for k in flags): return False
+    return not (value['scrollExists'] and value['windowExists'] and value['targetExists'])
+
 def valid_picker_tree(value):
     flags={'newPasswordFormClosed','emailBlank','snapshotsComplete','truncated'}
     if not isinstance(value,dict) or set(value)!=flags|{'phase','maskCount','nodes'}: return False
@@ -226,6 +236,12 @@ if manifest.exists():
                         native={} if row[-1]=='unavailable' else {key:value=='true' for key,value in (pair.split('=') for pair in row[-1].split(','))}
                         phases.append({'phase':row[0], **{key:value=='true' for key,value in zip(keys,row[1:1+len(keys)])},'native':native})
                     draft_diagnostics.append(phases)
+            if human=='integration-reveal-presence' and source.suffix in ('.txt','.text'):
+                state=None
+                if source.stat().st_size<=2048:
+                    try: state=json.loads(source.read_text(encoding='utf-8'))
+                    except (ValueError,UnicodeError): pass
+                if valid_reveal_presence(state): reveal_presence.append(state)
             if human=='integration-reveal-geometry' and source.suffix in ('.txt','.text'):
                 note=source.read_text(encoding='utf-8')
                 lines=note.strip().splitlines()
@@ -270,6 +286,7 @@ report['pickerDiagnosticPhases']=[d['phase'] for d in picker_diagnostics]
 report['screenshots']=images
 report['draftReadiness']=draft_diagnostics
 report['revealGeometry']=reveal_diagnostics
+report['revealPresence']=reveal_presence
 report['nativeFormReadiness']=native_form_readiness
 text=json.dumps(report,indent=2)+'\n'
 assert not re.search(r'eyJ[A-Za-z0-9_-]{15,}\.[A-Za-z0-9_-]{15,}|-----BEGIN .*PRIVATE KEY|Native-Fictional-Only', text)
