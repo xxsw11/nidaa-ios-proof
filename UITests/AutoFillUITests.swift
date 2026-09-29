@@ -53,6 +53,7 @@ final class AutoFillUITests: IntegrationTestCase {
         passwords.terminate()
 
         launch()
+        guard let nativeApp = app else { XCTFail("NIDAA launch fixture is missing"); return }
         let emailField = app.textFields["integrationEmail"]
         reveal(emailField)
         XCTAssertEqual(emailField.value as? String, emailField.placeholderValue)
@@ -78,13 +79,13 @@ final class AutoFillUITests: IntegrationTestCase {
             XCTFail("Native Passwords picker control unavailable"); return
         }
         pickerButton.tap()
-        try skipOnlyObservedPersonalRequirement(in: [app, springboard])
-        for surface in [app, springboard] {
+        try skipOnlyObservedPersonalRequirement(in: [nativeApp, springboard])
+        for surface in [nativeApp, springboard] {
             let other = namedButton(["Other Passwords", "Other Passwords…", "كلمات سر أخرى", "كلمات مرور أخرى"], in: surface)
             if other.exists && other.isHittable { other.tap(); break }
         }
         var selected = false
-        for surface in [app, springboard] {
+        for surface in [nativeApp, springboard] {
             // Select only the unique fictional account by its nonsecret identity.
             let row = surface.cells.containing(.staticText, identifier: email).firstMatch
             let button = surface.buttons.matching(NSPredicate(format: "label CONTAINS %@ OR label CONTAINS %@", email, site)).firstMatch
@@ -93,7 +94,7 @@ final class AutoFillUITests: IntegrationTestCase {
             if target.waitForExistence(timeout: 5), target.isHittable { target.tap(); selected = true; break }
         }
         guard selected else {
-            try skipOnlyObservedPersonalRequirement(in: [app, springboard])
+            try skipOnlyObservedPersonalRequirement(in: [nativeApp, springboard])
             recordKnownSystemControls(in: app, stage: "saved-account-selection")
             XCTFail("Fictional saved account not found in native picker"); return
         }
