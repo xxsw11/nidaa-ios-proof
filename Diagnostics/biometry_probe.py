@@ -9,6 +9,7 @@ import json
 from pathlib import Path
 import platform
 import plistlib
+import re
 import subprocess
 import tempfile
 import time
@@ -57,129 +58,194 @@ guard let application = application else {
 }
 result["simulatorProcessObserved"] = true
 let pid = application.processIdentifier
-let source = """
-set probeStage to "system_events_process_wait"
-set ownedWindowVerified to false
-set featuresPresent to false
-set hardwarePresent to false
-set facePresent to false
-set enrolledPresent to false
-set markReadable to false
-try
-tell application id "com.apple.systemevents"
-  repeat with attempt from 1 to 60
-    if exists application process whose unix id is \(pid) then exit repeat
-    delay 0.25
-  end repeat
-  if not (exists application process whose unix id is \(pid)) then error number -27000
-  tell first application process whose unix id is \(pid)
-    set probeStage to "owned_window_wait"
-    repeat with attempt from 1 to 60
-      if exists window whose name contains "\(name)" then exit repeat
-      delay 0.25
-    end repeat
-    if not (exists window whose name contains "\(name)" ) then error number -27001
-    set probeStage to "select_owned_window"
-    set ownedWindow to first window whose name contains "\(name)"
-    set probeStage to "raise_owned_window"
-    set frontmost to true
-    perform action "AXRaise" of ownedWindow
-    set probeStage to "verify_front_owned_window"
-    if not ((name of front window) contains "\(name)") then error number -27002
-    set ownedWindowVerified to true
-    set probeStage to "features_hardware_presence"
-    set featuresPresent to exists menu bar item "Features" of menu bar 1
-    set hardwarePresent to exists menu bar item "Hardware" of menu bar 1
-    if featuresPresent then
-      set topItem to menu bar item "Features" of menu bar 1
-    else if hardwarePresent then
-      set topItem to menu bar item "Hardware" of menu bar 1
-    else
-      error number -27003
-    end if
-    set probeStage to "open_features_hardware_menu"
-    click topItem
-    set probeStage to "face_id_presence"
-    set facePresent to exists menu item "Face ID" of menu 1 of topItem
-    if not facePresent then error number -27004
-    set faceItem to menu item "Face ID" of menu 1 of topItem
-    set probeStage to "open_face_id_menu"
-    click faceItem
-    set probeStage to "enrolled_presence"
-    set enrolledPresent to exists menu item "Enrolled" of menu 1 of faceItem
-    if not enrolledPresent then error number -27005
-    set enrollItem to menu item "Enrolled" of menu 1 of faceItem
-    set probeStage to "enrolled_enabled"
-    if not (enabled of enrollItem) then error number -27006
-    set probeStage to "enrolled_mark_read_before"
-    set markReadable to exists attribute "AXMenuItemMarkChar" of enrollItem
-    if not markReadable then error number -27007
-    set markBefore to value of attribute "AXMenuItemMarkChar" of enrollItem
-    set checkedBefore to (markBefore is not missing value and markBefore is not "")
-    set changed to false
-    if not checkedBefore then
-      set probeStage to "verify_owned_window_before_enrollment"
-      if not ((name of front window) contains "\(name)") then error number -27002
-      set probeStage to "enable_enrollment"
-      click enrollItem
-      set changed to true
-      set probeStage to "reopen_features_after_enrollment"
-      click topItem
-      set probeStage to "reopen_face_id_after_enrollment"
-      click faceItem
-    end if
-    set probeStage to "enrolled_mark_read_after"
-    set enrollItem to menu item "Enrolled" of menu 1 of faceItem
-    if not (exists attribute "AXMenuItemMarkChar" of enrollItem) then error number -27008
-    set markAfter to value of attribute "AXMenuItemMarkChar" of enrollItem
-    set checkedAfter to (markAfter is not missing value and markAfter is not "")
-    set probeStage to "matching_face_presence"
-    set matchingPresent to exists menu item "Matching Face" of menu 1 of faceItem
-    set matchingEnabled to false
-    set probeStage to "matching_face_enabled"
-    if matchingPresent then set matchingEnabled to enabled of menu item "Matching Face" of menu 1 of faceItem
-    set probeStage to "close_menu"
-    key code 53
-    return "ok|" & ((checkedBefore as integer) as text) & "|" & ((changed as integer) as text) & "|" & ((checkedAfter as integer) as text) & "|" & ((matchingPresent as integer) as text) & "|" & ((matchingEnabled as integer) as text) & "|" & ((ownedWindowVerified as integer) as text) & "|" & ((featuresPresent as integer) as text) & "|" & ((hardwarePresent as integer) as text) & "|" & ((facePresent as integer) as text) & "|" & ((enrolledPresent as integer) as text) & "|" & ((markReadable as integer) as text)
-  end tell
-end tell
-on error number code
-  return "error|" & (code as text) & "|" & probeStage & "|" & ((ownedWindowVerified as integer) as text) & "|" & ((featuresPresent as integer) as text) & "|" & ((hardwarePresent as integer) as text) & "|" & ((facePresent as integer) as text) & "|" & ((enrolledPresent as integer) as text) & "|" & ((markReadable as integer) as text)
-end try
-"""
-error = nil
-result["queryStage"] = "apple_script_compile_or_dispatch"
-let response = NSAppleScript(source: source)!.executeAndReturnError(&error)
-if let error = error {
-    result["scriptErrorCode"] = error[NSAppleScript.errorNumber] as? Int ?? 0
-    if let range = error[NSAppleScript.errorRange] as? NSValue {
-        result["scriptErrorRangeLocation"] = range.rangeValue.location
-        result["scriptErrorRangeLength"] = range.rangeValue.length
+// Embedded into the outside-repository Python probe; public AX menu path only.
+enum AXProbeFailure: Error { case failed(String, Int32) }
+func fail(_ stage: String, _ code: Int32) throws -> Never {
+    throw AXProbeFailure.failed(stage, code)
+}
+func readAX(_ element: AXUIElement, _ attribute: String, _ stage: String, optional: Bool = false) throws -> CFTypeRef? {
+    result["queryStage"] = stage
+    var value: CFTypeRef?
+    let code = AXUIElementCopyAttributeValue(element, attribute as CFString, &value)
+    result["axReturnCode"] = code.rawValue
+    if code != .success {
+        if optional && (code == .noValue || code == .attributeUnsupported) { return nil }
+        try fail(stage, code.rawValue)
     }
+    return value
+}
+func children(_ element: AXUIElement, _ stage: String) throws -> [AXUIElement] {
+    guard let value = try readAX(element, kAXChildrenAttribute, stage, optional: true) else { return [] }
+    guard let list = value as? [AXUIElement] else { try fail(stage, -27020) }
+    return list
+}
+func title(_ element: AXUIElement, _ stage: String) throws -> String? {
+    return try readAX(element, kAXTitleAttribute, stage, optional: true) as? String
+}
+func role(_ element: AXUIElement, _ stage: String) throws -> String? {
+    return try readAX(element, kAXRoleAttribute, stage, optional: true) as? String
+}
+var actionCodes: [String: Int32] = [:]
+func action(_ element: AXUIElement, _ action: String, _ stage: String) throws {
+    result["queryStage"] = stage
+    let code = AXUIElementPerformAction(element, action as CFString)
+    result["axReturnCode"] = code.rawValue
+    actionCodes[stage] = code.rawValue
+    result["axActionCodes"] = actionCodes
+    // Apple documents that modal processing can return cannotComplete after
+    // handling an action. Do not repeat it; the caller must read its actual
+    // postcondition (owned focus, opened submenu, or final enrollment mark).
+    if code != .success && code != .cannotComplete { try fail(stage, code.rawValue) }
+}
+func oneElement(_ value: CFTypeRef?, _ stage: String) throws -> AXUIElement {
+    guard let value = value, CFGetTypeID(value) == AXUIElementGetTypeID() else { try fail(stage, -27021) }
+    return unsafeBitCast(value, to: AXUIElement.self)
+}
+func fixedItem(_ list: [AXUIElement], _ wanted: String, _ stage: String) throws -> AXUIElement? {
+    for element in list {
+        if try title(element, stage) == wanted { return element }
+    }
+    return nil
+}
+func submenu(_ item: AXUIElement, _ stage: String) throws -> AXUIElement {
+    let deadline = Date().addingTimeInterval(4)
+    repeat {
+        for child in try children(item, stage) {
+            if try role(child, stage) == kAXMenuRole { return child }
+        }
+        Thread.sleep(forTimeInterval: 0.2)
+    } while Date() < deadline
+    try fail(stage, -27022)
+}
+func isEnabled(_ item: AXUIElement, _ stage: String) throws -> Bool {
+    guard let value = try readAX(item, kAXEnabledAttribute, stage) as? NSNumber else { try fail(stage, -27023) }
+    return value.boolValue
+}
+func isChecked(_ item: AXUIElement, _ stage: String) throws -> Bool {
+    result["queryStage"] = stage
+    var attributes: CFArray?
+    let code = AXUIElementCopyAttributeNames(item, &attributes)
+    result["axReturnCode"] = code.rawValue
+    if code != .success { try fail(stage, code.rawValue) }
+    guard let names = attributes as? [String], names.contains(kAXMenuItemMarkCharAttribute) else { try fail(stage, -27024) }
+    result["enrolledMarkReadable"] = true
+    let value = try readAX(item, kAXMenuItemMarkCharAttribute, stage, optional: true)
+    guard let value = value else { return false }
+    guard let mark = value as? String else { try fail(stage, -27025) }
+    // Empty/no value is unchecked. Unknown marks do not authorize a toggle.
+    if mark.isEmpty { return false }
+    if mark == "✓" || mark == "✔" { return true }
+    try fail(stage, -27026)
+}
+
+let appAX = AXUIElementCreateApplication(pid)
+AXUIElementSetMessagingTimeout(appAX, 2)
+func requireOwnedFocus(_ stage: String) throws {
+    let deadline = Date().addingTimeInterval(4)
+    repeat {
+        do {
+            guard application.isActive else { try fail(stage, -27027) }
+            let focused = try oneElement(readAX(appAX, kAXFocusedWindowAttribute, stage), stage)
+            guard try title(focused, stage)?.contains(name) == true else { try fail(stage, -27002) }
+            return
+        } catch AXProbeFailure.failed(_, let code) {
+            result["lastFocusWaitCode"] = code
+            let retryable = code == AXError.cannotComplete.rawValue || code == AXError.noValue.rawValue || code == -27027 || code == -27002
+            if !retryable || Date() >= deadline { try fail(stage, code) }
+        }
+        Thread.sleep(forTimeInterval: 0.2)
+    } while Date() < deadline
+    try fail(stage, (result["lastFocusWaitCode"] as? Int32) ?? -27002)
+}
+do {
+    result["queryStage"] = "owned_AX_window_wait"
+    var ownedWindow: AXUIElement?
+    let deadline = Date().addingTimeInterval(20)
+    repeat {
+        do {
+            if let value = try readAX(appAX, kAXWindowsAttribute, "owned_AX_windows", optional: true),
+               let windows = value as? [AXUIElement] {
+                for window in windows {
+                    if try title(window, "owned_AX_window_title")?.contains(name) == true {
+                        ownedWindow = window; break
+                    }
+                }
+            }
+        } catch AXProbeFailure.failed(let stage, let code) {
+            result["lastWindowWaitCode"] = code
+            // Only retry this read-only startup transient. No AX action is
+            // repeated by this wait, especially the non-idempotent toggle.
+            if code != AXError.cannotComplete.rawValue || Date() >= deadline { try fail(stage, code) }
+        }
+        if ownedWindow != nil { break }
+        Thread.sleep(forTimeInterval: 0.25)
+    } while Date() < deadline
+    guard let ownedWindow = ownedWindow else { try fail("owned_AX_window_wait", -27001) }
+    result["ownedWindowVerified"] = true
+    result["queryStage"] = "activate_owned_Simulator"
+    guard application.activate(options: [.activateIgnoringOtherApps]) else { try fail("activate_owned_Simulator", -27028) }
+    try action(ownedWindow, kAXRaiseAction, "raise_owned_AX_window")
+    Thread.sleep(forTimeInterval: 0.25)
+    try requireOwnedFocus("verify_owned_AX_focus")
+    let bar = try oneElement(readAX(appAX, kAXMenuBarAttribute, "AX_menu_bar"), "AX_menu_bar")
+    let topItems = try children(bar, "AX_menu_bar_children")
+    let features = try fixedItem(topItems, "Features", "features_presence")
+    let hardware = try fixedItem(topItems, "Hardware", "hardware_presence")
+    result["featuresMenuPresent"] = features != nil
+    result["hardwareMenuPresent"] = hardware != nil
+    guard let top = features ?? hardware else { try fail("features_hardware_presence", -27003) }
+    try requireOwnedFocus("verify_owned_focus_before_menu")
+    try action(top, kAXPressAction, "press_features_hardware")
+    let topMenu = try submenu(top, "features_submenu")
+    let face = try fixedItem(children(topMenu, "features_items"), "Face ID", "face_id_presence")
+    result["faceIDMenuPresent"] = face != nil
+    guard let face = face else { try fail("face_id_presence", -27004) }
+    try action(face, kAXPressAction, "press_face_id")
+    var faceMenu = try submenu(face, "face_id_submenu")
+    let enrolled = try fixedItem(children(faceMenu, "face_id_items"), "Enrolled", "enrolled_presence")
+    result["enrolledMenuPresent"] = enrolled != nil
+    guard let enrolled = enrolled else { try fail("enrolled_presence", -27005) }
+    guard try isEnabled(enrolled, "enrolled_enabled") else { try fail("enrolled_enabled", -27006) }
+    let before = try isChecked(enrolled, "enrolled_mark_before")
+    result["enrolledBefore"] = before
+    result["enrollmentChanged"] = false
+    result["enrollmentOutcomeProven"] = false
+    if !before {
+        try requireOwnedFocus("verify_owned_focus_before_enrollment")
+        // A timeout/uncertain AXPress is never retried: toggles are not idempotent.
+        result["enrollmentActionAttempted"] = true
+        try action(enrolled, kAXPressAction, "press_enrolled_once")
+        try requireOwnedFocus("verify_owned_focus_after_enrollment")
+        try action(top, kAXPressAction, "reopen_features")
+        let refreshedTop = try submenu(top, "refreshed_features_submenu")
+        guard let refreshedFace = try fixedItem(children(refreshedTop, "refreshed_features_items"), "Face ID", "refreshed_face_id") else { try fail("refreshed_face_id", -27004) }
+        try action(refreshedFace, kAXPressAction, "reopen_face_id")
+        faceMenu = try submenu(refreshedFace, "refreshed_face_submenu")
+    }
+    let finalItems = try children(faceMenu, "final_face_id_items")
+    guard let finalEnrolled = try fixedItem(finalItems, "Enrolled", "final_enrolled_presence") else { try fail("final_enrolled_presence", -27005) }
+    let after = try isChecked(finalEnrolled, "enrolled_mark_after")
+    result["enrolledAfter"] = after
+    result["enrollmentChanged"] = after && !before
+    result["enrollmentOutcomeProven"] = after
+    let matching = try fixedItem(finalItems, "Matching Face", "matching_face_presence")
+    result["matchingFaceMenuPresent"] = matching != nil
+    result["matchingFaceMenuEnabled"] = try matching.map { try isEnabled($0, "matching_face_enabled") } ?? false
+    result["matchingFaceInvoked"] = false
+    // Cancel only this owned app's opened menu through a public AX action.
+    let cancelCode = AXUIElementPerformAction(faceMenu, kAXCancelAction as CFString)
+    result["menuCancelReturnCode"] = cancelCode.rawValue
+    result["queryStage"] = "complete"
+    emit(result); exit(after && matching != nil ? 0 : 3)
+} catch AXProbeFailure.failed(let stage, let code) {
+    result["queryStage"] = stage
+    result["axErrorCode"] = code
+    emit(result); exit(3)
+} catch {
+    result["queryStage"] = "unexpected_AX_helper_error"
     emit(result); exit(3)
 }
-let fields = (response.stringValue ?? "").split(separator: "|").map(String.init)
-if fields.first == "error" && fields.count == 9 {
-    result["scriptErrorCode"] = Int(fields[1]) ?? 0
-    result["queryStage"] = fields[2]
-    for (key, value) in zip(["ownedWindowVerified", "featuresMenuPresent", "hardwareMenuPresent", "faceIDMenuPresent", "enrolledMenuPresent", "enrolledMarkReadable"], fields.dropFirst(3)) {
-        result[key] = value == "1"
-    }
-    emit(result); exit(3)
-}
-let values = fields.dropFirst().compactMap { Int($0) }
-guard fields.first == "ok" && values.count == 11 && values.allSatisfy({ $0 == 0 || $0 == 1 }) else { result["parseFailed"] = true; emit(result); exit(3) }
-result["queryStage"] = "complete"
-result["ownedWindowVerified"] = true
-for (key, value) in zip(["enrolledBefore", "enrollmentChanged", "enrolledAfter", "matchingFaceMenuPresent", "matchingFaceMenuEnabled"], values) {
-    result[key] = value == 1
-}
-for (key, value) in zip(["ownedWindowVerified", "featuresMenuPresent", "hardwareMenuPresent", "faceIDMenuPresent", "enrolledMenuPresent", "enrolledMarkReadable"], values.dropFirst(5)) {
-    result[key] = value == 1
-}
-result["matchingFaceInvoked"] = false
-emit(result)
-exit(values[2] == 1 && values[3] == 1 ? 0 : 3)
+
 '''
 
 
@@ -194,6 +260,21 @@ class ProbeTimeout(Exception):
 
 COMMAND_TRACE = []
 COMMAND_DEADLINE = None
+
+
+def compiler_errors(stderr):
+    # Only error suffixes from this public, credential-free helper source.
+    # Do not publish source excerpts, tool paths, or the raw compiler stream.
+    errors = []
+    for line in stderr.splitlines():
+        match = re.search(r':(\d+):(\d+): error: (.*)$', line)
+        if not match:
+            continue
+        message = re.sub(r'(?:[A-Za-z]:)?[/\\][^\s\'"<>]+', '[path]', match.group(3))
+        errors.append({'line': int(match.group(1)), 'column': int(match.group(2)), 'error': message[:240]})
+        if len(errors) == 10:
+            break
+    return errors
 
 
 def command(argv, timeout=30):
@@ -261,6 +342,7 @@ def main():
             built = command(['xcrun', 'swiftc', str(source), '-o', str(binary)], timeout=90)
             report['permissionHelperCompileExitCode'] = built.returncode
             if built.returncode:
+                report['permissionHelperCompileErrors'] = compiler_errors(built.stderr)
                 raise Blocked('permission_helper_compile_failed')
             # -600 means the Apple Event target is not running, not denied
             # permission. Launch the system app normally before asking the same
