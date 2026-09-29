@@ -56,12 +56,17 @@ jobs:
           swift test --package-path IntegrationClient 2>&1 | tee artifacts/swift-client-tests.log
       - name: Test local SwiftUI journey and build Release
         timeout-minutes: 30
-        run: bash Scripts/ci_simulator.sh
+        run: |
+          if [[ "$NIDAA_UI_SUITE" == integration ]]; then
+            bash Scripts/ci_native_review.sh integration
+          else
+            bash Scripts/ci_simulator.sh
+          fi
       - name: Upload logs and simulator evidence
         if: ${{ always() }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
-          name: nidaa-simulator-${{ github.run_number }}-${{ matrix.ui-suite }}
+          name: nidaa-simulator-${{ github.run_number }}-${{ github.run_attempt }}-${{ matrix.ui-suite }}
           path: artifacts/
           retention-days: 7
           if-no-files-found: warn

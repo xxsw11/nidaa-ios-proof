@@ -55,6 +55,13 @@ struct TrialConfirmation {
     @Published var confirmation: TrialConfirmation?
     @Published var mockAuthenticationPrompt = false
     let isMock: Bool
+    var simulatesDeviceAuthentication: Bool {
+        #if targetEnvironment(simulator)
+        return isMock || ProcessInfo.processInfo.arguments.contains("-nidaa-integration-simulated-device-auth")
+        #else
+        return false
+        #endif
+    }
     private var client: (any NidaaClientProtocol)?
     private var generation = 0
     private let authentication = LocalAuthenticationService()
@@ -72,7 +79,12 @@ struct TrialConfirmation {
         isMock = false
         #endif
         if !isMock {
-            do { client = try injectedClient ?? NidaaClient.live(environment: TrialEnvironment(baseURL: URL(string: "http://127.0.0.1:55421")!)) }
+            var baseURL = URL(string: "http://127.0.0.1:55421")!
+            #if targetEnvironment(simulator)
+            if ProcessInfo.processInfo.arguments.contains("-nidaa-integration-live-ui"),
+               let value = ProcessInfo.processInfo.environment["NIDAA_LIVE_BASE_URL"], let requested = URL(string: value) { baseURL = requested }
+            #endif
+            do { client = try injectedClient ?? NidaaClient.live(environment: TrialEnvironment(baseURL: baseURL)) }
             catch { message = "تعذر تجهيز الاتصال المحلي الآمن." }
         }
     }
@@ -233,7 +245,7 @@ struct TrialConfirmation {
         let epoch = generation
         busy = true
         let success: Bool
-        if isMock {
+        if simulatesDeviceAuthentication {
             success = await withCheckedContinuation { mockContinuation = $0; mockAuthenticationPrompt = true }
         } else {
             switch await authentication.authenticate(reason: "تحقق جديد لتأكيد إجراء نداء") {

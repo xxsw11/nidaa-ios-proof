@@ -112,6 +112,13 @@ class Runtime:
         probe = subprocess.run(['/usr/bin/sandbox-exec','-f',str(PROFILE),str(self.python),str(HERE/'isolation_probe.py')],
                                env=env, capture_output=True, text=True, timeout=10)
         # Never publish a traceback or raw sandbox diagnostic.
+        self.report['sandboxProbeExitCode'] = probe.returncode
+        try:
+            observed = json.loads(probe.stdout)
+            if isinstance(observed,dict) and all(isinstance(value,bool) for value in observed.values()):
+                self.report['sandboxProbeChecks'] = observed
+        except (ValueError,TypeError):
+            pass
         if probe.returncode:
             raise TrialFailure('sandbox_policy_not_verified')
         policy = json.loads(probe.stdout)
@@ -287,6 +294,22 @@ class Runtime:
         self.report['stage']=self.stage
         (self.evidence/'native-health.json').write_text(json.dumps(self.report,indent=2)+'\n')
 
+    def failure_categories(self):
+        # Allowlisted diagnosis only; never copy raw process logs into evidence.
+        known={'permission denied':'permission_denied','operation not permitted':'policy_denied',
+               'address already in use':'address_in_use','connection refused':'connection_refused',
+               'no such file or directory':'file_missing','password authentication failed':'database_authentication_failed',
+               'syntax error':'configuration_syntax_error','unbound variable':'sandbox_profile_symbol_error',
+               'migration':'migration_context','fatal':'fatal_process_error'}
+        found={}
+        if self.private:
+            for path in self.private.glob('*.log'):
+                text=path.read_text(errors='replace').lower()
+                categories=sorted({code for phrase,code in known.items() if phrase in text})
+                if categories:
+                    found[path.stem]=categories
+        return found
+
     def close(self):
         for role,process in reversed(self.processes):
             if process.poll() is None:
@@ -322,7 +345,8 @@ def main():
     except Exception as error:
         label=str(error) if isinstance(error,TrialFailure) else 'internal_error_redacted'
         runtime.report.update(status='Failed',failure=label,
-                              processExitCodes={role:p.poll() for role,p in runtime.processes})
+                              processExitCodes={role:p.poll() for role,p in runtime.processes},
+                              diagnosticCategories=runtime.failure_categories())
         runtime.write_report()
         print('FAIL native trial: '+runtime.stage+' / '+label,flush=True)
         return 2

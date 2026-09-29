@@ -25,12 +25,16 @@ actor TestTransport: HTTPTransport {
     private var suspended: CheckedContinuation<HTTPResult, any Error>?
     private var suspendedResult: HTTPResult?
     private var failLogout = false
+    private var refreshError: String?
+    private var unauthorizedSync = false
 
     func commands(_ behavior: CommandBehavior) { commandBehavior = behavior }
     func lookup(_ receipt: Receipt?) { operation = receipt }
     func enqueue(_ snapshot: SyncSnapshot) { snapshots.append(snapshot) }
     func pauseNext(_ path: String) { pausePath = path }
     func logoutFails() { failLogout = true }
+    func rejectRefresh(_ code: String) { refreshError = code }
+    func rejectSynchronization() { unauthorizedSync = true }
     func isPaused() -> Bool { suspended != nil }
     func requests() -> [RecordedRequest] { history }
     func count(_ path: String) -> Int { history.filter { $0.path == path }.count }
@@ -58,6 +62,9 @@ actor TestTransport: HTTPTransport {
     private func result(_ request: URLRequest, path: String, envelope: CommandEnvelope?) throws -> HTTPResult {
         if path == "/auth/v1/token" || path == "/auth/v1/verify" {
             let body = request.httpBody.flatMap { try? JSONSerialization.jsonObject(with: $0) as? [String: Any] } ?? [:]
+            if body["refresh_token"] != nil, let refreshError {
+                return HTTPResult(status: 400, body: try JSONSerialization.data(withJSONObject: ["code":400,"error_code":refreshError,"msg":"Fictional revoked session"]))
+            }
             let isB = (body["email"] as? String == "b@example.invalid") || (body["refresh_token"] as? String == "fixture-refresh-b") || (body["token_hash"] as? String == "fixture-verify-b")
             let id = isB ? fixtureB : fixtureA
             let label = isB ? "b" : "a"
@@ -86,7 +93,10 @@ actor TestTransport: HTTPTransport {
             if let operation { return try encoded(operation) }
             return HTTPResult(status: 404, body: Data("{\"error\":\"not_found\"}".utf8))
         }
-        if path == "/v1/sync" { return try encoded(snapshots.isEmpty ? SyncSnapshot(cursor: 0) : snapshots.removeFirst()) }
+        if path == "/v1/sync" {
+            if unauthorizedSync { return HTTPResult(status: 401, body: Data("{\"error\":\"unauthenticated\"}".utf8)) }
+            return try encoded(snapshots.isEmpty ? SyncSnapshot(cursor: 0) : snapshots.removeFirst())
+        }
         if path == "/v1/relationships" { return try encoded(Relationships()) }
         if path == "/v1/session/logout" || path == "/v1/session/revoke-all" {
             if failLogout { throw URLError(.notConnectedToInternet) }

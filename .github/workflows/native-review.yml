@@ -2,7 +2,7 @@ name: NIDAA - Native integration environment and review
 on:
   push:
     branches: ['codex/native-integration-review']
-    paths: ['Integration/native/**', 'Integration/gateway.py', '.github/workflows/native-review.yml']
+    paths: ['Integration/**', 'IntegrationClient/**', 'App/**', 'UITests/**', 'Scripts/**', 'QA/NativeReview/**', '.github/workflows/native-review.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -10,7 +10,7 @@ jobs:
   environment:
     if: ${{ github.event.repository.private == false }}
     runs-on: macos-15
-    timeout-minutes: 30
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
@@ -18,14 +18,41 @@ jobs:
       - name: Inspect actual host capabilities
         run: |
           mkdir -p artifacts/native-environment
-          { sw_vers; uname -m; xcodebuild -version; swift --version; go version; command -v docker || true; command -v sandbox-exec; } > artifacts/native-environment/host.txt
+          { sw_vers; uname -m; xcodebuild -version; swift --version; command -v go || true; command -v docker || true; command -v sandbox-exec; } > artifacts/native-environment/host.txt
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
+        with:
+          go-version: '1.26.5'
+          cache: false
       - name: Prepare official native components
         run: bash Integration/native/prepare.sh
-      - name: Verify process isolation and real Auth database inbox
-        run: '"$RUNNER_TEMP/nidaa-native-tools/venv/bin/python" Integration/native/runtime.py run'
+      - name: Verify isolation then run real native UI journey
+        run: '"$RUNNER_TEMP/nidaa-native-tools/venv/bin/python" Integration/native/runtime.py run --fixture QA/NativeReview/native_fixture.py -- bash Scripts/ci_native_review.sh live'
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: ${{ always() }}
         with:
           name: native-environment-${{ github.run_id }}-${{ github.run_attempt }}
-          path: artifacts/native-environment/
+          path: |
+            artifacts/native-environment/
+            artifacts/native-review/live/
+          retention-days: 7
+  autofill:
+    if: ${{ github.event.repository.private == false }}
+    runs-on: macos-15
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Test client safety regressions
+        run: |
+          mkdir -p artifacts
+          set -o pipefail
+          swift test --package-path IntegrationClient 2>&1 | tee artifacts/client-review-tests.log
+      - name: Verify enabled AutoFill input and Release build
+        run: bash Scripts/ci_native_review.sh autofill
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: ${{ always() }}
+        with:
+          name: native-autofill-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/
           retention-days: 7

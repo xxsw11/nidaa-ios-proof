@@ -1,0 +1,13 @@
+# Swift client review
+
+Reviewed source `180d9650b88e90b604d6837b5f2eea78ee83257d`. Tests below are deterministic injected-transport regressions, not live integration evidence. New execution is pending the associated cloud run.
+
+| Finding | Impact and reproduction | Change and regression |
+|---|---|---|
+| C1 — medium: `NidaaClient.lookupOperation` validated only operation ID | After losing a POST reply, return a matching operation ID with an unrecognized receipt status such as `processing`. `queryPending` previously cleared the durable unknown state and allowed replacement intent. | Accept only terminal accepted/rejected receipt statuses; invalid lookup preserves the original unknown operation. `testUnrecognizedLookupStatusCannotReleaseUnknownOperation`. |
+| C2 — high: `NidaaClient.adopt` published the account before validating durable pending state | Put corrupt or wrong-account pending data into the scoped store and sign in. Although sign-in threw, `currentSnapshot` retained an authenticated account and `execute` could bypass the unresolved stored intent. | Validate the entire pending value and owner/environment before publishing account state. Separate corrupt-data and mismatched-owner tests require no authenticated snapshot and zero POSTs. |
+| C3 — medium: provider refresh rejection was mapped to a generic authentication error | Authenticate, cache account data, then revoke the refresh token. The SDK clears its session but the adapter and UI could retain old account display because no unauthenticated signal reached them. Domain 401 also left the adapter snapshot populated. | Map recognized SDK session-revocation errors and domain401 to explicit unauthenticated state, invalidate old callbacks and clear in-memory account data. Preserve uncertain receipts privately for same-account reauthentication. Two regressions cover revoked refresh and domain revocation. |
+
+The official Auth library remains pinned to2.55.2. Mapping uses its public `AuthError.errorCode` values; arbitrary provider messages never reach the interface. Network failures remain distinct from session rejection. No background resend, public endpoint, administrative credential, UserDefaults session store or production authentication bypass was introduced.
+
+Review also checked loopback validation, redirect rejection, environment/account storage isolation, logout-before-network clearing, generation checks on delayed replies, strict-newer snapshots and no automatic resend. Device-only Keychain behavior still needs physical-device validation; unit tests cannot establish hardware security. Backend restore cursor and bounded-projection fixes are reviewed separately in BACKEND_REVIEW.md.

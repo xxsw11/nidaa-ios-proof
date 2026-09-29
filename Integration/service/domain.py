@@ -20,6 +20,7 @@ from psycopg.rows import dict_row
 
 SCHEMA = json.loads((Path(__file__).resolve().parents[2] / 'SharedRules/contract.schema.json').read_text())
 LOCK = 790182453
+SNAPSHOT_LIMIT = 128
 
 
 class RuleError(Exception):
@@ -55,10 +56,13 @@ def connect():
 
 
 class Domain:
-    def __init__(self, conn):
+    def __init__(self, conn, maintenance=False):
         self.conn = conn
         conn.execute('SELECT pg_advisory_xact_lock(%s)', (LOCK,))
         self.now = int(conn.execute('SELECT floor(extract(epoch FROM clock_timestamp()))::bigint AS now').fetchone()['now'])
+        if not maintenance and conn.execute('SELECT quiesced FROM nidaa.maintenance_state WHERE singleton').fetchone()['quiesced']:
+            # Infrastructure pause, never a domain rejection or logout success.
+            raise RuntimeError('maintenance_in_progress')
 
     def one(self, sql, params=()):
         row = self.conn.execute(sql, params).fetchone()
@@ -66,6 +70,11 @@ class Domain:
 
     def all(self, sql, params=()):
         return clean(self.conn.execute(sql, params).fetchall())
+
+    def bounded(self, sql, params=()):
+        rows=self.all(sql+' LIMIT %s', (*params,SNAPSHOT_LIMIT+1))
+        require(len(rows)<=SNAPSHOT_LIMIT,'limit_reached')
+        return rows
 
     def run(self, sql, params=()):
         return self.conn.execute(sql, params)
@@ -80,11 +89,12 @@ class Domain:
         if a:
             self.touch(a['sender_id'], *[r['user_id'] for r in self.all('SELECT user_id FROM nidaa.recipients WHERE alert_id=%s', (aid,))])
 
-    def principal(self, token):
+    def principal(self, token, expired_logout=False):
         try:
             claims = jwt.decode(token, os.environ['JWT_SECRET'], algorithms=['HS256'],
                                 audience='authenticated', issuer=os.environ.get('AUTH_ISSUER', os.environ.get('JWT_ISSUER')),
-                                options={'require': ['exp', 'iat', 'sub', 'session_id', 'aud', 'iss']})
+                                options={'require': ['exp', 'iat', 'sub', 'session_id', 'aud', 'iss'],
+                                         'verify_exp': not expired_logout})
             subject, sid = str(UUID(claims['sub'])), str(UUID(claims['session_id']))
         except (jwt.PyJWTError, ValueError, TypeError, KeyError):
             raise RuleError('unauthenticated') from None
@@ -94,7 +104,7 @@ class Domain:
             FROM auth.users u JOIN auth.sessions s ON s.user_id=u.id
             WHERE u.id=%s AND s.id=%s AND (s.not_after IS NULL OR s.not_after>now())''', (subject, sid))
         require(provider and provider['email_confirmed_at'] and not provider['deleted_at'] and
-                (not provider['banned_until'] or provider['banned_until'].timestamp() <= self.now), 'unauthenticated')
+                (expired_logout or not provider['banned_until'] or provider['banned_until'].timestamp() <= self.now), 'unauthenticated')
         require(not self.one('SELECT 1 FROM nidaa.deletion_ledger WHERE subject=%s', (subject,)), 'unauthenticated')
         account = self.one('SELECT * FROM nidaa.accounts WHERE subject=%s', (subject,))
         if not account:
@@ -103,6 +113,9 @@ class Domain:
                      (uid, subject, provider['email'].strip().lower(), 'حساب تجريبي', self.now))
             account = self.one('SELECT * FROM nidaa.accounts WHERE user_id=%s', (uid,))
         require(account['active'] and provider['session_created'] > account['revoked_before'], 'unauthenticated')
+        require(not self.one('''SELECT 1 FROM nidaa.session_revocations WHERE user_id=%s
+          AND (session_id=%s OR (all_devices AND revoked_before>=%s))''',
+          (account['user_id'],sid,provider['session_created'])),'unauthenticated')
         # A verified mailbox change invalidates old target-bound invitations/grants.
         email = provider['email'].strip().lower()
         if email != account['email']:
@@ -443,24 +456,34 @@ class Domain:
 
     def relationships(self, s):
         uid=s['user_id']; invitations=[]
-        for i in self.all('SELECT * FROM nidaa.invitations WHERE sender_id=%s OR intended_email=%s ORDER BY created_at,invitation_id', (uid,s['email'])):
+        for i in self.bounded('SELECT * FROM nidaa.invitations WHERE sender_id=%s OR intended_email=%s ORDER BY created_at,invitation_id', (uid,s['email'])):
             outgoing=i['sender_id']==uid; state=i['state']
             if state=='deleted' or (outgoing and state in ('blocked','withdrawn')):
                 state='unavailable'
             invitations.append(dict(invitation_id=i['invitation_id'],sender_id=i['sender_id'],direction='outgoing' if outgoing else 'incoming',state=state,expires_at=i['expires_at']))
-        grants=[dict(sender_id=g['sender_id'],recipient_id=g['recipient_id'],state='accepted' if g['state']=='accepted' else 'unavailable') for g in self.all('SELECT * FROM nidaa.grants WHERE sender_id=%s OR recipient_id=%s ORDER BY sender_id,recipient_id', (uid,uid))]
+        grants=[dict(sender_id=g['sender_id'],recipient_id=g['recipient_id'],state='accepted' if g['state']=='accepted' and self.consent(g['sender_id'],g['recipient_id']) else 'unavailable') for g in self.bounded('SELECT * FROM nidaa.grants WHERE sender_id=%s OR recipient_id=%s ORDER BY sender_id,recipient_id', (uid,uid))]
         return dict(invitations=invitations,grants=grants)
 
     def sync(self, s):
         uid=s['user_id']; alerts=[]
-        removed={r['alert_id'] for r in self.all('SELECT alert_id FROM nidaa.removals WHERE user_id=%s', (uid,))}
-        for a in self.all('''SELECT DISTINCT a.alert_id FROM nidaa.alerts a LEFT JOIN nidaa.recipients r ON r.alert_id=a.alert_id
+        removed={r['alert_id'] for r in self.bounded('SELECT alert_id FROM nidaa.removals WHERE user_id=%s ORDER BY alert_id', (uid,))}
+        for a in self.bounded('''SELECT DISTINCT a.alert_id FROM nidaa.alerts a LEFT JOIN nidaa.recipients r ON r.alert_id=a.alert_id
           WHERE a.sender_id=%s OR r.user_id=%s ORDER BY a.alert_id''', (uid,uid)):
             try:
                 alerts.append(self.view(uid,a['alert_id']))
             except RuleError as e:
                 if e.code!='not_found': raise
                 removed.add(a['alert_id'])
+        require(len(removed)<=SNAPSHOT_LIMIT,'limit_reached')
+        # Provider bans/deletions can change authorized visibility outside domain
+        # commands. Advance the account cursor when a previously served projection
+        # changes, so strict-newer replicas cannot retain details now denied.
+        projection=dict(alerts=alerts,removed_ids=sorted(removed),relationships=self.relationships(s))
+        digest=hashlib.sha256(json.dumps(projection,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+        previous=self.one('SELECT snapshot_digest FROM nidaa.accounts WHERE user_id=%s', (uid,))['snapshot_digest']
+        if previous is not None and previous!=digest:
+            self.touch(uid)
+        self.run('UPDATE nidaa.accounts SET snapshot_digest=%s WHERE user_id=%s', (digest,uid))
         cursor=self.one('SELECT cursor FROM nidaa.accounts WHERE user_id=%s', (uid,))['cursor']
         return dict(cursor=cursor,full_snapshot=True,alerts=alerts,removed_ids=sorted(removed))
 
@@ -471,6 +494,8 @@ class Domain:
             self.run('UPDATE nidaa.sessions SET revoked=true WHERE user_id=%s', (s['user_id'],))
         else:
             self.run('UPDATE nidaa.sessions SET revoked=true WHERE session_id=%s', (s['session_id'],))
+        self.run('''INSERT INTO nidaa.session_revocations(ledger_id,user_id,session_id,all_devices,revoked_before)
+          VALUES(%s,%s,%s,%s,%s)''', (str(uuid4()),s['user_id'],None if all_devices else s['session_id'],all_devices,self.now))
 
     def dispatch(self, job_id=None, crash=False):
         self.expire()

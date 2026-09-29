@@ -1,7 +1,7 @@
 name: NIDAA - Local Auth and PostgreSQL integration
 on:
   push:
-    branches: ['codex/local-supabase-integration']
+    branches: ['codex/local-supabase-integration', 'codex/native-integration-review']
     paths: ['Integration/**', 'IntegrationClient/**', 'SharedRules/**', '.github/workflows/local-integration.yml']
   workflow_dispatch:
 permissions:
@@ -47,6 +47,6 @@ jobs:
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: ${{ always() }}
         with:
-          name: nidaa-local-integration-evidence
+          name: nidaa-local-integration-evidence-${{ github.run_id }}-${{ github.run_attempt }}
           path: artifacts/
           retention-days: 7

@@ -1,0 +1,14 @@
+[
+  {
+    "run":36510172769,
+    "attempt":1,
+    "job":109220318078,
+    "commit":"a434233bcd678bbab014afdd690f87b8951884bd",
+    "result":"Failed during host inspection; no backend or native UI execution",
+    "category":"Environment preparation",
+    "observed":"go: command not found; exit127",
+    "changeBeforeRetry":"Use pinned official actions/setup-go to activate Go1.26.5; host inspection records missing tools without falsely claiming readiness.",
+    "artifact":11008333405,
+    "artifactSHA256":"23c68e873d26589f6bf47792f36b82852f44de9be612dfcfe458597928e1eaea"
+  }
+]
