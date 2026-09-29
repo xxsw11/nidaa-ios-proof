@@ -132,11 +132,34 @@ def main():
             report['permissionHelperCompileExitCode'] = built.returncode
             if built.returncode:
                 raise Blocked('permission_helper_compile_failed')
+            # -600 means the Apple Event target is not running, not denied
+            # permission. Launch the system app normally before asking the same
+            # native helper for no-prompt authorization; no automation event,
+            # TCC edit or consent request is used to perform this launch.
+            report['stage'] = 'launch_system_events'
+            launched = command(['open', '-g', '-b', 'com.apple.systemevents'], timeout=10)
+            report['systemEventsLaunchExitCode'] = launched.returncode
+            if launched.returncode:
+                raise Blocked('system_events_launch_failed')
+            time.sleep(1)
+            report['stage'] = 'no_prompt_GUI_permission_check'
             permissions = command([str(binary)])
             report['permissionHelperExitCode'] = permissions.returncode
             report['permissions'] = json.loads(permissions.stdout)
             if permissions.returncode:
-                raise Blocked('host_GUI_permissions_unavailable_without_prompt')
+                status = report['permissions'].get('automationStatus')
+                if status == -600:
+                    raise Blocked('system_events_target_unavailable')
+                if status == -1743:
+                    raise Blocked('automation_permission_denied')
+                if status == -1744:
+                    raise Blocked('automation_consent_required_no_prompt_requested')
+                if status != 0:
+                    raise Blocked('automation_permission_check_failed')
+                if report['permissions'].get('accessibilityTrusted') is not True:
+                    raise Blocked('accessibility_permission_unavailable')
+                raise Blocked('system_events_UI_elements_unavailable')
+            report['stage'] = 'owned_simulator_setup'
             listing = command(['xcrun', 'simctl', 'list', 'devices', 'available', '-j'])
             if listing.returncode:
                 raise Blocked('simulator_inventory_unavailable')
@@ -178,6 +201,7 @@ def main():
             if opened.returncode:
                 raise Blocked('owned_simulator_window_unavailable')
             time.sleep(2)
+            report['stage'] = 'official_Face_ID_menu'
             inspected = command([str(binary), name])
             report['menuHelperExitCode'] = inspected.returncode
             report['menu'] = json.loads(inspected.stdout)
