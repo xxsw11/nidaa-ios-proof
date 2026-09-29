@@ -18,7 +18,7 @@ report = {'suite': suite, 'exitCode': int(code), 'commit': os.environ.get('GITHU
           'run': os.environ.get('GITHUB_RUN_ID'), 'attempt': os.environ.get('GITHUB_RUN_ATTEMPT'),
           'scope': 'MOCK network with native AutoFill enabled' if suite != 'live' else 'Real native UI/backend; sequential Simulator; simulated local device authentication',
           'rawEvidence': 'Private XCTest logs/xcresult/recordings excluded from publication',
-          'physicalDevice': 'Not tested', 'savedCredentialSelection': 'See bounded availability probe; not inferred from manual typing'}
+          'physicalDevice': 'Not tested', 'savedCredentialSelection': 'Not tested in this suite'}
 summary_path = private/'ui-summary.json'
 if summary_path.exists():
     summary = json.loads(summary_path.read_text())
@@ -42,6 +42,9 @@ if not log_path.exists(): log_path=private/'driver-private.log'
 logs=log_path.read_text(errors='replace') if log_path.exists() else ''
 diagnostics = logs + '\n' + '\n'.join(failure_text)
 report['testCaseResults'] = re.findall(r"Test Case '-\[([A-Za-z0-9_.]+) ([A-Za-z0-9_]+)\]' (passed|failed|skipped)", logs)
+saved_results = [result for _, name, result in report['testCaseResults'] if name == 'testSavedCredentialSelection']
+if suite == 'autofill':
+    report['savedCredentialSelection'] = saved_results[-1] if saved_results else 'Not executed'
 report['failureLocations'] = sorted(set(re.findall(r'([A-Za-z0-9_]+\.swift):([0-9]+):(?:[0-9]+:)? error:', logs)))
 report['infrastructureSignals'] = {name: pattern.lower() in diagnostics.lower() for name, pattern in {
     'runnerBootstrapFailure':'operation never finished bootstrapping',
@@ -68,12 +71,15 @@ report['xcode'] = host.stdout.strip()
 manifest = private/'screenshots/manifest.json'
 images=[]
 draft_diagnostics=[]
+reveal_diagnostics=[]
 allowed = {
  'disposable-simulator-autofill-passwords-and-passkeys-on',
  'disposable-simulator-autofill-fixture-failure',
  'autofill-saved-credential-availability-screen',
  'autofill-saved-credential-new-password-controls-header',
  'autofill-noncredential-secure-field-crop',
+ 'autofill-noncredential-visible-field-crop',
+ 'integration-mock-autofill-saved-credential-selected-mock-login',
  'integration-mock-autofill-enabled-registration-complete-mock',
  'integration-mock-autofill-enabled-recovery-complete-mock',
  'integration-mock-autofill-enabled-large-rtl-hidden-demonstration',
@@ -103,6 +109,20 @@ if manifest.exists():
                 item=r'(?:textField|secureTextField|button|staticText):(?:'+'|'.join(re.escape(label) for label in labels)+')'
                 if re.fullmatch(r'Observed new-password form controls \(no values\): (?:'+item+r'(?:, '+item+r')*)?',note):
                     (output/'saved-credential-form-controls.txt').write_text(note)
+            stages = ['passwords-home', 'new-password-form', 'autofill-launch', 'password-picker-launch', 'saved-account-selection']
+            if human in ['autofill-saved-credential-form-controls-'+stage for stage in stages] and source.suffix in ('.txt','.text'):
+                stage = human.removeprefix('autofill-saved-credential-form-controls-')
+                note = source.read_text(encoding='utf-8')
+                labels = ['Website or App','Website','App or Website','User Name','Username','Password','Notes','Save','Done','Cancel','New Password','example.com','Passwords','Password AutoFill','AutoFill','Other Passwords','Other Passwords…','كلمات السر','كلمات المرور','تعبئة تلقائية','كلمات سر أخرى']
+                item = r'(?:textField|secureTextField|button|staticText):(?:'+'|'.join(re.escape(label) for label in labels)+')'
+                if re.fullmatch('stage='+re.escape(stage)+r'; fixed controls \(no values\): (?:'+item+r'(?:, '+item+r')*)?', note):
+                    (output/('saved-credential-controls-'+stage+'.txt')).write_text(note, encoding='utf-8')
+            if human=='autofill-saved-credential-observed-requirement' and source.suffix in ('.txt','.text'):
+                note = source.read_text(encoding='utf-8')
+                requirements = ['Sign In to iCloud','Sign in to your Apple Account','Set Up a Passcode','Enter iPhone Passcode','تسجيل الدخول إلى iCloud','إدخال رمز دخول iPhone']
+                item = '(?:'+'|'.join(re.escape(label) for label in requirements)+')'
+                if re.fullmatch('Observed personal-account/device-passcode requirement: '+item+'(?:, '+item+')*', note):
+                    report['savedCredentialRequirement'] = note
             if human=='integration-mock-draft-readiness' and source.suffix in ('.txt','.text'):
                 # Only fixed UI booleans; never publish arbitrary attachment text.
                 note=source.read_text()
@@ -118,8 +138,14 @@ if manifest.exists():
                         native={} if row[-1]=='unavailable' else {key:value=='true' for key,value in (pair.split('=') for pair in row[-1].split(','))}
                         phases.append({'phase':row[0], **{key:value=='true' for key,value in zip(keys,row[1:1+len(keys)])},'native':native})
                     draft_diagnostics.append(phases)
+            if human=='integration-reveal-geometry' and source.suffix in ('.txt','.text'):
+                note=source.read_text(encoding='utf-8')
+                lines=note.strip().splitlines()
+                if 1 <= len(lines) <= 11 and re.fullmatch(r'controlID=integration[A-Za-z]+',lines[0]) and all(re.fullmatch(r'control=[0-9 .(),e+\-inf]+;viewport=[0-9 .(),e+\-inf]+',line) for line in lines[1:]):
+                    reveal_diagnostics.append(lines)
 report['screenshots']=images
 report['draftReadiness']=draft_diagnostics
+report['revealGeometry']=reveal_diagnostics
 text=json.dumps(report,indent=2)+'\n'
 assert not re.search(r'eyJ[A-Za-z0-9_-]{15,}\.[A-Za-z0-9_-]{15,}|-----BEGIN .*PRIVATE KEY|Native-Fictional-Only', text)
 (output/'result.json').write_text(text)
@@ -128,5 +154,15 @@ if int(code)==0:
     actual=report['summary']
     assert actual.get('totalTestCount')==({'integration':8,'autofill':4,'live':2}[suite]), 'No empty or incomplete test selection may pass'
     assert actual.get('failedTests')==0 and report['debugTestSucceeded'] and report['releaseBuildSucceeded']
-    assert actual.get('passedTests')==({'integration':8,'autofill':3,'live':2}[suite])
-    assert actual.get('skippedTests')==({'integration':0,'autofill':1,'live':0}[suite])
+    if suite == 'autofill':
+        required = {'testEnabledManualRegistrationAndFieldNavigation','testEnabledPasteLoginAndRecovery','testEnabledVisibilityUsesOnlyNonCredentialDemonstration'}
+        outcomes = {name: result for _, name, result in report['testCaseResults']}
+        assert all(outcomes.get(name) == 'passed' for name in required)
+        if report['savedCredentialSelection'] == 'passed':
+            assert actual.get('passedTests') == 4 and actual.get('skippedTests') == 0
+        else:
+            assert report['savedCredentialSelection'] == 'skipped' and report.get('savedCredentialRequirement')
+            assert actual.get('passedTests') == 3 and actual.get('skippedTests') == 1
+    else:
+        assert actual.get('passedTests') == {'integration':8,'live':2}[suite]
+        assert actual.get('skippedTests') == 0

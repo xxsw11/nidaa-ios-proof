@@ -108,8 +108,22 @@ final class LocalExperienceUITests: XCTestCase {
     }
     var ahmad: String { "00000000-0000-4000-8000-000000000002" }
     func sendToSara() {
-        tap("startAlert");app.switches["select-"+ahmad].tap();tap("authenticateSend");tap("confirmAlert")
+        tap("startAlert")
+        let ahmadSelection = app.switches["select-"+ahmad].firstMatch
+        let saraSelection = app.switches["select-"+sara].firstMatch
+        XCTAssertTrue(ahmadSelection.waitForExistence(timeout: 5))
+        let selectionReady = XCTNSPredicateExpectation(predicate: NSPredicate(format: "hittable == true AND enabled == true AND value == '1'"), object: ahmadSelection)
+        XCTAssertEqual(XCTWaiter.wait(for: [selectionReady], timeout: 5), .completed, "Recipient selection must settle before changing it")
+        ahmadSelection.tap()
+        let deselected = XCTNSPredicateExpectation(predicate: NSPredicate(format: "value == '0'"), object: ahmadSelection)
+        XCTAssertEqual(XCTWaiter.wait(for: [deselected], timeout: 5), .completed, "Ahmad must be deselected before authentication")
+        XCTAssertEqual(ahmadSelection.value as? String, "0")
+        XCTAssertEqual(saraSelection.value as? String, "1")
+        tap("authenticateSend");tap("confirmAlert")
         XCTAssertTrue(app.staticTexts["alertIdentifier"].waitForExistence(timeout:6))
+        // Verify the fixture's initial recipient set before testing any later action.
+        XCTAssertTrue(app.buttons["receipt-"+sara].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.buttons["receipt-"+ahmad].exists, "The original alert must target Sara only")
     }
     func openSaved(_ id: String) { tab("السجل");tap("history-"+id);XCTAssertTrue(app.staticTexts["alertIdentifier"].waitForExistence(timeout:5)) }
     func chooseAction(_ add: Bool) { tap(add ? "alternative-"+ahmad : "retryAlert");XCTAssertTrue(app.buttons["authenticateAction"].waitForExistence(timeout:5)) }

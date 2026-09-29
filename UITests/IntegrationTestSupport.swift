@@ -142,13 +142,26 @@ class IntegrationTestCase: XCTestCase {
         guard element.waitForExistence(timeout: 8) else {
             XCTFail("Missing control: \(element.identifier)"); return
         }
-        let containingScroll = app.scrollViews.containing(.any, identifier: element.identifier).firstMatch
-        let scroll = containingScroll.exists ? containingScroll : app.scrollViews.firstMatch
+        let controlID = element.identifier
+        // Resolve the currently visible scrolling surface by index, not by a
+        // descendant condition that can stop matching after the target scrolls.
+        // Exclude small input scroll views; the sheet's form is the visible one.
+        let scroll = app.scrollViews.allElementsBoundByIndex.first {
+            $0.exists && $0.isHittable && $0.frame.height > 80
+        } ?? app.scrollViews.firstMatch
         guard scroll.exists else { XCTFail("No scroll container for: \(element.identifier)"); return }
+        var geometry: [String] = []
         for _ in 0..<10 {
             if element.isHittable { return }
-            let viewport = scroll.frame.intersection(app.windows.firstMatch.frame)
+            let window = app.windows.firstMatch
+            guard scroll.exists, window.exists, element.exists else {
+                recordRevealGeometry(controlID, steps: geometry)
+                XCTFail("Scroll/window/target disappeared during reveal"); return
+            }
+            let viewport = scroll.frame.intersection(window.frame)
+            geometry.append("control=\(element.frame);viewport=\(viewport)")
             guard !viewport.isNull, viewport.height > 80 else {
+                recordRevealGeometry(controlID, steps: geometry)
                 XCTFail("Invalid viewport for: \(element.identifier)"); return
             }
             // Use geometry, not a fixed search order: controls above the viewport
@@ -161,7 +174,15 @@ class IntegrationTestCase: XCTestCase {
         }
         // Identifiers and geometry only. Never include field values, labels,
         // accessibility dumps, credentials or invitation/verification tokens.
+        if element.exists && element.isHittable { return }
+        recordRevealGeometry(controlID, steps: geometry)
         XCTFail("Control not hittable after 10 directed scrolls: \(element.identifier); frame=\(element.frame); scroll=\(scroll.frame)")
+    }
+    private func recordRevealGeometry(_ control: String, steps: [String]) {
+        let evidence = XCTAttachment(string: "controlID=" + control + "\n" + steps.joined(separator: "\n"))
+        evidence.name = "integration-reveal-geometry"
+        evidence.lifetime = .keepAlways
+        add(evidence)
     }
     func drag(from start: CGPoint, to end: CGPoint) {
         let origin = app.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0))

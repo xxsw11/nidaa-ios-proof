@@ -4,68 +4,153 @@ import UIKit
 /// Native input coverage with AutoFill ON. Networking is explicitly MOCK here;
 /// saved-credential selection is a separate, not yet verified scenario.
 final class AutoFillUITests: IntegrationTestCase {
-    func testSavedCredentialEnvironmentProbe() throws {
-        // Inspect only the disposable Simulator; never request an Apple account.
+    func testSavedCredentialSelection() throws {
+        // Only a new disposable Simulator. The generated system password is
+        // never read, changed, copied, displayed by this test, or sent to a server.
         let passwords = XCUIApplication(bundleIdentifier: "com.apple.Passwords")
         passwords.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
         passwords.launch()
         defer { passwords.terminate() }
-        // Original 3759 evidence reached a second onboarding page, Passwords App
-        // Notifications. Finish bounded onboarding and decline the system prompt.
         let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
         for _ in 0..<4 {
-            let deny = springboard.alerts.buttons["Don’t Allow"].firstMatch
-            let asciiDeny = springboard.alerts.buttons["Don't Allow"].firstMatch
+            let deny = namedButton(["Don’t Allow", "Don't Allow"], in: springboard)
             if deny.exists && deny.isHittable { deny.tap(); continue }
-            if asciiDeny.exists && asciiDeny.isHittable { asciiDeny.tap(); continue }
             let next = passwords.buttons["Continue"].firstMatch
             guard next.waitForExistence(timeout: 3), next.isHittable else { break }
             next.tap()
         }
-        let candidates = ["Set Up a Passcode", "Turn On iCloud Keychain", "No Passwords", "Welcome to Passwords", "Passwords Are Locked", "Passwords App Notifications", "All", "New Password"]
-        let observed = candidates.filter { passwords.staticTexts[$0].exists || passwords.buttons[$0].exists }
-        let note = observed.isEmpty
-            ? "No recognized saved-credential setup state was established by the bounded disposable Simulator probe."
-            : "Observed disposable Passwords UI: " + observed.joined(separator: ", ") + "."
-        // This is a newly created disposable Simulator with no personal account
-        // or saved credentials. Inspect the original setup screen before deciding
-        // whether a local fictional saved credential can be exercised next.
-        let screen = XCTAttachment(screenshot: passwords.screenshot())
-        screen.name = "autofill-saved-credential-availability-screen"
-        screen.lifetime = .keepAlways
-        add(screen)
-        let newPassword = passwords.buttons["New Password"].firstMatch
-        if newPassword.exists && newPassword.isHittable {
-            newPassword.tap()
-            let formHeader = passwords.navigationBars["New Password"].firstMatch
-            XCTAssertTrue(formHeader.waitForExistence(timeout: 5))
-            // The form may propose a plaintext generated password before typing.
-            // Retain only the original navigation controls crop, never its fields.
-            let formScreen = XCTAttachment(screenshot: formHeader.screenshot())
-            formScreen.name = "autofill-saved-credential-new-password-controls-header"
-            formScreen.lifetime = .keepAlways
-            add(formScreen)
-            // This is before typing or saving. Capture only field labels/types,
-            // never values (the system may propose a generated password).
-            let knownLabels = ["Website", "User Name", "Username", "Password", "Notes", "Save", "Done", "Cancel", "New Password", "example.com"]
-            let controls = knownLabels.flatMap { label -> [String] in
-                var matches: [String] = []
-                if passwords.textFields[label].exists { matches.append("textField:" + label) }
-                if passwords.secureTextFields[label].exists { matches.append("secureTextField:" + label) }
-                if passwords.buttons[label].exists { matches.append("button:" + label) }
-                if passwords.staticTexts[label].exists { matches.append("staticText:" + label) }
-                return matches
-            }
-            let inventory = XCTAttachment(string: "Observed new-password form controls (no values): " + controls.joined(separator: ", "))
-            inventory.name = "autofill-saved-credential-form-controls"
-            inventory.lifetime = .keepAlways
-            add(inventory)
+        try skipOnlyObservedPersonalRequirement(in: [passwords, springboard])
+        let create = passwords.buttons["New Password"].firstMatch
+        guard create.waitForExistence(timeout: 5), create.isHittable else {
+            recordKnownSystemControls(in: passwords, stage: "passwords-home")
+            XCTFail("Native New Password control unavailable"); return
         }
-        let item = XCTAttachment(string: note + " Saved-credential selection has not executed; manual input/PasteButton tests do not establish AutoFill selection.")
-        item.name = "autofill-saved-credential-availability"
-        item.lifetime = .keepAlways
-        add(item)
-        throw XCTSkip(note + " Saved-credential selection remains not tested; no personal account or passcode was requested.")
+        create.tap()
+        let header = passwords.navigationBars["New Password"].firstMatch
+        XCTAssertTrue(header.waitForExistence(timeout: 5))
+        let headerImage = XCTAttachment(screenshot: header.screenshot())
+        headerImage.name = "autofill-saved-credential-new-password-controls-header"
+        headerImage.lifetime = .keepAlways; add(headerImage)
+        recordKnownSystemControls(in: passwords, stage: "new-password-form")
+
+        let websiteLabels = ["Website or App", "Website", "website", "example.com", "App or Website"]
+        let website = passwords.textFields.matching(NSPredicate(format: "label IN %@ OR placeholderValue IN %@ OR identifier IN %@", websiteLabels, websiteLabels, websiteLabels)).firstMatch
+        let username = labeledRowTextField("User Name", in: passwords)
+        guard website.exists && website.isHittable, username.exists && username.isHittable else {
+            XCTFail("Native fictional website/username fields could not be identified safely"); return
+        }
+        let site = "nidaa-autofill.example.invalid"
+        let email = "sara-autofill@example.invalid"
+        website.tap(); website.typeText(site)
+        username.tap(); username.typeText(email)
+        let save = passwords.buttons["Save"].firstMatch
+        XCTAssertTrue(save.waitForExistence(timeout: 5))
+        let enabled = XCTNSPredicateExpectation(predicate: NSPredicate(format: "enabled == true"), object: save)
+        XCTAssertEqual(XCTWaiter.wait(for: [enabled], timeout: 5), .completed)
+        save.tap()
+        let saved = XCTNSPredicateExpectation(predicate: NSPredicate(format: "exists == false"), object: header)
+        XCTAssertEqual(XCTWaiter.wait(for: [saved], timeout: 8), .completed)
+        passwords.terminate()
+
+        launch()
+        let emailField = app.textFields["integrationEmail"]
+        reveal(emailField)
+        XCTAssertEqual(emailField.value as? String, emailField.placeholderValue)
+        XCTAssertFalse(app.buttons["integrationSignup"].isEnabled)
+        emailField.tap()
+        XCTAssertTrue(app.keyboards.firstMatch.waitForExistence(timeout: 8))
+        let passwordLabels = ["Passwords", "Password AutoFill", "AutoFill Password", "كلمات السر", "كلمات المرور", "تعبئة كلمات السر"]
+        var pickerButton = namedButton(passwordLabels, in: app)
+        if !pickerButton.exists {
+            // The public edit menu is also a user-initiated AutoFill route; no
+            // clipboard, keychain injection or credential text typing is used.
+            emailField.press(forDuration: 1)
+            let autoFill = namedButton(["AutoFill", "تعبئة تلقائية", "تعبئة تلقائية…"], in: app)
+            guard autoFill.waitForExistence(timeout: 5), autoFill.isHittable else {
+                recordKnownSystemControls(in: app, stage: "autofill-launch")
+                XCTFail("Native AutoFill entry control unavailable"); return
+            }
+            autoFill.tap()
+            pickerButton = namedButton(passwordLabels, in: app)
+        }
+        guard pickerButton.waitForExistence(timeout: 5), pickerButton.isHittable else {
+            recordKnownSystemControls(in: app, stage: "password-picker-launch")
+            XCTFail("Native Passwords picker control unavailable"); return
+        }
+        pickerButton.tap()
+        try skipOnlyObservedPersonalRequirement(in: [app, springboard])
+        for surface in [app, springboard] {
+            let other = namedButton(["Other Passwords", "Other Passwords…", "كلمات سر أخرى", "كلمات مرور أخرى"], in: surface)
+            if other.exists && other.isHittable { other.tap(); break }
+        }
+        var selected = false
+        for surface in [app, springboard] {
+            // Select only the unique fictional account by its nonsecret identity.
+            let row = surface.cells.containing(.staticText, identifier: email).firstMatch
+            let button = surface.buttons.matching(NSPredicate(format: "label CONTAINS %@ OR label CONTAINS %@", email, site)).firstMatch
+            let text = surface.staticTexts[email].firstMatch
+            let target = row.exists ? row : (button.exists ? button : text)
+            if target.waitForExistence(timeout: 5), target.isHittable { target.tap(); selected = true; break }
+        }
+        guard selected else {
+            try skipOnlyObservedPersonalRequirement(in: [app, springboard])
+            recordKnownSystemControls(in: app, stage: "saved-account-selection")
+            XCTFail("Fictional saved account not found in native picker"); return
+        }
+        let emailFilled = XCTNSPredicateExpectation(predicate: NSPredicate(format: "value == %@", email), object: emailField)
+        XCTAssertEqual(XCTWaiter.wait(for: [emailFilled], timeout: 8), .completed)
+        let passwordFilled = XCTNSPredicateExpectation(predicate: NSPredicate(format: "enabled == true"), object: app.buttons["integrationSignup"])
+        XCTAssertEqual(XCTWaiter.wait(for: [passwordFilled], timeout: 8), .completed, "Saved password did not fill the real validation gate")
+        dismissKeyboard(after: emailField)
+        tap("integrationLogin")
+        XCTAssertTrue(app.buttons["integrationAccountTab"].waitForExistence(timeout: 8))
+        XCTAssertFalse(app.secureTextFields["integrationPassword"].exists)
+        shot("autofill-saved-credential-selected-mock-login")
+    }
+
+    private func namedButton(_ names: [String], in surface: XCUIApplication) -> XCUIElement {
+        surface.buttons.matching(NSPredicate(format: "label IN %@ OR identifier IN %@", names, names)).firstMatch
+    }
+    private func labeledRowTextField(_ label: String, in surface: XCUIApplication) -> XCUIElement {
+        let row = surface.cells.containing(.staticText, identifier: label).firstMatch
+        if row.exists && row.textFields.firstMatch.exists { return row.textFields.firstMatch }
+        let direct = surface.textFields.matching(NSPredicate(format: "label IN %@ OR placeholderValue IN %@", [label, "Username"], [label, "Username"])).firstMatch
+        if direct.exists { return direct }
+        let title = surface.staticTexts[label].firstMatch
+        if title.exists {
+            let sameRow = surface.textFields.allElementsBoundByIndex.filter {
+                abs($0.frame.midY - title.frame.midY) < max(title.frame.height, 22)
+            }
+            if sameRow.count == 1 { return sameRow[0] }
+        }
+        return direct // Absent sentinel; caller fails without guessing a field.
+    }
+    private func skipOnlyObservedPersonalRequirement(in surfaces: [XCUIApplication]) throws {
+        let requirements = ["Sign In to iCloud", "Sign in to your Apple Account", "Set Up a Passcode", "Enter iPhone Passcode", "تسجيل الدخول إلى iCloud", "إدخال رمز دخول iPhone"]
+        for surface in surfaces {
+            let observed = requirements.filter { surface.staticTexts[$0].exists || surface.buttons[$0].exists }
+            if !observed.isEmpty {
+                let note = "Observed personal-account/device-passcode requirement: " + observed.joined(separator: ", ")
+                let evidence = XCTAttachment(string: note)
+                evidence.name = "autofill-saved-credential-observed-requirement"
+                evidence.lifetime = .keepAlways; add(evidence)
+                throw XCTSkip(note)
+            }
+        }
+    }
+    private func recordKnownSystemControls(in surface: XCUIApplication, stage: String) {
+        let labels = ["Website or App", "Website", "App or Website", "User Name", "Username", "Password", "Notes", "Save", "Done", "Cancel", "New Password", "example.com", "Passwords", "Password AutoFill", "AutoFill", "Other Passwords", "Other Passwords…", "كلمات السر", "كلمات المرور", "تعبئة تلقائية", "كلمات سر أخرى"]
+        let controls = labels.flatMap { label -> [String] in
+            var matches: [String] = []
+            if surface.textFields[label].exists { matches.append("textField:" + label) }
+            if surface.secureTextFields[label].exists { matches.append("secureTextField:" + label) }
+            if surface.buttons[label].exists { matches.append("button:" + label) }
+            if surface.staticTexts[label].exists { matches.append("staticText:" + label) }
+            return matches
+        }
+        let inventory = XCTAttachment(string: "stage=" + stage + "; fixed controls (no values): " + controls.joined(separator: ", "))
+        inventory.name = "autofill-saved-credential-form-controls-" + stage
+        inventory.lifetime = .keepAlways; add(inventory)
     }
     func testEnabledManualRegistrationAndFieldNavigation() {
         launch()
@@ -127,6 +212,13 @@ final class AutoFillUITests: IntegrationTestCase {
         tap("integrationPasswordVisibility")
         XCTAssertTrue(app.textFields["integrationPassword"].waitForExistence(timeout: 5))
         XCTAssertEqual(app.textFields["integrationPassword"].value as? String, demonstration)
+        // This guard allows only the exact never-authenticated demonstration,
+        // even if a future harness changes continueAfterFailure behavior.
+        guard app.textFields["integrationPassword"].value as? String == demonstration else { return }
+        let visibleCrop = XCTAttachment(screenshot: app.textFields["integrationPassword"].screenshot())
+        visibleCrop.name = "autofill-noncredential-visible-field-crop"
+        visibleCrop.lifetime = .keepAlways
+        add(visibleCrop)
         XCTAssertTrue(app.keyboards.firstMatch.exists, "Visibility must preserve keyboard focus")
         tap("integrationPasswordVisibility")
         XCTAssertTrue(app.secureTextFields["integrationPassword"].exists)

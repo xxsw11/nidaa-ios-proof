@@ -31,9 +31,15 @@ class NativeEvidenceExportTests(unittest.TestCase):
             valid = 'login_exists=true, login_enabled=true, signup_exists=true, signup_enabled=false, busy=false, latinKeys=true, arabicKeys=false, strongCover=false, native={nativeReady=false,hasText=true,firstResponder=true,asciiKeyboard=true,secure=true,receivedSeveralEdits=true,inputEnglish=true,inputArabic=false,inputOther=false,bindingReady=false}'
             (screens / 'safe.txt').write_text('before_keyboard_done: '+valid+'\nafter_keyboard_done: '+valid)
             (screens / 'unsafe.txt').write_text('before_keyboard_done: PRIVATE_SENTINEL_DO_NOT_EXPORT')
+            (screens / 'controls.txt').write_text('stage=new-password-form; fixed controls (no values): staticText:User Name, button:Save', encoding='utf-8')
+            (screens / 'unsafe-controls.txt').write_text('stage=autofill-launch; fixed controls (no values): textField:PRIVATE_SENTINEL_DO_NOT_EXPORT', encoding='utf-8')
+            (screens / 'requirement.txt').write_text('Observed personal-account/device-passcode requirement: Set Up a Passcode', encoding='utf-8')
             (screens / 'manifest.json').write_text(json.dumps([{'attachments': [
                 {'suggestedHumanReadableName':'integration-mock-draft-readiness','exportedFileName':name}
-                for name in ['safe.txt','unsafe.txt']]}]))
+                for name in ['safe.txt','unsafe.txt']] + [
+                {'suggestedHumanReadableName':'autofill-saved-credential-form-controls-new-password-form','exportedFileName':'controls.txt'},
+                {'suggestedHumanReadableName':'autofill-saved-credential-form-controls-autofill-launch','exportedFileName':'unsafe-controls.txt'},
+                {'suggestedHumanReadableName':'autofill-saved-credential-observed-requirement','exportedFileName':'requirement.txt'}]}]))
             script = ROOT / 'Scripts/export_native_review.py'
             code = script.read_text().replace("output = root/'artifacts/native-review'/suite", 'output = Path(' + repr(str(exported)) + ')')
             class XcodeVersion:
@@ -54,6 +60,9 @@ class NativeEvidenceExportTests(unittest.TestCase):
             self.assertEqual(len(result['draftReadiness']), 1)
             self.assertTrue(result['draftReadiness'][0][0]['native']['hasText'])
             self.assertFalse(result['draftReadiness'][0][0]['native']['nativeReady'])
+            self.assertTrue((exported / 'saved-credential-controls-new-password-form.txt').is_file())
+            self.assertFalse((exported / 'saved-credential-controls-autofill-launch.txt').exists())
+            self.assertEqual(result['savedCredentialRequirement'], 'Observed personal-account/device-passcode requirement: Set Up a Passcode')
 
 
 if __name__ == '__main__':
