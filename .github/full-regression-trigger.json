@@ -1,5 +1,5 @@
 {
-  "stage": "native-acceptance-v02-after-native-prompt-dismissal",
+  "stage": "native-acceptance-v02-after-bounded-offscreen-recovery",
   "selection": "all-feasible-regression-groups",
   "source": "Every job checks out its event github.sha; all acceptance results must match that single frozen SHA.",
   "expectedUniqueCases": {

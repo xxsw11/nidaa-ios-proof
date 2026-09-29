@@ -156,37 +156,67 @@ class IntegrationTestCase: XCTestCase {
         guard scroll.exists else { XCTFail("No scroll container for: \(element.identifier)"); return }
         var geometry: [String] = []
         var completedDrags = 0
+        // Retain only a direction proven by an entirely offscreen target.
+        // Accessibility can omit that target after a drag; its cause is unknown.
+        var lastOffscreenAbove: Bool?
+        var recordedMissingPresence = false
         for _ in 0..<10 {
-            if element.isHittable { return }
             let window = app.windows.firstMatch
-            // Diagnostic only: use identical samples for the existing guard
-            // and its failure record. No retry or replacement scroll is added.
+            // Use the same surface and ten-drag budget. Missing targets can
+            // recover only while the app, window and scroll remain available.
             let scrollExists = scroll.exists
             let windowExists = window.exists
             let targetExists = element.exists
-            guard scrollExists, windowExists, targetExists else {
+            let appForeground = app.state == .runningForeground
+            let targetCanRecover = !targetExists && completedDrags > 0 && lastOffscreenAbove != nil
+            // The phase records the legacy per-step existence guard, not the
+            // overall test outcome. Preserve first absence even if it recovers.
+            if !scrollExists || !windowExists || !appForeground || (!targetExists && !recordedMissingPresence) {
+                if !targetExists { recordedMissingPresence = true }
                 let presence: [String: Any] = ["phase": "existence_guard_failed", "controlID": controlID,
                     "completedDrags": completedDrags, "scrollExists": scrollExists,
                     "windowExists": windowExists, "targetExists": targetExists,
-                    "appForeground": app.state == .runningForeground]
+                    "appForeground": appForeground]
                 if let data = try? JSONSerialization.data(withJSONObject: presence, options: [.sortedKeys]),
                    let text = String(data: data, encoding: .utf8) {
                     let evidence = XCTAttachment(string: text)
                     evidence.name = "integration-reveal-presence"
                     evidence.lifetime = .keepAlways; add(evidence)
                 }
-                recordRevealGeometry(controlID, steps: geometry)
-                XCTFail("Scroll/window/target disappeared during reveal"); return
             }
+            guard scrollExists, windowExists, appForeground, targetExists || targetCanRecover else {
+                recordRevealGeometry(controlID, steps: geometry)
+                XCTFail("Scroll/window/foreground lost or missing target has no prior offscreen direction"); return
+            }
+            if targetExists && element.isHittable { return }
             let viewport = scroll.frame.intersection(window.frame)
-            geometry.append("control=\(element.frame);viewport=\(viewport)")
-            guard !viewport.isNull, viewport.height > 80 else {
+            guard !viewport.isNull,
+                  [viewport.minX, viewport.minY, viewport.width, viewport.height].allSatisfy({ $0.isFinite }),
+                  viewport.width > 0, viewport.height > 80 else {
                 recordRevealGeometry(controlID, steps: geometry)
                 XCTFail("Invalid viewport for: \(element.identifier)"); return
             }
-            // Use geometry, not a fixed search order: controls above the viewport
-            // require a downward drag; controls below it require an upward drag.
-            let above = element.frame.midY < viewport.midY
+            let above: Bool
+            if targetExists {
+                let control = element.frame
+                geometry.append("control=\(control);viewport=\(viewport)")
+                guard [control.minX, control.minY, control.width, control.height].allSatisfy({ $0.isFinite }),
+                      control.width > 0, control.height > 0 else {
+                    recordRevealGeometry(controlID, steps: geometry)
+                    XCTFail("Invalid control geometry during reveal"); return
+                }
+                above = control.midY < viewport.midY
+                // Never extrapolate from an occluded but onscreen control.
+                if control.maxY <= viewport.minY { lastOffscreenAbove = true }
+                else if control.minY >= viewport.maxY { lastOffscreenAbove = false }
+                else { lastOffscreenAbove = nil }
+            } else {
+                guard let priorAbove = lastOffscreenAbove else {
+                    recordRevealGeometry(controlID, steps: geometry)
+                    XCTFail("Missing target lacks an observed offscreen direction"); return
+                }
+                above = priorAbove
+            }
             let x = viewport.midX
             let upper = viewport.minY + viewport.height * 0.25
             let lower = viewport.minY + viewport.height * 0.75
@@ -195,7 +225,7 @@ class IntegrationTestCase: XCTestCase {
         }
         // Identifiers and geometry only. Never include field values, labels,
         // accessibility dumps, credentials or invitation/verification tokens.
-        if element.exists && element.isHittable { return }
+        if app.state == .runningForeground && scroll.exists && app.windows.firstMatch.exists && element.exists && element.isHittable { return }
         recordRevealGeometry(controlID, steps: geometry)
         XCTFail("Control not hittable after 10 directed scrolls: \(element.identifier); frame=\(element.frame); scroll=\(scroll.frame)")
     }
@@ -224,6 +254,7 @@ class IntegrationTestCase: XCTestCase {
     func tap(_ id: String) {
         let element = app.buttons[id].firstMatch
         reveal(element)
+        guard element.exists && element.isHittable else { XCTFail("Control is not hittable for tap: \(id)"); return }
         guard element.isEnabled else { XCTFail("Control is disabled: \(id)"); return }
         element.tap()
     }
