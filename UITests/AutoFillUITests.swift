@@ -101,14 +101,14 @@ final class AutoFillUITests: IntegrationTestCase {
         let allText = passwords.staticTexts["All"].firstMatch
         let homeReady = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
             allButton.exists || allRow.exists || allText.exists
-                || self.savedIdentityTarget(in: passwords, email: email, site: site) != nil
+                || self.nativeFixtureIdentityTarget(in: passwords, email: email, site: site) != nil
         }, object: nil)
         _ = XCTWaiter.wait(for: [homeReady], timeout: 8)
         for target in [allButton, allRow, allText] where target.exists && target.isHittable {
             target.tap(); allListOpened = true; break
         }
         let persisted = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
-            self.savedIdentityTarget(in: passwords, email: email, site: site) != nil
+            self.nativeFixtureIdentityTarget(in: passwords, email: email, site: site) != nil
         }, object: nil)
         let persistedEntryFound = XCTWaiter.wait(for: [persisted], timeout: 8) == .completed
         attachDiagnosticBooleans(["allListOpened": allListOpened, "persistedEntryFound": persistedEntryFound,
@@ -420,6 +420,17 @@ final class AutoFillUITests: IntegrationTestCase {
         let evidence = XCTAttachment(image: redacted)
         evidence.name = "autofill-native-picker-full-screen-redacted-" + phase.replacingOccurrences(of: "_", with: "-")
         evidence.lifetime = .keepAlways; add(evidence)
+    }
+    // Preserve the previously exercised native Passwords fixture selector.
+    // Snapshot-gated selection is restricted to the subsequent picker stage.
+    private func nativeFixtureIdentityTarget(in surface: XCUIApplication, email: String, site: String) -> XCUIElement? {
+        let identity = NSPredicate(format: "label CONTAINS %@ OR label CONTAINS %@", email, site)
+        let candidates = surface.buttons.matching(identity).allElementsBoundByIndex
+            + surface.cells.matching(identity).allElementsBoundByIndex
+            + surface.cells.containing(.staticText, identifier: email).allElementsBoundByIndex
+            + surface.cells.containing(.staticText, identifier: site).allElementsBoundByIndex
+            + surface.staticTexts.matching(identity).allElementsBoundByIndex
+        return candidates.first { $0.exists && $0.isHittable }
     }
     private func savedIdentityTarget(in surface: XCUIApplication, email: String, site: String) -> XCUIElement? {
         guard let nodes = pickerSnapshotNodes(in: surface) else { return nil }
