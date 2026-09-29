@@ -2,12 +2,12 @@ name: NIDAA - Bounded Simulator biometry capability
 on:
   push:
     branches: ['codex/biometry-capability']
-    paths: ['Diagnostics/biometry_probe.py', '.github/workflows/biometry-capability.yml']
+    paths: ['Diagnostics/intel_host_capability.py', 'Diagnostics/biometry_probe.py', '.github/workflows/biometry-capability.yml']
 permissions:
   contents: read
 jobs:
   capability:
-    if: ${{ github.event.repository.private == false && github.ref == 'refs/heads/codex/biometry-capability' }}
+    if: ${{ github.event.repository.private == false && github.ref == 'refs/heads/codex/biometry-capability' && !contains(github.event.head_commit.message, '[diagnostic:host-only]') }}
     runs-on: macos-15-intel
     timeout-minutes: 8
     steps:

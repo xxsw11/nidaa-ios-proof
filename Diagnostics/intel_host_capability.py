@@ -75,10 +75,20 @@ def compile_errors(stderr):
     errors = []
     for line in stderr.splitlines():
         match = re.search(r':(\d+):(\d+): error: (.*)$', line)
-        if not match:
+        top_level = re.search(r'(?:^|:\s*)error:\s*(.*)$', line)
+        linker = line.startswith('ld:') or line.startswith('Undefined symbols for architecture')
+        if not match and not top_level and not linker:
             continue
-        message = re.sub(r'(?:[A-Za-z]:)?[/\\][^\s\'"<>]+', '[path]', match.group(3))
-        errors.append({'line': int(match.group(1)), 'column': int(match.group(2)), 'error': message[:240]})
+        message = match.group(3) if match else top_level.group(1) if top_level else line.removeprefix('ld:').strip()
+        category = 'linker' if linker or 'link command failed' in message.lower() else 'source' if match else 'compiler-or-driver'
+        # Remove whole quoted paths first (including paths containing spaces),
+        # then any unquoted path tokens. Never publish the raw compiler stream.
+        message = re.sub(r"(['\"])([^'\"\n]*[/\\][^'\"\n]*)\1", "'[path]'", message)
+        message = re.sub(r'(?:[A-Za-z]:)?[/\\][^\s\'"<>]+', '[path]', message)
+        error = {'category': category, 'error': message[:240]}
+        if match:
+            error.update(line=int(match.group(1)), column=int(match.group(2)))
+        errors.append(error)
         if len(errors) == 10:
             break
     return errors
@@ -95,6 +105,9 @@ def inspect():
               'commandPresence': {name: shutil.which(name) is not None for name in TOOLS},
               'hypervisorFramework': {'status': 'Notexecuted', 'supported': None},
               'virtualizationFramework': {'status': 'Notexecuted', 'supported': None},
+              'toolchain': {'selectedSDK': 'macosx', 'framework': 'Virtualization',
+                            'compilerDiscovery': 'Notexecuted', 'sdkDiscovery': 'Notexecuted',
+                            'compile': 'Notexecuted', 'query': 'Notexecuted'},
               'isolationValidated': False, 'virtualMachineStarted': False,
               'containerStarted': False, 'servicesStarted': False,
               'credentialsCreated': False, 'networkOrSocketTestsStarted': False,
@@ -109,24 +122,34 @@ def inspect():
     report['hypervisorFramework'] = hypervisor_result(hv)
     xcrun = shutil.which('xcrun')
     if xcrun is None:
+        report['toolchain']['compilerDiscovery'] = 'Tool-unavailable'
         report['virtualizationFramework'] = {'status': 'Compiler-unavailable', 'supported': None}
     else:
-        located = run_command('find-installed-swift-compiler', [xcrun, '--find', 'swiftc'], 10, deadline, trace)
+        located = run_command('find-macosx-swift-compiler', [xcrun, '--sdk', 'macosx', '--find', 'swiftc'], 10, deadline, trace)
+        report['toolchain']['compilerDiscovery'] = trace[-1]['status'] if located is None else 'Passed' if located.returncode == 0 and Path(located.stdout.strip()).is_file() else 'Failed'
         if located is None or located.returncode != 0 or not Path(located.stdout.strip()).is_file():
             report['virtualizationFramework'] = {'status': 'Compiler-unavailable', 'supported': None}
         else:
-            with tempfile.TemporaryDirectory(prefix='nidaa-host-capability-') as temporary:
-                source = Path(temporary)/'Capability.swift'
-                binary = Path(temporary)/'capability'
-                source.write_text(SWIFT, encoding='utf-8')
-                built = run_command('compile-public-VZ-query', [located.stdout.strip(), str(source), '-o', str(binary)], 60, deadline, trace)
-                if built is None or built.returncode != 0:
-                    report['virtualizationFramework'] = {'status': 'Compile-unavailable', 'supported': None}
-                    if built is not None:
-                        report['virtualizationFramework']['compileErrors'] = compile_errors(built.stderr)
-                else:
-                    queried = run_command('query-public-VZ-support', [str(binary)], 10, deadline, trace)
-                    report['virtualizationFramework'] = virtualization_result(queried)
+            sdk = run_command('locate-selected-macosx-SDK', [xcrun, '--sdk', 'macosx', '--show-sdk-path'], 10, deadline, trace)
+            report['toolchain']['sdkDiscovery'] = trace[-1]['status'] if sdk is None else 'Passed' if sdk.returncode == 0 and Path(sdk.stdout.strip()).is_dir() else 'Failed'
+            if sdk is None or sdk.returncode != 0 or not Path(sdk.stdout.strip()).is_dir():
+                report['virtualizationFramework'] = {'status': 'SDK-unavailable', 'supported': None}
+            else:
+                with tempfile.TemporaryDirectory(prefix='nidaa-host-capability-') as temporary:
+                    source = Path(temporary)/'Capability.swift'
+                    binary = Path(temporary)/'capability'
+                    source.write_text(SWIFT, encoding='utf-8')
+                    built = run_command('compile-public-VZ-query', [xcrun, '--sdk', 'macosx', 'swiftc',
+                                        '-sdk', sdk.stdout.strip(), '-framework', 'Virtualization', str(source), '-o', str(binary)], 60, deadline, trace)
+                    report['toolchain']['compile'] = trace[-1]['status'] if built is None else 'Passed' if built.returncode == 0 else 'Failed'
+                    if built is None or built.returncode != 0:
+                        report['virtualizationFramework'] = {'status': 'Compile-unavailable', 'supported': None}
+                        if built is not None:
+                            report['virtualizationFramework']['compileErrors'] = compile_errors(built.stderr)
+                    else:
+                        queried = run_command('query-public-VZ-support', [str(binary)], 10, deadline, trace)
+                        report['toolchain']['query'] = trace[-1]['status'] if queried is None else 'Passed' if queried.returncode == 0 else 'Failed'
+                        report['virtualizationFramework'] = virtualization_result(queried)
     report['elapsedSeconds'] = round(time.monotonic()-started, 3)
     return report
 
