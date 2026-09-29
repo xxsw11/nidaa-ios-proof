@@ -62,6 +62,9 @@ xcodebuild "${common[@]}" -configuration Debug -parallel-testing-enabled NO \
   "${test_selection[@]}" -resultBundlePath "$proof_evidence/LocalExperience.xcresult" test 2>&1 | tee "$proof_evidence/xcode-ui-tests.log"
 test_status=${PIPESTATUS[0]}
 set -e
+if [[ "${NIDAA_CAPTURE_SYSTEM_DIAGNOSTIC:-0}" == 1 && "${NIDAA_UI_SUITE:-all}" == autofill-saved ]]; then
+  python3 Scripts/capture_picker_system_diagnostic.py "$proof_udid" "$proof_evidence"
+fi
 if [[ -d "$proof_evidence/LocalExperience.xcresult" ]]; then
   xcrun xcresulttool export attachments --path "$proof_evidence/LocalExperience.xcresult" --output-path "$proof_evidence/screenshots" || true
   xcrun xcresulttool get test-results summary --path "$proof_evidence/LocalExperience.xcresult" > "$proof_evidence/ui-summary.json" || true
@@ -75,4 +78,13 @@ release_status=${PIPESTATUS[0]}
 set -e
 printf '%s\n' "UI suite: ${NIDAA_UI_SUITE:-all}; test exit: $test_status; Release exit: $release_status. No notifications sent. Physical-device validation deferred: no Apple devices." > "$proof_evidence/simulator-result.txt"
 [[ "$test_status" == 0 ]] || exit "$test_status"
+if [[ "${NIDAA_UI_SUITE:-all}" == local-a || "${NIDAA_UI_SUITE:-all}" == local-b || "${NIDAA_UI_SUITE:-all}" == local-large ]]; then
+  python3 - "$proof_evidence/ui-summary.json" "$NIDAA_UI_SUITE" <<'PY'
+import json, pathlib, sys
+summary=json.loads(pathlib.Path(sys.argv[1]).read_text())
+expected={'local-a':9,'local-b':8,'local-large':1}[sys.argv[2]]
+assert summary.get('totalTestCount')==expected and summary.get('passedTests')==expected, 'Incomplete local UI selection'
+assert summary.get('failedTests')==0 and summary.get('skippedTests')==0, 'Failed/skipped local UI cases do not pass the gate'
+PY
+fi
 exit "$release_status"

@@ -108,6 +108,8 @@ allowed = {
  'autofill-noncredential-visible-field-crop',
  'autofill-native-empty-identity-fields-crop',
  'autofill-native-picker-header-crop',
+ 'autofill-native-provider-global-toggle',
+ 'autofill-native-provider-row',
  'integration-mock-autofill-saved-credential-selected-mock-login',
  'integration-mock-autofill-enabled-registration-complete-mock',
  'integration-mock-autofill-enabled-recovery-complete-mock',
@@ -145,11 +147,11 @@ if manifest.exists():
                 item=r'(?:textField|secureTextField|button|staticText):(?:'+'|'.join(re.escape(label) for label in labels)+')'
                 if re.fullmatch(r'Observed new-password form controls \(no values\): (?:'+item+r'(?:, '+item+r')*)?',note):
                     (output/'saved-credential-form-controls.txt').write_text(note)
-            stages = ['passwords-home', 'new-password-form', 'autofill-launch', 'password-picker-launch', 'saved-account-selection', 'saved-account-selection-app', 'saved-account-selection-springboard', 'saved-account-selection-passwords']
+            stages = ['passwords-home', 'new-password-form', 'autofill-launch', 'password-picker-launch', 'saved-account-selection', 'saved-account-selection-app', 'saved-account-selection-springboard', 'saved-account-selection-passwords', 'saved-entry-persistence']
             if human in ['autofill-saved-credential-form-controls-'+stage for stage in stages] and source.suffix in ('.txt','.text'):
                 stage = human.removeprefix('autofill-saved-credential-form-controls-')
                 note = source.read_text(encoding='utf-8')
-                labels = ['Website or Label','Website or App','Website','App or Website','User Name','Username','Password','Notes','Save','Done','Cancel','New Password','example.com','Passwords','Password AutoFill','AutoFill','Other Passwords','Other Passwords…','كلمات السر','كلمات المرور','تعبئة تلقائية','كلمات سر أخرى']
+                labels = ['Website or Label','Website or App','Website','App or Website','User Name','Username','Password','Notes','Save','Done','Cancel','New Password','All','Search','No Passwords','example.com','Passwords','Password AutoFill','AutoFill','Other Passwords','Other Passwords…','كلمات السر','كلمات المرور','تعبئة تلقائية','كلمات سر أخرى']
                 item = r'(?:textField|secureTextField|button|staticText):(?:'+'|'.join(re.escape(label) for label in labels)+')'
                 if re.fullmatch('stage='+re.escape(stage)+r'; fixed controls \(no values\): (?:'+item+r'(?:, '+item+r')*)?', note):
                     (output/('saved-credential-controls-'+stage+'.txt')).write_text(note, encoding='utf-8')
@@ -185,6 +187,15 @@ if manifest.exists():
                 flags={'appForeground','springboardForeground','passwordsForeground','appSavedIdentityVisible','springboardSavedIdentityVisible','passwordsSavedIdentityVisible'}
                 if isinstance(state,dict) and set(state)==flags and all(type(state[k]) is bool for k in flags):
                     report['nativePickerState']=state
+            boolean_diagnostics={
+                'autofill-saved-entry-persistence': ('savedEntryPersistence', {'allListOpened','persistedEntryFound','passwordsForeground'}),
+                'autofill-native-provider-state': ('nativeProviderState', {'globalEnabledKnown','globalEnabled','providerControlObserved','providerEnabledKnown','providerEnabled'})}
+            if human in boolean_diagnostics and source.suffix in ('.txt','.text'):
+                try: state=json.loads(source.read_text(encoding='utf-8'))
+                except (ValueError,UnicodeError): state=None
+                key,flags=boolean_diagnostics[human]
+                if isinstance(state,dict) and set(state)==flags and all(type(state[k]) is bool for k in flags):
+                    report[key]=state
             if human=='integration-mock-draft-readiness' and source.suffix in ('.txt','.text'):
                 # Only fixed UI booleans; never publish arbitrary attachment text.
                 note=source.read_text()
@@ -240,6 +251,7 @@ if int(code)==0:
         else:
             assert report['savedCredentialSelection'] == 'skipped' and report.get('savedCredentialRequirement')
             assert actual.get('passedTests') == len(required) and actual.get('skippedTests') == 1
+            raise AssertionError('Observed requirement is recorded as skipped; saved selection acceptance gate remains unpassed')
     else:
         assert actual.get('passedTests') == {'integration':8,'live':2}[suite]
         assert actual.get('skippedTests') == 0

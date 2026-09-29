@@ -69,6 +69,35 @@ final class AutoFillUITests: IntegrationTestCase {
         let saved = XCTNSPredicateExpectation(predicate: NSPredicate(format: "exists == false"), object: header)
         XCTAssertEqual(XCTWaiter.wait(for: [saved], timeout: 8), .completed)
         passwords.terminate()
+        // Verify persistence through the actual native list, without opening
+        // credential details, copying a secret, or seeding the keychain.
+        passwords.launch()
+        var allListOpened = false
+        let allButton = passwords.buttons.matching(NSPredicate(format: "label == %@ OR label BEGINSWITH %@", "All", "All,")).firstMatch
+        let allRow = passwords.cells.containing(.staticText, identifier: "All").firstMatch
+        let allText = passwords.staticTexts["All"].firstMatch
+        let homeReady = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            allButton.exists || allRow.exists || allText.exists
+                || self.savedIdentityTarget(in: passwords, email: email, site: site) != nil
+        }, object: nil)
+        _ = XCTWaiter.wait(for: [homeReady], timeout: 8)
+        for target in [allButton, allRow, allText] where target.exists && target.isHittable {
+            target.tap(); allListOpened = true; break
+        }
+        let persisted = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            self.savedIdentityTarget(in: passwords, email: email, site: site) != nil
+        }, object: nil)
+        let persistedEntryFound = XCTWaiter.wait(for: [persisted], timeout: 8) == .completed
+        attachDiagnosticBooleans(["allListOpened": allListOpened, "persistedEntryFound": persistedEntryFound,
+                                  "passwordsForeground": passwords.state == .runningForeground], name: "autofill-saved-entry-persistence")
+        if !persistedEntryFound { recordKnownSystemControls(in: passwords, stage: "saved-entry-persistence") }
+        passwords.terminate()
+        // Inspect provider configuration even if persistence failed, preserving
+        // both independent pieces of setup evidence before the explicit failure.
+        try recordNativeProviderConfiguration()
+        guard persistedEntryFound else {
+            XCTFail("Fictional saved identity did not persist in the native Passwords list after relaunch"); return
+        }
 
         launch()
         guard let nativeApp = app else { XCTFail("NIDAA launch fixture is missing"); return }
@@ -163,6 +192,54 @@ final class AutoFillUITests: IntegrationTestCase {
 
     private func namedButton(_ names: [String], in surface: XCUIApplication) -> XCUIElement {
         surface.buttons.matching(NSPredicate(format: "label IN %@ OR identifier IN %@", names, names)).firstMatch
+    }
+    private func attachDiagnosticBooleans(_ report: [String: Bool], name: String) {
+        guard let data = try? JSONSerialization.data(withJSONObject: report, options: [.sortedKeys]),
+              let text = String(data: data, encoding: .utf8) else { return }
+        let evidence = XCTAttachment(string: text)
+        evidence.name = name; evidence.lifetime = .keepAlways; add(evidence)
+    }
+    private func recordNativeProviderConfiguration() throws {
+        let settings = XCUIApplication(bundleIdentifier: "com.apple.Preferences")
+        settings.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
+        settings.launch()
+        defer { settings.terminate() }
+        let global = settings.switches["AutoFillToggle"].firstMatch
+        // Settings may restore its last visited page after termination.
+        if !global.waitForExistence(timeout: 3) {
+            if !settings.navigationBars["General"].exists { try openSettingsRow("General", in: settings) }
+            try openSettingsRow("AutoFill & Passwords", in: settings)
+        }
+        _ = global.waitForExistence(timeout: 5)
+        let providerSwitch = settings.switches.matching(NSPredicate(format: "label == %@ OR identifier == %@", "Passwords", "Passwords")).firstMatch
+        let providerCell = settings.cells.containing(.staticText, identifier: "Passwords").firstMatch
+        let providerButton = settings.buttons["Passwords"].firstMatch
+        let providerText = settings.staticTexts["Passwords"].firstMatch
+        func state(_ control: XCUIElement) -> (known: Bool, enabled: Bool) {
+            guard control.exists, let value = (control.value as? String)?.lowercased() else { return (false, false) }
+            if value == "1" || value == "on" { return (true, true) }
+            if value == "0" || value == "off" { return (true, false) }
+            return (false, false)
+        }
+        let globalState = state(global)
+        let providerState = state(providerSwitch)
+        attachDiagnosticBooleans(["globalEnabledKnown": globalState.known, "globalEnabled": globalState.enabled,
+            "providerControlObserved": providerSwitch.exists || providerCell.exists || providerButton.exists || providerText.exists,
+            "providerEnabledKnown": providerState.known, "providerEnabled": providerState.enabled], name: "autofill-native-provider-state")
+        func attachRow(_ row: XCUIElement, name: String) {
+            guard row.exists, row.isHittable else { return }
+            let frame = row.frame
+            // Only the fresh Simulator's named settings controls; never a full
+            // Settings screen, Apple account header or credential detail.
+            guard frame.height > 0, frame.height <= 120, frame.width > 0,
+                  UIScreen.main.bounds.contains(frame) else { return }
+            let image = XCTAttachment(screenshot: row.screenshot())
+            image.name = name; image.lifetime = .keepAlways; add(image)
+        }
+        attachRow(global, name: "autofill-native-provider-global-toggle")
+        for row in [providerSwitch, providerCell, providerButton, providerText] where row.exists && row.isHittable {
+            attachRow(row, name: "autofill-native-provider-row"); break
+        }
     }
     private func pickerDiagnosticAllowedStrings() -> Set<String> {
         ["", "[redacted]", "Passwords", "Password", "Password AutoFill", "AutoFill Password", "Fill Password",
@@ -394,7 +471,7 @@ final class AutoFillUITests: IntegrationTestCase {
         }
     }
     private func recordKnownSystemControls(in surface: XCUIApplication, stage: String) {
-        let labels = ["Website or Label", "Website or App", "Website", "App or Website", "User Name", "Username", "Password", "Notes", "Save", "Done", "Cancel", "New Password", "example.com", "Passwords", "Password AutoFill", "AutoFill", "Other Passwords", "Other Passwords…", "كلمات السر", "كلمات المرور", "تعبئة تلقائية", "كلمات سر أخرى"]
+        let labels = ["Website or Label", "Website or App", "Website", "App or Website", "User Name", "Username", "Password", "Notes", "Save", "Done", "Cancel", "New Password", "All", "Search", "No Passwords", "example.com", "Passwords", "Password AutoFill", "AutoFill", "Other Passwords", "Other Passwords…", "كلمات السر", "كلمات المرور", "تعبئة تلقائية", "كلمات سر أخرى"]
         let controls = labels.flatMap { label -> [String] in
             var matches: [String] = []
             if surface.textFields[label].exists { matches.append("textField:" + label) }
