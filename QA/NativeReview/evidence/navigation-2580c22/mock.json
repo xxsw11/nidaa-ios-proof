@@ -1,0 +1,3965 @@
+{
+  "commit": "2580c228e7f4844485fb10e147be8634619827cb",
+  "tree": "316f96ae105ffa9ad6a12b7adbec936af44f7a7f",
+  "run": 36620786727,
+  "attempt": 1,
+  "job": 109585343826,
+  "jobConclusion": "success",
+  "artifact": 11058487664,
+  "artifactSHA256": "5448137189a967efdc42b56b21e31e59eb232809939643b4eae57af34941d0d7",
+  "artifactDigestVerified": true,
+  "source": {
+    "commit": "2580c228e7f4844485fb10e147be8634619827cb",
+    "eventCommit": "2580c228e7f4844485fb10e147be8634619827cb",
+    "run": "36620786727",
+    "attempt": "1",
+    "workflow": "NIDAA - iOS Simulator Proof",
+    "runnerOS": "macOS",
+    "runnerArchitecture": "ARM64"
+  },
+  "groups": [
+    {
+      "scope": "QA",
+      "total": 21,
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "cases": [
+        [
+          "test_evidence_export.NativeEvidenceExportTests",
+          "test_numeric_xcode_failure_id_preserves_failure_without_exporting_raw_text",
+          "passed"
+        ],
+        [
+          "test_isolation_gate.IsolationGateTests",
+          "test_actual_candidate_wildcard_success_never_passes",
+          "passed"
+        ],
+        [
+          "test_isolation_gate.IsolationGateTests",
+          "test_complete_matrix_and_wire_contract",
+          "passed"
+        ],
+        [
+          "test_isolation_gate.IsolationGateTests",
+          "test_deny_everything_is_only_a_control_not_a_working_runtime",
+          "passed"
+        ],
+        [
+          "test_isolation_gate.IsolationGateTests",
+          "test_missing_family_or_malformed_observation_fails_closed",
+          "passed"
+        ],
+        [
+          "test_isolation_gate.IsolationGateTests",
+          "test_runtime_probe_reports_failed_full_matrix_without_network_calls",
+          "passed"
+        ],
+        [
+          "test_isolation_gate.IsolationGateTests",
+          "test_unreachability_and_socket_creation_denial_are_not_operation_proof",
+          "passed"
+        ],
+        [
+          "test_native_stage.NativeStagePackagingTests",
+          "test_authentication_bypass_only_inside_debug_simulator_compilation",
+          "passed"
+        ],
+        [
+          "test_native_stage.NativeStagePackagingTests",
+          "test_existing_project_includes_all_app_sources",
+          "passed"
+        ],
+        [
+          "test_native_stage.NativeStagePackagingTests",
+          "test_notification_and_remote_registration_guarded",
+          "passed"
+        ],
+        [
+          "test_native_stage.NativeStagePackagingTests",
+          "test_privacy_manifest_declares_local_preferences",
+          "passed"
+        ],
+        [
+          "test_native_stage.NativeStagePackagingTests",
+          "test_ui_test_scheme_is_wired",
+          "passed"
+        ],
+        [
+          "test_payload.OfflinePayloadTests",
+          "test_aliases_no_personal_name_or_unbounded_input",
+          "passed"
+        ],
+        [
+          "test_payload.OfflinePayloadTests",
+          "test_bad_windows_rejected",
+          "passed"
+        ],
+        [
+          "test_payload.OfflinePayloadTests",
+          "test_expiration_bounded_by_window_and_one_minute",
+          "passed"
+        ],
+        [
+          "test_payload.OfflinePayloadTests",
+          "test_naive_time_rejected",
+          "passed"
+        ],
+        [
+          "test_payload.OfflinePayloadTests",
+          "test_no_delivery_claim_or_token_collected",
+          "passed"
+        ],
+        [
+          "test_payload.OfflinePayloadTests",
+          "test_only_sandbox_alert_headers",
+          "passed"
+        ],
+        [
+          "test_payload.OfflinePayloadTests",
+          "test_ordinary_alert_without_critical_or_background_fields",
+          "passed"
+        ],
+        [
+          "test_payload.OfflinePayloadTests",
+          "test_unique_correlated_ids_and_utf8_size",
+          "passed"
+        ],
+        [
+          "test_reveal_surface_schema.RevealSurfaceSchemaTests",
+          "test_complete_partial_and_sensitive_records_are_classified_strictly",
+          "passed"
+        ]
+      ]
+    },
+    {
+      "scope": "ProofCore/Tests",
+      "total": 45,
+      "passed": 45,
+      "failed": 0,
+      "skipped": 0,
+      "cases": [
+        [
+          "ProofCoreTests.AppearanceTests",
+          "testAppearancePersistsAcrossRepositoryInstancesAndRestores",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.AppearanceTests",
+          "testCorruptPersistenceFallsBackAndResetRemovesStoredContactsAndLock",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.AppearanceTests",
+          "testInvalidHexAndFutureSchemaAreRejected",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.AppearanceTests",
+          "testReadableInkAndAccentMeetThresholdAcrossColors",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.AppearanceTests",
+          "testSystemAndIndependentPalettes",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testCancellationPreventsHumanResponseAndLateScheduling",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testDuplicateObservationDoesNotResetFirstEvidence",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testEnvelopeRejectsUnmarkedMalformedAndMissingExpiration",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testLateObservationIsRecordedButCannotReopenExpiredTest",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testLocalScheduleIsNeitherProviderAcceptanceNorDeviceReceipt",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testOpeningNotificationNeverAcceptsResponsibility",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testProviderAcceptanceDoesNotProveDeviceReceipt",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testResponseRequiresObservationAndAuthentication",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testScheduleMustRemainInsideConfirmedWindow",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.EvidenceTests",
+          "testWindowRejectsBlankAliasAndOverlongOrExpiredScope",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testBackgroundInvalidationAndExpiredGrantCannotCreate",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testChangedRecipientOrAssistanceInvalidatesGrant",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testContactCRUDValidationAndNormalization",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testCreationRequiresFreshAuthenticationNotAnUnlockedApp",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testDeclineDoesNotResolveAndAllowsConsentingAlternative",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testDeleteContactPreventsLaterSendButRetainsSessionSnapshot",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testExpiredCancelledAndResolvedStatesNeverReopen",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testFailureOrCancelledAuthenticationCreatesNothing",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testIncomingConsentIsIndependentAndOpeningDoesNotRespond",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testOneUseGrantAndDuplicatePrevention",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testPendingDeclinedBlockedAndMissingConsentCannotSend",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testReceiptOpeningAndResponseAreDifferentTransitions",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testRetryKeepsIdentityAndResponse",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testRevocationAfterAuthenticationIsRechecked",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.SimulationTests",
+          "testSilenceAndDismissDoNotRespondResolveOrDisableNonresponse",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testAdditionPreservesExistingStateDeadlineAndAttempts",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testAllTerminalStatesStayTerminalAfterRestoreAndClockRollback",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testAuthorizationNeverEncodedOrRestored",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testBothActionsRequireSuccessAndSingleUseBoundGrant",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testCorruptAndFutureSchemaBlockSavesWithoutReplacingBytes",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testDeletionBlockingConsentAndChangedDetailsRejectAuthenticatedAction",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testExpiryOnRestoreDoesNotExtendOrRepeatEvents",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testExplicitResetRecoversCorruptionAndClearsPersistentHistory",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testGrantExpiryBackgroundAndMismatchedActionOrAlert",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testReadFailureIsNotMissingAndSaveFailureRetainsValidCopy",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testRealFileIOAndSeparateTestDirectory",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testRetryExcludesResponsesAndPreservesIdentityAndTimestamps",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testRoundTripPreservesCompleteEventHistoryAndDirection",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testSemanticallyInvalidArchiveDoesNotReplaceValidCopy",
+          "passed"
+        ],
+        [
+          "ProofCoreTests.StabilizationTests",
+          "testVersionOneMigrationIsAtomicAndPreservesDeadlines",
+          "passed"
+        ]
+      ]
+    },
+    {
+      "scope": "IntegrationClient/Tests",
+      "total": 24,
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0,
+      "cases": [
+        [
+          "NidaaIntegrationTests.ClientReviewRegressionTests",
+          "testCorruptPendingStorageCannotPublishAuthenticatedAccount",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientReviewRegressionTests",
+          "testDomainRevocationClearsPreviouslyFetchedAccountData",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientReviewRegressionTests",
+          "testMismatchedPendingOwnerCannotPublishAuthenticatedAccount",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientReviewRegressionTests",
+          "testRevokedRefreshClearsCacheButRetainsUnknownForReauthentication",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientReviewRegressionTests",
+          "testUnrecognizedLookupStatusCannotReleaseUnknownOperation",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testAccountSwitchClearsOtherAccountsPendingAndCachedDetails",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testDelayedOldAuthCannotOverwriteNewSessionsStorage",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testDelayedOldCommandResponseCannotMutateNewAccount",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testDelayedOldSyncCannotRepopulateAfterSameAccountRelogin",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testLogoutWipesBeforeAwaitingServerAndOfflineLogoutIsHonest",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testMalformedOrMismatchedReceiptStaysUnknown",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testNeverSentDraftAndReconnectDoNotDispatch",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testOutOfOrderSnapshotCannotReopenTerminalAlert",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testSecurePendingWriteFailurePreventsPost",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testStaleDraftRemainsNeverSentWithoutNetworkMutation",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testTombstonesRemoveDetailsAndPartialSnapshotFailsClosed",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testTransportFailureRetainsUnknownAndSameOperationLookupOnly",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testUnknownReceipt404CannotBecomeNeverSentOrBeDiscarded",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testUnknownStateSurvivesSameAccountReauthenticationWithoutResend",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testVerificationAccountSwitchRejectsPreviousAccountsDelayedSync",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.StorageBoundaryTests",
+          "testClearingAuthPreservesUncertainPendingReceiptForReauthentication",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.StorageBoundaryTests",
+          "testClearingOneEnvironmentDoesNotClearAnotherEnvironment",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.StorageBoundaryTests",
+          "testEnvironmentRejectsExternalCredentialsQueriesAndPaths",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.StorageBoundaryTests",
+          "testInvalidatedAuthCallbackCannotRecreateCredentials",
+          "passed"
+        ]
+      ]
+    },
+    {
+      "scope": "mock",
+      "total": 8,
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "cases": [
+        [
+          "NidaaUITests.IntegrationUITests",
+          "testBackgroundInvalidatesConfirmation",
+          "passed"
+        ],
+        [
+          "NidaaUITests.IntegrationUITests",
+          "testDeviceAcknowledgementDoesNotBecomeHumanResponse",
+          "passed"
+        ],
+        [
+          "NidaaUITests.IntegrationUITests",
+          "testFreshAuthenticationAndConfirmationNeverAutoSend",
+          "passed"
+        ],
+        [
+          "NidaaUITests.IntegrationUITests",
+          "testInvitationRequiresDirectionalConsent",
+          "passed"
+        ],
+        [
+          "NidaaUITests.IntegrationUITests",
+          "testLargeArabicLayoutAndLogoutIsolation",
+          "passed"
+        ],
+        [
+          "NidaaUITests.IntegrationUITests",
+          "testRegistrationRequiresExplicitVerification",
+          "passed"
+        ],
+        [
+          "NidaaUITests.IntegrationUITests",
+          "testSelectionChangeInvalidatesConfirmation",
+          "passed"
+        ],
+        [
+          "NidaaUITests.IntegrationUITests",
+          "testUnknownOutcomeQueriesOriginalOperation",
+          "passed"
+        ]
+      ],
+      "intendedCaseNamesMatched": true
+    }
+  ],
+  "debugBuildSucceeded": true,
+  "releaseBuildSucceeded": true,
+  "result": {
+    "suite": "integration",
+    "exitCode": 0,
+    "commit": "2580c228e7f4844485fb10e147be8634619827cb",
+    "run": "36620786727",
+    "attempt": "1",
+    "scope": "MOCK network with native AutoFill enabled",
+    "rawEvidence": "Private XCTest logs/xcresult/recordings excluded from publication",
+    "physicalDevice": "Not tested",
+    "savedCredentialSelection": "Not tested in this suite",
+    "summary": {
+      "result": "Passed",
+      "totalTestCount": 8,
+      "passedTests": 8,
+      "failedTests": 0,
+      "skippedTests": 0,
+      "expectedFailures": 0,
+      "startTime": 1790711207.331,
+      "finishTime": 1790711768.678,
+      "devicesAndConfigurations": [
+        {
+          "device": {
+            "architecture": "arm64",
+            "deviceId": "25BF0CED-B713-494C-9A57-439CBD274EE6",
+            "deviceName": "NIDAA-Disposable-8BE63A87-3D61-4BDF-849E-4987200DFBB8",
+            "modelName": "iPhone 16 Pro",
+            "osBuildNumber": "22F77",
+            "osVersion": "18.5",
+            "platform": "iOS Simulator"
+          },
+          "expectedFailures": 0,
+          "failedTests": 0,
+          "passedTests": 8,
+          "skippedTests": 0,
+          "testPlanConfiguration": {
+            "configurationId": "1",
+            "configurationName": "Test Scheme Action"
+          }
+        }
+      ],
+      "environmentDescription": "NidaaProof-Local · Built with macOS 15.7.9"
+    },
+    "failedTestIdentifiers": [],
+    "testCaseResults": [
+      [
+        "NidaaUITests.IntegrationUITests",
+        "testBackgroundInvalidatesConfirmation",
+        "passed"
+      ],
+      [
+        "NidaaUITests.IntegrationUITests",
+        "testDeviceAcknowledgementDoesNotBecomeHumanResponse",
+        "passed"
+      ],
+      [
+        "NidaaUITests.IntegrationUITests",
+        "testFreshAuthenticationAndConfirmationNeverAutoSend",
+        "passed"
+      ],
+      [
+        "NidaaUITests.IntegrationUITests",
+        "testInvitationRequiresDirectionalConsent",
+        "passed"
+      ],
+      [
+        "NidaaUITests.IntegrationUITests",
+        "testLargeArabicLayoutAndLogoutIsolation",
+        "passed"
+      ],
+      [
+        "NidaaUITests.IntegrationUITests",
+        "testRegistrationRequiresExplicitVerification",
+        "passed"
+      ],
+      [
+        "NidaaUITests.IntegrationUITests",
+        "testSelectionChangeInvalidatesConfirmation",
+        "passed"
+      ],
+      [
+        "NidaaUITests.IntegrationUITests",
+        "testUnknownOutcomeQueriesOriginalOperation",
+        "passed"
+      ]
+    ],
+    "failureLocations": [],
+    "infrastructureSignals": {
+      "runnerBootstrapFailure": false,
+      "runnerKilledBeforeTests": false,
+      "runnerEarlyExit": false,
+      "failedLaunch": false,
+      "failedInstall": false,
+      "testRunnerLost": false,
+      "timedOut": false,
+      "simulatorBootFailure": false,
+      "compileFailure": false,
+      "testFailed": false
+    },
+    "compilerDiagnostics": [],
+    "debugTestSucceeded": true,
+    "releaseBuildSucceeded": true,
+    "xcode": "Xcode 16.4\nBuild version 16F6",
+    "pickerScreenshotsEncrypted": false,
+    "rawEvidenceUploaded": false,
+    "encryptedEvidenceUploaded": false,
+    "privateEvidencePolicy": "Raw XCTest logs, recordings, full Settings/picker images and system diagnostics remain runner-private; no raw or encrypted export.",
+    "pickerDiagnosticPhases": [],
+    "screenshots": [
+      {
+        "name": "disposable-simulator-autofill-passwords-and-passkeys-on.png",
+        "originalExport": "DF2D5A18-0927-4735-B714-AED587F5DEBB.png",
+        "sha256": "ad349b1f6fe49b49c07c2fbf94fbe8a2177d769bfd05b615f1c425d57a82e9ec"
+      },
+      {
+        "name": "integration-mock-08-human-response-keeps-case-open.png",
+        "originalExport": "9C19EB85-B0CD-464C-BFBB-1E7665C367DB.png",
+        "sha256": "6aea8ef9fd5790e2f0245d88215be0c5d42f82e3098623650de45091aef6a5de"
+      },
+      {
+        "name": "integration-mock-07-acknowledged-not-responded.png",
+        "originalExport": "24939C5A-9D50-424C-9B37-D74D5774DD8B.png",
+        "sha256": "1aa81f7795d44d6a7270c79a55d62315420ea512be51e4b150a4df4d4c533045"
+      },
+      {
+        "name": "integration-mock-05-shared-outgoing.png",
+        "originalExport": "CB2C27B3-E39A-409A-A25A-305CD463F609.png",
+        "sha256": "055d3cccba76e24b3dcfc589b24cdacce2003d7f64f3bc9082ee363ee6019d74"
+      },
+      {
+        "name": "integration-mock-04-explicit-confirmation.png",
+        "originalExport": "B9F08C2A-2348-4DF2-810D-16FE383EE316.png",
+        "sha256": "f8e7d30402bf3269946434af691c3d306db69fa81409af10df17543413aad0fd"
+      },
+      {
+        "name": "integration-mock-03-directional-consent.png",
+        "originalExport": "AA344341-A372-4B61-9E8B-87C1F09FF7CC.png",
+        "sha256": "492160cc15f011d00392ccaa0f199b42fcba0c59f98de56e4b51856407f8c264"
+      },
+      {
+        "name": "integration-mock-10-large-arabic-consent.png",
+        "originalExport": "8D8E6BF2-6FCD-4688-ADC3-5A866667BB4E.png",
+        "sha256": "3a267bc61f6524319fdc345fae081628f78d6d8ef0a62ab1661114239ca6ea6f"
+      },
+      {
+        "name": "integration-mock-09-large-arabic-auth.png",
+        "originalExport": "BFD01E90-ED3F-4F12-9BF3-02C3AEFB04F1.png",
+        "sha256": "4fab69e1747132866fe3a59c1f0fb18e3001506e1cb2bc48bcaa46d5a7661594"
+      },
+      {
+        "name": "integration-mock-02-awaiting-verification.png",
+        "originalExport": "BBAF7234-7EDB-4E70-952D-E284169945B2.png",
+        "sha256": "1b8e8b08f58c722fa853c2556a626a2e9db2e179ec6ee4b16601be4b41434ca7"
+      },
+      {
+        "name": "integration-mock-01-auth-rtl.png",
+        "originalExport": "AFED6777-C44E-4285-B01A-A82F1AD3FC45.png",
+        "sha256": "bcb89619327ea0dc8ad06c5b7dc5cd27df2206f03a7f84132d794a75af146af3"
+      },
+      {
+        "name": "integration-mock-06-unknown-outcome.png",
+        "originalExport": "EA9AEC01-2274-4CBD-A0D7-962F2C60E34C.png",
+        "sha256": "355f5f2f7cad30875937c863eb693eb82a3f65540a4bd4f1ddb5a2b4333e60cc"
+      }
+    ],
+    "draftReadiness": [
+      [
+        {
+          "phase": "before_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": true,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": true,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        },
+        {
+          "phase": "after_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": false,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": false,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        }
+      ],
+      [
+        {
+          "phase": "before_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": true,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": true,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        },
+        {
+          "phase": "after_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": false,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": false,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        }
+      ],
+      [
+        {
+          "phase": "before_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": true,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": true,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        },
+        {
+          "phase": "after_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": false,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": false,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        }
+      ],
+      [
+        {
+          "phase": "before_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": true,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": true,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        },
+        {
+          "phase": "after_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": false,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": false,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        }
+      ],
+      [
+        {
+          "phase": "before_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": true,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": true,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        },
+        {
+          "phase": "after_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": false,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": false,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        }
+      ],
+      [
+        {
+          "phase": "before_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": true,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": true,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        },
+        {
+          "phase": "after_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": false,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": false,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        }
+      ],
+      [
+        {
+          "phase": "before_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": true,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": true,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        },
+        {
+          "phase": "after_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": false,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": false,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        }
+      ],
+      [
+        {
+          "phase": "before_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": true,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": true,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        },
+        {
+          "phase": "after_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": false,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": false,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        }
+      ]
+    ],
+    "revealGeometry": [],
+    "revealPresence": [],
+    "revealSurfaceState": [
+      {
+        "controlID": "integrationLogout",
+        "schemaVersion": 1,
+        "steps": [
+          {
+            "actualEnd": [],
+            "actualStart": [],
+            "appForeground": true,
+            "appFrame": [],
+            "completedDrags": 0,
+            "lastTargetFrame": [
+              39.5,
+              1990.5,
+              323,
+              157.666748046875
+            ],
+            "nodes": [],
+            "phase": "before_drag",
+            "requestedEnd": [
+              201,
+              272.5
+            ],
+            "requestedStart": [
+              201,
+              673.5
+            ],
+            "scrollExists": true,
+            "scrollNodeIndices": [],
+            "selectedScrollFrame": [],
+            "snapshotAvailable": false,
+            "snapshotComplete": false,
+            "targetExists": true,
+            "targetHittable": false,
+            "truncated": false,
+            "viewport": [
+              0,
+              72,
+              402,
+              802
+            ],
+            "windowExists": true,
+            "windowFrame": []
+          },
+          {
+            "actualEnd": [
+              201,
+              272.5
+            ],
+            "actualStart": [
+              201,
+              673.5
+            ],
+            "appForeground": true,
+            "appFrame": [
+              0,
+              0,
+              402,
+              874
+            ],
+            "completedDrags": 1,
+            "lastTargetFrame": [
+              39.5,
+              1599.5,
+              323,
+              157.6666259765625
+            ],
+            "nodes": [
+              {
+                "frame": [
+                  0,
+                  0,
+                  402,
+                  874
+                ],
+                "identifier": "",
+                "node": 0,
+                "parent": -1,
+                "role": 2
+              },
+              {
+                "frame": [
+                  0,
+                  0,
+                  402,
+                  874
+                ],
+                "identifier": "",
+                "node": 1,
+                "parent": 0,
+                "role": 4
+              },
+              {
+                "frame": [
+                  0,
+                  0,
+                  402,
+                  874
+                ],
+                "identifier": "",
+                "node": 2,
+                "parent": 1,
+                "role": 1
+              },
+              {
+                "frame": [
+                  -402,
+                  -874,
+                  1206,
+                  2622
+                ],
+                "identifier": "",
+                "node": 3,
+                "parent": 2,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 4,
+                "parent": 2,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 5,
+                "parent": 4,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 6,
+                "parent": 5,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 7,
+                "parent": 6,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 8,
+                "parent": 7,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 9,
+                "parent": 8,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  56
+                ],
+                "identifier": "",
+                "node": 10,
+                "parent": 9,
+                "role": 21
+              },
+              {
+                "frame": [
+                  335.6666666666667,
+                  82.33333333333333,
+                  50.333333333333314,
+                  35.66666666666667
+                ],
+                "identifier": "closeScreen",
+                "node": 11,
+                "parent": 10,
+                "role": 1
+              },
+              {
+                "frame": [
+                  335.6666666666667,
+                  82.33333333333333,
+                  50.333333333333314,
+                  35.66666666666667
+                ],
+                "identifier": "",
+                "node": 12,
+                "parent": 11,
+                "role": 1
+              },
+              {
+                "frame": [
+                  335.6666666666667,
+                  82.33333333333333,
+                  50.333333333333314,
+                  35.66666666666667
+                ],
+                "identifier": "closeScreen",
+                "node": 13,
+                "parent": 12,
+                "role": 9
+              },
+              {
+                "frame": [
+                  109,
+                  83.33333333333334,
+                  184,
+                  30
+                ],
+                "identifier": "",
+                "node": 14,
+                "parent": 10,
+                "role": 48
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 15,
+                "parent": 9,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 16,
+                "parent": 15,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 17,
+                "parent": 16,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 18,
+                "parent": 17,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802.0000000000002
+                ],
+                "identifier": "",
+                "node": 19,
+                "parent": 18,
+                "role": 46
+              },
+              {
+                "frame": [
+                  0,
+                  -1689.6666666666667,
+                  402,
+                  4509.666666666666
+                ],
+                "identifier": "",
+                "node": 20,
+                "parent": 19,
+                "role": 1
+              },
+              {
+                "frame": [
+                  91.33333333333337,
+                  -1667.6765950520833,
+                  288.66666666666663,
+                  148.66666666666674
+                ],
+                "identifier": "",
+                "node": 21,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  40,
+                  -1479.0098876953125,
+                  315.33331298828125,
+                  204.3333740234375
+                ],
+                "identifier": "integrationMode",
+                "node": 22,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  40,
+                  -1260.6765950520833,
+                  322,
+                  289.66666666666674
+                ],
+                "identifier": "",
+                "node": 23,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  40,
+                  -957.0099283854165,
+                  322,
+                  173.9999999999999
+                ],
+                "identifier": "",
+                "node": 24,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  40,
+                  -769.0099283854166,
+                  322,
+                  231.66666666666663
+                ],
+                "identifier": "",
+                "node": 25,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  39,
+                  -497.34326171875,
+                  341,
+                  198.33333333333326
+                ],
+                "identifier": "",
+                "node": 26,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  123.66666666666666,
+                  -277.0000000000002,
+                  256.33333333333337,
+                  91.33333333333326
+                ],
+                "identifier": "integrationSection",
+                "node": 27,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  193.66666666666669,
+                  -270.0000000000002,
+                  164.33333333333331,
+                  75.33333333333331
+                ],
+                "identifier": "",
+                "node": 28,
+                "parent": 27,
+                "role": 48
+              },
+              {
+                "frame": [
+                  199,
+                  -163.66666666666674,
+                  181,
+                  72.33333333333326
+                ],
+                "identifier": "integrationAccountTab",
+                "node": 29,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  168,
+                  -79.33333333333348,
+                  212,
+                  72.33333333333326
+                ],
+                "identifier": "integrationContactsTab",
+                "node": 30,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  197.66666666666666,
+                  4.999999999999773,
+                  182.33333333333334,
+                  72.33333333333326
+                ],
+                "identifier": "integrationAlertsTab",
+                "node": 31,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  53.66666793823242,
+                  117.32340240478516,
+                  303.66668701171875,
+                  272
+                ],
+                "identifier": "",
+                "node": 32,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  271.6666666666667,
+                  403.3234049479163,
+                  90.33333333333331,
+                  69
+                ],
+                "identifier": "",
+                "node": 33,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  56.666666666666686,
+                  486.3234049479163,
+                  305.3333333333333,
+                  405
+                ],
+                "identifier": "",
+                "node": 34,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  39.5,
+                  904.8333129882812,
+                  323,
+                  161.00006103515625
+                ],
+                "identifier": "integrationRefreshSession",
+                "node": 35,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  265,
+                  919.9999999999998,
+                  46.66666793823242,
+                  57
+                ],
+                "identifier": "",
+                "node": 36,
+                "parent": 35,
+                "role": 43
+              },
+              {
+                "frame": [
+                  85.83333587646484,
+                  918.6616821289062,
+                  225.83331298828125,
+                  136.66668701171875
+                ],
+                "identifier": "",
+                "node": 37,
+                "parent": 35,
+                "role": 48
+              },
+              {
+                "frame": [
+                  80.66666666666669,
+                  1079.3283691406248,
+                  281.3333333333333,
+                  115.33333333333348
+                ],
+                "identifier": "",
+                "node": 38,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  265.3333333333333,
+                  1202.6666666666663,
+                  96.66666666666669,
+                  77.33333333333326
+                ],
+                "identifier": "",
+                "node": 39,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  175.66666666666666,
+                  1215.3333333333333,
+                  81.66666666666666,
+                  52
+                ],
+                "identifier": "",
+                "node": 40,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  40,
+                  1202.6666666666663,
+                  127.66666666666666,
+                  77.33333333333348
+                ],
+                "identifier": "integrationNewPassword",
+                "node": 41,
+                "parent": 20,
+                "role": 50
+              },
+              {
+                "frame": [
+                  59.666666666666686,
+                  1287.9950358072917,
+                  302.3333333333333,
+                  55.333333333333485
+                ],
+                "identifier": "",
+                "node": 42,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  39.5,
+                  1356.8333740234375,
+                  323,
+                  229.6666259765625
+                ],
+                "identifier": "",
+                "node": 43,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  300.3333333333333,
+                  1371.9999999999998,
+                  35.66666793823242,
+                  66
+                ],
+                "identifier": "",
+                "node": 44,
+                "parent": 43,
+                "role": 43
+              },
+              {
+                "frame": [
+                  59.33333206176758,
+                  1371.6666259765625,
+                  276.6666564941406,
+                  204.3333740234375
+                ],
+                "identifier": "",
+                "node": 45,
+                "parent": 43,
+                "role": 48
+              },
+              {
+                "frame": [
+                  39.5,
+                  1599.5,
+                  323,
+                  157.6666259765625
+                ],
+                "identifier": "integrationLogout",
+                "node": 46,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  277.6666666666667,
+                  1614.9999999999998,
+                  66.66667175292969,
+                  56.66666793823242
+                ],
+                "identifier": "",
+                "node": 47,
+                "parent": 46,
+                "role": 43
+              },
+              {
+                "frame": [
+                  55.5,
+                  1610,
+                  288.83331298828125,
+                  136.6666259765625
+                ],
+                "identifier": "",
+                "node": 48,
+                "parent": 46,
+                "role": 48
+              },
+              {
+                "frame": [
+                  39.5,
+                  1770.1666259765625,
+                  323,
+                  225.3333740234375
+                ],
+                "identifier": "integrationRevokeAll",
+                "node": 49,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  293.99999999999994,
+                  1786.3333333333328,
+                  58.66666793823242,
+                  59.333335876464844
+                ],
+                "identifier": "",
+                "node": 50,
+                "parent": 49,
+                "role": 43
+              },
+              {
+                "frame": [
+                  50,
+                  1780.6666259765625,
+                  302.6666564941406,
+                  204.3333740234375
+                ],
+                "identifier": "",
+                "node": 51,
+                "parent": 49,
+                "role": 48
+              },
+              {
+                "frame": [
+                  40,
+                  2008.9999999999998,
+                  322,
+                  347.33333333333326
+                ],
+                "identifier": "",
+                "node": 52,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  39.5,
+                  2369.833251953125,
+                  323,
+                  228.666748046875
+                ],
+                "identifier": "",
+                "node": 53,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  272,
+                  2385,
+                  52,
+                  59
+                ],
+                "identifier": "",
+                "node": 54,
+                "parent": 53,
+                "role": 43
+              },
+              {
+                "frame": [
+                  74,
+                  2383.671630859375,
+                  250,
+                  204.333251953125
+                ],
+                "identifier": "",
+                "node": 55,
+                "parent": 53,
+                "role": 48
+              },
+              {
+                "frame": [
+                  21.5,
+                  2637.5,
+                  359,
+                  161
+                ],
+                "identifier": "",
+                "node": 56,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  296,
+                  2652.666666666666,
+                  46.66666793823242,
+                  57
+                ],
+                "identifier": "",
+                "node": 57,
+                "parent": 56,
+                "role": 43
+              },
+              {
+                "frame": [
+                  54.83333206176758,
+                  2651.34326171875,
+                  287.83331298828125,
+                  136.666748046875
+                ],
+                "identifier": "",
+                "node": 58,
+                "parent": 56,
+                "role": 48
+              },
+              {
+                "frame": [
+                  -24,
+                  128,
+                  30,
+                  693.3333333333333
+                ],
+                "identifier": "",
+                "node": 59,
+                "parent": 19,
+                "role": 1
+              },
+              {
+                "frame": [
+                  3,
+                  402.66666666666674,
+                  3,
+                  120
+                ],
+                "identifier": "",
+                "node": 60,
+                "parent": 59,
+                "role": 1
+              },
+              {
+                "frame": [
+                  -24,
+                  128,
+                  30,
+                  693.3333333333333
+                ],
+                "identifier": "",
+                "node": 61,
+                "parent": 19,
+                "role": 1
+              },
+              {
+                "frame": [
+                  3,
+                  402.66666666666674,
+                  3,
+                  120
+                ],
+                "identifier": "",
+                "node": 62,
+                "parent": 61,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  0,
+                  402,
+                  874
+                ],
+                "identifier": "",
+                "node": 63,
+                "parent": 0,
+                "role": 4
+              },
+              {
+                "frame": [
+                  0,
+                  0,
+                  402,
+                  874
+                ],
+                "identifier": "",
+                "node": 64,
+                "parent": 63,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  0,
+                  402,
+                  874
+                ],
+                "identifier": "",
+                "node": 65,
+                "parent": 64,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  874,
+                  402,
+                  233
+                ],
+                "identifier": "",
+                "node": 66,
+                "parent": 64,
+                "role": 1
+              }
+            ],
+            "phase": "before_drag",
+            "requestedEnd": [
+              201,
+              272.5
+            ],
+            "requestedStart": [
+              201,
+              673.5
+            ],
+            "scrollExists": true,
+            "scrollNodeIndices": [
+              19
+            ],
+            "selectedScrollFrame": [
+              0,
+              72,
+              402,
+              802.0000000000003
+            ],
+            "snapshotAvailable": true,
+            "snapshotComplete": true,
+            "targetExists": true,
+            "targetHittable": false,
+            "truncated": false,
+            "viewport": [
+              0,
+              72,
+              402,
+              802
+            ],
+            "windowExists": true,
+            "windowFrame": [
+              0,
+              0,
+              402,
+              874
+            ]
+          },
+          {
+            "actualEnd": [
+              201,
+              272.5
+            ],
+            "actualStart": [
+              201,
+              673.5
+            ],
+            "appForeground": true,
+            "appFrame": [
+              0,
+              0,
+              402,
+              874
+            ],
+            "completedDrags": 2,
+            "lastTargetFrame": [
+              39.5,
+              1208.5,
+              323,
+              157.6666259765625
+            ],
+            "nodes": [
+              {
+                "frame": [
+                  0,
+                  0,
+                  402,
+                  874
+                ],
+                "identifier": "",
+                "node": 0,
+                "parent": -1,
+                "role": 2
+              },
+              {
+                "frame": [
+                  0,
+                  0,
+                  402,
+                  874
+                ],
+                "identifier": "",
+                "node": 1,
+                "parent": 0,
+                "role": 4
+              },
+              {
+                "frame": [
+                  0,
+                  0,
+                  402,
+                  874
+                ],
+                "identifier": "",
+                "node": 2,
+                "parent": 1,
+                "role": 1
+              },
+              {
+                "frame": [
+                  -402,
+                  -874,
+                  1206,
+                  2622
+                ],
+                "identifier": "",
+                "node": 3,
+                "parent": 2,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 4,
+                "parent": 2,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 5,
+                "parent": 4,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 6,
+                "parent": 5,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 7,
+                "parent": 6,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 8,
+                "parent": 7,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 9,
+                "parent": 8,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  56
+                ],
+                "identifier": "",
+                "node": 10,
+                "parent": 9,
+                "role": 21
+              },
+              {
+                "frame": [
+                  335.6666666666667,
+                  82.33333333333333,
+                  50.333333333333314,
+                  35.66666666666667
+                ],
+                "identifier": "closeScreen",
+                "node": 11,
+                "parent": 10,
+                "role": 1
+              },
+              {
+                "frame": [
+                  335.6666666666667,
+                  82.33333333333333,
+                  50.333333333333314,
+                  35.66666666666667
+                ],
+                "identifier": "",
+                "node": 12,
+                "parent": 11,
+                "role": 1
+              },
+              {
+                "frame": [
+                  335.6666666666667,
+                  82.33333333333333,
+                  50.333333333333314,
+                  35.66666666666667
+                ],
+                "identifier": "closeScreen",
+                "node": 13,
+                "parent": 12,
+                "role": 9
+              },
+              {
+                "frame": [
+                  109,
+                  83.33333333333334,
+                  184,
+                  30
+                ],
+                "identifier": "",
+                "node": 14,
+                "parent": 10,
+                "role": 48
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 15,
+                "parent": 9,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 16,
+                "parent": 15,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 17,
+                "parent": 16,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 18,
+                "parent": 17,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 19,
+                "parent": 18,
+                "role": 46
+              },
+              {
+                "frame": [
+                  0,
+                  -2080.6666666666665,
+                  402,
+                  4509.666666666666
+                ],
+                "identifier": "",
+                "node": 20,
+                "parent": 19,
+                "role": 1
+              },
+              {
+                "frame": [
+                  91.33333333333337,
+                  -2058.676595052083,
+                  288.66666666666663,
+                  148.66666666666674
+                ],
+                "identifier": "",
+                "node": 21,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  40,
+                  -1870.0098876953125,
+                  315.33331298828125,
+                  204.3333740234375
+                ],
+                "identifier": "integrationMode",
+                "node": 22,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  40,
+                  -1651.676595052083,
+                  322,
+                  289.6666666666665
+                ],
+                "identifier": "",
+                "node": 23,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  40,
+                  -1348.0099283854165,
+                  322,
+                  174
+                ],
+                "identifier": "",
+                "node": 24,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  40,
+                  -1160.0099283854165,
+                  322,
+                  231.66666666666674
+                ],
+                "identifier": "",
+                "node": 25,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  39,
+                  -888.3432617187498,
+                  341,
+                  198.33333333333326
+                ],
+                "identifier": "",
+                "node": 26,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  123.66666666666666,
+                  -668,
+                  256.33333333333337,
+                  91.33333333333326
+                ],
+                "identifier": "integrationSection",
+                "node": 27,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  193.66666666666669,
+                  -661,
+                  164.33333333333331,
+                  75.33333333333337
+                ],
+                "identifier": "",
+                "node": 28,
+                "parent": 27,
+                "role": 48
+              },
+              {
+                "frame": [
+                  199,
+                  -554.6666666666665,
+                  181,
+                  72.33333333333326
+                ],
+                "identifier": "integrationAccountTab",
+                "node": 29,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  168,
+                  -470.33333333333326,
+                  212,
+                  72.33333333333326
+                ],
+                "identifier": "integrationContactsTab",
+                "node": 30,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  197.66666666666666,
+                  -386,
+                  182.33333333333334,
+                  72.33333333333326
+                ],
+                "identifier": "integrationAlertsTab",
+                "node": 31,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  53.66666793823242,
+                  -273.6766052246094,
+                  303.66668701171875,
+                  272
+                ],
+                "identifier": "",
+                "node": 32,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  271.6666666666667,
+                  12.323404947916515,
+                  90.33333333333331,
+                  69
+                ],
+                "identifier": "",
+                "node": 33,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  56.666666666666686,
+                  95.32340494791652,
+                  305.3333333333333,
+                  405
+                ],
+                "identifier": "",
+                "node": 34,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  39.5,
+                  513.8333129882812,
+                  323,
+                  161
+                ],
+                "identifier": "integrationRefreshSession",
+                "node": 35,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  265,
+                  529,
+                  46.66666793823242,
+                  57
+                ],
+                "identifier": "",
+                "node": 36,
+                "parent": 35,
+                "role": 43
+              },
+              {
+                "frame": [
+                  85.83333587646484,
+                  527.6616821289062,
+                  225.83331298828125,
+                  136.66668701171875
+                ],
+                "identifier": "",
+                "node": 37,
+                "parent": 35,
+                "role": 48
+              },
+              {
+                "frame": [
+                  80.66666666666669,
+                  688.328369140625,
+                  281.3333333333333,
+                  115.33333333333348
+                ],
+                "identifier": "",
+                "node": 38,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  265.3333333333333,
+                  811.6666666666665,
+                  96.66666666666669,
+                  77.33333333333337
+                ],
+                "identifier": "",
+                "node": 39,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  175.66666666666666,
+                  824.3333333333335,
+                  81.66666666666666,
+                  52
+                ],
+                "identifier": "",
+                "node": 40,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  40,
+                  811.6666666666665,
+                  127.66666666666666,
+                  77.33333333333348
+                ],
+                "identifier": "integrationNewPassword",
+                "node": 41,
+                "parent": 20,
+                "role": 50
+              },
+              {
+                "frame": [
+                  59.666666666666686,
+                  896.995035807292,
+                  302.3333333333333,
+                  55.333333333333485
+                ],
+                "identifier": "",
+                "node": 42,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  39.5,
+                  965.8333129882812,
+                  323,
+                  229.66668701171875
+                ],
+                "identifier": "",
+                "node": 43,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  300.3333333333333,
+                  981,
+                  35.66666793823242,
+                  66
+                ],
+                "identifier": "",
+                "node": 44,
+                "parent": 43,
+                "role": 43
+              },
+              {
+                "frame": [
+                  59.33333206176758,
+                  980.6666870117188,
+                  276.6666564941406,
+                  204.33331298828125
+                ],
+                "identifier": "",
+                "node": 45,
+                "parent": 43,
+                "role": 48
+              },
+              {
+                "frame": [
+                  39.5,
+                  1208.5,
+                  323,
+                  157.6666259765625
+                ],
+                "identifier": "integrationLogout",
+                "node": 46,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  277.6666666666667,
+                  1224,
+                  66.66667175292969,
+                  56.66666793823242
+                ],
+                "identifier": "",
+                "node": 47,
+                "parent": 46,
+                "role": 43
+              },
+              {
+                "frame": [
+                  55.5,
+                  1219,
+                  288.83331298828125,
+                  136.6666259765625
+                ],
+                "identifier": "",
+                "node": 48,
+                "parent": 46,
+                "role": 48
+              },
+              {
+                "frame": [
+                  39.5,
+                  1379.1666259765625,
+                  323,
+                  225.3333740234375
+                ],
+                "identifier": "integrationRevokeAll",
+                "node": 49,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  293.99999999999994,
+                  1395.333333333333,
+                  58.66666793823242,
+                  59.333335876464844
+                ],
+                "identifier": "",
+                "node": 50,
+                "parent": 49,
+                "role": 43
+              },
+              {
+                "frame": [
+                  50,
+                  1389.6666259765625,
+                  302.6666564941406,
+                  204.3333740234375
+                ],
+                "identifier": "",
+                "node": 51,
+                "parent": 49,
+                "role": 48
+              },
+              {
+                "frame": [
+                  40,
+                  1618,
+                  322,
+                  347.3333333333335
+                ],
+                "identifier": "",
+                "node": 52,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  39.5,
+                  1978.8333740234375,
+                  323,
+                  228.6666259765625
+                ],
+                "identifier": "",
+                "node": 53,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  272,
+                  1994,
+                  52,
+                  59.000000000000455
+                ],
+                "identifier": "",
+                "node": 54,
+                "parent": 53,
+                "role": 43
+              },
+              {
+                "frame": [
+                  74,
+                  1992.671630859375,
+                  250,
+                  204.333251953125
+                ],
+                "identifier": "",
+                "node": 55,
+                "parent": 53,
+                "role": 48
+              },
+              {
+                "frame": [
+                  21.5,
+                  2246.5,
+                  359,
+                  161
+                ],
+                "identifier": "",
+                "node": 56,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  296,
+                  2261.6666666666665,
+                  46.66666793823242,
+                  57
+                ],
+                "identifier": "",
+                "node": 57,
+                "parent": 56,
+                "role": 43
+              },
+              {
+                "frame": [
+                  54.83333206176758,
+                  2260.34326171875,
+                  287.83331298828125,
+                  136.666748046875
+                ],
+                "identifier": "",
+                "node": 58,
+                "parent": 56,
+                "role": 48
+              },
+              {
+                "frame": [
+                  -24,
+                  128,
+                  30,
+                  693.3333333333335
+                ],
+                "identifier": "",
+                "node": 59,
+                "parent": 19,
+                "role": 1
+              },
+              {
+                "frame": [
+                  3,
+                  461,
+                  3,
+                  120
+                ],
+                "identifier": "",
+                "node": 60,
+                "parent": 59,
+                "role": 1
+              },
+              {
+                "frame": [
+                  -24,
+                  128,
+                  30,
+                  693.3333333333335
+                ],
+                "identifier": "",
+                "node": 61,
+                "parent": 19,
+                "role": 1
+              },
+              {
+                "frame": [
+                  3,
+                  461,
+                  3,
+                  120
+                ],
+                "identifier": "",
+                "node": 62,
+                "parent": 61,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  0,
+                  402,
+                  874
+                ],
+                "identifier": "",
+                "node": 63,
+                "parent": 0,
+                "role": 4
+              },
+              {
+                "frame": [
+                  0,
+                  0,
+                  402,
+                  874
+                ],
+                "identifier": "",
+                "node": 64,
+                "parent": 63,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  0,
+                  402,
+                  874
+                ],
+                "identifier": "",
+                "node": 65,
+                "parent": 64,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  874,
+                  402,
+                  233
+                ],
+                "identifier": "",
+                "node": 66,
+                "parent": 64,
+                "role": 1
+              }
+            ],
+            "phase": "before_drag",
+            "requestedEnd": [
+              201,
+              272.5
+            ],
+            "requestedStart": [
+              201,
+              673.5
+            ],
+            "scrollExists": true,
+            "scrollNodeIndices": [
+              19
+            ],
+            "selectedScrollFrame": [
+              0,
+              72,
+              402,
+              802
+            ],
+            "snapshotAvailable": true,
+            "snapshotComplete": true,
+            "targetExists": true,
+            "targetHittable": false,
+            "truncated": false,
+            "viewport": [
+              0,
+              72,
+              402,
+              802
+            ],
+            "windowExists": true,
+            "windowFrame": [
+              0,
+              0,
+              402,
+              874
+            ]
+          },
+          {
+            "actualEnd": [],
+            "actualStart": [],
+            "appForeground": true,
+            "appFrame": [
+              0,
+              0,
+              402,
+              874
+            ],
+            "completedDrags": 3,
+            "lastTargetFrame": [
+              39.5,
+              1208.5,
+              323,
+              157.6666259765625
+            ],
+            "nodes": [
+              {
+                "frame": [
+                  0,
+                  0,
+                  402,
+                  874
+                ],
+                "identifier": "",
+                "node": 0,
+                "parent": -1,
+                "role": 2
+              },
+              {
+                "frame": [
+                  0,
+                  0,
+                  402,
+                  874
+                ],
+                "identifier": "",
+                "node": 1,
+                "parent": 0,
+                "role": 4
+              },
+              {
+                "frame": [
+                  0,
+                  0,
+                  402,
+                  874
+                ],
+                "identifier": "",
+                "node": 2,
+                "parent": 1,
+                "role": 1
+              },
+              {
+                "frame": [
+                  -402,
+                  -874,
+                  1206,
+                  2622
+                ],
+                "identifier": "",
+                "node": 3,
+                "parent": 2,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 4,
+                "parent": 2,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 5,
+                "parent": 4,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 6,
+                "parent": 5,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 7,
+                "parent": 6,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 8,
+                "parent": 7,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 9,
+                "parent": 8,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  56
+                ],
+                "identifier": "",
+                "node": 10,
+                "parent": 9,
+                "role": 21
+              },
+              {
+                "frame": [
+                  335.6666666666667,
+                  82.33333333333333,
+                  50.333333333333314,
+                  35.66666666666667
+                ],
+                "identifier": "closeScreen",
+                "node": 11,
+                "parent": 10,
+                "role": 1
+              },
+              {
+                "frame": [
+                  335.6666666666667,
+                  82.33333333333333,
+                  50.333333333333314,
+                  35.66666666666667
+                ],
+                "identifier": "",
+                "node": 12,
+                "parent": 11,
+                "role": 1
+              },
+              {
+                "frame": [
+                  335.6666666666667,
+                  82.33333333333333,
+                  50.333333333333314,
+                  35.66666666666667
+                ],
+                "identifier": "closeScreen",
+                "node": 13,
+                "parent": 12,
+                "role": 9
+              },
+              {
+                "frame": [
+                  109,
+                  83.33333333333334,
+                  184,
+                  30
+                ],
+                "identifier": "",
+                "node": 14,
+                "parent": 10,
+                "role": 48
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 15,
+                "parent": 9,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 16,
+                "parent": 15,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 17,
+                "parent": 16,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 18,
+                "parent": 17,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  72,
+                  402,
+                  802
+                ],
+                "identifier": "",
+                "node": 19,
+                "parent": 18,
+                "role": 46
+              },
+              {
+                "frame": [
+                  0,
+                  -2471.6666666666665,
+                  402,
+                  4509.666666666666
+                ],
+                "identifier": "",
+                "node": 20,
+                "parent": 19,
+                "role": 1
+              },
+              {
+                "frame": [
+                  91.33333333333337,
+                  -2449.676595052083,
+                  288.66666666666663,
+                  148.66666666666652
+                ],
+                "identifier": "",
+                "node": 21,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  40,
+                  -2261.010009765625,
+                  315.33331298828125,
+                  204.333251953125
+                ],
+                "identifier": "integrationMode",
+                "node": 22,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  40,
+                  -2042.676595052083,
+                  322,
+                  289.6666666666665
+                ],
+                "identifier": "",
+                "node": 23,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  40,
+                  -1739.0099283854165,
+                  322,
+                  174
+                ],
+                "identifier": "",
+                "node": 24,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  40,
+                  -1551.0099283854165,
+                  322,
+                  231.66666666666674
+                ],
+                "identifier": "",
+                "node": 25,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  36.666666666666686,
+                  -1279.3432617187498,
+                  343.3333333333333,
+                  198.33333333333326
+                ],
+                "identifier": "",
+                "node": 26,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  123.66666666666666,
+                  -1059,
+                  256.33333333333337,
+                  91.33333333333326
+                ],
+                "identifier": "integrationSection",
+                "node": 27,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  193.66666666666669,
+                  -1052,
+                  164.33333333333331,
+                  75.33333333333337
+                ],
+                "identifier": "",
+                "node": 28,
+                "parent": 27,
+                "role": 48
+              },
+              {
+                "frame": [
+                  199,
+                  -945.6666666666665,
+                  181,
+                  72.33333333333326
+                ],
+                "identifier": "integrationAccountTab",
+                "node": 29,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  168,
+                  -861.3333333333333,
+                  212,
+                  72.33333333333326
+                ],
+                "identifier": "integrationContactsTab",
+                "node": 30,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  197.66666666666666,
+                  -777,
+                  182.33333333333334,
+                  72.33333333333326
+                ],
+                "identifier": "integrationAlertsTab",
+                "node": 31,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  53.66666793823242,
+                  -664.6765747070312,
+                  303.66668701171875,
+                  272
+                ],
+                "identifier": "",
+                "node": 32,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  271.6666666666667,
+                  -378.6765950520835,
+                  90.33333333333331,
+                  69
+                ],
+                "identifier": "",
+                "node": 33,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  56.666666666666686,
+                  -295.6765950520835,
+                  305.3333333333333,
+                  405
+                ],
+                "identifier": "",
+                "node": 34,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  39.5,
+                  122.83333587646484,
+                  323,
+                  161
+                ],
+                "identifier": "integrationRefreshSession",
+                "node": 35,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  265,
+                  138,
+                  46.66666793823242,
+                  57
+                ],
+                "identifier": "",
+                "node": 36,
+                "parent": 35,
+                "role": 43
+              },
+              {
+                "frame": [
+                  85.83333587646484,
+                  136.6616973876953,
+                  225.83331298828125,
+                  136.6666717529297
+                ],
+                "identifier": "",
+                "node": 37,
+                "parent": 35,
+                "role": 48
+              },
+              {
+                "frame": [
+                  80.66666666666669,
+                  297.328369140625,
+                  281.3333333333333,
+                  115.33333333333348
+                ],
+                "identifier": "",
+                "node": 38,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  265.3333333333333,
+                  420.6666666666665,
+                  96.66666666666669,
+                  77.33333333333331
+                ],
+                "identifier": "",
+                "node": 39,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  175.66666666666666,
+                  433.3333333333335,
+                  81.66666666666666,
+                  52
+                ],
+                "identifier": "",
+                "node": 40,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  40,
+                  420.6666666666665,
+                  127.66666666666666,
+                  77.33333333333348
+                ],
+                "identifier": "integrationNewPassword",
+                "node": 41,
+                "parent": 20,
+                "role": 50
+              },
+              {
+                "frame": [
+                  59.666666666666686,
+                  505.99503580729197,
+                  302.3333333333333,
+                  55.333333333333485
+                ],
+                "identifier": "",
+                "node": 42,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  39.5,
+                  574.8333129882812,
+                  323,
+                  229.66668701171875
+                ],
+                "identifier": "",
+                "node": 43,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  300.3333333333333,
+                  590,
+                  35.66666793823242,
+                  66
+                ],
+                "identifier": "",
+                "node": 44,
+                "parent": 43,
+                "role": 43
+              },
+              {
+                "frame": [
+                  59.33333206176758,
+                  589.6666870117188,
+                  276.6666564941406,
+                  204.33331298828125
+                ],
+                "identifier": "",
+                "node": 45,
+                "parent": 43,
+                "role": 48
+              },
+              {
+                "frame": [
+                  39.5,
+                  817.5,
+                  323,
+                  157.66668701171875
+                ],
+                "identifier": "integrationLogout",
+                "node": 46,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  277.6666666666667,
+                  833,
+                  66.66667175292969,
+                  56.66666793823242
+                ],
+                "identifier": "",
+                "node": 47,
+                "parent": 46,
+                "role": 43
+              },
+              {
+                "frame": [
+                  55.5,
+                  828,
+                  288.83331298828125,
+                  136.66668701171875
+                ],
+                "identifier": "",
+                "node": 48,
+                "parent": 46,
+                "role": 48
+              },
+              {
+                "frame": [
+                  39.5,
+                  988.1666870117188,
+                  323,
+                  225.33331298828125
+                ],
+                "identifier": "integrationRevokeAll",
+                "node": 49,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  293.99999999999994,
+                  1004.333333333333,
+                  58.66666793823242,
+                  59.333335876464844
+                ],
+                "identifier": "",
+                "node": 50,
+                "parent": 49,
+                "role": 43
+              },
+              {
+                "frame": [
+                  50,
+                  998.6666870117188,
+                  302.6666564941406,
+                  204.33331298828125
+                ],
+                "identifier": "",
+                "node": 51,
+                "parent": 49,
+                "role": 48
+              },
+              {
+                "frame": [
+                  40,
+                  1227,
+                  322,
+                  347.3333333333335
+                ],
+                "identifier": "",
+                "node": 52,
+                "parent": 20,
+                "role": 48
+              },
+              {
+                "frame": [
+                  39.5,
+                  1587.8333740234375,
+                  323,
+                  228.6666259765625
+                ],
+                "identifier": "",
+                "node": 53,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  272,
+                  1603,
+                  52,
+                  59.000000000000455
+                ],
+                "identifier": "",
+                "node": 54,
+                "parent": 53,
+                "role": 43
+              },
+              {
+                "frame": [
+                  74,
+                  1601.671630859375,
+                  250,
+                  204.3333740234375
+                ],
+                "identifier": "",
+                "node": 55,
+                "parent": 53,
+                "role": 48
+              },
+              {
+                "frame": [
+                  21.5,
+                  1855.5,
+                  359,
+                  161
+                ],
+                "identifier": "",
+                "node": 56,
+                "parent": 20,
+                "role": 9
+              },
+              {
+                "frame": [
+                  296,
+                  1870.6666666666665,
+                  46.66666793823242,
+                  57
+                ],
+                "identifier": "",
+                "node": 57,
+                "parent": 56,
+                "role": 43
+              },
+              {
+                "frame": [
+                  54.83333206176758,
+                  1869.34326171875,
+                  287.83331298828125,
+                  136.6666259765625
+                ],
+                "identifier": "",
+                "node": 58,
+                "parent": 56,
+                "role": 48
+              },
+              {
+                "frame": [
+                  -24,
+                  128,
+                  30,
+                  693.3333333333335
+                ],
+                "identifier": "",
+                "node": 59,
+                "parent": 19,
+                "role": 1
+              },
+              {
+                "frame": [
+                  3,
+                  519.3333333333335,
+                  3,
+                  120
+                ],
+                "identifier": "",
+                "node": 60,
+                "parent": 59,
+                "role": 1
+              },
+              {
+                "frame": [
+                  -24,
+                  128,
+                  30,
+                  693.3333333333335
+                ],
+                "identifier": "",
+                "node": 61,
+                "parent": 19,
+                "role": 1
+              },
+              {
+                "frame": [
+                  3,
+                  519.3333333333335,
+                  3,
+                  120
+                ],
+                "identifier": "",
+                "node": 62,
+                "parent": 61,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  0,
+                  402,
+                  874
+                ],
+                "identifier": "",
+                "node": 63,
+                "parent": 0,
+                "role": 4
+              },
+              {
+                "frame": [
+                  0,
+                  0,
+                  402,
+                  874
+                ],
+                "identifier": "",
+                "node": 64,
+                "parent": 63,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  0,
+                  402,
+                  874
+                ],
+                "identifier": "",
+                "node": 65,
+                "parent": 64,
+                "role": 1
+              },
+              {
+                "frame": [
+                  0,
+                  874,
+                  402,
+                  233
+                ],
+                "identifier": "",
+                "node": 66,
+                "parent": 64,
+                "role": 1
+              }
+            ],
+            "phase": "finished",
+            "requestedEnd": [],
+            "requestedStart": [],
+            "scrollExists": true,
+            "scrollNodeIndices": [
+              19
+            ],
+            "selectedScrollFrame": [
+              0,
+              72,
+              402,
+              802
+            ],
+            "snapshotAvailable": true,
+            "snapshotComplete": true,
+            "targetExists": true,
+            "targetHittable": true,
+            "truncated": false,
+            "viewport": [
+              0,
+              72,
+              402,
+              802
+            ],
+            "windowExists": true,
+            "windowFrame": [
+              0,
+              0,
+              402,
+              874
+            ]
+          }
+        ]
+      }
+    ],
+    "revealSurfaceExports": {
+      "accepted": 4,
+      "rejected": 0
+    },
+    "nativeFormReadiness": []
+  },
+  "nativeBackend": "Not connected; local simulation or MOCK",
+  "physicalDevice": "Not tested",
+  "historicalFailure": {
+    "commit": "710376d4bf1c95d1a27bdd5a9dd123aa25c287bf",
+    "run": 36559755316,
+    "evidence": "../incidental-710376d/mock.json",
+    "total": 8,
+    "passed": 7,
+    "failed": 1,
+    "skipped": 0,
+    "preserved": true,
+    "note": "This source-bound result preserves earlier failures and does not establish their sole cause."
+  },
+  "navigationAnalysis": {
+    "failureReproduced": false,
+    "recoveryExercised": false,
+    "acceptedCheckpoints": 4,
+    "rejectedCheckpoints": 0,
+    "completeFinalCheckpoint": true,
+    "firstCheckpointDeliberatelyUnknown": true,
+    "steps": [
+      {
+        "phase": "before_drag",
+        "completedDrags": 0,
+        "snapshotState": "Intentionally not observed",
+        "loopObservedTargetFrame": [
+          39.5,
+          1990.5,
+          323,
+          157.666748046875
+        ],
+        "loopObservedTargetExists": true
+      },
+      {
+        "phase": "before_drag",
+        "completedDrags": 1,
+        "snapshotState": "Complete",
+        "nodeCount": 67,
+        "snapshotTargetFrame": [
+          39.5,
+          1599.5,
+          323,
+          157.6666259765625
+        ],
+        "targetHittable": false,
+        "navigationControls": [
+          {
+            "identifier": "integrationAccountTab",
+            "frame": [
+              199,
+              -163.66666666666674,
+              181,
+              72.33333333333326
+            ],
+            "role": 9
+          },
+          {
+            "identifier": "integrationContactsTab",
+            "frame": [
+              168,
+              -79.33333333333348,
+              212,
+              72.33333333333326
+            ],
+            "role": 9
+          },
+          {
+            "identifier": "integrationAlertsTab",
+            "frame": [
+              197.66666666666666,
+              4.999999999999773,
+              182.33333333333334,
+              72.33333333333326
+            ],
+            "role": 9
+          }
+        ],
+        "observedIdentifiers": [
+          "closeScreen",
+          "integrationAccountTab",
+          "integrationAlertsTab",
+          "integrationContactsTab",
+          "integrationLogout",
+          "integrationMode",
+          "integrationNewPassword",
+          "integrationRefreshSession",
+          "integrationRevokeAll",
+          "integrationSection"
+        ]
+      },
+      {
+        "phase": "before_drag",
+        "completedDrags": 2,
+        "snapshotState": "Complete",
+        "nodeCount": 67,
+        "snapshotTargetFrame": [
+          39.5,
+          1208.5,
+          323,
+          157.6666259765625
+        ],
+        "targetHittable": false,
+        "navigationControls": [
+          {
+            "identifier": "integrationAccountTab",
+            "frame": [
+              199,
+              -554.6666666666665,
+              181,
+              72.33333333333326
+            ],
+            "role": 9
+          },
+          {
+            "identifier": "integrationContactsTab",
+            "frame": [
+              168,
+              -470.33333333333326,
+              212,
+              72.33333333333326
+            ],
+            "role": 9
+          },
+          {
+            "identifier": "integrationAlertsTab",
+            "frame": [
+              197.66666666666666,
+              -386,
+              182.33333333333334,
+              72.33333333333326
+            ],
+            "role": 9
+          }
+        ],
+        "observedIdentifiers": [
+          "closeScreen",
+          "integrationAccountTab",
+          "integrationAlertsTab",
+          "integrationContactsTab",
+          "integrationLogout",
+          "integrationMode",
+          "integrationNewPassword",
+          "integrationRefreshSession",
+          "integrationRevokeAll",
+          "integrationSection"
+        ]
+      },
+      {
+        "phase": "finished",
+        "completedDrags": 3,
+        "snapshotState": "Complete",
+        "nodeCount": 67,
+        "snapshotTargetFrame": [
+          39.5,
+          817.5,
+          323,
+          157.66668701171875
+        ],
+        "targetHittable": true,
+        "navigationControls": [
+          {
+            "identifier": "integrationAccountTab",
+            "frame": [
+              199,
+              -945.6666666666665,
+              181,
+              72.33333333333326
+            ],
+            "role": 9
+          },
+          {
+            "identifier": "integrationContactsTab",
+            "frame": [
+              168,
+              -861.3333333333333,
+              212,
+              72.33333333333326
+            ],
+            "role": 9
+          },
+          {
+            "identifier": "integrationAlertsTab",
+            "frame": [
+              197.66666666666666,
+              -777,
+              182.33333333333334,
+              72.33333333333326
+            ],
+            "role": 9
+          }
+        ],
+        "observedIdentifiers": [
+          "closeScreen",
+          "integrationAccountTab",
+          "integrationAlertsTab",
+          "integrationContactsTab",
+          "integrationLogout",
+          "integrationMode",
+          "integrationNewPassword",
+          "integrationRefreshSession",
+          "integrationRevokeAll",
+          "integrationSection"
+        ]
+      }
+    ],
+    "observations": [
+      "All original eight MOCK tests passed; no target absence was recorded.",
+      "The first checkpoint intentionally omits a snapshot and coordinate resolution. Its empty nodes do not establish any control absence; loop data still reports target existence and y1990.5.",
+      "Subsequent complete snapshots retain account-specific refresh-session, new-password, logout and revoke-all controls. No login/consent marker replaces them.",
+      "One scroll surface remains. Logout y1599.5→1208.5→817.5 is present throughout observed snapshots and becomes hittable after three drags.",
+      "On later observed drags, actual screenPoints equal requested (201,673.5)→(201,272.5). First actual coordinates are unobserved."
+    ],
+    "limits": [
+      "The failure did not reproduce after removing the pre-first-drag snapshot. This does not establish or eliminate every observer effect.",
+      "Initial target positions differ among runs; no uniform166-point shift or initial navigation-control position is inferred.",
+      "Shared navigation identifiers alone do not establish page selection; account-specific controls provide the page evidence here.",
+      "No full failing snapshot exists to establish prior page change, wrong scroll, or accessibility query loss.",
+      "Primarye6 failed cohort remains separate; this diagnostic pass cannot substitute for it."
+    ]
+  }
+}

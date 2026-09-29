@@ -77,6 +77,10 @@ Minimum continuation environment: a Mac/Xcode16.4+ with an installed Simulator, 
 
 ## Separate evidence is not native runtime success
 
+Later read-only inspection of the standard `macos-15-intel` runner at `569fbe03c072494130baad40fe2875947d5b4773`, [run36557137468](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36557137468), established macOS15.7.9 x86_64, `kern.hv_support=1` and `VZVirtualMachine.isSupported=true`. The first VZ helper compilation failed without a captured cause; selecting the installed macOS SDK and explicitly linking the framework produced a successful query. Docker/Colima/Podman/QEMU commands were absent. [Fixed report](evidence/intel-host-capability/36557137468.json). This corrects any inference that the ARM runner's unsupported Virtualization result applies to every available host.
+
+No VM/container, backend, credentials or socket test was started in that inspection. Framework capability does not establish a booted VM or any replacement mechanism satisfying the existing14-check isolation contract. A VM alone is not credited as policy denial of wildcard bind/listen. The failed Seatbelt policy was not rerun on speculation or relaxed. Native real-backend E2E remains unexecuted while a compliant runtime mechanism is unverified.
+
 The isolated Linux backend/client gates passed at `966f80a` and `ea63b0f`: 55 backend tests, 45 reference checks, 13 QA checks, 24 Swift-client tests and the live official Auth SDK journey. The existing local UI baseline passed all 17 tests and Debug/Release at `966f80a`. Neither result establishes this native service bootstrap or real native UI/backend execution.
 
 Atd6f65ec the three functional AutoFill-On cases and all8 MOCK integration cases passed. The remaining source-bound UI results are in [current coverage](COVERAGE.md). They do not justify repeating the unchanged native isolation gate and do not establish native UI/backend success.

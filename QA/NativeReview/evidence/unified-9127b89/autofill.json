@@ -1,0 +1,670 @@
+{
+  "commit": "9127b89e3cdcbaa48de965b50679ab29e945a874",
+  "run": 36545822792,
+  "attempt": 1,
+  "job": 109331830276,
+  "artifact": 11022659277,
+  "artifactSHA256": "c40ff6960f7564cc6ede73f5acde2f4cbfbd3488089d3527188cb01b79611546",
+  "source": {
+    "commit": "9127b89e3cdcbaa48de965b50679ab29e945a874",
+    "eventCommit": "9127b89e3cdcbaa48de965b50679ab29e945a874",
+    "run": "36545822792",
+    "attempt": "1",
+    "workflow": "NIDAA - Native integration environment and review",
+    "runnerOS": "macOS",
+    "runnerArchitecture": "ARM64"
+  },
+  "groups": [
+    {
+      "scope": "IntegrationClient/Tests",
+      "total": 24,
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0,
+      "cases": [
+        [
+          "NidaaIntegrationTests.ClientReviewRegressionTests",
+          "testCorruptPendingStorageCannotPublishAuthenticatedAccount",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientReviewRegressionTests",
+          "testDomainRevocationClearsPreviouslyFetchedAccountData",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientReviewRegressionTests",
+          "testMismatchedPendingOwnerCannotPublishAuthenticatedAccount",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientReviewRegressionTests",
+          "testRevokedRefreshClearsCacheButRetainsUnknownForReauthentication",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientReviewRegressionTests",
+          "testUnrecognizedLookupStatusCannotReleaseUnknownOperation",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testAccountSwitchClearsOtherAccountsPendingAndCachedDetails",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testDelayedOldAuthCannotOverwriteNewSessionsStorage",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testDelayedOldCommandResponseCannotMutateNewAccount",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testDelayedOldSyncCannotRepopulateAfterSameAccountRelogin",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testLogoutWipesBeforeAwaitingServerAndOfflineLogoutIsHonest",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testMalformedOrMismatchedReceiptStaysUnknown",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testNeverSentDraftAndReconnectDoNotDispatch",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testOutOfOrderSnapshotCannotReopenTerminalAlert",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testSecurePendingWriteFailurePreventsPost",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testStaleDraftRemainsNeverSentWithoutNetworkMutation",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testTombstonesRemoveDetailsAndPartialSnapshotFailsClosed",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testTransportFailureRetainsUnknownAndSameOperationLookupOnly",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testUnknownReceipt404CannotBecomeNeverSentOrBeDiscarded",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testUnknownStateSurvivesSameAccountReauthenticationWithoutResend",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.ClientSafetyTests",
+          "testVerificationAccountSwitchRejectsPreviousAccountsDelayedSync",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.StorageBoundaryTests",
+          "testClearingAuthPreservesUncertainPendingReceiptForReauthentication",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.StorageBoundaryTests",
+          "testClearingOneEnvironmentDoesNotClearAnotherEnvironment",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.StorageBoundaryTests",
+          "testEnvironmentRejectsExternalCredentialsQueriesAndPaths",
+          "passed"
+        ],
+        [
+          "NidaaIntegrationTests.StorageBoundaryTests",
+          "testInvalidatedAuthCallbackCannotRecreateCredentials",
+          "passed"
+        ]
+      ],
+      "intendedCaseNamesMatched": true
+    },
+    {
+      "scope": "autofill",
+      "total": 4,
+      "passed": 3,
+      "failed": 1,
+      "skipped": 0,
+      "cases": [
+        [
+          "NidaaUITests.AutoFillUITests",
+          "testEnabledManualRegistrationAndFieldNavigation",
+          "passed"
+        ],
+        [
+          "NidaaUITests.AutoFillUITests",
+          "testEnabledPasteLoginAndRecovery",
+          "passed"
+        ],
+        [
+          "NidaaUITests.AutoFillUITests",
+          "testEnabledVisibilityUsesOnlyNonCredentialDemonstration",
+          "passed"
+        ],
+        [
+          "NidaaUITests.AutoFillUITests",
+          "testSavedCredentialSelection",
+          "failed"
+        ]
+      ],
+      "intendedCaseNamesMatched": true
+    }
+  ],
+  "debugBuildSucceeded": true,
+  "releaseBuildSucceeded": true,
+  "result": {
+    "suite": "autofill",
+    "exitCode": 65,
+    "commit": "9127b89e3cdcbaa48de965b50679ab29e945a874",
+    "run": "36545822792",
+    "attempt": "1",
+    "scope": "MOCK network with native AutoFill enabled",
+    "rawEvidence": "Private XCTest logs/xcresult/recordings excluded from publication",
+    "physicalDevice": "Not tested",
+    "savedCredentialSelection": "failed",
+    "summary": {
+      "result": "Failed",
+      "totalTestCount": 4,
+      "passedTests": 3,
+      "failedTests": 1,
+      "skippedTests": 0,
+      "expectedFailures": 0,
+      "startTime": 1790672508.545,
+      "finishTime": 1790673009.316,
+      "devicesAndConfigurations": [
+        {
+          "device": {
+            "architecture": "arm64",
+            "deviceId": "071AB5B7-DA7E-416F-839D-348F15C9F9C5",
+            "deviceName": "NIDAA-Disposable-BCC07F76-A137-4B92-9589-7B51D276E9E4",
+            "modelName": "iPhone 16 Pro",
+            "osBuildNumber": "22F77",
+            "osVersion": "18.5",
+            "platform": "iOS Simulator"
+          },
+          "expectedFailures": 0,
+          "failedTests": 1,
+          "passedTests": 3,
+          "skippedTests": 0,
+          "testPlanConfiguration": {
+            "configurationId": "1",
+            "configurationName": "Test Scheme Action"
+          }
+        }
+      ],
+      "environmentDescription": "NidaaProof-Local \u00b7 Built with macOS 15.7.9"
+    },
+    "failedTestIdentifiers": [
+      "AutoFillUITests/testSavedCredentialSelection()"
+    ],
+    "testCaseResults": [
+      [
+        "NidaaUITests.AutoFillUITests",
+        "testEnabledManualRegistrationAndFieldNavigation",
+        "passed"
+      ],
+      [
+        "NidaaUITests.AutoFillUITests",
+        "testEnabledPasteLoginAndRecovery",
+        "passed"
+      ],
+      [
+        "NidaaUITests.AutoFillUITests",
+        "testEnabledVisibilityUsesOnlyNonCredentialDemonstration",
+        "passed"
+      ],
+      [
+        "NidaaUITests.AutoFillUITests",
+        "testSavedCredentialSelection",
+        "failed"
+      ]
+    ],
+    "failureLocations": [
+      [
+        "AutoFillUITests.swift",
+        "176"
+      ]
+    ],
+    "infrastructureSignals": {
+      "runnerBootstrapFailure": false,
+      "runnerKilledBeforeTests": false,
+      "runnerEarlyExit": false,
+      "failedLaunch": false,
+      "failedInstall": false,
+      "testRunnerLost": false,
+      "timedOut": false,
+      "simulatorBootFailure": false,
+      "compileFailure": false,
+      "testFailed": true
+    },
+    "compilerDiagnostics": [],
+    "debugTestSucceeded": false,
+    "releaseBuildSucceeded": true,
+    "xcode": "Xcode 16.4\nBuild version 16F6",
+    "nativeProviderGeometry": {
+      "rows": [
+        {
+          "control": "global_switch",
+          "enabled": true,
+          "exists": true,
+          "frame": [
+            20,
+            135.33333333333331,
+            362,
+            44.00000000000003
+          ],
+          "hittable": true,
+          "runnerContains": false,
+          "selected": false,
+          "sizeEligible": true,
+          "valueKnown": true,
+          "windowContains": true
+        },
+        {
+          "control": "provider_switch",
+          "enabled": false,
+          "exists": false,
+          "frame": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hittable": false,
+          "runnerContains": false,
+          "selected": false,
+          "sizeEligible": false,
+          "valueKnown": false,
+          "windowContains": false
+        },
+        {
+          "control": "provider_cell",
+          "enabled": false,
+          "exists": true,
+          "frame": [
+            20,
+            283.6666666666667,
+            362,
+            58.66666666666663
+          ],
+          "hittable": true,
+          "runnerContains": false,
+          "selected": false,
+          "sizeEligible": true,
+          "valueKnown": false,
+          "windowContains": true
+        },
+        {
+          "control": "provider_button",
+          "enabled": false,
+          "exists": false,
+          "frame": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hittable": false,
+          "runnerContains": false,
+          "selected": false,
+          "sizeEligible": false,
+          "valueKnown": false,
+          "windowContains": false
+        },
+        {
+          "control": "provider_text",
+          "enabled": false,
+          "exists": true,
+          "frame": [
+            77,
+            294.6666666666667,
+            82,
+            20.333333333333314
+          ],
+          "hittable": true,
+          "runnerContains": true,
+          "selected": false,
+          "sizeEligible": true,
+          "valueKnown": false,
+          "windowContains": true
+        },
+        {
+          "control": "provider_row_switch",
+          "enabled": false,
+          "exists": false,
+          "frame": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "hittable": false,
+          "runnerContains": false,
+          "selected": false,
+          "sizeEligible": false,
+          "valueKnown": false,
+          "windowContains": false
+        }
+      ],
+      "runnerFrame": [
+        0,
+        0,
+        320,
+        480
+      ],
+      "windowFrame": [
+        0,
+        0,
+        402,
+        874
+      ]
+    },
+    "nativeProviderState": {
+      "globalEnabled": true,
+      "globalEnabledKnown": true,
+      "providerControlObserved": true,
+      "providerEnabled": false,
+      "providerEnabledKnown": false
+    },
+    "nativePickerState": {
+      "appForeground": true,
+      "appSavedIdentityVisible": false,
+      "passwordsForeground": false,
+      "passwordsSavedIdentityVisible": false,
+      "springboardForeground": true,
+      "springboardSavedIdentityVisible": false
+    },
+    "savedEntryPersistence": {
+      "allListOpened": true,
+      "passwordsForeground": true,
+      "persistedEntryFound": true
+    },
+    "nativeFormRoleGeometry": {
+      "controls": [
+        {
+          "frame": [
+            20,
+            163,
+            362,
+            86
+          ],
+          "hittable": true,
+          "role": "textField"
+        },
+        {
+          "frame": [
+            133.33333333333331,
+            260,
+            228.66666666666669,
+            22
+          ],
+          "hittable": true,
+          "role": "textField"
+        },
+        {
+          "frame": [
+            121.33333333333333,
+            304,
+            240.66666666666669,
+            22
+          ],
+          "hittable": true,
+          "role": "textField"
+        },
+        {
+          "frame": [
+            40,
+            404.3333333333333,
+            322,
+            64.33333333333337
+          ],
+          "hittable": true,
+          "role": "textField"
+        }
+      ],
+      "passwordLabelFound": true,
+      "userLabelFound": true,
+      "usernameFound": true,
+      "websiteFound": true
+    },
+    "pickerScreenshotsEncrypted": true,
+    "sealedPickerScreenshots": [
+      {
+        "name": "autofill-native-provider-settings-screen.png",
+        "originalExport": "89D008AB-4287-4629-B052-74E0689AB8F8.png",
+        "sha256": "0abc0355fd03319f36b9d276a16dfb785bfbbe045c7d4ed3556fdbbbc2891caa",
+        "redacted": false,
+        "scope": "Disposable Settings fixture; encrypted pending local review"
+      },
+      {
+        "name": "autofill-native-picker-full-screen-redacted-selection-failure.png",
+        "originalExport": "81153196-7CD7-4177-A07C-73D6C6E0BB80.png",
+        "sha256": "ec4b23c9bf09e39c6f81c2e4f2d0d93a8826485d718fc11993a4bff3d2cccb9b",
+        "redacted": true,
+        "tree": "picker-accessibility-selection_failure.json"
+      },
+      {
+        "name": "autofill-native-picker-full-screen-redacted-after-tap.png",
+        "originalExport": "441F3AD9-0F80-49DD-A3AB-4AD691494062.png",
+        "sha256": "8d33331ba094ea7c47905e37d5fca66e33720379dafbad64276e1147c7a2131d",
+        "redacted": true,
+        "tree": "picker-accessibility-after_tap.json"
+      },
+      {
+        "name": "autofill-native-picker-full-screen-redacted-before-tap.png",
+        "originalExport": "1FF9BBB7-4311-4896-8C98-19EB46EDFB32.png",
+        "sha256": "d2ce75f97d3ec64b06b88c388f8f1a61c087f412afc4b16bbff9f4898f6c6a76",
+        "redacted": true,
+        "tree": "picker-accessibility-before_tap.json"
+      }
+    ],
+    "sealedPickerArchiveSHA256": "87eb1076ae1c48a55e388b8571e2006df270625b9865a2d0924852446e05fc06",
+    "pickerDiagnosticPhases": [
+      "selection_failure",
+      "after_tap",
+      "before_tap"
+    ],
+    "screenshots": [
+      {
+        "name": "integration-mock-autofill-enabled-registration-complete-mock.png",
+        "originalExport": "2E79F042-B143-4401-81F4-C2235F479D49.png",
+        "sha256": "eff26d454d834252b0c9f67e784005872d2d46c16c156e7b7f4325e8f022e18d"
+      },
+      {
+        "name": "autofill-native-provider-row.png",
+        "originalExport": "DBA52309-EE28-4690-8CF5-249FE041E16D.png",
+        "sha256": "f0d12dfedb507db96d0f35b2e36d088f5b095d6600849328f9481b61904aaa8b"
+      },
+      {
+        "name": "autofill-native-provider-global-toggle.png",
+        "originalExport": "65D65B28-6526-4AB6-9769-6E8B2DC366E7.png",
+        "sha256": "ad349b1f6fe49b49c07c2fbf94fbe8a2177d769bfd05b615f1c425d57a82e9ec"
+      },
+      {
+        "name": "disposable-simulator-autofill-passwords-and-passkeys-on.png",
+        "originalExport": "1645220E-0066-4282-BD72-B1CB43220AF7.png",
+        "sha256": "2bd9edaa5c01d43cb58730f5633edf6402d1b750be1c0c195147bde121da3b9c"
+      },
+      {
+        "name": "integration-mock-autofill-enabled-recovery-complete-mock.png",
+        "originalExport": "03903080-E434-4C01-A56F-D68AE5E53853.png",
+        "sha256": "c375f52af963c377148bdc5094906f26378f684629683faf5a546e7b0f1c8021"
+      },
+      {
+        "name": "integration-mock-autofill-enabled-large-rtl-hidden-demonstration.png",
+        "originalExport": "DB85A4AB-F8F2-443E-B811-A6CA9AA99A6B.png",
+        "sha256": "29cf41329a804131d882e1a5629d61315b314dc223d8a38ddd54e146a16693b7"
+      },
+      {
+        "name": "autofill-noncredential-visible-field-crop.png",
+        "originalExport": "EAA826D4-962E-443E-B7B4-85EB875913EE.png",
+        "sha256": "8f0f09a54e5489ac78ce270514ff6f200ae6f75b0684c95d1e893025a49c10e8"
+      },
+      {
+        "name": "autofill-noncredential-secure-field-crop.png",
+        "originalExport": "4A592A9B-A00F-4D71-A456-954AF5E5B37A.png",
+        "sha256": "a6af23b7508ec85350e70ef23fcdef22a59ee0a9f57bb49e1cd9ddf47416ba74"
+      },
+      {
+        "name": "autofill-native-picker-header-crop.png",
+        "originalExport": "4952F4AF-2266-4DE2-8218-95BFB9FC54B0.png",
+        "sha256": "d2596cc2a845fbe608e63e04e83024c472f55fb807907bb975b0c43fdc42d88e"
+      },
+      {
+        "name": "autofill-native-empty-identity-fields-crop.png",
+        "originalExport": "A3424AF1-AA5D-4470-B416-11C9426BD45E.png",
+        "sha256": "48e0da69edbf60a3a8e59e718fedae8b1d46f6c51b8dcfa19ab4d66fd5ac332f"
+      },
+      {
+        "name": "autofill-saved-credential-new-password-controls-header.png",
+        "originalExport": "2201D813-29D3-431A-BEF7-5807455C6040.png",
+        "sha256": "1020b4a8cf98c0ec91486bc8f234f0a529ab838fca1bb97c44debfee7cf97a00"
+      }
+    ],
+    "draftReadiness": [
+      [
+        {
+          "phase": "before_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": true,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": true,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        },
+        {
+          "phase": "after_keyboard_done",
+          "login_exists": true,
+          "login_enabled": true,
+          "signup_exists": true,
+          "signup_enabled": true,
+          "busy": false,
+          "latinKeys": false,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": false,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        }
+      ],
+      [
+        {
+          "phase": "before_keyboard_done",
+          "login_exists": true,
+          "login_enabled": false,
+          "signup_exists": true,
+          "signup_enabled": false,
+          "busy": false,
+          "latinKeys": true,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": true,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        },
+        {
+          "phase": "after_keyboard_done",
+          "login_exists": true,
+          "login_enabled": false,
+          "signup_exists": true,
+          "signup_enabled": false,
+          "busy": false,
+          "latinKeys": false,
+          "arabicKeys": false,
+          "strongCover": false,
+          "native": {
+            "nativeReady": true,
+            "hasText": true,
+            "firstResponder": false,
+            "asciiKeyboard": true,
+            "secure": true,
+            "receivedSeveralEdits": true,
+            "inputEnglish": true,
+            "inputArabic": false,
+            "inputOther": false,
+            "bindingReady": true
+          }
+        }
+      ]
+    ],
+    "revealGeometry": [],
+    "nativeFormReadiness": [
+      {
+        "passwordFieldFound": true,
+        "passwordFieldHittable": true,
+        "phase": "after_password",
+        "saveEnabled": true,
+        "usernameMatches": true,
+        "websiteMatches": true
+      },
+      {
+        "passwordFieldFound": true,
+        "passwordFieldHittable": true,
+        "phase": "before_password",
+        "saveEnabled": false,
+        "usernameMatches": true,
+        "websiteMatches": true
+      }
+    ]
+  },
+  "nativeBackend": "Not connected; local simulation or MOCK",
+  "physicalDevice": "Not tested"
+}

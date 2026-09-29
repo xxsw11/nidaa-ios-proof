@@ -1,0 +1,33 @@
+{
+  "stage": "native-acceptance-v02",
+  "archives": [
+    {
+      "path": "outputs\\Nidaa-design-v06.zip",
+      "sha256": "5595a1f754d9b3f901256eca5fcd82cbb0394b2d81b11f012b8a2d54efee4294",
+      "unchanged": true
+    },
+    {
+      "path": "outputs\\Nidaa-iOS-Stabilized-v03.zip",
+      "sha256": "0e25ebb7beecb5d293a3879affb3bf5a35818877bb35fd38ace98fbea303044b",
+      "unchanged": true
+    },
+    {
+      "path": "outputs\\Nidaa-Identity-Consent-Sync-v04.zip",
+      "sha256": "fe7c2de0dd967016beff74d31f484dbc1abc5e51c82bc376e644171e9d8420e2",
+      "unchanged": true
+    },
+    {
+      "path": "outputs\\Nidaa-Local-Integration-v05.zip",
+      "sha256": "13fdfdd1e0e0ae55cec74e024a12bcf2c27cb63aaff4ed72de50320ca247ba77",
+      "unchanged": true
+    },
+    {
+      "path": "outputs/Nidaa-Native-Review-v01.zip",
+      "sha256": "f13ff4430769df78f38733b48fb661af980ca5531ab55e4727f4353e9a0bc1ef",
+      "unchanged": true
+    }
+  ],
+  "unchanged": true,
+  "localAuthoringCheckout": "Preserved; no reset, checkout, clean or force push",
+  "historicalSourceRecords": "Preserved; current reports explicitly supersede prior acceptance state"
+}

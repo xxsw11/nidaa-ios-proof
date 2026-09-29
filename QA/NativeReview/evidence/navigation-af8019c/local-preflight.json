@@ -1,0 +1,35 @@
+{
+  "commit": "af8019cc9d8237fd83c9c4e942cf5779257db21a",
+  "tree": "231898902cb49e226a7a76de523bdfc9fbda3903",
+  "scope": "Windows candidate preflight only; no Xcode compilation or native result inferred",
+  "changes": [
+    "UITests/IntegrationTestSupport.swift",
+    "Scripts/export_native_review.py",
+    "QA/test_reveal_surface_schema.py"
+  ],
+  "attempts": [
+    {
+      "result": "Failed",
+      "category": "Local validation harness import path",
+      "observed": "The outside harness omitted the repository root from sys.path, so test_isolation_gate could not import Integration. No service or socket test ran.",
+      "remedy": "Added the repository root to the outside validation harness; no application change."
+    },
+    {
+      "result": "Passed",
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "observed": "Original20 QA cases plus one new telemetry privacy/schema case passed with the reviewed exporter candidate."
+    }
+  ],
+  "review": {
+    "originalAssertionsPreserved": true,
+    "originalGestureArgumentsPreserved": true,
+    "originalTenDragLimitPreserved": true,
+    "snapshotsBounded": true,
+    "labelsValuesRawErrorsScreenshotsExported": false,
+    "partialCheckpointsPreserved": true,
+    "finalObservationDoesNotMeanTestSuccess": true,
+    "cloudResult": "Pending separately collected run36596361949"
+  }
+}

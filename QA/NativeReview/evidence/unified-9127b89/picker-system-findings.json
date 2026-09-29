@@ -1,0 +1,48 @@
+{
+  "commit": "9127b89e3cdcbaa48de965b50679ab29e945a874",
+  "run": 36545822792,
+  "artifact": 11022659277,
+  "review": "Encrypted full system and XCTest logs decrypted and inspected locally; raw logs excluded from publication and delivery.",
+  "systemLogRawBytes": 400954036,
+  "encryptedBundleSHA256": "0abe0282899b5b4c7d17d47cf5f6ac28b9669aeb353637269317a9887f7e3f87",
+  "events": [
+    {
+      "timeUTC": "2026-09-29T09:08:53.225769Z",
+      "process": "SafariViewService",
+      "observation": "Requested SFPasswordPickerServiceViewController."
+    },
+    {
+      "timeUTC": "2026-09-29T09:08:53.329012Z",
+      "process": "SafariViewService",
+      "observation": "Failed to get application identifier; causal relevance unresolved."
+    },
+    {
+      "timeUTC": "2026-09-29T09:08:53.368225Z",
+      "process": "SafariViewService",
+      "observation": "Fetched 1 credential item from com.apple.cfnetwork."
+    },
+    {
+      "timeUTC": "2026-09-29T09:08:53.368361Z",
+      "process": "SafariViewService",
+      "observation": "Loaded 1 password keychain record."
+    },
+    {
+      "timeUTC": "2026-09-29T09:08:54.773157Z",
+      "process": "SafariViewService",
+      "observation": "canEvaluatePolicy:1 returned LocalAuthentication code -7: No identities are enrolled; Biometry is not enrolled."
+    }
+  ],
+  "observedScreen": "After Passwords, keyboard disappears while the blank NIDAA form remains; no stable credential chooser. Keyboard later returns at selection failure.",
+  "providerVisualReview": "Both global AutoFill and Passwords provider switches visibly On in the inspected full Settings screenshot.",
+  "providerAXLimit": "providerEnabledKnown=false means the toggle value was unavailable through the queried AX role, not that the provider was disabled.",
+  "savedRecordPersistence": true,
+  "classification": "System authentication/presentation failure in this fixture; no successful saved selection. Biometry-not-enrolled is directly observed but not yet established as the sole cause.",
+  "notEstablished": [
+    "Product defect",
+    "Incorrect saved-account row selector as the cause",
+    "Universal Simulator limitation",
+    "Requirement for a personal Apple account",
+    "Successful native AutoFill insertion or login"
+  ],
+  "privacy": "Only fixed manually reviewed events and hashed inspected images released; no credential value, raw typing log, personal data or private key."
+}

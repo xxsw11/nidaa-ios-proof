@@ -1,0 +1,202 @@
+{
+  "commit": "7ba9212dda89aab9f8ae5ef7f8254b347f1216c4",
+  "run": 36550158799,
+  "attempt": 1,
+  "job": 109346087672,
+  "artifact": 11024635118,
+  "artifactSHA256": "02207cd5dc44e5582bae4995be484bf9248893a07457dc662895f13790366621",
+  "scope": "Separate official Simulator biometry capability; not an app acceptance run",
+  "report": {
+    "TCCChanged": false,
+    "appCredentialsCreated": false,
+    "blocker": "official_menu_inspection_or_enrollment_unavailable",
+    "bootExitCode": 0,
+    "bootstatusExitCode": 0,
+    "capabilityOnly": true,
+    "commandTrace": [
+      {
+        "command": [
+          "xcrun",
+          "--find",
+          "simctl"
+        ],
+        "elapsedSeconds": 0.894,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "simctl",
+          "help"
+        ],
+        "elapsedSeconds": 46.796,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 120,
+        "timeoutSeconds": 120
+      },
+      {
+        "command": [
+          "xcrun",
+          "swiftc",
+          "[argument]"
+        ],
+        "elapsedSeconds": 10.464,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 90,
+        "timeoutSeconds": 90
+      },
+      {
+        "command": [
+          "open",
+          "-g",
+          "-b"
+        ],
+        "elapsedSeconds": 0.082,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 10,
+        "timeoutSeconds": 10
+      },
+      {
+        "command": [
+          "capability"
+        ],
+        "elapsedSeconds": 0.216,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "list"
+        ],
+        "elapsedSeconds": 0.46,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "create"
+        ],
+        "elapsedSeconds": 0.327,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "boot"
+        ],
+        "elapsedSeconds": 1.915,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "bootstatus"
+        ],
+        "elapsedSeconds": 62.589,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 150,
+        "timeoutSeconds": 150
+      },
+      {
+        "command": [
+          "xcode-select",
+          "-p"
+        ],
+        "elapsedSeconds": 3.685,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "open",
+          "-a",
+          "[argument]"
+        ],
+        "elapsedSeconds": 2.948,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "capability",
+          "[argument]"
+        ],
+        "elapsedSeconds": 1.29,
+        "exitCode": 3,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "shutdown"
+        ],
+        "elapsedSeconds": 21.953,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "delete"
+        ],
+        "elapsedSeconds": 1.07,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      }
+    ],
+    "menu": {
+      "accessibilityTrusted": true,
+      "automationPromptRequested": false,
+      "automationStatus": 0,
+      "scriptErrorCode": -1728,
+      "uiElementsEnabled": true
+    },
+    "menuHelperExitCode": 3,
+    "openExactDeviceExitCode": 0,
+    "ownedDeleteExitCode": 0,
+    "ownedDeviceCreated": true,
+    "ownedDeviceDeleted": true,
+    "ownedShutdownExitCode": 0,
+    "permissionHelperCompileExitCode": 0,
+    "permissionHelperExitCode": 0,
+    "permissions": {
+      "accessibilityTrusted": true,
+      "automationPromptRequested": false,
+      "automationStatus": 0,
+      "uiElementsEnabled": true
+    },
+    "physicalBiometryProven": false,
+    "privateAPIsUsed": false,
+    "probeSHA256": "29531e225da46c01440e1b56149bd8c18b62d04d6a570271b963f1c6c5000f3e",
+    "runtimeIdentifier": "com.apple.CoreSimulator.SimRuntime.iOS-18-5",
+    "schemaVersion": 1,
+    "simctlHelpExitCode": 0,
+    "simctlHelpMentionsBiometry": false,
+    "simctlLocateExitCode": 0,
+    "stage": "official_Face_ID_menu",
+    "status": "Blocked",
+    "systemEventsLaunchExitCode": 0
+  },
+  "diagnosis": "Permissions are available: AX trusted, automation status0 and UI elements true. Owned iOS18.5 Simulator booted and was deleted. Menu query failed with AppleScript -1728 before a precise query stage; this is not evidence of denied permission or unsupported enrollment. Initial simctl help took46.796s, explaining the prior30s timeout.",
+  "changeBeforeRetry": "Resolve installed Simulator bundle and running PID, bound the process/owned-window readiness checks and report exact fixed menu query stage/error without host labels."
+}

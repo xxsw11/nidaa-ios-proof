@@ -1,0 +1,232 @@
+{
+  "commit": "dedabaf041be693b145243df55a163717be66cea",
+  "run": 36556573695,
+  "attempt": 1,
+  "job": 109367040537,
+  "artifact": 11027374353,
+  "artifactSHA256": "22ee40d3d84b06e2d6a8e7d489ceade7dab52381dc63787b10f5f6c2746415ad",
+  "scope": "Separate official Simulator biometry capability; not an app acceptance run",
+  "report": {
+    "TCCChanged": false,
+    "appCredentialsCreated": false,
+    "blocker": "bounded_command_timeout",
+    "bootExitCode": 0,
+    "capabilityOnly": true,
+    "cleanup": {
+      "budgetSeconds": 60,
+      "delete": {
+        "status": "Failed-timeout"
+      },
+      "shutdown": {
+        "status": "Failed-timeout"
+      }
+    },
+    "cleanupErrors": [
+      {
+        "operation": "shutdown",
+        "reason": "timeout"
+      },
+      {
+        "operation": "delete",
+        "reason": "timeout"
+      }
+    ],
+    "commandTrace": [
+      {
+        "command": [
+          "xcrun",
+          "--find",
+          "simctl"
+        ],
+        "elapsedSeconds": 2.026,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "simctl",
+          "help"
+        ],
+        "elapsedSeconds": 9.532,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 120,
+        "timeoutSeconds": 120
+      },
+      {
+        "command": [
+          "xcrun",
+          "swiftc",
+          "[argument]"
+        ],
+        "elapsedSeconds": 30.138,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 90,
+        "timeoutSeconds": 90
+      },
+      {
+        "command": [
+          "open",
+          "-g",
+          "-b"
+        ],
+        "elapsedSeconds": 0.179,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 10,
+        "timeoutSeconds": 10
+      },
+      {
+        "command": [
+          "capability"
+        ],
+        "elapsedSeconds": 0.564,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "help"
+        ],
+        "elapsedSeconds": 0.719,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "xcrun",
+          "--sdk",
+          "iphonesimulator"
+        ],
+        "elapsedSeconds": 3.644,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 20,
+        "timeoutSeconds": 20
+      },
+      {
+        "command": [
+          "xcrun",
+          "swiftc",
+          "[argument]"
+        ],
+        "elapsedSeconds": 11.143,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 90,
+        "timeoutSeconds": 90
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "list"
+        ],
+        "elapsedSeconds": 0.666,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "create"
+        ],
+        "elapsedSeconds": 0.905,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "boot"
+        ],
+        "elapsedSeconds": 6.095,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "bootstatus"
+        ],
+        "elapsedSeconds": 159.83,
+        "requestedTimeoutSeconds": 150,
+        "timedOut": true,
+        "timeoutSeconds": 150
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "shutdown"
+        ],
+        "elapsedSeconds": 24.573,
+        "requestedTimeoutSeconds": 20,
+        "timedOut": true,
+        "timeoutSeconds": 20
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "delete"
+        ],
+        "elapsedSeconds": 39.498,
+        "requestedTimeoutSeconds": 40,
+        "timedOut": true,
+        "timeoutSeconds": 35.426
+      }
+    ],
+    "localAuthenticationObserver": {
+      "after": {
+        "status": "Notexecuted"
+      },
+      "before": {
+        "status": "Notexecuted"
+      },
+      "buildStatus": "Passed",
+      "compileExitCode": 0,
+      "consoleOptionSupported": true,
+      "evaluatesAuthentication": false,
+      "launchHelpExitCode": 0,
+      "sdkDiscoveryExitCode": 0
+    },
+    "ownedDeviceCreated": true,
+    "ownedDeviceDeleted": false,
+    "permissionHelperCompileExitCode": 0,
+    "permissionHelperExitCode": 0,
+    "permissions": {
+      "accessibilityTrusted": true,
+      "automationPromptRequested": false,
+      "automationStatus": 0,
+      "uiElementsEnabled": true
+    },
+    "physicalBiometryProven": false,
+    "privateAPIsUsed": false,
+    "probeSHA256": "0f85357afcc59056e059dfb8b4db454bd071d807c143bf22369d54408f429c2a",
+    "runtimeIdentifier": "com.apple.CoreSimulator.SimRuntime.iOS-18-6",
+    "schemaVersion": 1,
+    "simctlHelpExitCode": 0,
+    "simctlHelpMentionsBiometry": false,
+    "simctlLocateExitCode": 0,
+    "stage": "owned_simulator_setup",
+    "status": "Blocked",
+    "systemEventsLaunchExitCode": 0,
+    "timeoutCommand": [
+      "xcrun",
+      "simctl",
+      "bootstatus"
+    ],
+    "timeoutElapsedSeconds": 159.83,
+    "timeoutSeconds": 150
+  },
+  "diagnosis": "The unchanged observer probe on standard Intel compiled and passed no-prompt GUI checks, but iOS18.6 bootstatus exceeded150seconds (159.83observed). Neither observer installation nor LA/menu inspection occurred. Shutdown and deletion also timed out; ownedDeviceDeleted=false is preserved. The ARM comparison usediOS18.5, so hardware alone is not isolated as the cause.",
+  "changeBeforeRetry": "Establish the exact owned Simulator GUI window before observer startup, retain nonce-validated partial console observations without converting a command timeout into success, and use explicit bounded cold-start windows. Return to the ARM runtime whose boot previously completed. No platform-wide biometric restriction is inferred."
+}

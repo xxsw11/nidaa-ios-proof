@@ -1,0 +1,229 @@
+{
+  "commit": "8cfc35fd0548ea0368d25bcec359a8b9d44507ae",
+  "run": 36552319078,
+  "attempt": 1,
+  "job": 109353178656,
+  "artifact": 11025422745,
+  "artifactSHA256": "df873eea0d1e3cba2dd1105519e2b21afbcdd7dec57d184943346becf4295e81",
+  "scope": "Separate official Simulator biometry capability; not an app acceptance run",
+  "report": {
+    "TCCChanged": false,
+    "appCredentialsCreated": false,
+    "blocker": "official_menu_inspection_or_enrollment_unavailable",
+    "bootExitCode": 0,
+    "bootstatusExitCode": 0,
+    "capabilityOnly": true,
+    "commandTrace": [
+      {
+        "command": [
+          "xcrun",
+          "--find",
+          "simctl"
+        ],
+        "elapsedSeconds": 1.026,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "simctl",
+          "help"
+        ],
+        "elapsedSeconds": 53.09,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 120,
+        "timeoutSeconds": 120
+      },
+      {
+        "command": [
+          "xcrun",
+          "swiftc",
+          "[argument]"
+        ],
+        "elapsedSeconds": 15.336,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 90,
+        "timeoutSeconds": 90
+      },
+      {
+        "command": [
+          "open",
+          "-g",
+          "-b"
+        ],
+        "elapsedSeconds": 0.221,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 10,
+        "timeoutSeconds": 10
+      },
+      {
+        "command": [
+          "capability"
+        ],
+        "elapsedSeconds": 0.3,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "list"
+        ],
+        "elapsedSeconds": 1.429,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "create"
+        ],
+        "elapsedSeconds": 0.461,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "boot"
+        ],
+        "elapsedSeconds": 2.696,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "bootstatus"
+        ],
+        "elapsedSeconds": 72.35,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 150,
+        "timeoutSeconds": 150
+      },
+      {
+        "command": [
+          "xcode-select",
+          "-p"
+        ],
+        "elapsedSeconds": 2.173,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "open",
+          "-a",
+          "[argument]"
+        ],
+        "elapsedSeconds": 8.577,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "capability",
+          "[argument]",
+          "[argument]"
+        ],
+        "elapsedSeconds": 6.598,
+        "exitCode": 3,
+        "requestedTimeoutSeconds": 90,
+        "timeoutSeconds": 90
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "shutdown"
+        ],
+        "elapsedSeconds": 29.202,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "delete"
+        ],
+        "elapsedSeconds": 1.291,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      }
+    ],
+    "installedSimulatorBundleMatchesExpected": true,
+    "menu": {
+      "accessibilityTrusted": true,
+      "automationPromptRequested": false,
+      "automationStatus": 0,
+      "axActionCodes": {
+        "press_enrolled_once": 0,
+        "press_face_id": 0,
+        "press_features_hardware": 0,
+        "raise_owned_AX_window": 0,
+        "reopen_face_id": 0,
+        "reopen_features": 0
+      },
+      "axReturnCode": 0,
+      "enrolledAfter": false,
+      "enrolledBefore": false,
+      "enrolledMarkReadable": true,
+      "enrolledMenuPresent": true,
+      "enrollmentActionAttempted": true,
+      "enrollmentChanged": false,
+      "enrollmentOutcomeProven": false,
+      "faceIDMenuPresent": true,
+      "featuresMenuPresent": true,
+      "hardwareMenuPresent": false,
+      "matchingFaceInvoked": false,
+      "matchingFaceMenuEnabled": true,
+      "matchingFaceMenuPresent": true,
+      "menuCancelReturnCode": 0,
+      "ownedWindowVerified": true,
+      "queryStage": "complete",
+      "simulatorProcessObserved": true,
+      "uiElementsEnabled": true
+    },
+    "menuHelperExitCode": 3,
+    "openExactDeviceExitCode": 0,
+    "ownedDeleteExitCode": 0,
+    "ownedDeviceCreated": true,
+    "ownedDeviceDeleted": true,
+    "ownedShutdownExitCode": 0,
+    "permissionHelperCompileExitCode": 0,
+    "permissionHelperExitCode": 0,
+    "permissions": {
+      "accessibilityTrusted": true,
+      "automationPromptRequested": false,
+      "automationStatus": 0,
+      "uiElementsEnabled": true
+    },
+    "physicalBiometryProven": false,
+    "privateAPIsUsed": false,
+    "probeSHA256": "eb79ef5eea977b228b542fa3c107d260b55ce4a988a88aa9b747d0a57cc62de2",
+    "runtimeIdentifier": "com.apple.CoreSimulator.SimRuntime.iOS-18-5",
+    "schemaVersion": 1,
+    "simctlHelpExitCode": 0,
+    "simctlHelpMentionsBiometry": false,
+    "simctlLocateExitCode": 0,
+    "stage": "official_Face_ID_menu",
+    "status": "Blocked",
+    "systemEventsLaunchExitCode": 0
+  },
+  "diagnosis": "Public AX resolved the owned Simulator and official Features/Face ID/Enrolled menu. One enrollment press returned0, but immediate final mark remained false; enrollment is unproven. Matching Face was present/enabled but never invoked. No authentication or saved-picker test ran.",
+  "changeBeforeRetry": "Bounded fresh mark readback after one enrollment press, paired with a public LocalAuthentication canEvaluatePolicy observer on the same owned Simulator to distinguish stale UI from unchanged system state. No evaluatePolicy or repeated enrollment toggle."
+}

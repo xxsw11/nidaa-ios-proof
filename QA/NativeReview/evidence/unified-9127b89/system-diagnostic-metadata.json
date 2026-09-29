@@ -1,0 +1,15 @@
+{
+  "commit": "9127b89e3cdcbaa48de965b50679ab29e945a874",
+  "run": "36545822792",
+  "attempt": "1",
+  "plaintextUploaded": false,
+  "purpose": "Disposable saved-picker transition only; review locally before publishing redacted findings",
+  "collectionExitCode": 0,
+  "collectionBytes": 400954036,
+  "payloadFormat": "zip",
+  "compressedBytes": 12688946,
+  "encryptionExitCode": 0,
+  "encrypted": true,
+  "encryptedSHA256": "0abe0282899b5b4c7d17d47cf5f6ac28b9669aeb353637269317a9887f7e3f87",
+  "recipientCertificateSHA256": "22f9482944e566f814a14e2bbed5f1344933e53d3161ad97f66918009abfc783"
+}

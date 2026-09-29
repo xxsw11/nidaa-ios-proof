@@ -1,4 +1,4 @@
-# Integration acceptance follow-up
+# Source-bound acceptance coverage matrix
 
 **Completed frozen source `e6b7ffdbd76ba44c576078eebb07bd6614fa8844`: 217 passed / 1 failed / 0 skipped across 218 unique cases.** Backend55, rules45, QA20, client24, core45, local UI A9/B8 and all four AutoFill cases passed; the real SDK journey also passed. MOCK finished **7/8**: the large-Arabic/logout case exhausted all ten drags without reacquiring the logout control. All Release builds passed, but the MOCK Debug test run failed. Native real-backend E2E remains **Not executed: 2 prepared cases** behind strict isolation. This source is not an all-pass acceptance or merge recommendation.
 
@@ -16,53 +16,112 @@ The four exported picker snapshots are complete and untruncated: Face ID is pres
 
 The e6b [MOCK result](evidence/unified-e6b7ffd/mock.json), run36592111986, failed `testLargeArabicLayoutAndLogoutIsolation` at `IntegrationTestSupport.swift:230`, after the full ten-drag bound. First-miss telemetry shows `integrationLogout` absent after one drag while app foreground, scroll and window remained present; the last observed target frame was y2209.83, outside viewport y72…874. The recovery path executed but did not reacquire the actual control, so the logout tap and isolation assertions were not reached. Release passed; `testFailed` was the only positive fixed diagnostic flag. That does not establish an infrastructure cause. Why the target was omitted from accessibility remains unresolved. This is not successful recovery or a proven product/platform root cause.
 
-Scope: close the three requested acceptance blockers, without new application features. PR4 depends on PR3, which depends on PR2. Preserve historical deliveries and local authoring changes. No automatic merge.
+| Current e6b group | Verified result | Evidence |
+|---|---|---|
+| Backend / rules / QA / Swift client | 55 / 45 / 20 / 24 passed; zero failures/skips | [Backend](evidence/unified-e6b7ffd/backend.json); actual SDK journey passed |
+| AutoFill input / native saved selection | 3 / 1 passed; zero failures/skips; Debug/Release passed | [Input](evidence/unified-e6b7ffd/autofill-input.json), [saved](evidence/unified-e6b7ffd/autofill-saved.json) |
+| Core / local UI A | 45 / 9 passed; zero failures/skips | [Local A](evidence/unified-e6b7ffd/local-a.json) |
+| MOCK integration UI | **7 passed / 1 failed / 0 skipped**; Release passed | [MOCK](evidence/unified-e6b7ffd/mock.json); ten-drag exhaustion |
+| Local UI B | 8 passed; zero failures/skips | [Local B](evidence/unified-e6b7ffd/local-b.json) |
+| **Unique executed cases** | **217 passed / 1 failed / 0 skipped of 218** | Six completed records at one source; no substituted pass |
+| Native UI with real backend | Not executed: 2 prepared cases | Strict isolation gate remains unsatisfied |
 
-## Preserved9127 regression and diagnostic history
+## Historical completed d0502cb cohort
 
-**Historical tested SHA: `9127b89e3cdcbaa48de965b50679ab29e945a874`.** All five completed jobs recorded that same checkout/event SHA, attempt1. Backend55, rules45, QA20, client24 plus the real SDK journey, Core45, local UI17(9+8), and MOCK UI8 passed. AutoFill completed4 cases: **3 passed,1 failed,0 skipped**. Debug/Release passed in all four UI jobs. This original saved-selection failure remains preserved; native real-backend E2E's two cases remain **Not executed due to environment**. No earlier passing result is substituted. [Source-bound result matrix](COVERAGE_MATRIX.md) separates later cohorts from this historical result.
+All six evidence records contain checkout/event source `d0502cb75f032b0771d3a3f6ed048807b32a8b2b`, attempt1. Repeated QA/client/core cases are counted once.
 
-The inspected Settings full screen at9127 establishes global AutoFill On and Passwords provider On. Its privately reviewed system diagnostic shows SafariViewService loading one saved local credential, then policy1 returning code-7, “Biometry not enrolled.” The observed transition does not yield a stable chooser; the NIDAA form remains. This is evidence of a measured authentication prerequisite failure at that source, not proof of a product defect or universal Simulator limitation.
+| Group | Passed / failed / skipped | Evidence |
+|---|---|---|
+| Backend / rules / QA / Swift client | 55 /0/0;45 /0/0;20 /0/0;24 /0/0 | [Backend](evidence/unified-d0502cb/backend.json), run36588386185; actual SDK journey also passed |
+| Swift core / local UI A / local UI B | 45 /0/0;9 /0/0;8 /0/0 | [Local-a](evidence/unified-d0502cb/local-a.json), [local-b](evidence/unified-d0502cb/local-b.json), run36588386114 |
+| MOCK integration UI | **7 /1/0** | [MOCK](evidence/unified-d0502cb/mock.json), same run; large-Arabic/logout reveal guard failed |
+| AutoFill functional input / saved selection | **3 /0/0;1 /0/0** | [Input](evidence/unified-d0502cb/autofill-input.json), run36588386229; [saved](evidence/unified-d0502cb/autofill-saved.json), run36588386135 |
+| **Unique executed cases** | **217 /1/0 of218** | No substituted results; all Release builds passed |
+| Native UI ↔ real backend | **Not executed:2 prepared cases** | Strict isolation blocked before services |
 
-Separate Simulator enrollment is now proven at `951f78187860d56a34c026e0c54ab2e372c42204`, [run36560962845](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36560962845). Fresh LocalAuthentication measurements changed from `canEvaluate=false`/code-7 before one official Enrolled action to `true`/code0 afterward; the mark became checked after1.420seconds. Both observer invocations completed exactly1pass/0fail/0skip, and owned-device cleanup passed. This supersedes the earlier enrollment-unproven checkpoint, but does not prove saved selection, insertion, login, Matching Face authentication or physical biometrics. [Source-bound capability evidence](evidence/biometry-capability/36560962845.json) and [diagnostic history](BIOMETRY_DIAGNOSTIC.md) remain separate from each source-bound cohort count.
+Saved selection passed on historicald050, while its separate MOCK failure prevented an all-pass result. The completed e6b cohort is reported above and separately retains a MOCK failure. Prior0432 and9127 tables below are historical.
 
-The later incidental run at `710376d4bf1c95d1a27bdd5a9dd123aa25c287bf`, [run36559755316](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36559755316), passed local UI9/9 and8/8 but failed one MOCK case: **7passed/1failed/0skipped**, with Release passed. `testLargeArabicLayoutAndLogoutIsolation` stopped in the reveal existence guard after one drag, before logout/session-isolation assertions. The combined guard does not establish which element disappeared; the cause is unresolved. This later failure cannot be dismissed as infrastructure-only or hidden behind9127's earlier MOCK8/8 pass. [MOCK evidence](evidence/incidental-710376d/mock.json) records its separate acceptance impact.
+## Historical0432 cohort
 
-The subsequent navigation diagnostic at `854ca3fd29657ecc1b52de8c14b2e0a085b392dc`, [run36562586850](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36562586850), passed all **8 MOCK cases / 0 failures / 0 skips**, including large Arabic navigation and logout isolation; Debug and Release passed. Only failure telemetry changed, and `revealPresence`/`revealGeometry` are empty. The710376d failure was not reproduced and its cause remains unresolved; this is neither a demonstrated behavioral fix nor a new unified acceptance source. [Navigation evidence](evidence/navigation-854ca3f/mock.json) preserves the separate result.
+All six evidence records have checkout/event source **`0432a8b58953dfd1e2cc85667d29a1881a6b8672`**, attempt1. Repeated QA/core/client cases are counted once; auxiliary observer/transport/schema checks are separate.
 
-Historical diagnosis below remains preserved in sequence; its then-unknown provider/log state is superseded only by the observations above.
+| Group | Passed / failed / skipped | Source-bound evidence |
+|---|---|---|
+| Real backend | 55 / 0 / 0 | [Backend](evidence/unified-0432a8b/backend.json), run36581107751 |
+| Reference rules | 45 / 0 / 0 | Same backend record |
+| Python QA | 20 / 0 / 0 | Same backend record; repeated in UI jobs |
+| Swift client | 24 / 0 / 0 | Same backend record; repeated on macOS |
+| Actual official SDK journey | Passed, separate journey | Same backend record; real local Auth/HTTP/PostgreSQL, not native UI |
+| Swift core | 45 / 0 / 0 | [Local-a](evidence/unified-0432a8b/local-a.json), run36581107824 |
+| Local UI A | 9 / 0 / 0 | Same local-a record |
+| Local UI B | 8 / 0 / 0 | [Local-b](evidence/unified-0432a8b/local-b.json), same run |
+| MOCK integration UI | 8 / 0 / 0 | [MOCK](evidence/unified-0432a8b/mock.json), same run |
+| AutoFill functional input | 3 / 0 / 0 | [Input](evidence/unified-0432a8b/autofill-input.json), run36581107828 |
+| Saved native selection | **0 / 1 / 0** | [Saved](evidence/unified-0432a8b/autofill-saved.json), run36581107977; failure at line202 with final Face ID prompt |
+| **Unique executed cases** | **217 / 1 / 0 of218** | Same-source totals, no earlier diagnostic pass substituted |
+| Native UI ↔ real backend | **Not executed:2 prepared cases** | Strict precredential isolation remains blocked |
+| Physical iPhone/APNs/audio/Critical Alerts | **Not tested** | No hardware validation |
 
-## Saved native credential selection
+Debug tests and Release builds passed for local-a, local-b, MOCK and input. Saved-selection executed and failed; its Release build passed. The independentfb1/1 success does not replace the0432 failure. Acceptance was unpassed at0432. The separate4c prompt-gated diagnostic also failed email insertion; 8d later passed independently and d050 then passed all AutoFill cases, while failing a different MOCK test. These later results do not rewrite0432.
 
-The previous run36525193498 top crop cannot identify the system surface below the header. It remains historical failed evidence, not proof of an unsupported Simulator.
+## Historical9127 matrix
 
-At4bb8b1244ee580dd280620737504323dcafdf513, run36539142321, the full redacted screen and complete sanitized accessibility trees were inspected for before-tap, after-tap and selection-failure phases. Before tap the native Passwords accessory is present. Immediately after tapping, the keyboard disappears and the empty NIDAA form remains visible; the app accessibility tree collapses to14 empty ancestor nodes. By the bounded selection failure, the keyboard and Passwords accessory return. No stable saved-account chooser or personal-account/passcode requirement is observed. Extending the selector wait is not justified by these observations.
+Historical tested source: **`9127b89e3cdcbaa48de965b50679ab29e945a874`**. Every evidence record below contains the same checkout/event SHA and attempt1. These are the historical9127 completed regression results; earlier commits and subsequent diagnostic branches are not used to fill a failing or missing result. Repeated executions of the same client, core or QA cases are not additional unique coverage.
 
-At053de1c3113a88050e57906c186e415a59d055d9, run36541295372, the fictional entry was found after terminating and relaunching Passwords. The global AutoFill switch was actually On. Provider control presence was observed, but its enabled state remained unknown. All three full redacted screens were inspected and showed the same transient behavior. Test result:0 passed,1 failed,0 skipped; Release build passed. Thus the failure is not explained by an unsaved entry or a disabled global switch. Product-vs-system ownership is still unresolved at this diagnostic checkpoint.
+| Group | Passed / failed / skipped | Source-bound evidence | What it establishes |
+|---|---|---|---|
+| Real backend integration | 55 / 0 / 0 | [backend.json](evidence/unified-9127b89/backend.json), run36545822641, job109331829435 | Actual isolated Auth, local inbox, HTTP, PostgreSQL and worker tests; labeled administrative fault/aging/restore fixtures |
+| Reference rules | 45 / 0 / 0 | Same backend record | Contract/rule model, not network delivery |
+| Python QA | 20 / 0 / 0 | Same backend record; repeated in UI jobs | Payload, evidence and isolation-classification checks |
+| Swift client | 24 / 0 / 0 | Same backend record; repeated on macOS | Injected transport/storage/account-generation safety; not itself a live-provider test |
+| Official Swift SDK journey | Passed; separate journey | Same backend record | Real local Auth verification and multi-account HTTP/domain flow on Linux; not native SwiftUI E2E |
+| Swift core | 45 / 0 / 0 | [local-a.json](evidence/unified-9127b89/local-a.json), run36545822815 | Local simulation, persistence and action-authorization rules |
+| Local UI shard A | 9 / 0 / 0 | Same local-a record, job109331832054 | Local SwiftUI simulation, including large-text action review |
+| Local UI shard B | 8 / 0 / 0 | [local-b.json](evidence/unified-9127b89/local-b.json), same run, job109331831865 | Remaining local scenarios, including recipient preconditions and persisted deletion; 17 unique local cases across A+B |
+| MOCK integration UI | 8 / 0 / 0 | [mock.json](evidence/unified-9127b89/mock.json), same run, job109331832168 | Interface flow, consent, explicit confirmation and logout isolation with MOCK networking |
+| Native AutoFill-On UI | **3 / 1 / 0** | [autofill.json](evidence/unified-9127b89/autofill.json), run36545822792, job109331830276 | Three functional input paths passed; saved native credential selection failed |
+| Debug and Release builds | Passed in local-a, local-b, MOCK and AutoFill jobs | Corresponding UI records above | Simulator compilation/execution; the AutoFill test run itself failed |
+| Native SwiftUI ↔ real backend | **Not executed: 2 prepared cases** | [environment diagnosis](ACCEPTANCE_REVIEW.md#native-interface-with-real-backend) | Isolation blocked before services; no result for either native journey |
+| Physical iPhone | **Not tested** | No Apple devices available | No APNs, audio, Critical Alerts, hardware biometrics or physical Keychain evidence |
 
-The system diagnostic collector exited its collection command with0 but failed before completing encryption. No plaintext log was uploaded. This is a separate diagnostic tooling failure, not evidence that the picker is unsupported. The next bounded diagnostic narrows process capture and records fixed failure stage/category and byte count. A concrete crop-helper defect was corrected: it previously stopped on the first existing provider candidate even when its image gate rejected that candidate. It now continues until a crop is emitted, uses the Settings window bounds and records numeric geometry. No provider switch is changed and no app behavior is altered on speculation.
+Unique executed cases: **218 total,217 passed,1 failed,0 skipped**. Separately, two infrastructure jobs were intentionally skipped: native environment job109331832165 in run36545822792 (known failed isolation), and policy job109331830354 in run36545822556 (no changed isolation experiment requested). These are job skips, not skipped test cases and not successful E2E. The two prepared native real-backend cases were not executed.
 
-All selection/fill/login assertions remain. Manual input, paste, and visibility tests with AutoFill enabled have separate meanings. A saved-selection skip leaves acceptance unpassed. Fresh disposable Simulators and fictional credentials are used; no personal Apple account is requested.
+## Historical9127 AutoFill case results
 
-## Native interface with real backend
+All four cases are defined in [AutoFillUITests.swift](../../UITests/AutoFillUITests.swift).
 
-At0c12b736a623f0da700e22fa9a0cbd18b154010d, run36539307560, the changed candidate removed the explicit bind grant and was tested once with a deny-all control. For both IPv4 and IPv6, external TCP/UDP were policy denied and loopback worked, but wildcard TCP/UDP binding and explicit/implicit TCP listening succeeded. Candidate Failed; deny-all control Passed. No credentials, preparation or services were started. This demonstrates the configured policy boundary is insufficient on the measured runner, without claiming external reachability or a universal macOS limitation.
+| Exact test | Result at tested SHA | Limit |
+|---|---|---|
+| `testEnabledManualRegistrationAndFieldNavigation` | Passed | Manual entry/navigation with AutoFill On; MOCK account operations |
+| `testEnabledPasteLoginAndRecovery` | Passed | Native paste and recovery UI; MOCK provider operations |
+| `testEnabledVisibilityUsesOnlyNonCredentialDemonstration` | Passed | Exact never-authenticated demonstration, visibility and focus; not an account password |
+| `testSavedCredentialSelection` | **Failed** | No successful selection/fill/login journey and no skip |
 
-The runner reported VZVirtualMachine.isSupported=false; Docker/Colima/Podman were absent; kern.hv_support was unavailable. No working container/VM alternative was established. The known failed policy is not retried, relaxed or replaced by a flow filter. Native UI E2E and its two prepared journey/fault tests remain **Not executed due to environment**. Real Linux backend/SDK tests are independent and cannot substitute for native UI E2E. Local mail and fake notification delivery are not APNs.
+The inspected Settings full screen at9127 shows global AutoFill and the Passwords provider On. Its privately reviewed logs show one saved local credential loaded by SafariViewService followed by LocalAuthentication policy1 code-7 (“Biometry not enrolled”); the observed transition returns/remains at the NIDAA form without a stable chooser. The later enrollment proof below supersedes only the unproven Simulator-enrollment prerequisite. No saved-selection resolution is inferred from a menu action or a capability probe.
 
-The later standard Intel read-only query at569fbe0, run36557137468, returned Hypervisor and Virtualization support true, while Docker/Colima/Podman/QEMU were absent. The initial query's compiler failure and corrected SDK/framework invocation are preserved. No VM was booted and no replacement14-check isolation mechanism was verified; the ARM result must not be generalized to all hosts. [Environment detail and evidence](NATIVE_ENVIRONMENT.md#separate-evidence-is-not-native-runtime-success).
+## Historical observations, outside the9127 totals
 
-The prepared runtime gate now shares the strict14-check classifier with the probe, covering external TCP/UDP denial, wildcard TCP/UDP bind denial, implicit wildcard listen denial, and TCP/UDP loopback success in each family. Missing observations, timeouts, refusal, unsupported families and non-boolean values fail closed. Six pure/mock regression tests verify this contract without network operations. The active profile remains blocked. See NATIVE_ENVIRONMENT.md for the exact continuation commands and minimum supported environment.
+| Source / run | Actual observation | Limit |
+|---|---|---|
+| `951f78187860d56a34c026e0c54ab2e372c42204`, [36560962845](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36560962845) | Fresh LA false/code-7 before one official Enrolled action, checked mark after1.420seconds, fresh LA true/code0 after; each observer1pass/0fail/0skip; cleanup passed | Simulator enrollment capability proved. No saved selection/fill/login, Matching Face invocation or physical biometric test. [Evidence](evidence/biometry-capability/36560962845.json) |
+| `710376d4bf1c95d1a27bdd5a9dd123aa25c287bf`, [36559755316](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36559755316) | Local-a9/9 and local-b8/8 passed; MOCK7/8 passed,1failed,0skipped; Release passed | Large-Arabic scenario failed at reveal existence guard before logout assertions; cause unresolved. [Local-a](evidence/incidental-710376d/local-a.json), [local-b](evidence/incidental-710376d/local-b.json), [MOCK](evidence/incidental-710376d/mock.json) |
+| `854ca3fd29657ecc1b52de8c14b2e0a085b392dc`, [36562586850](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36562586850) | MOCK 8 passed / 0 failed / 0 skipped; Debug and Release passed, including the large-Arabic logout case | Only failure telemetry changed; presence/geometry records are empty. Previous failure unreproduced and unresolved, not fixed. [Evidence](evidence/navigation-854ca3f/mock.json) |
+| `7adc165c11aaa6a369d14b83d1523dc629dcbd04`, [36564260314](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36564260314) | Selected XCTest 0 passed / 1 failed / 0 skipped before its body; fresh LA false/-7 to true/0, Release and cleanup passed | Driver name lacked the original fixture's `NIDAA-Disposable-` prefix; failure at `IntegrationTestSupport.swift:52`. No saved-selection result or early/picker AX phases. [Evidence](evidence/enrolled-autofill/36564260314.json) |
+| `4763d7f37b41eb890b3deffd6af401ef9fbea99d`, [36565871957](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36565871957) | Fixture guard passed; fresh LA false/-7 to true/0; original save/persistence gates reached before/after-tap captures; selected test 0 passed / 1 failed / 0 skipped; Release/cleanup passed | Failure at `AutoFillUITests.swift:372` in saved-identity query, before selection-failure capture. Complete after-tap AX has four empty app ancestors and no recognized auth prompt. No query-timeout/root-cause/selection claim. [Evidence](evidence/enrolled-autofill/36565871957.json) |
 
-## Historical0432 unified-source validation
+These historical diagnostic cases are not added to any cohort's218 unique cases. The710376d MOCK failure remains an open acceptance concern despite the later854ca3f pass; neither pass supplies a root cause or a demonstrated fix. Its combined existence guard does not identify which scroll/window/target disappeared. The diagnostic pass is not a new unified acceptance source. [Biometry history](BIOMETRY_DIAGNOSTIC.md) preserves earlier failed attempts separately.
 
-The full0432 regression completed at `0432a8b58953dfd1e2cc85667d29a1881a6b8672`: 217 passed / 1 failed / 0 skipped across218 unique cases. Every group passed except saved native credential selection. Native real-backend E2E was not executed. The independentfb saved-selection pass did not replace the0432 failure, and the earlier710 MOCK failure was then unreproduced and causally unresolved. This historical checkpoint is superseded only by the separately source-bound d050/e6b results, not rewritten. No merge or new product feature is authorized by these results.
+Automatic approval review rejected a proposed public upload of encrypted raw screenshots/logs. The current diagnostic instead exports only fixed-field report/result JSON and strictly validated, fixed-label AX trees through explicit filenames. Raw images, recordings, logs, credentials and encrypted credential archives are runner-private and excluded from uploads; historical sealed evidence is not a current export policy.
 
-The safe diagnostic at `7adc165c11aaa6a369d14b83d1523dc629dcbd04`, [run36564260314](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36564260314), completed with **0 passed / 1 failed / 0 skipped** in the selected XCTest, before its body. The original fixture guard at `IntegrationTestSupport.swift:52` requires `NIDAA-Disposable-`; the driver created `NIDAA Biometry Probe`. Fresh LA observations again changed false/-7 to true/0 after enrollment, and Release/cleanup passed, but saved selection was not reached. No early-entry or picker AX phase was produced. [Source, report and result](evidence/enrolled-autofill/36564260314.json) preserve this diagnostic fixture defect without treating it as an application selection failure.
+## Native environment and outstanding scope
 
-The corrected driver and strict helper use `NIDAA-Disposable-Biometry-`, retaining the original test guard and all selection/fill/login assertions. Source `4763d7f37b41eb890b3deffd6af401ef9fbea99d`, [run36565871957](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36565871957), passed that fixture guard and freshly verified LA false/-7 to true/0. Early Passwords showed its main list and New Password; reaching before-tap and after-tap establishes passage through the original save/persistence gates. The complete, untruncated after-tap tree contains four empty app ancestors and no recognized authentication prompt. The selected test finished **0 passed / 1 failed / 0 skipped** at `AutoFillUITests.swift:372` in `savedIdentityTarget`, before selection-failure capture. Only filename/line were exported: query timeout, a Face ID prompt and root cause remain unproven. Release and cleanup passed; selection/fill/login did not. [Six safe JSON records](evidence/enrolled-autofill/36565871957.json) preserve these distinctions. The completed telemetry-only follow-up is recorded below, separately from this source.
+Changed isolation candidate `0c12b736a623f0da700e22fa9a0cbd18b154010d`, run36539307560, failed: external TCP/UDP were blocked, but wildcard TCP/UDP binding and TCP listening succeeded for both families. The deny-all control passed. No backend services started and no working VM/container alternative was established. This is a measured policy limitation, not a universal macOS or remote-reachability claim.
 
-Automatic approval review rejected the proposed public upload of encrypted raw credential screenshots/logs as unapproved sensitive-data egress. The replacement permits only explicitly named fixed report/result JSON and strictly validated accessibility-tree JSON containing fixed allowlisted labels and numeric geometry; the completed7adc artifact contains three JSON files only. Raw screenshots, XCTest recordings/logs, generated credentials and any encrypted credential evidence remain runner-private and are not uploaded. No alternate archive or upload route is used. Earlier sealed evidence and locally inspected images remain historical records, not authorization for current raw or encrypted exports.
+Subsequent read-only Intel inspection at569fbe0/run36557137468 found Hypervisor and Virtualization support true. It started no VM, services, credentials or socket tests and supplies no native E2E/isolation pass. The corresponding ARM result remains false; [platform-specific evidence](NATIVE_ENVIRONMENT.md#separate-evidence-is-not-native-runtime-success) is retained rather than generalized.
+
+Prepared native tests remain unexecuted: `testRealSequentialRegistrationConsentResponseResolveRestartAndWithdrawal` and `testRealSeparateFaultFixturesDoNotDuplicateOrReopen`. They use one Simulator sequentially with simulated local-device authentication. Dedicated real-native offline mutation, recovery, block/unblock, account-deletion and retention/restore journeys are additional gaps; backend/client coverage does not turn them into executed native tests. See the [detailed source map](COVERAGE.md) for exact test definitions and [preserved attempt history](attempt-history.json).
+
+**Completed e6b acceptance remains unpassed: 217/218, one MOCK failure, zero skips.** Every group now has source-bound evidence. AutoFill is verified at this source; the bounded logout-control recovery executed without successful reacquisition. Historical0432 saved-selection and d050 MOCK failures remain preserved. Native backend E2E still requires an isolation-capable environment. Separate af8019c and2580c22 both passed8/8 without reproducing absence; neither exercised recovery or established a fix.
 
 ## Completed044 diagnostic and controlled Matching Face result
 

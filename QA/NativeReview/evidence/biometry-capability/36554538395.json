@@ -1,0 +1,201 @@
+{
+  "commit": "124615a720bd710cb58bc3fe695bd7ec516dc05b",
+  "run": 36554538395,
+  "attempt": 1,
+  "job": 109360416823,
+  "artifact": 11027855164,
+  "artifactSHA256": "de98c68bfff1da5907302fbbc3eaa6437a2e0a678feba4d1f25399c245d20858",
+  "scope": "Separate official Simulator biometry capability; not an app acceptance run",
+  "report": {
+    "TCCChanged": false,
+    "appCredentialsCreated": false,
+    "blocker": "owned_simulator_cleanup_failed",
+    "bootExitCode": 0,
+    "bootstatusExitCode": 0,
+    "capabilityOnly": true,
+    "commandTrace": [
+      {
+        "command": [
+          "xcrun",
+          "--find",
+          "simctl"
+        ],
+        "elapsedSeconds": 0.645,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "simctl",
+          "help"
+        ],
+        "elapsedSeconds": 28.041,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 120,
+        "timeoutSeconds": 120
+      },
+      {
+        "command": [
+          "xcrun",
+          "swiftc",
+          "[argument]"
+        ],
+        "elapsedSeconds": 13.816,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 90,
+        "timeoutSeconds": 90
+      },
+      {
+        "command": [
+          "open",
+          "-g",
+          "-b"
+        ],
+        "elapsedSeconds": 0.143,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 10,
+        "timeoutSeconds": 10
+      },
+      {
+        "command": [
+          "capability"
+        ],
+        "elapsedSeconds": 0.201,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "xcrun",
+          "--sdk",
+          "iphonesimulator"
+        ],
+        "elapsedSeconds": 2.154,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 20,
+        "timeoutSeconds": 20
+      },
+      {
+        "command": [
+          "xcrun",
+          "swiftc",
+          "[argument]"
+        ],
+        "elapsedSeconds": 6.876,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 90,
+        "timeoutSeconds": 90
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "list"
+        ],
+        "elapsedSeconds": 1.073,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "create"
+        ],
+        "elapsedSeconds": 0.567,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "boot"
+        ],
+        "elapsedSeconds": 5.311,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 30,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "bootstatus"
+        ],
+        "elapsedSeconds": 70.829,
+        "exitCode": 0,
+        "requestedTimeoutSeconds": 150,
+        "timeoutSeconds": 150
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "install"
+        ],
+        "elapsedSeconds": 31.624,
+        "requestedTimeoutSeconds": 30,
+        "timedOut": true,
+        "timeoutSeconds": 30
+      },
+      {
+        "command": [
+          "xcrun",
+          "simctl",
+          "shutdown"
+        ],
+        "elapsedSeconds": 30.06,
+        "requestedTimeoutSeconds": 30,
+        "timedOut": true,
+        "timeoutSeconds": 30
+      }
+    ],
+    "localAuthenticationObserver": {
+      "after": {
+        "status": "Notexecuted"
+      },
+      "before": {
+        "status": "Notexecuted"
+      },
+      "buildStatus": "Passed",
+      "compileExitCode": 0,
+      "evaluatesAuthentication": false,
+      "sdkDiscoveryExitCode": 0
+    },
+    "ownedDeviceCreated": true,
+    "ownedDeviceDeleted": false,
+    "permissionHelperCompileExitCode": 0,
+    "permissionHelperExitCode": 0,
+    "permissions": {
+      "accessibilityTrusted": true,
+      "automationPromptRequested": false,
+      "automationStatus": 0,
+      "uiElementsEnabled": true
+    },
+    "physicalBiometryProven": false,
+    "privateAPIsUsed": false,
+    "probeSHA256": "b2cc8f6c3196a22fe67cc23c5c90d887f637679543d689d019ff6ef62449df78",
+    "runtimeIdentifier": "com.apple.CoreSimulator.SimRuntime.iOS-18-5",
+    "schemaVersion": 1,
+    "simctlHelpExitCode": 0,
+    "simctlHelpMentionsBiometry": false,
+    "simctlLocateExitCode": 0,
+    "stage": "install_observer_app",
+    "status": "Blocked",
+    "systemEventsLaunchExitCode": 0,
+    "timeoutCommand": [
+      "xcrun",
+      "simctl",
+      "install"
+    ],
+    "timeoutElapsedSeconds": 31.624,
+    "timeoutSeconds": 30
+  },
+  "diagnosis": "Observer compilation and owned boot succeeded, but install exceeded30seconds (31.624observed). Shutdown also timed out30seconds. The shared cleanup try block skipped deletion and overwrote the primary blocker; ownedDeviceDeleted=false is retained. No LA or menu observation was obtained in this run.",
+  "changeBeforeRetry": "Bound install to90seconds within the unchanged390-second overall budget. Attempt shutdown and exact-owned deletion independently within a separate60-second cleanup budget; retain the primary failure and report cleanup failure separately. No installation or menu retry."
+}

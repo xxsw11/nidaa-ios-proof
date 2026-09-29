@@ -1,5 +1,7 @@
 # Native integration review — coverage map
 
+Current acceptance is now verified at the single frozen source9127b89. Use [the current matrix](COVERAGE_MATRIX.md) for55 backend,45 reference,20 QA,24 client,45 Core,17 local UI,8 MOCK UI and AutoFill3passed/1failed/0skipped. The earlier source-bound results below remain history and are not combined to claim current acceptance. Native UI with the real backend remains unexecuted.
+
 This is a **source-to-requirement map**, not a pass report. Existing evidence belongs to its recorded source commit; newly added or changed tests require their own run/attempt results. Native UI/backend end-to-end tests are **Not executed — environment isolation blocker**. Recorded results below retain their exact source commits and attempts; later harness-only checks are reported separately. A test definition or successful build does not establish execution. See [attempt history](attempt-history.json), [backend findings](BACKEND_REVIEW.md), [client findings](CLIENT_REVIEW.md), [environment contract](NATIVE_ENVIRONMENT.md) and [UI handoff](UI_HANDOFF.md).
 
 ## Recorded outcomes and unresolved gates

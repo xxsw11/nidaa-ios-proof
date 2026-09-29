@@ -1,0 +1,24 @@
+{
+  "commit": "8dab633b9a402b85b15885cf97da8e0c1cbb3cc4",
+  "run": 36549558340,
+  "attempt": 1,
+  "job": 109344108002,
+  "artifact": 11024152185,
+  "artifactSHA256": "48c66c0bc9ae04937ef073c098c4684cedfc72e609a2c3ad79ae4b5c427d8078",
+  "scope": "Separate official Simulator biometry capability; not an app acceptance run",
+  "report": {
+    "TCCChanged": false,
+    "appCredentialsCreated": false,
+    "blocker": "bounded_command_timeout",
+    "capabilityOnly": true,
+    "ownedDeviceCreated": false,
+    "ownedDeviceDeleted": false,
+    "physicalBiometryProven": false,
+    "privateAPIsUsed": false,
+    "probeSHA256": "4788f612ffc525995fd1bddc9ecba5e9a3ded0cf0a6b9acd0fce9477a840bc43",
+    "schemaVersion": 1,
+    "status": "Blocked"
+  },
+  "diagnosis": "Timeout before simctlHelpExitCode or any later stage: initial xcrun simctl help30s, not an authorization result.",
+  "changeBeforeRetry": "Separate installed tool lookup from initialization, allow bounded120s help initialization and record command/stage/elapsed within a390s overall budget."
+}

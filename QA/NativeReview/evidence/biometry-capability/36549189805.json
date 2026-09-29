@@ -1,0 +1,34 @@
+{
+  "commit": "e4f0d87dfc11552d7b697c1da1de336e218c3912",
+  "run": 36549189805,
+  "attempt": 1,
+  "job": 109342876150,
+  "artifact": 11023642824,
+  "artifactSHA256": "0caad6c6258edabbb8812de1fd2a0407c1e6dfbc303b906c8fe29076ec75a78a",
+  "scope": "Separate official Simulator biometry capability; not an app acceptance run",
+  "report": {
+    "TCCChanged": false,
+    "appCredentialsCreated": false,
+    "blocker": "host_GUI_permissions_unavailable_without_prompt",
+    "capabilityOnly": true,
+    "ownedDeviceCreated": false,
+    "ownedDeviceDeleted": false,
+    "permissionHelperCompileExitCode": 0,
+    "permissionHelperExitCode": 3,
+    "permissions": {
+      "accessibilityTrusted": true,
+      "automationPromptRequested": false,
+      "automationStatus": -600,
+      "uiElementsEnabled": false
+    },
+    "physicalBiometryProven": false,
+    "privateAPIsUsed": false,
+    "probeSHA256": "a338e67db69ea199fd55edcb78db8066cf36f7e30fbbef72f36032e2f2a2663a",
+    "schemaVersion": 1,
+    "simctlHelpExitCode": 0,
+    "simctlHelpMentionsBiometry": false,
+    "status": "Blocked"
+  },
+  "diagnosis": "AE status -600 means target process unavailable; the original generic blocker string does not prove denied permission.",
+  "changeBeforeRetry": "Launch System Events normally before no-prompt check and distinguish -600 from -1743/-1744."
+}
