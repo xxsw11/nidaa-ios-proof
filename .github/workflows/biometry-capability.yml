@@ -7,8 +7,8 @@ permissions:
   contents: read
 jobs:
   capability:
-    if: ${{ github.ref == 'refs/heads/codex/biometry-capability' }}
-    runs-on: macos-15
+    if: ${{ github.event.repository.private == false && github.ref == 'refs/heads/codex/biometry-capability' }}
+    runs-on: macos-15-intel
     timeout-minutes: 8
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -21,4 +21,20 @@ jobs:
         with:
           name: biometry-capability-${{ github.run_id }}-${{ github.run_attempt }}
           path: artifacts/biometry-capability/report.json
+          retention-days: 7
+  intel-host:
+    if: ${{ github.event.repository.private == false && github.ref == 'refs/heads/codex/biometry-capability' }}
+    runs-on: macos-15-intel
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Read actual host capability without services or credentials
+        run: python3 Diagnostics/intel_host_capability.py --output artifacts/intel-host-capability/report.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: ${{ always() }}
+        with:
+          name: intel-host-capability-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/intel-host-capability/report.json
           retention-days: 7
