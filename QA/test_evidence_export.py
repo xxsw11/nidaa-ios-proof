@@ -26,6 +26,14 @@ class NativeEvidenceExportTests(unittest.TestCase):
                     'failureText': 'Early unexpected exit, operation never finished bootstrapping. Test crashed with signal kill before starting test execution. PRIVATE_SENTINEL_DO_NOT_EXPORT'}]
             }))
             exported = Path(destination) / 'export'
+            screens = private / 'screenshots'
+            screens.mkdir()
+            valid = 'login_exists=true, login_enabled=true, signup_exists=true, signup_enabled=false, busy=false, native={nativeReady=false,hasText=true,firstResponder=true,asciiKeyboard=true,secure=true,receivedSeveralEdits=true,bindingReady=false}'
+            (screens / 'safe.txt').write_text('before_keyboard_done: '+valid+'\nafter_keyboard_done: '+valid)
+            (screens / 'unsafe.txt').write_text('before_keyboard_done: PRIVATE_SENTINEL_DO_NOT_EXPORT')
+            (screens / 'manifest.json').write_text(json.dumps([{'attachments': [
+                {'suggestedHumanReadableName':'integration-mock-draft-readiness','exportedFileName':name}
+                for name in ['safe.txt','unsafe.txt']]}]))
             script = ROOT / 'Scripts/export_native_review.py'
             code = script.read_text().replace("output = root/'artifacts/native-review'/suite", 'output = Path(' + repr(str(exported)) + ')')
             class XcodeVersion:
@@ -43,6 +51,9 @@ class NativeEvidenceExportTests(unittest.TestCase):
             self.assertNotIn('failureText', raw)
             self.assertFalse(result['debugTestSucceeded'])
             self.assertFalse(result['releaseBuildSucceeded'])
+            self.assertEqual(len(result['draftReadiness']), 1)
+            self.assertTrue(result['draftReadiness'][0][0]['native']['hasText'])
+            self.assertFalse(result['draftReadiness'][0][0]['native']['nativeReady'])
 
 
 if __name__ == '__main__':

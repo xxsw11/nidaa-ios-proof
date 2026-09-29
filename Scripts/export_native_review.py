@@ -67,6 +67,7 @@ host = subprocess.run(['xcodebuild','-version'], capture_output=True, text=True)
 report['xcode'] = host.stdout.strip()
 manifest = private/'screenshots/manifest.json'
 images=[]
+draft_diagnostics=[]
 allowed = {
  'disposable-simulator-autofill-passwords-and-passkeys-on',
  'disposable-simulator-autofill-fixture-failure',
@@ -94,7 +95,23 @@ if manifest.exists():
                 # Probe text is composed solely of fixed candidate labels in source.
                 assert len(note)<1000 and not re.search(r'eyJ|https?://|@',note)
                 (output/'saved-credential-availability.txt').write_text(note)
+            if human=='integration-mock-draft-readiness' and source.suffix in ('.txt','.text'):
+                # Only fixed UI booleans; never publish arbitrary attachment text.
+                note=source.read_text()
+                keys=['login_exists','login_enabled','signup_exists','signup_enabled','busy']
+                native_keys=['nativeReady','hasText','firstResponder','asciiKeyboard','secure','receivedSeveralEdits','bindingReady']
+                pattern=r'(before_keyboard_done|after_keyboard_done): '+', '.join(key+r'=(true|false)' for key in keys)+r', native=\{('+','.join(key+r'=(?:true|false)' for key in native_keys)+r'|unavailable)\}'
+                lines=note.strip().splitlines()
+                matches=[re.fullmatch(pattern,line) for line in lines]
+                if len(matches)==2 and all(matches):
+                    phases=[]
+                    for match in matches:
+                        row=match.groups()
+                        native={} if row[-1]=='unavailable' else {key:value=='true' for key,value in (pair.split('=') for pair in row[-1].split(','))}
+                        phases.append({'phase':row[0], **{key:value=='true' for key,value in zip(keys,row[1:6])},'native':native})
+                    draft_diagnostics.append(phases)
 report['screenshots']=images
+report['draftReadiness']=draft_diagnostics
 text=json.dumps(report,indent=2)+'\n'
 assert not re.search(r'eyJ[A-Za-z0-9_-]{15,}\.[A-Za-z0-9_-]{15,}|-----BEGIN .*PRIVATE KEY|Native-Fictional-Only', text)
 (output/'result.json').write_text(text)

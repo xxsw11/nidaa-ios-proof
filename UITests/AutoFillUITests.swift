@@ -10,9 +10,19 @@ final class AutoFillUITests: IntegrationTestCase {
         passwords.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
         passwords.launch()
         defer { passwords.terminate() }
-        let continueButton = passwords.buttons["Continue"].firstMatch
-        if continueButton.waitForExistence(timeout: 5), continueButton.isHittable { continueButton.tap() }
-        let candidates = ["Set Up a Passcode", "Turn On iCloud Keychain", "No Passwords", "Welcome to Passwords", "Passwords Are Locked"]
+        // Original 3759 evidence reached a second onboarding page, Passwords App
+        // Notifications. Finish bounded onboarding and decline the system prompt.
+        let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+        for _ in 0..<4 {
+            let deny = springboard.alerts.buttons["Don’t Allow"].firstMatch
+            let asciiDeny = springboard.alerts.buttons["Don't Allow"].firstMatch
+            if deny.exists && deny.isHittable { deny.tap(); continue }
+            if asciiDeny.exists && asciiDeny.isHittable { asciiDeny.tap(); continue }
+            let next = passwords.buttons["Continue"].firstMatch
+            guard next.waitForExistence(timeout: 3), next.isHittable else { break }
+            next.tap()
+        }
+        let candidates = ["Set Up a Passcode", "Turn On iCloud Keychain", "No Passwords", "Welcome to Passwords", "Passwords Are Locked", "Passwords App Notifications", "All", "New Password"]
         let observed = candidates.filter { passwords.staticTexts[$0].exists || passwords.buttons[$0].exists }
         let note = observed.isEmpty
             ? "No recognized saved-credential setup state was established by the bounded disposable Simulator probe."

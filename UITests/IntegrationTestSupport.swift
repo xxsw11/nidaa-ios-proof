@@ -11,9 +11,24 @@ class IntegrationTestCase: XCTestCase {
         // The runner and application share this disposable Simulator pasteboard.
         // Native PasteButton is the actual user-facing transfer, not an auth hook.
         UIPasteboard.general.setItems([["public.utf8-plain-text": value]], options: [.localOnly: true, .expirationDate: Date().addingTimeInterval(60)])
+        let pasteButton = app.buttons[id + "Paste"].firstMatch
+        reveal(pasteButton)
+        let available = XCTNSPredicateExpectation(predicate: NSPredicate(format: "enabled == true"), object: pasteButton)
+        XCTAssertEqual(XCTWaiter.wait(for: [available], timeout: 5), .completed, "Native PasteButton did not become available")
         tap(id + "Paste")
         // PasteButton loads item providers asynchronously; do not erase its
         // source before that transfer completes. Expiry/tearDown clear it.
+        let validationControl = [
+            "integrationPassword": "integrationSignup",
+            "integrationNewPassword": "integrationUpdatePassword",
+            "integrationVerificationToken": "integrationVerify",
+            "integrationInviteToken": "integrationDeclineInvite"
+        ][id]
+        guard let validationControl else { XCTFail("Missing paste validation control"); return }
+        // Observe only the existing validation gate, never a secure field value.
+        // Callers keep their own assertions and explicit action/consent steps.
+        let transferred = XCTNSPredicateExpectation(predicate: NSPredicate(format: "enabled == true"), object: app.buttons[validationControl].firstMatch)
+        XCTAssertEqual(XCTWaiter.wait(for: [transferred], timeout: 5), .completed, "Paste did not update the form validation gate")
     }
     var app: XCUIApplication!
     var isLive = false
@@ -190,7 +205,9 @@ class IntegrationTestCase: XCTestCase {
         let busy = app.descendants(matching: .any).matching(identifier: "integrationBusy").firstMatch
         let loginExists = login.exists, signupExists = signup.exists
         // UI booleans only: no secure-field value, character count or text dump.
-        return "login_exists=\(loginExists), login_enabled=\(loginExists && login.isEnabled), signup_exists=\(signupExists), signup_enabled=\(signupExists && signup.isEnabled), busy=\(busy.exists)"
+        let diagnostic = app.staticTexts["integrationPasswordDiagnostics"]
+        let native = diagnostic.exists ? (diagnostic.value as? String ?? "unavailable") : "unavailable"
+        return "login_exists=\(loginExists), login_enabled=\(loginExists && login.isEnabled), signup_exists=\(signupExists), signup_enabled=\(signupExists && signup.isEnabled), busy=\(busy.exists), native={\(native)}"
     }
     func shot(_ name: String) {
         let item = XCTAttachment(screenshot: app.screenshot()); item.name = (isLive ? "integration-native-real-" : "integration-mock-") + name; item.lifetime = .keepAlways; add(item)

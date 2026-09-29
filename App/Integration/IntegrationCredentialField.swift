@@ -11,12 +11,13 @@ struct IntegrationCredentialField: View {
     var contentType: UITextContentType? = nil
     var allowsVisibility = false
     @State private var visible = false
+    @State private var diagnostics = CredentialDiagnostics()
     @Environment(\.scenePhase) private var phase
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title).font(.caption)
             HStack(spacing: 8) {
-                CredentialInput(text: $text, title: title, id: id, contentType: contentType, secure: !visible)
+                CredentialInput(text: $text, diagnostics: $diagnostics, title: title, id: id, contentType: contentType, secure: !visible)
                     .frame(minHeight: 48)
                 if allowsVisibility {
                     Button { visible.toggle() } label: {
@@ -36,14 +37,36 @@ struct IntegrationCredentialField: View {
                 .accessibilityIdentifier(id + "Paste")
             }
             .environment(\.layoutDirection, .leftToRight)
+            #if targetEnvironment(simulator)
+            if ProcessInfo.processInfo.arguments.contains("-nidaa-ui-testing") {
+                Text("فحص إدخال تجريبي")
+                    .font(.caption2)
+                    .accessibilityIdentifier(id + "Diagnostics")
+                    .accessibilityValue(diagnostics.summary + ",bindingReady=\(text.count >= 8)")
+            }
+            #endif
         }
         .onChange(of: phase) { if $0 != .active { visible = false } }
         .onDisappear { visible = false }
     }
 }
 
+/// Test diagnostics contain only booleans, never text, lengths or credentials.
+private struct CredentialDiagnostics: Equatable {
+    var nativeReady = false
+    var hasText = false
+    var firstResponder = false
+    var asciiKeyboard = false
+    var secure = true
+    var receivedSeveralEdits = false
+    var summary: String {
+        "nativeReady=\(nativeReady),hasText=\(hasText),firstResponder=\(firstResponder),asciiKeyboard=\(asciiKeyboard),secure=\(secure),receivedSeveralEdits=\(receivedSeveralEdits)"
+    }
+}
+
 private struct CredentialInput: UIViewRepresentable {
     @Binding var text: String
+    @Binding var diagnostics: CredentialDiagnostics
     let title: String
     let id: String
     let contentType: UITextContentType?
@@ -78,22 +101,41 @@ private struct CredentialInput: UIViewRepresentable {
         field.placeholder = title
         field.accessibilityIdentifier = id
         field.accessibilityLabel = title
-        field.textContentType = contentType
+        // Setting a keyboard/AutoFill trait during every text edit is unnecessary
+        // and can reconfigure the active system input session. Keep it stable.
+        if field.textContentType != contentType { field.textContentType = contentType }
         if field.isSecureTextEntry != secure {
+            let draft = text
             let selection = field.selectedTextRange
             field.isSecureTextEntry = secure
             // UIKit can reset its display when switching secure entry. Preserve
             // the same draft and selection on the same responder.
-            field.text = text
+            field.text = draft
             if let selection { field.selectedTextRange = selection }
         } else if field.text != text { field.text = text }
     }
     final class Coordinator: NSObject, UITextFieldDelegate {
         var parent: CredentialInput
         weak var field: UITextField?
+        private var edits = 0
         init(_ parent: CredentialInput) { self.parent = parent }
         @objc func done() { field?.resignFirstResponder() }
-        @objc func changed(_ field: UITextField) { parent.text = field.text ?? "" }
+        @objc func changed(_ field: UITextField) {
+            edits += 1
+            parent.text = field.text ?? ""
+            record(field)
+        }
+        func textFieldDidBeginEditing(_ textField: UITextField) { record(textField) }
+        func textFieldDidEndEditing(_ textField: UITextField) { record(textField) }
+        private func record(_ field: UITextField) {
+            #if targetEnvironment(simulator)
+            guard ProcessInfo.processInfo.arguments.contains("-nidaa-ui-testing") else { return }
+            parent.diagnostics = CredentialDiagnostics(nativeReady: (field.text?.count ?? 0) >= 8,
+                hasText: !(field.text ?? "").isEmpty, firstResponder: field.isFirstResponder,
+                asciiKeyboard: field.keyboardType == .asciiCapable, secure: field.isSecureTextEntry,
+                receivedSeveralEdits: edits >= 8)
+            #endif
+        }
         func textFieldShouldReturn(_ textField: UITextField) -> Bool {
             textField.resignFirstResponder(); return true
         }
