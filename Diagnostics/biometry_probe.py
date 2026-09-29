@@ -8,6 +8,7 @@ import hashlib
 import json
 from pathlib import Path
 import platform
+import plistlib
 import subprocess
 import tempfile
 import time
@@ -15,6 +16,7 @@ from uuid import UUID, uuid4
 
 SWIFT = r'''
 import Foundation
+import AppKit
 import ApplicationServices
 import CoreServices
 
@@ -39,58 +41,140 @@ guard trusted && enabled.booleanValue else { emit(result); exit(3) }
 if CommandLine.arguments.count == 1 { emit(result); exit(0) }
 let name = CommandLine.arguments[1]
 guard name.hasPrefix("NIDAA Biometry Probe ") && name.allSatisfy({ $0.isLetter || $0.isNumber || $0 == " " || $0 == "-" }) else { exit(4) }
+guard CommandLine.arguments.count == 3 else { exit(4) }
+let bundle = CommandLine.arguments[2]
+guard bundle.hasPrefix("com.apple.") && bundle.allSatisfy({ $0.isLetter || $0.isNumber || $0 == "." || $0 == "-" }) else { exit(4) }
+result["queryStage"] = "running_application_wait"
+var application: NSRunningApplication?
+let applicationDeadline = Date().addingTimeInterval(15)
+repeat {
+    application = NSRunningApplication.runningApplications(withBundleIdentifier: bundle).first
+    if application != nil { break }
+    Thread.sleep(forTimeInterval: 0.25)
+} while Date() < applicationDeadline
+guard let application = application else {
+    result["simulatorProcessObserved"] = false; emit(result); exit(3)
+}
+result["simulatorProcessObserved"] = true
+let pid = application.processIdentifier
 let source = """
+set probeStage to "system_events_process_wait"
+set ownedWindowVerified to false
+set featuresPresent to false
+set hardwarePresent to false
+set facePresent to false
+set enrolledPresent to false
+set markReadable to false
+try
 tell application id "com.apple.systemevents"
-  tell first application process whose bundle identifier is "com.apple.iphonesimulator"
+  repeat with attempt from 1 to 60
+    if exists application process whose unix id is \(pid) then exit repeat
+    delay 0.25
+  end repeat
+  if not (exists application process whose unix id is \(pid)) then error number -27000
+  tell first application process whose unix id is \(pid)
+    set probeStage to "owned_window_wait"
+    repeat with attempt from 1 to 60
+      if exists window whose name contains "\(name)" then exit repeat
+      delay 0.25
+    end repeat
+    if not (exists window whose name contains "\(name)" ) then error number -27001
+    set probeStage to "select_owned_window"
+    set ownedWindow to first window whose name contains "\(name)"
+    set probeStage to "raise_owned_window"
     set frontmost to true
-    if not (exists window whose name contains "\(name)") then error number -27001
-    perform action "AXRaise" of first window whose name contains "\(name)"
+    perform action "AXRaise" of ownedWindow
+    set probeStage to "verify_front_owned_window"
     if not ((name of front window) contains "\(name)") then error number -27002
-    if exists menu bar item "Features" of menu bar 1 then
+    set ownedWindowVerified to true
+    set probeStage to "features_hardware_presence"
+    set featuresPresent to exists menu bar item "Features" of menu bar 1
+    set hardwarePresent to exists menu bar item "Hardware" of menu bar 1
+    if featuresPresent then
       set topItem to menu bar item "Features" of menu bar 1
-    else if exists menu bar item "Hardware" of menu bar 1 then
+    else if hardwarePresent then
       set topItem to menu bar item "Hardware" of menu bar 1
     else
       error number -27003
     end if
+    set probeStage to "open_features_hardware_menu"
     click topItem
-    if not (exists menu item "Face ID" of menu 1 of topItem) then error number -27004
+    set probeStage to "face_id_presence"
+    set facePresent to exists menu item "Face ID" of menu 1 of topItem
+    if not facePresent then error number -27004
     set faceItem to menu item "Face ID" of menu 1 of topItem
+    set probeStage to "open_face_id_menu"
     click faceItem
-    if not (exists menu item "Enrolled" of menu 1 of faceItem) then error number -27005
+    set probeStage to "enrolled_presence"
+    set enrolledPresent to exists menu item "Enrolled" of menu 1 of faceItem
+    if not enrolledPresent then error number -27005
     set enrollItem to menu item "Enrolled" of menu 1 of faceItem
+    set probeStage to "enrolled_enabled"
     if not (enabled of enrollItem) then error number -27006
-    if not (exists attribute "AXMenuItemMarkChar" of enrollItem) then error number -27007
+    set probeStage to "enrolled_mark_read_before"
+    set markReadable to exists attribute "AXMenuItemMarkChar" of enrollItem
+    if not markReadable then error number -27007
     set markBefore to value of attribute "AXMenuItemMarkChar" of enrollItem
     set checkedBefore to (markBefore is not missing value and markBefore is not "")
     set changed to false
     if not checkedBefore then
+      set probeStage to "verify_owned_window_before_enrollment"
+      if not ((name of front window) contains "\(name)") then error number -27002
+      set probeStage to "enable_enrollment"
       click enrollItem
       set changed to true
+      set probeStage to "reopen_features_after_enrollment"
       click topItem
+      set probeStage to "reopen_face_id_after_enrollment"
       click faceItem
     end if
+    set probeStage to "enrolled_mark_read_after"
     set enrollItem to menu item "Enrolled" of menu 1 of faceItem
     if not (exists attribute "AXMenuItemMarkChar" of enrollItem) then error number -27008
     set markAfter to value of attribute "AXMenuItemMarkChar" of enrollItem
     set checkedAfter to (markAfter is not missing value and markAfter is not "")
+    set probeStage to "matching_face_presence"
     set matchingPresent to exists menu item "Matching Face" of menu 1 of faceItem
     set matchingEnabled to false
+    set probeStage to "matching_face_enabled"
     if matchingPresent then set matchingEnabled to enabled of menu item "Matching Face" of menu 1 of faceItem
+    set probeStage to "close_menu"
     key code 53
-    return ((checkedBefore as integer) as text) & "|" & ((changed as integer) as text) & "|" & ((checkedAfter as integer) as text) & "|" & ((matchingPresent as integer) as text) & "|" & ((matchingEnabled as integer) as text)
+    return "ok|" & ((checkedBefore as integer) as text) & "|" & ((changed as integer) as text) & "|" & ((checkedAfter as integer) as text) & "|" & ((matchingPresent as integer) as text) & "|" & ((matchingEnabled as integer) as text) & "|" & ((ownedWindowVerified as integer) as text) & "|" & ((featuresPresent as integer) as text) & "|" & ((hardwarePresent as integer) as text) & "|" & ((facePresent as integer) as text) & "|" & ((enrolledPresent as integer) as text) & "|" & ((markReadable as integer) as text)
   end tell
 end tell
+on error number code
+  return "error|" & (code as text) & "|" & probeStage & "|" & ((ownedWindowVerified as integer) as text) & "|" & ((featuresPresent as integer) as text) & "|" & ((hardwarePresent as integer) as text) & "|" & ((facePresent as integer) as text) & "|" & ((enrolledPresent as integer) as text) & "|" & ((markReadable as integer) as text)
+end try
 """
 error = nil
+result["queryStage"] = "apple_script_compile_or_dispatch"
 let response = NSAppleScript(source: source)!.executeAndReturnError(&error)
 if let error = error {
     result["scriptErrorCode"] = error[NSAppleScript.errorNumber] as? Int ?? 0
+    if let range = error[NSAppleScript.errorRange] as? NSValue {
+        result["scriptErrorRangeLocation"] = range.rangeValue.location
+        result["scriptErrorRangeLength"] = range.rangeValue.length
+    }
     emit(result); exit(3)
 }
-let values = (response.stringValue ?? "").split(separator: "|").compactMap { Int($0) }
-guard values.count == 5 && values.allSatisfy({ $0 == 0 || $0 == 1 }) else { result["parseFailed"] = true; emit(result); exit(3) }
+let fields = (response.stringValue ?? "").split(separator: "|").map(String.init)
+if fields.first == "error" && fields.count == 9 {
+    result["scriptErrorCode"] = Int(fields[1]) ?? 0
+    result["queryStage"] = fields[2]
+    for (key, value) in zip(["ownedWindowVerified", "featuresMenuPresent", "hardwareMenuPresent", "faceIDMenuPresent", "enrolledMenuPresent", "enrolledMarkReadable"], fields.dropFirst(3)) {
+        result[key] = value == "1"
+    }
+    emit(result); exit(3)
+}
+let values = fields.dropFirst().compactMap { Int($0) }
+guard fields.first == "ok" && values.count == 11 && values.allSatisfy({ $0 == 0 || $0 == 1 }) else { result["parseFailed"] = true; emit(result); exit(3) }
+result["queryStage"] = "complete"
+result["ownedWindowVerified"] = true
 for (key, value) in zip(["enrolledBefore", "enrollmentChanged", "enrolledAfter", "matchingFaceMenuPresent", "matchingFaceMenuEnabled"], values) {
+    result[key] = value == 1
+}
+for (key, value) in zip(["ownedWindowVerified", "featuresMenuPresent", "hardwareMenuPresent", "faceIDMenuPresent", "enrolledMenuPresent", "enrolledMarkReadable"], values.dropFirst(5)) {
     result[key] = value == 1
 }
 result["matchingFaceInvoked"] = false
@@ -242,13 +326,17 @@ def main():
             simulator = Path(developer.stdout.strip())/'Applications/Simulator.app'
             if not simulator.is_dir():
                 raise Blocked('selected_Simulator_app_unavailable')
+            with (simulator/'Contents/Info.plist').open('rb') as stream:
+                bundle_identifier = plistlib.load(stream)['CFBundleIdentifier']
+            if not isinstance(bundle_identifier, str) or not bundle_identifier.startswith('com.apple.'):
+                raise Blocked('selected_Simulator_bundle_unavailable')
+            report['installedSimulatorBundleMatchesExpected'] = bundle_identifier == 'com.apple.iphonesimulator'
             opened = command(['open', '-a', str(simulator), '--args', '-CurrentDeviceUDID', owned])
             report['openExactDeviceExitCode'] = opened.returncode
             if opened.returncode:
                 raise Blocked('owned_simulator_window_unavailable')
-            time.sleep(2)
             report['stage'] = 'official_Face_ID_menu'
-            inspected = command([str(binary), name])
+            inspected = command([str(binary), name, bundle_identifier], timeout=90)
             report['menuHelperExitCode'] = inspected.returncode
             report['menu'] = json.loads(inspected.stdout)
             if inspected.returncode:
