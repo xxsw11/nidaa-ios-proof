@@ -103,23 +103,68 @@ class Blocked(Exception):
     pass
 
 
+class ProbeTimeout(Exception):
+    def __init__(self, record):
+        self.record = record
+
+
+COMMAND_TRACE = []
+COMMAND_DEADLINE = None
+
+
 def command(argv, timeout=30):
-    return subprocess.run(argv, capture_output=True, text=True, timeout=timeout)
+    # Only fixed command/subcommand tokens are published. Paths, device UUIDs
+    # and arguments are excluded even from timeout diagnostics.
+    allowed = {'--find', 'simctl', 'help', 'swiftc', 'list', 'devices', 'available',
+               'create', 'boot', 'bootstatus', 'shutdown', 'delete', '-g', '-b', '-p', '-a',
+               'com.apple.systemevents'}
+    coarse = [Path(argv[0]).name] + [value if value in allowed else '[argument]' for value in argv[1:3]]
+    requested_timeout = timeout
+    if COMMAND_DEADLINE is not None:
+        timeout = max(0, min(timeout, COMMAND_DEADLINE-time.monotonic()))
+    record = {'command': coarse, 'timeoutSeconds': round(timeout, 3), 'requestedTimeoutSeconds': requested_timeout}
+    COMMAND_TRACE.append(record)
+    started = time.monotonic()
+    try:
+        if timeout <= 0:
+            record['timedOut'] = True
+            record['probeBudgetExhausted'] = True
+            raise ProbeTimeout(record)
+        result = subprocess.run(argv, capture_output=True, text=True, timeout=timeout)
+        record['exitCode'] = result.returncode
+        return result
+    except subprocess.TimeoutExpired:
+        record['timedOut'] = True
+        raise ProbeTimeout(record) from None
+    finally:
+        record['elapsedSeconds'] = round(time.monotonic()-started, 3)
 
 
 def main():
+    global COMMAND_DEADLINE
     parser = argparse.ArgumentParser()
     parser.add_argument('--output', type=Path, default=Path('artifacts/biometry-capability/report.json'))
     args = parser.parse_args()
+    COMMAND_TRACE.clear()
+    # Leave up to 60 seconds for exact-owned-device cleanup and 30 seconds for
+    # artifact upload within the workflow's eight-minute limit.
+    COMMAND_DEADLINE = time.monotonic()+390
     report = {'schemaVersion': 1, 'status': 'Blocked', 'capabilityOnly': True, 'appCredentialsCreated': False,
               'privateAPIsUsed': False, 'TCCChanged': False, 'physicalBiometryProven': False,
               'ownedDeviceCreated': False, 'ownedDeviceDeleted': False,
+              'commandTrace': COMMAND_TRACE,
               'probeSHA256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}
     owned = None
     try:
         if platform.system() != 'Darwin':
             raise Blocked('macOS_required')
-        help_result = command(['xcrun', 'simctl', 'help'])
+        report['stage'] = 'locate_simctl'
+        located = command(['xcrun', '--find', 'simctl'], timeout=30)
+        report['simctlLocateExitCode'] = located.returncode
+        if located.returncode or not Path(located.stdout.strip()).is_file():
+            raise Blocked('installed_simctl_unavailable')
+        report['stage'] = 'simctl_help'
+        help_result = command([located.stdout.strip(), 'help'], timeout=120)
         report['simctlHelpExitCode'] = help_result.returncode
         report['simctlHelpMentionsBiometry'] = any(word in help_result.stdout.lower() for word in ('biometric', 'biometry', 'face id'))
         if help_result.returncode:
@@ -128,6 +173,7 @@ def main():
             source = Path(temporary)/'Capability.swift'
             binary = Path(temporary)/'capability'
             source.write_text(SWIFT, encoding='utf-8')
+            report['stage'] = 'compile_permission_helper'
             built = command(['xcrun', 'swiftc', str(source), '-o', str(binary)], timeout=90)
             report['permissionHelperCompileExitCode'] = built.returncode
             if built.returncode:
@@ -211,11 +257,15 @@ def main():
             report['scope'] = 'Official Face ID Enrolled menu only; no app challenge or AutoFill insertion'
     except Blocked as error:
         report['blocker'] = str(error)
-    except subprocess.TimeoutExpired:
+    except ProbeTimeout as error:
         report['blocker'] = 'bounded_command_timeout'
+        report['timeoutCommand'] = error.record['command']
+        report['timeoutSeconds'] = error.record['timeoutSeconds']
+        report['timeoutElapsedSeconds'] = error.record['elapsedSeconds']
     except (OSError, ValueError, KeyError, TypeError):
         report['blocker'] = 'capability_output_or_tool_error'
     finally:
+        COMMAND_DEADLINE = None
         if owned:
             try:
                 stopped = command(['xcrun', 'simctl', 'shutdown', owned], timeout=30)
@@ -226,7 +276,7 @@ def main():
                 if deleted.returncode:
                     report['status'] = 'Blocked'
                     report['blocker'] = 'owned_simulator_cleanup_failed'
-            except (OSError, subprocess.TimeoutExpired):
+            except (OSError, ProbeTimeout):
                 report['status'] = 'Blocked'
                 report['blocker'] = 'owned_simulator_cleanup_failed'
         args.output.parent.mkdir(parents=True, exist_ok=True)
