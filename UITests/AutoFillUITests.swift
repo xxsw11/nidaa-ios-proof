@@ -167,6 +167,16 @@ final class AutoFillUITests: IntegrationTestCase {
             return
         }
         guard emitPickerMatchRequest() else { return }
+        // A returned host menu action does not prove that native authentication
+        // has finished. Wait for a complete snapshot proving prompt dismissal.
+        let faceIDDismissed = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            self.nativeFaceIDPromptState(in: springboard) == .absent
+        }, object: nil)
+        guard XCTWaiter.wait(for: [faceIDDismissed], timeout: 20) == .completed else {
+            recordFullPickerDiagnostic(phase: "selection_failure", app: nativeApp, springboard: springboard, passwords: passwords)
+            XCTFail("Native Face ID prompt dismissal was not confirmed; no saved credential tapped")
+            return
+        }
         // The picker can appear asynchronously, with the fictional identity in
         // different native roles. Rebuild candidates on every bounded poll;
         // never commit early to an absent static-text query. Do not relaunch
@@ -211,14 +221,33 @@ final class AutoFillUITests: IntegrationTestCase {
             }
             XCTFail("Fictional saved account not found in native picker"); return
         }
-        let selectedRole = Int(selectedTarget.elementType.rawValue)
-        let selectedLabel = selectedTarget.label
+        recordFullPickerDiagnostic(phase: "before_selection", app: nativeApp, springboard: springboard, passwords: passwords)
+        // Capturing evidence can outlive a native transition. Discard the earlier
+        // target, confirm dismissal and resolve the identity again without retry.
+        guard nativeFaceIDPromptState(in: springboard) == .absent else {
+            recordFullPickerDiagnostic(phase: "selection_failure", app: nativeApp, springboard: springboard, passwords: passwords)
+            XCTFail("Native Face ID dismissal was lost before saved credential selection")
+            return
+        }
+        var freshSelectedTarget: XCUIElement?
+        for surface in pickerSurfaces() {
+            if let target = savedIdentityTarget(in: surface, email: email, site: site) {
+                freshSelectedTarget = target; break
+            }
+        }
+        guard let freshSelectedTarget,
+              nativeFaceIDPromptState(in: springboard) == .absent else {
+            recordFullPickerDiagnostic(phase: "selection_failure", app: nativeApp, springboard: springboard, passwords: passwords)
+            XCTFail("Fresh saved identity and native Face ID dismissal were not both confirmed")
+            return
+        }
+        let selectedRole = Int(freshSelectedTarget.elementType.rawValue)
+        let selectedLabel = freshSelectedTarget.label
         let selectedLabelContainsEmail = selectedLabel.contains(email)
         let selectedLabelContainsSite = selectedLabel.contains(site)
         let selectedLabelEqualsEmail = selectedLabel == email
         let selectedLabelEqualsSite = selectedLabel == site
-        recordFullPickerDiagnostic(phase: "before_selection", app: nativeApp, springboard: springboard, passwords: passwords)
-        selectedTarget.tap()
+        freshSelectedTarget.tap()
         let emailFilled = XCTNSPredicateExpectation(predicate: NSPredicate(format: "value == %@", email), object: emailField)
         let emailFillResult = XCTWaiter.wait(for: [emailFilled], timeout: 8)
         let emailFieldExists = emailField.exists
@@ -878,11 +907,20 @@ extension AutoFillUITests {
 // Raw logs remain runner-private; only fixed validated reports may be exported.
 
 extension AutoFillUITests {
+    private enum NativeFaceIDPromptState: Equatable {
+        case visible, absent, unknown
+    }
+
     private func hasVisibleNativeFaceIDPrompt(in springboard: XCUIApplication) -> Bool {
-        guard let root = try? springboard.snapshot() else { return false }
+        nativeFaceIDPromptState(in: springboard) == .visible
+    }
+
+    private func nativeFaceIDPromptState(in springboard: XCUIApplication) -> NativeFaceIDPromptState {
+        guard let root = try? springboard.snapshot() else { return .unknown }
         let viewport = root.frame
-        guard [viewport.minX, viewport.minY, viewport.width, viewport.height].allSatisfy({ $0.isFinite }),
-              viewport.width > 0, viewport.height > 0 else { return false }
+        guard root.elementType == .application,
+              [viewport.minX, viewport.minY, viewport.width, viewport.height].allSatisfy({ $0.isFinite }),
+              viewport.width > 0, viewport.height > 0 else { return .unknown }
         var visited = 0
         var complete = true
         var observed = false
@@ -890,17 +928,18 @@ extension AutoFillUITests {
             guard complete else { return }
             guard visited < 2000, depth < 50 else { complete = false; return }
             visited += 1
-            if node.elementType == .staticText, node.label == "Face ID" {
-                let frame = node.frame
-                if [frame.minX, frame.minY, frame.width, frame.height].allSatisfy({ $0.isFinite }),
-                   frame.width > 0, frame.height > 0, viewport.contains(frame) {
-                    observed = true
-                }
+            let frame = node.frame
+            guard [frame.minX, frame.minY, frame.width, frame.height].allSatisfy({ $0.isFinite }),
+                  frame.width >= 0, frame.height >= 0 else { complete = false; return }
+            if node.elementType == .staticText, node.label == "Face ID",
+               frame.width > 0, frame.height > 0, viewport.contains(frame) {
+                observed = true
             }
             for child in node.children { visit(child, depth: depth + 1) }
         }
         visit(root, depth: 0)
-        return complete && observed
+        guard complete else { return .unknown }
+        return observed ? .visible : .absent
     }
 
     func emitPickerMatchRequest() -> Bool {
