@@ -215,6 +215,16 @@ final class AutoFillUITests: IntegrationTestCase {
         let providerCell = settings.cells.containing(.staticText, identifier: "Passwords").firstMatch
         let providerButton = settings.buttons["Passwords"].firstMatch
         let providerText = settings.staticTexts["Passwords"].firstMatch
+        let visibleGlobal = XCTNSPredicateExpectation(predicate: NSPredicate(format: "exists == true AND hittable == true"), object: global)
+        _ = XCTWaiter.wait(for: [visibleGlobal], timeout: 5)
+        // A containing cell can be an entire section. Only infer a switch from
+        // a single bounded provider row; never use the section's global toggle.
+        let providerRowSwitch: XCUIElement
+        if providerCell.exists, providerCell.frame.height <= 120, providerCell.switches.count == 1 {
+            providerRowSwitch = providerCell.switches.firstMatch
+        } else {
+            providerRowSwitch = settings.switches["NIDAA-absent-provider-row-switch"]
+        }
         func state(_ control: XCUIElement) -> (known: Bool, enabled: Bool) {
             guard control.exists, let value = (control.value as? String)?.lowercased() else { return (false, false) }
             if value == "1" || value == "on" { return (true, true) }
@@ -222,23 +232,49 @@ final class AutoFillUITests: IntegrationTestCase {
             return (false, false)
         }
         let globalState = state(global)
-        let providerState = state(providerSwitch)
+        let providerState = state(providerSwitch.exists ? providerSwitch : providerRowSwitch)
         attachDiagnosticBooleans(["globalEnabledKnown": globalState.known, "globalEnabled": globalState.enabled,
             "providerControlObserved": providerSwitch.exists || providerCell.exists || providerButton.exists || providerText.exists,
             "providerEnabledKnown": providerState.known, "providerEnabled": providerState.enabled], name: "autofill-native-provider-state")
-        func attachRow(_ row: XCUIElement, name: String) {
-            guard row.exists, row.isHittable else { return }
+        let windowFrame = settings.windows.firstMatch.frame
+        let runnerFrame = UIScreen.main.bounds
+        func coordinates(_ frame: CGRect) -> [CGFloat] { [frame.minX, frame.minY, frame.width, frame.height] }
+        let candidates: [(String, XCUIElement, Bool)] = [
+            ("global_switch", global, true), ("provider_switch", providerSwitch, true),
+            ("provider_cell", providerCell, false), ("provider_button", providerButton, false),
+            ("provider_text", providerText, false), ("provider_row_switch", providerRowSwitch, true)]
+        let rows: [[String: Any]] = candidates.map { name, element, isSwitch in
+            let exists = element.exists
+            let frame = exists ? element.frame : .zero
+            let value = isSwitch ? state(element) : (known: false, enabled: false)
+            return ["control": name, "exists": exists, "hittable": exists && element.isHittable,
+                    "selected": exists && element.isSelected, "frame": coordinates(frame),
+                    "runnerContains": exists && runnerFrame.contains(frame),
+                    "windowContains": exists && windowFrame.contains(frame),
+                    "sizeEligible": exists && frame.height > 0 && frame.height <= 120 && frame.width > 0,
+                    "valueKnown": value.known, "enabled": value.enabled]
+        }
+        let geometry: [String: Any] = ["runnerFrame": coordinates(runnerFrame), "windowFrame": coordinates(windowFrame), "rows": rows]
+        if let data = try? JSONSerialization.data(withJSONObject: geometry, options: [.sortedKeys]), let text = String(data: data, encoding: .utf8) {
+            let evidence = XCTAttachment(string: text)
+            evidence.name = "autofill-native-provider-geometry"
+            evidence.lifetime = .keepAlways; add(evidence)
+        }
+        func attachRow(_ row: XCUIElement, name: String) -> Bool {
+            guard settings.state == .runningForeground, row.exists else { return false }
             let frame = row.frame
             // Only the fresh Simulator's named settings controls; never a full
-            // Settings screen, Apple account header or credential detail.
+            // Settings screen, Apple account header or credential detail. A
+            // visible label need not be independently tappable to be captured.
             guard frame.height > 0, frame.height <= 120, frame.width > 0,
-                  UIScreen.main.bounds.contains(frame) else { return }
+                  windowFrame.contains(frame) else { return false }
             let image = XCTAttachment(screenshot: row.screenshot())
             image.name = name; image.lifetime = .keepAlways; add(image)
+            return true
         }
-        attachRow(global, name: "autofill-native-provider-global-toggle")
-        for row in [providerSwitch, providerCell, providerButton, providerText] where row.exists && row.isHittable {
-            attachRow(row, name: "autofill-native-provider-row"); break
+        _ = attachRow(global, name: "autofill-native-provider-global-toggle")
+        for row in [providerSwitch, providerRowSwitch, providerCell, providerButton, providerText] {
+            if attachRow(row, name: "autofill-native-provider-row") { break }
         }
     }
     private func pickerDiagnosticAllowedStrings() -> Set<String> {
@@ -306,9 +342,9 @@ final class AutoFillUITests: IntegrationTestCase {
             evidence.name = "autofill-native-picker-accessibility-tree"
             evidence.lifetime = .keepAlways; add(evidence)
         }
-        // Full screen, retaining native layout. Export is fail-closed; redact all
-        // editable rectangles plus every non-whitelisted text-bearing leaf/row.
-        // These opaque masks are diagnostic redactions, not product screenshots.
+        // Full screen, retaining native layout. Snapshot-based masks are not
+        // atomic with a changing screen: the exporter also encrypts these images
+        // for local inspection before publication. They are diagnostic captures.
         guard newPasswordFormClosed, emailBlank, complete, !truncated else { return }
         let original = XCUIScreen.main.screenshot().image
         guard let pixels = original.cgImage else { return }

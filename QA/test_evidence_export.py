@@ -72,7 +72,12 @@ class NativeEvidenceExportTests(unittest.TestCase):
             code = script.read_text().replace("output = root/'artifacts/native-review'/suite", 'output = Path(' + repr(str(exported)) + ')')
             class XcodeVersion:
                 stdout = 'Xcode test fixture'
-            with patch.object(sys, 'argv', [str(script), str(private.relative_to(ROOT)), 'autofill', '65']), patch('subprocess.run', return_value=XcodeVersion()), redirect_stdout(io.StringIO()):
+                returncode = 0
+            def run_tool(args, **kwargs):
+                if args[0]=='openssl-test':
+                    Path(args[args.index('-out')+1]).write_bytes(b'ENCRYPTED-FIXTURE')
+                return XcodeVersion()
+            with patch.object(sys, 'argv', [str(script), str(private.relative_to(ROOT)), 'autofill', '65']), patch('subprocess.run', side_effect=run_tool), patch('shutil.which', return_value='openssl-test'), redirect_stdout(io.StringIO()):
                 exec(compile(code, str(script), 'exec'), {'__file__': str(script)})
             raw = (exported / 'result.json').read_text()
             result = json.loads(raw)
@@ -96,7 +101,10 @@ class NativeEvidenceExportTests(unittest.TestCase):
             self.assertEqual(result['nativeFormReadiness'], [readiness])
             self.assertEqual(result['nativePickerState'], picker)
             self.assertEqual(result['pickerDiagnosticPhases'], ['before_tap','selection_failure'])
-            self.assertTrue((exported/'autofill-native-picker-full-screen-redacted-before-tap.png').exists())
+            self.assertFalse((exported/'autofill-native-picker-full-screen-redacted-before-tap.png').exists())
+            self.assertTrue(result['pickerScreenshotsEncrypted'])
+            self.assertEqual([x['name'] for x in result['sealedPickerScreenshots']], ['autofill-native-picker-full-screen-redacted-before-tap.png'])
+            self.assertEqual((exported/'picker-screenshots.p7m').read_bytes(), b'ENCRYPTED-FIXTURE')
             self.assertFalse((exported/'autofill-native-picker-full-screen-redacted-after-tap.png').exists())
             self.assertFalse((exported/'autofill-native-picker-full-screen-redacted-selection-failure.png').exists())
             self.assertNotIn('PRIVATE_SENTINEL_DO_NOT_EXPORT', (exported/'picker-accessibility-before_tap.json').read_text())

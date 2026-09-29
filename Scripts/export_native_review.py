@@ -8,6 +8,7 @@ import re
 import shutil
 import subprocess
 import sys
+import zipfile
 
 root = Path(__file__).resolve().parents[1]
 private, suite, code = sys.argv[1:]
@@ -187,6 +188,17 @@ if manifest.exists():
                 flags={'appForeground','springboardForeground','passwordsForeground','appSavedIdentityVisible','springboardSavedIdentityVisible','passwordsSavedIdentityVisible'}
                 if isinstance(state,dict) and set(state)==flags and all(type(state[k]) is bool for k in flags):
                     report['nativePickerState']=state
+            if human=='autofill-native-provider-geometry' and source.suffix in ('.txt','.text'):
+                try: geometry=json.loads(source.read_text(encoding='utf-8'))
+                except (ValueError,UnicodeError): geometry=None
+                def frame_valid(frame):
+                    return isinstance(frame,list) and len(frame)==4 and all(type(v) in (int,float) and math.isfinite(v) and abs(v)<100000 for v in frame)
+                flags={'exists','hittable','selected','runnerContains','windowContains','sizeEligible','valueKnown','enabled'}
+                controls={'global_switch','provider_switch','provider_cell','provider_button','provider_text','provider_row_switch'}
+                if isinstance(geometry,dict) and set(geometry)=={'runnerFrame','windowFrame','rows'} and all(frame_valid(geometry[k]) for k in ('runnerFrame','windowFrame')):
+                    rows=geometry['rows']
+                    if isinstance(rows,list) and len(rows)<=6 and all(isinstance(r,dict) and set(r)==flags|{'control','frame'} and r['control'] in controls and frame_valid(r['frame']) and all(type(r[k]) is bool for k in flags) for r in rows):
+                        report['nativeProviderGeometry']=geometry
             boolean_diagnostics={
                 'autofill-saved-entry-persistence': ('savedEntryPersistence', {'allListOpened','persistedEntryFound','passwordsForeground'}),
                 'autofill-native-provider-state': ('nativeProviderState', {'globalEnabledKnown','globalEnabled','providerControlObserved','providerEnabledKnown','providerEnabled'})}
@@ -220,15 +232,36 @@ for tree in picker_diagnostics:
     target=output/('picker-accessibility-'+tree['phase']+'.json')
     assert not target.exists(), 'Duplicate picker phase requires review'
     target.write_text(json.dumps(tree,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+sealed_images=[]
 for phase,human,source,exported in picker_images:
     matches=[d for d in picker_diagnostics if d['phase']==phase]
     if len(matches)!=1: continue
     tree=matches[0]
     if not (tree['newPasswordFormClosed'] and tree['emailBlank'] and tree['snapshotsComplete'] and not tree['truncated']): continue
-    target=output/(human+'.png')
-    assert not target.exists(), 'Duplicate full-screen diagnostic requires review'
-    shutil.copy2(source,target)
-    images.append({'name':target.name,'originalExport':exported,'sha256':hashlib.sha256(target.read_bytes()).hexdigest(),'redacted':True,'tree':'picker-accessibility-'+phase+'.json'})
+    name=human+'.png'
+    assert name not in [item['name'] for item in sealed_images], 'Duplicate full-screen diagnostic requires review'
+    sealed_images.append({'name':name,'originalExport':exported,'sha256':hashlib.sha256(source.read_bytes()).hexdigest(),'redacted':True,'tree':'picker-accessibility-'+phase+'.json'})
+if sealed_images:
+    # Snapshot masks are not atomic with a changing system screen. Seal even
+    # redacted full-screen captures; a reviewer must inspect them before reuse.
+    archive=private/'picker-screenshots.zip'
+    with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED) as bundle:
+        for item in sealed_images:
+            bundle.write(private/'screenshots'/item['originalExport'],item['name'])
+    encrypted=private/'picker-screenshots.p7m'
+    openssl=shutil.which('openssl')
+    sealed=False
+    if openssl:
+        try:
+            result=subprocess.run([openssl,'cms','-encrypt','-aes-256-cbc','-binary','-in',str(archive),'-out',str(encrypted),'-outform','DER',str(root/'QA/NativeReview/diagnostic-recipient-cert.pem')],capture_output=True,timeout=15)
+            sealed=result.returncode==0 and encrypted.is_file()
+        except (OSError,subprocess.TimeoutExpired): pass
+    report['pickerScreenshotsEncrypted']=sealed
+    if sealed:
+        target=output/encrypted.name
+        shutil.copy2(encrypted,target)
+        report['sealedPickerScreenshots']=sealed_images
+        report['sealedPickerArchiveSHA256']=hashlib.sha256(target.read_bytes()).hexdigest()
 report['pickerDiagnosticPhases']=[d['phase'] for d in picker_diagnostics]
 report['screenshots']=images
 report['draftReadiness']=draft_diagnostics
