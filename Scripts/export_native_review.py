@@ -8,12 +8,11 @@ import re
 import shutil
 import subprocess
 import sys
-import zipfile
 
 root = Path(__file__).resolve().parents[1]
 private, suite, code = sys.argv[1:]
 private = (root/private).resolve()
-assert private.is_relative_to(root/'PrivateEvidence') and suite in ('integration', 'autofill', 'autofill-saved', 'live')
+assert private.is_relative_to(root/'PrivateEvidence') and suite in ('integration', 'autofill-input', 'autofill', 'autofill-saved', 'live')
 output = root/'artifacts/native-review'/suite
 output.mkdir(parents=True, exist_ok=False)
 report = {'suite': suite, 'exitCode': int(code), 'commit': os.environ.get('GITHUB_SHA'),
@@ -45,7 +44,7 @@ logs=log_path.read_text(errors='replace') if log_path.exists() else ''
 diagnostics = logs + '\n' + '\n'.join(failure_text)
 report['testCaseResults'] = re.findall(r"Test Case '-\[([A-Za-z0-9_.]+) ([A-Za-z0-9_]+)\]' (passed|failed|skipped)", logs)
 saved_results = [result for _, name, result in report['testCaseResults'] if name == 'testSavedCredentialSelection']
-if suite in ('autofill', 'autofill-saved'):
+if suite in ('autofill-input', 'autofill', 'autofill-saved'):
     report['savedCredentialSelection'] = saved_results[-1] if saved_results else 'Not executed'
 report['failureLocations'] = sorted(set(re.findall(r'([A-Za-z0-9_]+\.swift):([0-9]+):(?:[0-9]+:)? error:', logs)))
 report['infrastructureSignals'] = {name: pattern.lower() in diagnostics.lower() for name, pattern in {
@@ -76,6 +75,7 @@ manifest = private/'screenshots/manifest.json'
 images=[]
 draft_diagnostics=[]
 reveal_diagnostics=[]
+reveal_presence=[]
 native_form_readiness=[]
 # Full-screen diagnostics are accepted only with a matching strict tree report.
 picker_diagnostics=[]
@@ -83,6 +83,15 @@ picker_images=[]
 private_settings_images=[]
 picker_labels=set(['', '[redacted]', 'Passwords', 'Password', 'Password AutoFill', 'AutoFill Password', 'Fill Password', 'AutoFill', 'AutoFill…', 'Other Passwords', 'Other Passwords…', 'Open Passwords', 'Search', 'Search Passwords', 'Allow', 'Don’t Allow', "Don't Allow", 'Continue', 'Cancel', 'Done', 'Close', 'Back', 'Save', 'New Password', 'User Name', 'Username', 'Website or Label', 'Website or App', 'Notes', 'All', 'Passkeys', 'Codes', 'Deleted', 'Sign In to iCloud', 'Sign in to your Apple Account', 'Set Up a Passcode', 'Enter iPhone Passcode', 'Use Passcode', 'Face ID', 'Touch ID', 'Authentication Required', 'Unlock Passwords', 'Select All', 'Select', 'Paste', 'Copy', 'Cut', 'كلمات السر', 'كلمات المرور', 'تعبئة كلمات السر', 'تعبئة تلقائية', 'تعبئة تلقائية…', 'كلمات سر أخرى', 'كلمات مرور أخرى', 'بحث', 'إلغاء', 'تم', 'متابعة', 'السماح', 'عدم السماح', 'فتح كلمات السر', 'تسجيل الدخول إلى iCloud', 'إدخال رمز دخول iPhone', 'NIDAA', 'نداء', 'تجربة الربط المحلي', 'MOCK · محاكاة واجهة فقط', 'حساب خيالي مستقل', 'البريد الإلكتروني', 'كلمة المرور', 'تسجيل الدخول', 'إنشاء حساب تجريبي', 'طلب استعادة كلمة المرور', 'لديّ رمز تحقق أو استعادة', 'إغلاق', 'إظهار كلمة المرور', 'إخفاء كلمة المرور', 'الحسابات والنتائج التالية خيالية داخل الواجهة. لا يثبت هذا اختبارًا من المحاكي إلى الخادم.', 'الإرسال مزيف للاختبار · APNs غير مفعّل · لا إشعار أو صوت على هاتف.', 'استخدم بريدًا ينتهي بـ \u200e.invalid. التحقق يصل إلى صندوق محلي معزول؛ لا تستخدم بيانات شخصية.', 'integrationEmail', 'integrationPassword', 'integrationPasswordVisibility', 'integrationPasswordPaste', 'integrationLogin', 'integrationSignup', 'integrationRecover', 'integrationExistingToken', 'integrationKeyboardDone', 'integrationMockBanner'])
 picker_phases={'before_tap','after_tap','selection_failure'}
+def valid_reveal_presence(value):
+    flags={'scrollExists','windowExists','targetExists','appForeground'}
+    if not isinstance(value,dict) or set(value)!=flags|{'phase','controlID','completedDrags'}: return False
+    # Narrowly retain the observed large-Arabic logout control only.
+    if value['phase']!='existence_guard_failed' or value['controlID']!='integrationLogout': return False
+    if type(value['completedDrags']) is not int or not 0<=value['completedDrags']<=10: return False
+    if not all(type(value[k]) is bool for k in flags): return False
+    return not (value['scrollExists'] and value['windowExists'] and value['targetExists'])
+
 def valid_picker_tree(value):
     flags={'newPasswordFormClosed','emailBlank','snapshotsComplete','truncated'}
     if not isinstance(value,dict) or set(value)!=flags|{'phase','maskCount','nodes'}: return False
@@ -127,7 +136,7 @@ if manifest.exists():
             source=(private/'screenshots'/exported).resolve()
             assert source.is_relative_to(private/'screenshots')
             if human=='autofill-native-provider-settings-screen' and source.suffix=='.png':
-                private_settings_images.append({'name':human+'.png','originalExport':exported,'sha256':hashlib.sha256(source.read_bytes()).hexdigest(),'redacted':False,'scope':'Disposable Settings fixture; encrypted pending local review'})
+                private_settings_images.append({'scope':'Runner-private only; no raw or encrypted export'})
             if human=='autofill-native-picker-accessibility-tree' and source.suffix in ('.txt','.text'):
                 try: tree=json.loads(source.read_text(encoding='utf-8'))
                 except (ValueError,UnicodeError): tree=None
@@ -226,6 +235,12 @@ if manifest.exists():
                         native={} if row[-1]=='unavailable' else {key:value=='true' for key,value in (pair.split('=') for pair in row[-1].split(','))}
                         phases.append({'phase':row[0], **{key:value=='true' for key,value in zip(keys,row[1:1+len(keys)])},'native':native})
                     draft_diagnostics.append(phases)
+            if human=='integration-reveal-presence' and source.suffix in ('.txt','.text'):
+                state=None
+                if source.stat().st_size<=2048:
+                    try: state=json.loads(source.read_text(encoding='utf-8'))
+                    except (ValueError,UnicodeError): pass
+                if valid_reveal_presence(state): reveal_presence.append(state)
             if human=='integration-reveal-geometry' and source.suffix in ('.txt','.text'):
                 note=source.read_text(encoding='utf-8')
                 lines=note.strip().splitlines()
@@ -236,40 +251,18 @@ for tree in picker_diagnostics:
     assert not target.exists(), 'Duplicate picker phase requires review'
     target.write_text(json.dumps(tree,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
 assert len(private_settings_images)<=1, 'Duplicate private Settings image requires review'
-sealed_images=list(private_settings_images)
-for phase,human,source,exported in picker_images:
-    matches=[d for d in picker_diagnostics if d['phase']==phase]
-    if len(matches)!=1: continue
-    tree=matches[0]
-    if not (tree['newPasswordFormClosed'] and tree['emailBlank'] and tree['snapshotsComplete'] and not tree['truncated']): continue
-    name=human+'.png'
-    assert name not in [item['name'] for item in sealed_images], 'Duplicate full-screen diagnostic requires review'
-    sealed_images.append({'name':name,'originalExport':exported,'sha256':hashlib.sha256(source.read_bytes()).hexdigest(),'redacted':True,'tree':'picker-accessibility-'+phase+'.json'})
-if sealed_images:
-    # Snapshot masks are not atomic with a changing system screen. Seal even
-    # redacted full-screen captures; a reviewer must inspect them before reuse.
-    archive=private/'picker-screenshots.zip'
-    with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED) as bundle:
-        for item in sealed_images:
-            bundle.write(private/'screenshots'/item['originalExport'],item['name'])
-    encrypted=private/'picker-screenshots.p7m'
-    openssl=shutil.which('openssl')
-    sealed=False
-    if openssl:
-        try:
-            result=subprocess.run([openssl,'cms','-encrypt','-aes-256-cbc','-binary','-in',str(archive),'-out',str(encrypted),'-outform','DER',str(root/'QA/NativeReview/diagnostic-recipient-cert.pem')],capture_output=True,timeout=15)
-            sealed=result.returncode==0 and encrypted.is_file()
-        except (OSError,subprocess.TimeoutExpired): pass
-    report['pickerScreenshotsEncrypted']=sealed
-    if sealed:
-        target=output/encrypted.name
-        shutil.copy2(encrypted,target)
-        report['sealedPickerScreenshots']=sealed_images
-        report['sealedPickerArchiveSHA256']=hashlib.sha256(target.read_bytes()).hexdigest()
+# Full Settings/picker screens and raw diagnostics never leave the runner,
+# including as ciphertext. Only the allowlisted noncredential images and
+# strictly validated structured evidence above can enter the output directory.
+report['pickerScreenshotsEncrypted']=False
+report['rawEvidenceUploaded']=False
+report['encryptedEvidenceUploaded']=False
+report['privateEvidencePolicy']='Raw XCTest logs, recordings, full Settings/picker images and system diagnostics remain runner-private; no raw or encrypted export.'
 report['pickerDiagnosticPhases']=[d['phase'] for d in picker_diagnostics]
 report['screenshots']=images
 report['draftReadiness']=draft_diagnostics
 report['revealGeometry']=reveal_diagnostics
+report['revealPresence']=reveal_presence
 report['nativeFormReadiness']=native_form_readiness
 text=json.dumps(report,indent=2)+'\n'
 assert not re.search(r'eyJ[A-Za-z0-9_-]{15,}\.[A-Za-z0-9_-]{15,}|-----BEGIN .*PRIVATE KEY|Native-Fictional-Only', text)
@@ -277,13 +270,17 @@ assert not re.search(r'eyJ[A-Za-z0-9_-]{15,}\.[A-Za-z0-9_-]{15,}|-----BEGIN .*PR
 print(json.dumps({'suite':suite,'exitCode':int(code),'summary':report['summary'].get('result'),'safeOriginalScreenshots':len(images)}))
 if int(code)==0:
     actual=report['summary']
-    assert actual.get('totalTestCount')==({'integration':8,'autofill':4,'autofill-saved':1,'live':2}[suite]), 'No empty or incomplete test selection may pass'
+    assert actual.get('totalTestCount')==({'integration':8,'autofill-input':3,'autofill':4,'autofill-saved':1,'live':2}[suite]), 'No empty or incomplete test selection may pass'
     assert actual.get('failedTests')==0 and report['debugTestSucceeded'] and report['releaseBuildSucceeded']
-    if suite in ('autofill', 'autofill-saved'):
-        required = {'testEnabledManualRegistrationAndFieldNavigation','testEnabledPasteLoginAndRecovery','testEnabledVisibilityUsesOnlyNonCredentialDemonstration'} if suite == 'autofill' else set()
+    if suite in ('autofill-input', 'autofill', 'autofill-saved'):
+        required = {'testEnabledManualRegistrationAndFieldNavigation','testEnabledPasteLoginAndRecovery','testEnabledVisibilityUsesOnlyNonCredentialDemonstration'} if suite in ('autofill-input', 'autofill') else set()
         outcomes = {name: result for _, name, result in report['testCaseResults']}
         assert all(outcomes.get(name) == 'passed' for name in required)
-        if report['savedCredentialSelection'] == 'passed':
+        if suite == 'autofill-input':
+            assert set(outcomes) == required, 'Input job must run exactly the three named cases'
+            assert actual.get('passedTests') == 3 and actual.get('skippedTests') == 0
+            assert report['savedCredentialSelection'] == 'Not executed', 'Saved selection belongs to the owned-biometry job'
+        elif report['savedCredentialSelection'] == 'passed':
             assert actual.get('passedTests') == len(required)+1 and actual.get('skippedTests') == 0
         else:
             assert report['savedCredentialSelection'] == 'skipped' and report.get('savedCredentialRequirement')

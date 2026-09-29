@@ -80,7 +80,9 @@ class NativeEvidenceExportTests(unittest.TestCase):
             class XcodeVersion:
                 stdout = 'Xcode test fixture'
                 returncode = 0
+            invoked_tools = []
             def run_tool(args, **kwargs):
+                invoked_tools.append(args[0])
                 if args[0]=='openssl-test':
                     Path(args[args.index('-out')+1]).write_bytes(b'ENCRYPTED-FIXTURE')
                 return XcodeVersion()
@@ -110,10 +112,14 @@ class NativeEvidenceExportTests(unittest.TestCase):
             self.assertEqual(result['nativeProviderGeometry'], provider_geometry)
             self.assertEqual(result['pickerDiagnosticPhases'], ['before_tap','selection_failure'])
             self.assertFalse((exported/'autofill-native-picker-full-screen-redacted-before-tap.png').exists())
-            self.assertTrue(result['pickerScreenshotsEncrypted'])
-            self.assertEqual([x['name'] for x in result['sealedPickerScreenshots']], ['autofill-native-provider-settings-screen.png','autofill-native-picker-full-screen-redacted-before-tap.png'])
+            self.assertFalse(result['pickerScreenshotsEncrypted'])
+            self.assertFalse(result['rawEvidenceUploaded'])
+            self.assertFalse(result['encryptedEvidenceUploaded'])
+            self.assertNotIn('sealedPickerScreenshots', result)
+            self.assertNotIn('openssl-test', invoked_tools)
             self.assertFalse((exported/'autofill-native-provider-settings-screen.png').exists())
-            self.assertEqual((exported/'picker-screenshots.p7m').read_bytes(), b'ENCRYPTED-FIXTURE')
+            self.assertFalse((exported/'picker-screenshots.p7m').exists())
+            self.assertFalse(list(exported.glob('*.zip')))
             self.assertFalse((exported/'autofill-native-picker-full-screen-redacted-after-tap.png').exists())
             self.assertFalse((exported/'autofill-native-picker-full-screen-redacted-selection-failure.png').exists())
             self.assertNotIn('PRIVATE_SENTINEL_DO_NOT_EXPORT', (exported/'picker-accessibility-before_tap.json').read_text())

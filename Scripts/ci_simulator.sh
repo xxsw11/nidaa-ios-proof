@@ -51,6 +51,11 @@ PY
     while IFS= read -r name; do test_selection+=("-only-testing:NidaaUITests/LocalExperienceUITests/$name"); done < "$proof_evidence/ui-test-names.txt"
     ;;
   autofill) test_selection=(-only-testing:NidaaUITests/AutoFillUITests) ;;
+  autofill-input) test_selection=(
+    -only-testing:NidaaUITests/AutoFillUITests/testEnabledManualRegistrationAndFieldNavigation
+    -only-testing:NidaaUITests/AutoFillUITests/testEnabledPasteLoginAndRecovery
+    -only-testing:NidaaUITests/AutoFillUITests/testEnabledVisibilityUsesOnlyNonCredentialDemonstration
+  ) ;;
   autofill-saved) test_selection=(-only-testing:NidaaUITests/AutoFillUITests/testSavedCredentialSelection) ;;
   live) test_selection=(-only-testing:NidaaUITests/NativeIntegrationUITests) ;;
   all) test_selection=(-skip-testing:NidaaUITests/NativeIntegrationUITests) ;;

@@ -4,6 +4,28 @@ import UIKit
 /// Native input coverage with AutoFill ON. Networking is explicitly MOCK here;
 /// saved-credential selection is a separate, not yet verified scenario.
 final class AutoFillUITests: IntegrationTestCase {
+    private var pickerQueryDiagnosticsActive = false
+    private var pickerSnapshotFailures = 0
+    private var pickerCompleteSnapshotsWithoutIdentity = 0
+    private var pickerIdentitiesObserved = 0
+
+    override func tearDownWithError() throws {
+        // Emit final counters once even after an ordinary assertion abort;
+        // no further UI query is needed. A killed runner cannot run teardown.
+        if pickerQueryDiagnosticsActive {
+            let state = ["snapshotFailures": pickerSnapshotFailures,
+                         "completeSnapshotsWithoutIdentity": pickerCompleteSnapshotsWithoutIdentity,
+                         "identitiesObserved": pickerIdentitiesObserved]
+            if let data = try? JSONSerialization.data(withJSONObject: state, options: [.sortedKeys]),
+               let text = String(data: data, encoding: .utf8) {
+                let attachment = XCTAttachment(string: text)
+                attachment.name = "autofill-native-picker-query-state"
+                attachment.lifetime = .keepAlways; add(attachment)
+            }
+        }
+        try super.tearDownWithError()
+    }
+
     func testSavedCredentialSelection() throws {
         // Only a new disposable Simulator. Password values are never read,
         // copied, attached, published, or sent to a server. Raw typing events
@@ -20,6 +42,7 @@ final class AutoFillUITests: IntegrationTestCase {
             guard next.waitForExistence(timeout: 3), next.isHittable else { break }
             next.tap()
         }
+        recordEarlyPasswordsEntry(passwords: passwords, springboard: springboard)
         try skipOnlyObservedPersonalRequirement(in: [passwords, springboard])
         let create = passwords.buttons["New Password"].firstMatch
         guard create.waitForExistence(timeout: 5), create.isHittable else {
@@ -78,14 +101,14 @@ final class AutoFillUITests: IntegrationTestCase {
         let allText = passwords.staticTexts["All"].firstMatch
         let homeReady = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
             allButton.exists || allRow.exists || allText.exists
-                || self.savedIdentityTarget(in: passwords, email: email, site: site) != nil
+                || self.nativeFixtureIdentityTarget(in: passwords, email: email, site: site) != nil
         }, object: nil)
         _ = XCTWaiter.wait(for: [homeReady], timeout: 8)
         for target in [allButton, allRow, allText] where target.exists && target.isHittable {
             target.tap(); allListOpened = true; break
         }
         let persisted = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
-            self.savedIdentityTarget(in: passwords, email: email, site: site) != nil
+            self.nativeFixtureIdentityTarget(in: passwords, email: email, site: site) != nil
         }, object: nil)
         let persistedEntryFound = XCTWaiter.wait(for: [persisted], timeout: 8) == .completed
         attachDiagnosticBooleans(["allListOpened": allListOpened, "persistedEntryFound": persistedEntryFound,
@@ -129,8 +152,10 @@ final class AutoFillUITests: IntegrationTestCase {
             recordKnownSystemControls(in: app, stage: "password-picker-launch")
             XCTFail("Native Passwords picker control unavailable"); return
         }
+        pickerQueryDiagnosticsActive = true
         recordFullPickerDiagnostic(phase: "before_tap", app: nativeApp, springboard: springboard, passwords: passwords)
         pickerButton.tap()
+        guard emitPickerMatchRequest() else { return }
         recordFullPickerDiagnostic(phase: "after_tap", app: nativeApp, springboard: springboard, passwords: passwords)
         // The picker can appear asynchronously, with the fictional identity in
         // different native roles. Rebuild candidates on every bounded poll;
@@ -145,8 +170,9 @@ final class AutoFillUITests: IntegrationTestCase {
         let routeReady = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
             for surface in pickerSurfaces() {
                 if self.savedIdentityTarget(in: surface, email: email, site: site) != nil { return true }
-                let other = self.namedButton(["Other Passwords", "Other Passwords…", "كلمات سر أخرى", "كلمات مرور أخرى"], in: surface)
-                if other.exists && other.isHittable { otherPasswords = other; return true }
+                if let other = self.snapshotObservedButton(["Other Passwords", "Other Passwords…", "كلمات سر أخرى", "كلمات مرور أخرى"], in: surface) {
+                    otherPasswords = other; return true
+                }
             }
             return false
         }, object: nil)
@@ -175,9 +201,40 @@ final class AutoFillUITests: IntegrationTestCase {
             }
             XCTFail("Fictional saved account not found in native picker"); return
         }
+        let selectedRole = Int(selectedTarget.elementType.rawValue)
+        let selectedLabel = selectedTarget.label
+        let selectedLabelContainsEmail = selectedLabel.contains(email)
+        let selectedLabelContainsSite = selectedLabel.contains(site)
+        let selectedLabelEqualsEmail = selectedLabel == email
+        let selectedLabelEqualsSite = selectedLabel == site
+        recordFullPickerDiagnostic(phase: "before_selection", app: nativeApp, springboard: springboard, passwords: passwords)
         selectedTarget.tap()
         let emailFilled = XCTNSPredicateExpectation(predicate: NSPredicate(format: "value == %@", email), object: emailField)
-        XCTAssertEqual(XCTWaiter.wait(for: [emailFilled], timeout: 8), .completed)
+        let emailFillResult = XCTWaiter.wait(for: [emailFilled], timeout: 8)
+        let emailFieldExists = emailField.exists
+        // Only this fictional email is inspected. Never inspect a password
+        // field value or attach any label/value string from the native picker.
+        let emailValue = emailFieldExists ? emailField.value as? String : nil
+        let signup = app.buttons["integrationSignup"]
+        let selectionState: [String: Any] = [
+            "selectedRole": selectedRole,
+            "selectedLabelContainsEmail": selectedLabelContainsEmail,
+            "selectedLabelContainsSite": selectedLabelContainsSite,
+            "selectedLabelEqualsEmail": selectedLabelEqualsEmail,
+            "selectedLabelEqualsSite": selectedLabelEqualsSite,
+            "emailFieldExists": emailFieldExists,
+            "emailMatchesExpected": emailFieldExists && emailValue == email,
+            "emailBlank": emailFieldExists && (emailValue.map { $0.isEmpty || $0 == emailField.placeholderValue } ?? false),
+            "signupEnabled": signup.exists && signup.isEnabled
+        ]
+        if let data = try? JSONSerialization.data(withJSONObject: selectionState, options: [.sortedKeys]),
+           let text = String(data: data, encoding: .utf8) {
+            let attachment = XCTAttachment(string: text)
+            attachment.name = "autofill-native-selection-state"
+            attachment.lifetime = .keepAlways; add(attachment)
+        }
+        recordFullPickerDiagnostic(phase: "after_fill_wait", app: nativeApp, springboard: springboard, passwords: passwords)
+        XCTAssertEqual(emailFillResult, .completed)
         let passwordFilled = XCTNSPredicateExpectation(predicate: NSPredicate(format: "enabled == true"), object: app.buttons["integrationSignup"])
         XCTAssertEqual(XCTWaiter.wait(for: [passwordFilled], timeout: 8), .completed, "Saved password did not fill the real validation gate")
         dismissKeyboard(after: emailField)
@@ -272,13 +329,14 @@ final class AutoFillUITests: IntegrationTestCase {
         }
     }
     private func pickerDiagnosticAllowedStrings() -> Set<String> {
-        ["", "[redacted]", "Passwords", "Password", "Password AutoFill", "AutoFill Password", "Fill Password",
+        ["", "[redacted]", "Passwords", "Password", "Password AutoFill", "AutoFill Password", "Fill Password", "Use Password", "Use This Password",
          "AutoFill", "AutoFill…", "Other Passwords", "Other Passwords…", "Open Passwords", "Search", "Search Passwords",
          "Allow", "Don’t Allow", "Don't Allow", "Continue", "Cancel", "Done", "Close", "Back", "Save", "New Password",
          "User Name", "Username", "Website or Label", "Website or App", "Notes", "All", "Passkeys", "Codes", "Deleted",
          "Sign In to iCloud", "Sign in to your Apple Account", "Set Up a Passcode", "Enter iPhone Passcode", "Use Passcode",
          "Face ID", "Touch ID", "Authentication Required", "Unlock Passwords", "Select All", "Select", "Paste", "Copy", "Cut",
          "كلمات السر", "كلمات المرور", "تعبئة كلمات السر", "تعبئة تلقائية", "تعبئة تلقائية…", "كلمات سر أخرى", "كلمات مرور أخرى",
+         "استخدام كلمة السر", "استخدام كلمة المرور", "استخدام كلمة السر هذه", "استخدام كلمة المرور هذه", "تعبئة كلمة السر", "تعبئة كلمة المرور",
          "بحث", "إلغاء", "تم", "متابعة", "السماح", "عدم السماح", "فتح كلمات السر", "تسجيل الدخول إلى iCloud", "إدخال رمز دخول iPhone",
          "NIDAA", "نداء", "تجربة الربط المحلي", "MOCK · محاكاة واجهة فقط", "حساب خيالي مستقل", "البريد الإلكتروني", "كلمة المرور",
          "تسجيل الدخول", "إنشاء حساب تجريبي", "طلب استعادة كلمة المرور", "لديّ رمز تحقق أو استعادة", "إغلاق", "إظهار كلمة المرور", "إخفاء كلمة المرور",
@@ -336,9 +394,9 @@ final class AutoFillUITests: IntegrationTestCase {
             evidence.name = "autofill-native-picker-accessibility-tree"
             evidence.lifetime = .keepAlways; add(evidence)
         }
-        // Full screen, retaining native layout. Snapshot-based masks are not
-        // atomic with a changing screen: the exporter also encrypts these images
-        // for local inspection before publication. They are diagnostic captures.
+        // Full screen, runner-private only. Snapshot masks are not atomic with a
+        // changing screen. Neither raw nor encrypted images may be uploaded;
+        // only the strictly validated fixed-schema JSON is exportable.
         guard newPasswordFormClosed, emailBlank, complete, !truncated else { return }
         let original = XCUIScreen.main.screenshot().image
         guard let pixels = original.cgImage else { return }
@@ -363,7 +421,9 @@ final class AutoFillUITests: IntegrationTestCase {
         evidence.name = "autofill-native-picker-full-screen-redacted-" + phase.replacingOccurrences(of: "_", with: "-")
         evidence.lifetime = .keepAlways; add(evidence)
     }
-    private func savedIdentityTarget(in surface: XCUIApplication, email: String, site: String) -> XCUIElement? {
+    // Preserve the previously exercised native Passwords fixture selector.
+    // Snapshot-gated selection is restricted to the subsequent picker stage.
+    private func nativeFixtureIdentityTarget(in surface: XCUIApplication, email: String, site: String) -> XCUIElement? {
         let identity = NSPredicate(format: "label CONTAINS %@ OR label CONTAINS %@", email, site)
         let candidates = surface.buttons.matching(identity).allElementsBoundByIndex
             + surface.cells.matching(identity).allElementsBoundByIndex
@@ -371,6 +431,79 @@ final class AutoFillUITests: IntegrationTestCase {
             + surface.cells.containing(.staticText, identifier: site).allElementsBoundByIndex
             + surface.staticTexts.matching(identity).allElementsBoundByIndex
         return candidates.first { $0.exists && $0.isHittable }
+    }
+    private func savedIdentityTarget(in surface: XCUIApplication, email: String, site: String) -> XCUIElement? {
+        guard let nodes = pickerSnapshotNodes(in: surface) else { return nil }
+        let roles: [XCUIElement.ElementType] = [.button, .cell, .staticText]
+        func isIdentity(_ label: String) -> Bool { label.contains(email) || label.contains(site) }
+        let direct = nodes.filter { roles.contains($0.elementType) && isIdentity($0.label) }
+        var cellDescendantLabels: [String] = []
+        var seenDescendantLabels = Set<String>()
+        func collectIdentityStaticTexts(_ node: XCUIElementSnapshot) {
+            if node.elementType == .staticText, isIdentity(node.label),
+               seenDescendantLabels.insert(node.label).inserted {
+                cellDescendantLabels.append(node.label)
+            }
+            for child in node.children { collectIdentityStaticTexts(child) }
+        }
+        // Snapshot traversal above already proved the full tree is bounded.
+        // Preserve unlabeled tappable cells whose identity text is not tappable.
+        for cell in nodes where cell.elementType == .cell {
+            for child in cell.children { collectIdentityStaticTexts(child) }
+        }
+        if pickerQueryDiagnosticsActive {
+            if direct.isEmpty && cellDescendantLabels.isEmpty { pickerCompleteSnapshotsWithoutIdentity += 1 }
+            else { pickerIdentitiesObserved += 1 }
+        }
+        func firstHittable(_ query: XCUIElementQuery) -> XCUIElement? {
+            for target in query.allElementsBoundByIndex {
+                if target.exists && target.isHittable { return target }
+            }
+            return nil
+        }
+        // Keep button -> cell -> static-text priority. Only resolve queries
+        // supported by an observed role/label or cell/descendant relationship.
+        for role in roles {
+            var checkedLabels = Set<String>()
+            for observed in direct where observed.elementType == role {
+                guard checkedLabels.insert(observed.label).inserted else { continue }
+                let query = surface.descendants(matching: role).matching(NSPredicate(format: "label == %@", observed.label))
+                if let target = firstHittable(query) { return target }
+            }
+            if role == .cell {
+                for label in cellDescendantLabels {
+                    if let target = firstHittable(surface.cells.containing(.staticText, identifier: label)) { return target }
+                }
+            }
+        }
+        return nil
+    }
+
+    private func snapshotObservedButton(_ labels: [String], in surface: XCUIApplication) -> XCUIElement? {
+        guard let nodes = pickerSnapshotNodes(in: surface) else { return nil }
+        for label in labels where nodes.contains(where: { $0.elementType == .button && ($0.label == label || $0.identifier == label) }) {
+            let button = surface.buttons.matching(NSPredicate(format: "label == %@ OR identifier == %@", label, label)).firstMatch
+            if button.exists && button.isHittable { return button }
+        }
+        return nil
+    }
+
+    private func pickerSnapshotNodes(in surface: XCUIApplication) -> [XCUIElementSnapshot]? {
+        var nodes: [XCUIElementSnapshot] = []
+        var complete = true
+        func visit(_ node: XCUIElementSnapshot, depth: Int) {
+            guard complete else { return }
+            guard depth < 50, nodes.count < 2000 else { complete = false; return }
+            nodes.append(node)
+            for child in node.children { visit(child, depth: depth + 1) }
+        }
+        do { visit(try surface.snapshot(), depth: 0) }
+        catch { complete = false }
+        guard complete else {
+            if pickerQueryDiagnosticsActive { pickerSnapshotFailures += 1 }
+            return nil
+        }
+        return nodes
     }
     private func recordPickerState(app: XCUIApplication, springboard: XCUIApplication, passwords: XCUIApplication, email: String, site: String) {
         let passwordsForeground = passwords.state == .runningForeground
@@ -587,5 +720,176 @@ final class AutoFillUITests: IntegrationTestCase {
         dismissKeyboard(after: field)
         // Publish only the hidden state; raw recordings are private and discarded.
         shot("autofill-enabled-large-rtl-hidden-demonstration")
+    }
+}
+
+import Foundation
+import XCTest
+import LocalAuthentication
+
+/// Diagnostic-branch only. Append to the existing UI-test source file so the
+/// proven Xcode UI runner executes this without a separate observer app.
+/// Host variables TEST_RUNNER_NIDAA_BIOMETRY_* arrive here without TEST_RUNNER_.
+/// This records availability; an XCTest pass is not biometric authentication
+/// or evidence that Password AutoFill succeeded.
+final class BiometryCapabilityUITests: XCTestCase {
+    func testObserveBiometry() {
+        #if targetEnvironment(simulator)
+        let environment = ProcessInfo.processInfo.environment
+        guard let phase = environment["NIDAA_BIOMETRY_PHASE"],
+              phase == "before" || phase == "after" else {
+            XCTFail("Missing or invalid biometry diagnostic phase")
+            return
+        }
+        guard let nonce = environment["NIDAA_BIOMETRY_NONCE"],
+              nonce.utf8.count == 32,
+              nonce.utf8.allSatisfy({ (48...57).contains($0) || (65...70).contains($0) || (97...102).contains($0) }) else {
+            XCTFail("Missing or invalid biometry diagnostic nonce")
+            return
+        }
+        guard let owned = environment["NIDAA_BIOMETRY_OWNED_UDID"],
+              UUID(uuidString: owned) != nil,
+              environment["SIMULATOR_UDID"] == owned else {
+            // Never include either device identifier in an assertion message.
+            XCTFail("Biometry diagnostic does not match the owned Simulator")
+            return
+        }
+
+        guard let usageDescription = Bundle.main.object(forInfoDictionaryKey: "NSFaceIDUsageDescription") as? String,
+              !usageDescription.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            XCTFail("Biometry diagnostic runner is missing its Face ID usage description")
+            return
+        }
+        let context = LAContext()
+        defer { context.invalidate() }
+        var error: NSError?
+        let available = context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
+        let observation: [String: Any] = [
+            "schemaVersion": 1,
+            "phase": phase,
+            "nonce": nonce,
+            "policy": 1,
+            "canEvaluate": available,
+            "laErrorCode": error?.code ?? 0,
+            "errorIsLocalAuthentication": error == nil || error?.domain == LAError.errorDomain,
+            "biometryType": context.biometryType.rawValue,
+            "authenticationPromptRequested": false
+        ]
+        do {
+            let data = try JSONSerialization.data(withJSONObject: observation, options: [.sortedKeys])
+            var output = Data("NIDAA_BIOMETRY_OBSERVATION:".utf8)
+            output.append(data)
+            output.append(10)
+            // One complete parser record. The nonce is a nonsecret freshness
+            // marker; the host validates and strips it before public export.
+            // No device ID, localized error, credentials or app data is emitted.
+            FileHandle.standardOutput.write(output)
+            guard let line = String(data: output, encoding: .utf8) else {
+                XCTFail("Biometry diagnostic record could not be encoded")
+                return
+            }
+            let attachment = XCTAttachment(string: line)
+            attachment.name = "nidaa-biometry-observation-" + phase
+            attachment.lifetime = .keepAlways
+            add(attachment)
+        } catch {
+            XCTFail("Biometry diagnostic record could not be serialized")
+        }
+        #else
+        XCTFail("Biometry diagnostic requires the owned disposable Simulator")
+        #endif
+    }
+}
+
+// DIAGNOSTIC BRANCH ONLY. Append this extension to AutoFillUITests.swift.
+// Insert exactly once, before its first existing call to
+// skipOnlyObservedPersonalRequirement(in: [passwords, springboard]):
+// recordEarlyPasswordsEntry(passwords: passwords, springboard: springboard)
+// The caller has not yet opened New Password or entered fixture credentials.
+extension AutoFillUITests {
+    private func recordEarlyPasswordsEntry(passwords: XCUIApplication, springboard: XCUIApplication) {
+        let allowed = pickerDiagnosticAllowedStrings()
+        var nodes: [[String: Any]] = []
+        var complete = true
+        var truncated = false
+        func visit(_ snapshot: XCUIElementSnapshot, surface: String, parent: Int, depth: Int) {
+            guard nodes.count < 2000, depth < 50 else { truncated = true; return }
+            let frame = snapshot.frame
+            guard [frame.minX, frame.minY, frame.width, frame.height].allSatisfy({ $0.isFinite }) else {
+                complete = false; return
+            }
+            let index = nodes.count
+            let label = snapshot.label
+            let identifier = snapshot.identifier
+            nodes.append([
+                "surface": surface, "node": index, "parent": parent,
+                "role": Int(snapshot.elementType.rawValue),
+                "frame": [frame.minX, frame.minY, frame.width, frame.height],
+                "label": allowed.contains(label) ? label : "[redacted]",
+                "identifier": allowed.contains(identifier) ? identifier : "[redacted]"
+            ])
+            for child in snapshot.children { visit(child, surface: surface, parent: index, depth: depth + 1) }
+        }
+        for (name, surface) in [("passwords", passwords), ("springboard", springboard)] {
+            do { visit(try surface.snapshot(), surface: name, parent: -1, depth: 0) }
+            catch { complete = false } // No raw error or snapshot dump.
+        }
+        let report: [String: Any] = [
+            "phase": "passwords_entry_after_onboarding",
+            "passwordsForeground": passwords.state == .runningForeground,
+            "springboardForeground": springboard.state == .runningForeground,
+            "snapshotsComplete": complete, "truncated": truncated, "nodes": nodes
+        ]
+        if let data = try? JSONSerialization.data(withJSONObject: report, options: [.sortedKeys]),
+           let text = String(data: data, encoding: .utf8) {
+            let tree = XCTAttachment(string: text)
+            tree.name = "autofill-passwords-entry-accessibility-tree"
+            tree.lifetime = .keepAlways; add(tree)
+        }
+        // ORIGINAL FULL SCREEN, PRIVATE ONLY. The diagnostic driver keeps this
+        // on the disposable runner; neither raw nor encrypted images are uploaded.
+        // Snapshot collection can lag UI transitions, so no masking claim is
+        // made. This runs before any fixture credential creation or entry.
+        let screen = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
+        screen.name = "autofill-passwords-entry-full-screen-private"
+        screen.lifetime = .keepAlways; add(screen)
+    }
+}
+
+// DIAGNOSTIC BRANCH ONLY. Append this extension to AutoFillUITests.swift.
+// In testSavedCredentialSelection, insert the following line immediately after
+// the existing `pickerButton.tap()` and BEFORE recordFullPickerDiagnostic(after_tap):
+//     guard emitPickerMatchRequest() else { return }
+// Preserve all existing capture, query, selection, fill and login assertions.
+// Host forwards TEST_RUNNER_NIDAA_PICKER_MATCH_NONCE and
+// TEST_RUNNER_NIDAA_PICKER_MATCH_OWNED_UDID through xcodebuild's test-runner env.
+// This is a one-time experimental request, NOT evidence of an exposed prompt or
+// completed biometric action. The host report is authoritative about its action.
+// There is no sleep, stdin, app-container/network handshake, or success bypass.
+// Raw logs remain runner-private; only fixed validated reports may be exported.
+
+extension AutoFillUITests {
+    func emitPickerMatchRequest() -> Bool {
+        #if targetEnvironment(simulator)
+        let environment = ProcessInfo.processInfo.environment
+        guard let nonce = environment["NIDAA_PICKER_MATCH_NONCE"],
+              nonce.utf8.count == 32,
+              nonce.utf8.allSatisfy({ (48...57).contains($0) || (97...102).contains($0) }),
+              let owned = environment["NIDAA_PICKER_MATCH_OWNED_UDID"],
+              UUID(uuidString: owned) != nil,
+              environment["SIMULATOR_UDID"] == owned,
+              environment["SIMULATOR_DEVICE_NAME"]?.hasPrefix("NIDAA-Disposable-Biometry-") == true else {
+            XCTFail("Matching Face diagnostic requires a fresh nonce and the exact owned disposable Simulator")
+            return false
+        }
+        // Write directly to the stdout file descriptor: no stdio buffering and
+        // no credential-bearing content. Host accepts one exact complete line.
+        let line = "NIDAA_PICKER_MATCH_REQUEST:\(nonce):passwords_picker_tapped\n"
+        FileHandle.standardOutput.write(Data(line.utf8))
+        return true
+        #else
+        XCTFail("Matching Face diagnostic is restricted to the disposable Simulator")
+        return false
+        #endif
     }
 }

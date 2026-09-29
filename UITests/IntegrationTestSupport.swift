@@ -155,10 +155,26 @@ class IntegrationTestCase: XCTestCase {
         } ?? app.scrollViews.firstMatch
         guard scroll.exists else { XCTFail("No scroll container for: \(element.identifier)"); return }
         var geometry: [String] = []
+        var completedDrags = 0
         for _ in 0..<10 {
             if element.isHittable { return }
             let window = app.windows.firstMatch
-            guard scroll.exists, window.exists, element.exists else {
+            // Diagnostic only: use identical samples for the existing guard
+            // and its failure record. No retry or replacement scroll is added.
+            let scrollExists = scroll.exists
+            let windowExists = window.exists
+            let targetExists = element.exists
+            guard scrollExists, windowExists, targetExists else {
+                let presence: [String: Any] = ["phase": "existence_guard_failed", "controlID": controlID,
+                    "completedDrags": completedDrags, "scrollExists": scrollExists,
+                    "windowExists": windowExists, "targetExists": targetExists,
+                    "appForeground": app.state == .runningForeground]
+                if let data = try? JSONSerialization.data(withJSONObject: presence, options: [.sortedKeys]),
+                   let text = String(data: data, encoding: .utf8) {
+                    let evidence = XCTAttachment(string: text)
+                    evidence.name = "integration-reveal-presence"
+                    evidence.lifetime = .keepAlways; add(evidence)
+                }
                 recordRevealGeometry(controlID, steps: geometry)
                 XCTFail("Scroll/window/target disappeared during reveal"); return
             }
@@ -175,6 +191,7 @@ class IntegrationTestCase: XCTestCase {
             let upper = viewport.minY + viewport.height * 0.25
             let lower = viewport.minY + viewport.height * 0.75
             drag(from: CGPoint(x: x, y: above ? upper : lower), to: CGPoint(x: x, y: above ? lower : upper))
+            completedDrags += 1
         }
         // Identifiers and geometry only. Never include field values, labels,
         // accessibility dumps, credentials or invitation/verification tokens.
