@@ -4,6 +4,28 @@ import UIKit
 /// Native input coverage with AutoFill ON. Networking is explicitly MOCK here;
 /// saved-credential selection is a separate, not yet verified scenario.
 final class AutoFillUITests: IntegrationTestCase {
+    private var pickerQueryDiagnosticsActive = false
+    private var pickerSnapshotFailures = 0
+    private var pickerCompleteSnapshotsWithoutIdentity = 0
+    private var pickerIdentitiesObserved = 0
+
+    override func tearDownWithError() throws {
+        // Emit final counters once even after an ordinary assertion abort;
+        // no further UI query is needed. A killed runner cannot run teardown.
+        if pickerQueryDiagnosticsActive {
+            let state = ["snapshotFailures": pickerSnapshotFailures,
+                         "completeSnapshotsWithoutIdentity": pickerCompleteSnapshotsWithoutIdentity,
+                         "identitiesObserved": pickerIdentitiesObserved]
+            if let data = try? JSONSerialization.data(withJSONObject: state, options: [.sortedKeys]),
+               let text = String(data: data, encoding: .utf8) {
+                let attachment = XCTAttachment(string: text)
+                attachment.name = "autofill-native-picker-query-state"
+                attachment.lifetime = .keepAlways; add(attachment)
+            }
+        }
+        try super.tearDownWithError()
+    }
+
     func testSavedCredentialSelection() throws {
         // Only a new disposable Simulator. Password values are never read,
         // copied, attached, published, or sent to a server. Raw typing events
@@ -130,6 +152,7 @@ final class AutoFillUITests: IntegrationTestCase {
             recordKnownSystemControls(in: app, stage: "password-picker-launch")
             XCTFail("Native Passwords picker control unavailable"); return
         }
+        pickerQueryDiagnosticsActive = true
         recordFullPickerDiagnostic(phase: "before_tap", app: nativeApp, springboard: springboard, passwords: passwords)
         pickerButton.tap()
         guard emitPickerMatchRequest() else { return }
@@ -147,8 +170,9 @@ final class AutoFillUITests: IntegrationTestCase {
         let routeReady = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
             for surface in pickerSurfaces() {
                 if self.savedIdentityTarget(in: surface, email: email, site: site) != nil { return true }
-                let other = self.namedButton(["Other Passwords", "Other Passwords…", "كلمات سر أخرى", "كلمات مرور أخرى"], in: surface)
-                if other.exists && other.isHittable { otherPasswords = other; return true }
+                if let other = self.snapshotObservedButton(["Other Passwords", "Other Passwords…", "كلمات سر أخرى", "كلمات مرور أخرى"], in: surface) {
+                    otherPasswords = other; return true
+                }
             }
             return false
         }, object: nil)
@@ -398,13 +422,77 @@ final class AutoFillUITests: IntegrationTestCase {
         evidence.lifetime = .keepAlways; add(evidence)
     }
     private func savedIdentityTarget(in surface: XCUIApplication, email: String, site: String) -> XCUIElement? {
-        let identity = NSPredicate(format: "label CONTAINS %@ OR label CONTAINS %@", email, site)
-        let candidates = surface.buttons.matching(identity).allElementsBoundByIndex
-            + surface.cells.matching(identity).allElementsBoundByIndex
-            + surface.cells.containing(.staticText, identifier: email).allElementsBoundByIndex
-            + surface.cells.containing(.staticText, identifier: site).allElementsBoundByIndex
-            + surface.staticTexts.matching(identity).allElementsBoundByIndex
-        return candidates.first { $0.exists && $0.isHittable }
+        guard let nodes = pickerSnapshotNodes(in: surface) else { return nil }
+        let roles: [XCUIElement.ElementType] = [.button, .cell, .staticText]
+        func isIdentity(_ label: String) -> Bool { label.contains(email) || label.contains(site) }
+        let direct = nodes.filter { roles.contains($0.elementType) && isIdentity($0.label) }
+        var cellDescendantLabels: [String] = []
+        var seenDescendantLabels = Set<String>()
+        func collectIdentityStaticTexts(_ node: XCUIElementSnapshot) {
+            if node.elementType == .staticText, isIdentity(node.label),
+               seenDescendantLabels.insert(node.label).inserted {
+                cellDescendantLabels.append(node.label)
+            }
+            for child in node.children { collectIdentityStaticTexts(child) }
+        }
+        // Snapshot traversal above already proved the full tree is bounded.
+        // Preserve unlabeled tappable cells whose identity text is not tappable.
+        for cell in nodes where cell.elementType == .cell {
+            for child in cell.children { collectIdentityStaticTexts(child) }
+        }
+        if pickerQueryDiagnosticsActive {
+            if direct.isEmpty && cellDescendantLabels.isEmpty { pickerCompleteSnapshotsWithoutIdentity += 1 }
+            else { pickerIdentitiesObserved += 1 }
+        }
+        func firstHittable(_ query: XCUIElementQuery) -> XCUIElement? {
+            for target in query.allElementsBoundByIndex {
+                if target.exists && target.isHittable { return target }
+            }
+            return nil
+        }
+        // Keep button -> cell -> static-text priority. Only resolve queries
+        // supported by an observed role/label or cell/descendant relationship.
+        for role in roles {
+            var checkedLabels = Set<String>()
+            for observed in direct where observed.elementType == role {
+                guard checkedLabels.insert(observed.label).inserted else { continue }
+                let query = surface.descendants(matching: role).matching(NSPredicate(format: "label == %@", observed.label))
+                if let target = firstHittable(query) { return target }
+            }
+            if role == .cell {
+                for label in cellDescendantLabels {
+                    if let target = firstHittable(surface.cells.containing(.staticText, identifier: label)) { return target }
+                }
+            }
+        }
+        return nil
+    }
+
+    private func snapshotObservedButton(_ labels: [String], in surface: XCUIApplication) -> XCUIElement? {
+        guard let nodes = pickerSnapshotNodes(in: surface) else { return nil }
+        for label in labels where nodes.contains(where: { $0.elementType == .button && ($0.label == label || $0.identifier == label) }) {
+            let button = surface.buttons.matching(NSPredicate(format: "label == %@ OR identifier == %@", label, label)).firstMatch
+            if button.exists && button.isHittable { return button }
+        }
+        return nil
+    }
+
+    private func pickerSnapshotNodes(in surface: XCUIApplication) -> [XCUIElementSnapshot]? {
+        var nodes: [XCUIElementSnapshot] = []
+        var complete = true
+        func visit(_ node: XCUIElementSnapshot, depth: Int) {
+            guard complete else { return }
+            guard depth < 50, nodes.count < 2000 else { complete = false; return }
+            nodes.append(node)
+            for child in node.children { visit(child, depth: depth + 1) }
+        }
+        do { visit(try surface.snapshot(), depth: 0) }
+        catch { complete = false }
+        guard complete else {
+            if pickerQueryDiagnosticsActive { pickerSnapshotFailures += 1 }
+            return nil
+        }
+        return nodes
     }
     private func recordPickerState(app: XCUIApplication, springboard: XCUIApplication, passwords: XCUIApplication, email: String, site: String) {
         let passwordsForeground = passwords.state == .runningForeground

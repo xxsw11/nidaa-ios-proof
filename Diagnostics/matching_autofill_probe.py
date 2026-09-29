@@ -84,6 +84,7 @@ def export_fixed_evidence(driver, base, project, private, owned, result, counts,
             safe['earlyEntryTree'] = validator.export_early_passwords_entry(
                 private/'screenshots', output/'early-passwords-entry.json', owned_udid=owned)
             safe['selectionState'] = validator.export_selection_state(private/'screenshots', owned)
+            safe['queryState'] = validator.export_query_state(private/'screenshots', owned)
             if hasattr(validator, 'export_picker_trees'):
                 safe['pickerTrees'] = validator.export_picker_trees(private/'screenshots', output, owned_udid=owned)
         except (OSError, ValueError, TypeError, AttributeError):
@@ -106,6 +107,7 @@ def export_fixed_evidence(driver, base, project, private, owned, result, counts,
     return (debug_succeeded and release_succeeded and outcome == 'passed'
             and safe['earlyEntryTree']['status'] == 'Exported'
             and safe.get('selectionState', {}).get('status') == 'Exported'
+            and safe.get('queryState', {}).get('status') == 'Exported'
             and all(safe.get('pickerTrees', {}).get(phase) is True for phase in ('before_selection', 'after_fill_wait'))
             and safe.get('pickerTrees', {}).get('status') != 'Rejected')
 

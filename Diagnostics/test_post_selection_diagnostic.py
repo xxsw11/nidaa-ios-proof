@@ -4,7 +4,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-source = Path(__file__).with_name('post_selection_validator.py')
+source = Path(__file__).with_name('guarded_selection_validator.py')
 if not source.is_file():
     source = Path(__file__).with_name('early_passwords_entry_validator.py')
 spec = importlib.util.spec_from_file_location('selection_validator', source)
@@ -68,6 +68,19 @@ class PostSelectionTests(unittest.TestCase):
         self.assertFalse(validator.valid_picker_tree({**tree, 'phase': 'unknown'}))
         node = dict(surface='app', node=0, parent=-1, role=2, frame=[0, 0, 402, 874], label='PRIVATE', identifier='')
         self.assertFalse(validator.valid_picker_tree({**tree, 'nodes': [node]}))
+
+
+    def test_query_state_exact_counters(self):
+        value = dict(snapshotFailures=0, completeSnapshotsWithoutIdentity=3, identitiesObserved=1)
+        self.assertTrue(validator.valid_query_state(value))
+        for invalid in ({**value, 'snapshotFailures': True}, {**value, 'identitiesObserved': -1},
+                        {**value, 'secret': 'PRIVATE'}, {**value, 'identitiesObserved': 10001}):
+            self.assertFalse(validator.valid_query_state(invalid))
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp); manifest=self.fixture(root, value)
+            manifest[0]['attachments'][0]['suggestedHumanReadableName']='autofill-native-picker-query-state.txt'
+            (root/'manifest.json').write_text(json.dumps(manifest))
+            self.assertEqual(validator.export_query_state(root, OWNED)['values'], value)
 
 
 if __name__ == '__main__':
