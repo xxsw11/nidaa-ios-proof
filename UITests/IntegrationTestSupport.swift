@@ -190,6 +190,14 @@ class IntegrationTestCase: XCTestCase {
         reveal(element); element.tap()
         XCTAssertTrue(app.keyboards.firstMatch.waitForExistence(timeout: 8), "Keyboard did not appear for input")
         element.typeText(value)
+        if !isLive, id == "integrationPassword", value == "DEMO-NOT-A-CREDENTIAL" {
+            // Only this never-authenticated demonstration may be captured, and
+            // only the secure field crop. No full keyboard/form or real values.
+            let fieldImage = XCTAttachment(screenshot: element.screenshot())
+            fieldImage.name = "autofill-noncredential-secure-field-crop"
+            fieldImage.lifetime = .keepAlways
+            add(fieldImage)
+        }
         let beforeDone = id == "integrationPassword" ? authDraftReadiness() : nil
         dismissKeyboard(after: element)
         if let beforeDone {
@@ -207,7 +215,11 @@ class IntegrationTestCase: XCTestCase {
         // UI booleans only: no secure-field value, character count or text dump.
         let diagnostic = app.staticTexts["integrationPasswordDiagnostics"]
         let native = diagnostic.exists ? (diagnostic.value as? String ?? "unavailable") : "unavailable"
-        return "login_exists=\(loginExists), login_enabled=\(loginExists && login.isEnabled), signup_exists=\(signupExists), signup_enabled=\(signupExists && signup.isEnabled), busy=\(busy.exists), native={\(native)}"
+        let keyboard = app.keyboards.firstMatch
+        let latinKeys = keyboard.keys["f"].exists || keyboard.keys["F"].exists
+        let arabicKeys = keyboard.keys["ض"].exists
+        let strongCover = app.descendants(matching: .any).matching(identifier: "Automatic Strong Password cover view text").firstMatch.exists
+        return "login_exists=\(loginExists), login_enabled=\(loginExists && login.isEnabled), signup_exists=\(signupExists), signup_enabled=\(signupExists && signup.isEnabled), busy=\(busy.exists), latinKeys=\(latinKeys), arabicKeys=\(arabicKeys), strongCover=\(strongCover), native={\(native)}"
     }
     func shot(_ name: String) {
         let item = XCTAttachment(screenshot: app.screenshot()); item.name = (isLive ? "integration-native-real-" : "integration-mock-") + name; item.lifetime = .keepAlways; add(item)

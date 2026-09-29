@@ -28,7 +28,7 @@ class NativeEvidenceExportTests(unittest.TestCase):
             exported = Path(destination) / 'export'
             screens = private / 'screenshots'
             screens.mkdir()
-            valid = 'login_exists=true, login_enabled=true, signup_exists=true, signup_enabled=false, busy=false, native={nativeReady=false,hasText=true,firstResponder=true,asciiKeyboard=true,secure=true,receivedSeveralEdits=true,bindingReady=false}'
+            valid = 'login_exists=true, login_enabled=true, signup_exists=true, signup_enabled=false, busy=false, latinKeys=true, arabicKeys=false, strongCover=false, native={nativeReady=false,hasText=true,firstResponder=true,asciiKeyboard=true,secure=true,receivedSeveralEdits=true,inputEnglish=true,inputArabic=false,inputOther=false,bindingReady=false}'
             (screens / 'safe.txt').write_text('before_keyboard_done: '+valid+'\nafter_keyboard_done: '+valid)
             (screens / 'unsafe.txt').write_text('before_keyboard_done: PRIVATE_SENTINEL_DO_NOT_EXPORT')
             (screens / 'manifest.json').write_text(json.dumps([{'attachments': [

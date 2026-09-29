@@ -113,6 +113,7 @@ import NidaaIntegration
     private var emailValid: Bool { email.lowercased().hasSuffix(".invalid") && email.contains("@") }
     var body: some View {
         VStack(alignment: .leading, spacing: 22) {
+        if !store.verifying {
         NidaaCard {
             Text("حساب خيالي مستقل").font(.title2.bold())
             Text("استخدم بريدًا ينتهي بـ ‎.invalid. التحقق يصل إلى صندوق محلي معزول؛ لا تستخدم بيانات شخصية.").font(.footnote)
@@ -128,7 +129,11 @@ import NidaaIntegration
             NidaaButton(title: "طلب استعادة كلمة المرور", icon: "key", secondary: true, id: "integrationRecover") {
                 password = ""; recovery = true; Task { await store.recover(email: email) }
             }.disabled(!emailValid || store.busy)
+            NidaaButton(title: "لديّ رمز تحقق أو استعادة", icon: "envelope.badge", secondary: true, id: "integrationExistingToken") {
+                password = ""; token = ""; recovery = false; store.verifying = true
+            }.disabled(store.busy)
         }
+        } else {
         NidaaCard {
             Text("التحقق من البريد المحلي").font(.headline)
             if store.verifying { Text("بانتظار تحقق البريد؛ لم نفترض وصول رسالة أو نجاح تفعيل.").accessibilityIdentifier("integrationAwaitingVerification") }
@@ -138,8 +143,12 @@ import NidaaIntegration
             NidaaButton(title: "التحقق من البريد", icon: "checkmark.seal", secondary: true, id: "integrationVerify") {
                 let value = token; token = ""; Task { await store.verify(token: value, recovery: recovery) }
             }.disabled(token.isEmpty || store.busy)
+            NidaaButton(title: "العودة إلى تسجيل الدخول", icon: "arrow.uturn.backward", secondary: true, id: "integrationBackToCredentials") {
+                token = ""; password = ""; recovery = false; store.verifying = false
+            }.disabled(store.busy)
         }
         .id("integration-verification-step")
+        }
         }
         .onDisappear { password = ""; token = "" }
     }

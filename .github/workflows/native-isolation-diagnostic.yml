@@ -1,0 +1,27 @@
+name: NIDAA - Bounded native isolation diagnostic
+on:
+  push:
+    branches: ['codex/native-integration-review']
+    paths: ['Integration/native/isolation_diagnostic.py', '.github/workflows/native-isolation-diagnostic.yml']
+permissions:
+  contents: read
+jobs:
+  policy:
+    if: ${{ github.event.repository.private == false }}
+    runs-on: macos-15
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Measure bind and listen separately without credentials or services
+        run: |
+          mkdir -p artifacts/isolation-diagnostic
+          { sw_vers; uname -m; python3 --version; } > artifacts/isolation-diagnostic/host.txt
+          sandbox-exec -f Integration/native/loopback.sb python3 Integration/native/isolation_diagnostic.py > artifacts/isolation-diagnostic/result.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: ${{ always() }}
+        with:
+          name: isolation-diagnostic-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/isolation-diagnostic/
+          retention-days: 7

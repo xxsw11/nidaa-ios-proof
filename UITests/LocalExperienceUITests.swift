@@ -74,6 +74,17 @@ final class LocalExperienceUITests: XCTestCase {
         tab("دائرتي");tap("edit-"+sara);tap("blockContact");tab("الرئيسية");tap("startAlert")
         XCTAssertFalse(app.switches["select-"+sara].isEnabled);tap("closeScreen")
         tab("دائرتي");tap("edit-"+sara);tap("deleteContact");tap("confirmDelete")
+        // The store removes and saves synchronously, but sheet dismissal and the
+        // accessibility snapshot can settle after the confirmation tap returns.
+        let removedContact = app.buttons["edit-"+sara]
+        let removal = XCTNSPredicateExpectation(predicate: NSPredicate(format: "exists == false"), object: removedContact)
+        XCTAssertEqual(XCTWaiter.wait(for: [removal], timeout: 5), .completed, "Deleted contact must leave the circle")
+        XCTAssertFalse(removedContact.exists)
+        XCTAssertFalse(app.staticTexts["storageIssue"].firstMatch.exists)
+        // Verify persisted deletion, not only disappearance during sheet animation.
+        app.terminate();launch(reset: false);tab("دائرتي")
+        XCTAssertTrue(app.buttons["edit-"+ahmad].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["نور"].firstMatch.waitForExistence(timeout: 5))
         XCTAssertFalse(app.buttons["edit-"+sara].exists)
     }
     func testAppearancePersistsAndPoliciesAndReadinessOpen() {

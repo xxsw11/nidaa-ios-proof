@@ -72,6 +72,8 @@ allowed = {
  'disposable-simulator-autofill-passwords-and-passkeys-on',
  'disposable-simulator-autofill-fixture-failure',
  'autofill-saved-credential-availability-screen',
+ 'autofill-saved-credential-new-password-controls-header',
+ 'autofill-noncredential-secure-field-crop',
  'integration-mock-autofill-enabled-registration-complete-mock',
  'integration-mock-autofill-enabled-recovery-complete-mock',
  'integration-mock-autofill-enabled-large-rtl-hidden-demonstration',
@@ -95,11 +97,17 @@ if manifest.exists():
                 # Probe text is composed solely of fixed candidate labels in source.
                 assert len(note)<1000 and not re.search(r'eyJ|https?://|@',note)
                 (output/'saved-credential-availability.txt').write_text(note)
+            if human=='autofill-saved-credential-form-controls' and source.suffix in ('.txt','.text'):
+                note=source.read_text()
+                labels=['Website','User Name','Username','Password','Notes','Save','Done','Cancel','New Password','example.com']
+                item=r'(?:textField|secureTextField|button|staticText):(?:'+'|'.join(re.escape(label) for label in labels)+')'
+                if re.fullmatch(r'Observed new-password form controls \(no values\): (?:'+item+r'(?:, '+item+r')*)?',note):
+                    (output/'saved-credential-form-controls.txt').write_text(note)
             if human=='integration-mock-draft-readiness' and source.suffix in ('.txt','.text'):
                 # Only fixed UI booleans; never publish arbitrary attachment text.
                 note=source.read_text()
-                keys=['login_exists','login_enabled','signup_exists','signup_enabled','busy']
-                native_keys=['nativeReady','hasText','firstResponder','asciiKeyboard','secure','receivedSeveralEdits','bindingReady']
+                keys=['login_exists','login_enabled','signup_exists','signup_enabled','busy','latinKeys','arabicKeys','strongCover']
+                native_keys=['nativeReady','hasText','firstResponder','asciiKeyboard','secure','receivedSeveralEdits','inputEnglish','inputArabic','inputOther','bindingReady']
                 pattern=r'(before_keyboard_done|after_keyboard_done): '+', '.join(key+r'=(true|false)' for key in keys)+r', native=\{('+','.join(key+r'=(?:true|false)' for key in native_keys)+r'|unavailable)\}'
                 lines=note.strip().splitlines()
                 matches=[re.fullmatch(pattern,line) for line in lines]
@@ -108,7 +116,7 @@ if manifest.exists():
                     for match in matches:
                         row=match.groups()
                         native={} if row[-1]=='unavailable' else {key:value=='true' for key,value in (pair.split('=') for pair in row[-1].split(','))}
-                        phases.append({'phase':row[0], **{key:value=='true' for key,value in zip(keys,row[1:6])},'native':native})
+                        phases.append({'phase':row[0], **{key:value=='true' for key,value in zip(keys,row[1:1+len(keys)])},'native':native})
                     draft_diagnostics.append(phases)
 report['screenshots']=images
 report['draftReadiness']=draft_diagnostics

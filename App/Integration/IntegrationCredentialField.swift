@@ -59,8 +59,11 @@ private struct CredentialDiagnostics: Equatable {
     var asciiKeyboard = false
     var secure = true
     var receivedSeveralEdits = false
+    var inputEnglish = false
+    var inputArabic = false
+    var inputOther = false
     var summary: String {
-        "nativeReady=\(nativeReady),hasText=\(hasText),firstResponder=\(firstResponder),asciiKeyboard=\(asciiKeyboard),secure=\(secure),receivedSeveralEdits=\(receivedSeveralEdits)"
+        "nativeReady=\(nativeReady),hasText=\(hasText),firstResponder=\(firstResponder),asciiKeyboard=\(asciiKeyboard),secure=\(secure),receivedSeveralEdits=\(receivedSeveralEdits),inputEnglish=\(inputEnglish),inputArabic=\(inputArabic),inputOther=\(inputOther)"
     }
 }
 
@@ -130,10 +133,14 @@ private struct CredentialInput: UIViewRepresentable {
         private func record(_ field: UITextField) {
             #if targetEnvironment(simulator)
             guard ProcessInfo.processInfo.arguments.contains("-nidaa-ui-testing") else { return }
+            let language = field.textInputMode?.primaryLanguage?.lowercased()
+            let english = language?.hasPrefix("en") == true
+            let arabic = language?.hasPrefix("ar") == true
             parent.diagnostics = CredentialDiagnostics(nativeReady: (field.text?.count ?? 0) >= 8,
                 hasText: !(field.text ?? "").isEmpty, firstResponder: field.isFirstResponder,
                 asciiKeyboard: field.keyboardType == .asciiCapable, secure: field.isSecureTextEntry,
-                receivedSeveralEdits: edits >= 8)
+                receivedSeveralEdits: edits >= 8, inputEnglish: english, inputArabic: arabic,
+                inputOther: language != nil && !english && !arabic)
             #endif
         }
         func textFieldShouldReturn(_ textField: UITextField) -> Bool {

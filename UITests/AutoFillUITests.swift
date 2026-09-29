@@ -34,6 +34,33 @@ final class AutoFillUITests: IntegrationTestCase {
         screen.name = "autofill-saved-credential-availability-screen"
         screen.lifetime = .keepAlways
         add(screen)
+        let newPassword = passwords.buttons["New Password"].firstMatch
+        if newPassword.exists && newPassword.isHittable {
+            newPassword.tap()
+            let formHeader = passwords.navigationBars["New Password"].firstMatch
+            XCTAssertTrue(formHeader.waitForExistence(timeout: 5))
+            // The form may propose a plaintext generated password before typing.
+            // Retain only the original navigation controls crop, never its fields.
+            let formScreen = XCTAttachment(screenshot: formHeader.screenshot())
+            formScreen.name = "autofill-saved-credential-new-password-controls-header"
+            formScreen.lifetime = .keepAlways
+            add(formScreen)
+            // This is before typing or saving. Capture only field labels/types,
+            // never values (the system may propose a generated password).
+            let knownLabels = ["Website", "User Name", "Username", "Password", "Notes", "Save", "Done", "Cancel", "New Password", "example.com"]
+            let controls = knownLabels.flatMap { label -> [String] in
+                var matches: [String] = []
+                if passwords.textFields[label].exists { matches.append("textField:" + label) }
+                if passwords.secureTextFields[label].exists { matches.append("secureTextField:" + label) }
+                if passwords.buttons[label].exists { matches.append("button:" + label) }
+                if passwords.staticTexts[label].exists { matches.append("staticText:" + label) }
+                return matches
+            }
+            let inventory = XCTAttachment(string: "Observed new-password form controls (no values): " + controls.joined(separator: ", "))
+            inventory.name = "autofill-saved-credential-form-controls"
+            inventory.lifetime = .keepAlways
+            add(inventory)
+        }
         let item = XCTAttachment(string: note + " Saved-credential selection has not executed; manual input/PasteButton tests do not establish AutoFill selection.")
         item.name = "autofill-saved-credential-availability"
         item.lifetime = .keepAlways
@@ -42,6 +69,13 @@ final class AutoFillUITests: IntegrationTestCase {
     }
     func testEnabledManualRegistrationAndFieldNavigation() {
         launch()
+        XCTAssertFalse(app.secureTextFields["integrationVerificationToken"].exists, "Credential and verification steps must not mount together")
+        tap("integrationExistingToken")
+        XCTAssertTrue(app.secureTextFields["integrationVerificationToken"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.secureTextFields["integrationPassword"].exists)
+        tap("integrationBackToCredentials")
+        XCTAssertTrue(app.secureTextFields["integrationPassword"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.secureTextFields["integrationVerificationToken"].exists)
         fill("integrationEmail", "sara@example.invalid")
         fill("integrationPassword", "Fictional-Only-29!", secure: true)
         XCTAssertTrue(app.buttons["integrationSignup"].isEnabled)
@@ -52,6 +86,7 @@ final class AutoFillUITests: IntegrationTestCase {
         XCTAssertTrue(app.buttons["integrationSignup"].isEnabled, "Navigating fields must retain the password")
         tap("integrationSignup")
         XCTAssertTrue(app.staticTexts["integrationAwaitingVerification"].waitForExistence(timeout: 8))
+        XCTAssertFalse(app.secureTextFields["integrationPassword"].exists)
         XCTAssertFalse(app.buttons["integrationAccountTab"].exists)
         fill("integrationVerificationToken", "MOCK-LOCAL-VERIFICATION", secure: true)
         tap("integrationVerify")
@@ -83,6 +118,7 @@ final class AutoFillUITests: IntegrationTestCase {
 
     func testEnabledVisibilityUsesOnlyNonCredentialDemonstration() {
         launch(large: true)
+        XCTAssertFalse(app.secureTextFields["integrationVerificationToken"].exists)
         // This string is never used to authenticate, register or sent to a service.
         let demonstration = "DEMO-NOT-A-CREDENTIAL"
         fill("integrationPassword", demonstration, secure: true)
