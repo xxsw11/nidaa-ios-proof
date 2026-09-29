@@ -402,6 +402,14 @@ def main():
                 or report['windowReadiness'].get('enrollmentActionAttempted') is not False):
             raise Blocked('owned_window_readiness_unproven')
         before = run_phase(driver, helper, 'before', owned, project, temporary)
+        # System Events may quit while the first Xcode test builds/runs. The
+        # measured prior helper returned -600 here after an initially valid
+        # permission check. Reopen the same public system app; this neither
+        # changes TCC nor repeats an enrollment action.
+        reopened = driver.run('reopen_system_events_after_xctest',
+                              ['open', '-g', '-b', 'com.apple.systemevents'], maximum=10)
+        if reopened.returncode:
+            raise Blocked('system_events_reopen_failed')
         menu = driver.run('official_menu_single_enrollment_attempt', [str(binary), name, bundle], maximum=90)
         report['menu'] = json.loads(menu.stdout)
         report['menuHelperExitCode'] = menu.returncode
