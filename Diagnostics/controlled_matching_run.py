@@ -1,6 +1,7 @@
-"""One official Simulator response after one validated post-Passwords-tap event.
+"""One official Simulator response after one validated observed Face ID event.
 
-This is a controlled hypothesis test, not evidence of an observed native prompt.
+The XCTest event reports a visible native Face ID prompt after Passwords tap.
+The separate AX helper does not observe the iOS prompt or prove authentication.
 All subprocess text stays private. Exported dictionaries have fixed keys/values.
 """
 import importlib.util
@@ -42,7 +43,7 @@ def run_saved_with_response(driver, base, operation, argv, maximum, env, cwd, pa
         raise base.Blocked('matching_enrollment_precondition_unproven')
     experiment = report['matchingExperiment'] = {
         'hypothesis': 'picker_requires_biometric_response', 'authenticationPromptObserved': False,
-        'trigger': 'exact_nonce_event_after_completed_native_passwords_tap',
+        'trigger': 'exact_nonce_event_after_visible_face_id_prompt_and_after_tap_capture',
         'maximumMatchingActions': 1, 'status': 'Waiting-for-event', 'actionAttempted': False,
         'actionOutcomeUncertain': False, 'originalAssertionsRetained': True,
         'rawEvidenceUploaded': False}
@@ -55,6 +56,9 @@ def run_saved_with_response(driver, base, operation, argv, maximum, env, cwd, pa
     def respond(remaining):
         experiment['status'] = 'Event-validated'
         experiment['nonceMatched'] = True
+        # Only the exact live XCTest event establishes this UI observation.
+        # The independent menu helper must continue reporting false.
+        experiment['authenticationPromptObserved'] = True
         if remaining <= 5:
             experiment['status'] = 'Notexecuted-budget'
             return
@@ -93,7 +97,7 @@ def run_saved_with_response(driver, base, operation, argv, maximum, env, cwd, pa
     try:
         result, transport = stream.run_with_one_event(
             argv, env=env, cwd=cwd, timeout=timeout,
-            expected_line=('NIDAA_PICKER_MATCH_REQUEST:'+nonce+':passwords_picker_tapped').encode('ascii'),
+            expected_line=('NIDAA_PICKER_MATCH_REQUEST:'+nonce+':face_id_prompt_observed').encode('ascii'),
             on_event=respond, partial=partial)
         experiment['transport'] = transport
         record.update(status='Completed', exitCode=result.returncode)
@@ -115,6 +119,7 @@ def experiment_completed(report):
     value = report.get('matchingExperiment', {})
     transport = value.get('transport', {})
     return (value.get('status') == 'Official-action-returned-success'
+            and value.get('authenticationPromptObserved') is True
             and transport.get('exactEventCount') == 1
             and transport.get('foreignEventObserved') is False
             and transport.get('lateEventObserved') is False

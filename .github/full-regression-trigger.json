@@ -1,5 +1,5 @@
 {
-  "stage": "native-acceptance-v02-after-autofill-fix",
+  "stage": "native-acceptance-v02-after-native-prompt-dismissal",
   "selection": "all-feasible-regression-groups",
   "source": "Every job checks out its event github.sha; all acceptance results must match that single frozen SHA.",
   "expectedUniqueCases": {
@@ -22,7 +22,7 @@
     "real Swift SDK journey",
     "Debug build and UI execution",
     "Release build",
-    "13 diagnostic transport/privacy checks",
+    "16 diagnostic transport/privacy checks",
     "fresh before/after Simulator enrollment observations"
   ],
   "requiredSkips": 0,
