@@ -1,14 +1,26 @@
 [
   {
-    "run":36510172769,
-    "attempt":1,
-    "job":109220318078,
-    "commit":"a434233bcd678bbab014afdd690f87b8951884bd",
-    "result":"Failed during host inspection; no backend or native UI execution",
-    "category":"Environment preparation",
-    "observed":"go: command not found; exit127",
-    "changeBeforeRetry":"Use pinned official actions/setup-go to activate Go1.26.5; host inspection records missing tools without falsely claiming readiness.",
-    "artifact":11008333405,
-    "artifactSHA256":"23c68e873d26589f6bf47792f36b82852f44de9be612dfcfe458597928e1eaea"
+    "run": 36510172769,
+    "attempt": 1,
+    "job": 109220318078,
+    "commit": "a434233bcd678bbab014afdd690f87b8951884bd",
+    "result": "Failed during host inspection; no backend or native UI execution",
+    "category": "Environment preparation",
+    "observed": "go: command not found; exit127",
+    "changeBeforeRetry": "Use pinned official actions/setup-go to activate Go1.26.5; host inspection records missing tools without falsely claiming readiness.",
+    "artifact": 11008333405,
+    "artifactSHA256": "23c68e873d26589f6bf47792f36b82852f44de9be612dfcfe458597928e1eaea"
+  },
+  {
+    "run": 36511223723,
+    "attempt": 1,
+    "job": 109223559199,
+    "commit": "6fce9bb00f10a4fe127d71c2b77ddbe9b4398af9",
+    "result": "Failed during native dependency preparation; backend and native UI not executed",
+    "category": "Environment preparation",
+    "observed": "Host Python3.14 has no matching psycopg-binary3.2.9 distribution",
+    "changeBeforeRetry": "Activate official Python3.12 explicitly; retain pinned project dependencies.",
+    "artifact": 11008909283,
+    "artifactSHA256": "0e6794b4bdebb14e7851e625f059fdf3c658715be8059374ba16a614a5cdfb6e"
   }
 ]
