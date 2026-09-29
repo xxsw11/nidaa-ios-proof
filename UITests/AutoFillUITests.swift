@@ -155,8 +155,18 @@ final class AutoFillUITests: IntegrationTestCase {
         pickerQueryDiagnosticsActive = true
         recordFullPickerDiagnostic(phase: "before_tap", app: nativeApp, springboard: springboard, passwords: passwords)
         pickerButton.tap()
-        guard emitPickerMatchRequest() else { return }
+        let faceIDReady = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            self.hasVisibleNativeFaceIDPrompt(in: springboard)
+        }, object: nil)
+        let faceIDResult = XCTWaiter.wait(for: [faceIDReady], timeout: 20)
         recordFullPickerDiagnostic(phase: "after_tap", app: nativeApp, springboard: springboard, passwords: passwords)
+        // Capture the observed native prompt before requesting one response.
+        // Recheck after capture so an expired/disappearing prompt emits no event.
+        guard faceIDResult == .completed, hasVisibleNativeFaceIDPrompt(in: springboard) else {
+            XCTFail("Visible native Face ID prompt was not observed; no Matching Face response requested")
+            return
+        }
+        guard emitPickerMatchRequest() else { return }
         // The picker can appear asynchronously, with the fictional identity in
         // different native roles. Rebuild candidates on every bounded poll;
         // never commit early to an absent static-text query. Do not relaunch
@@ -857,18 +867,42 @@ extension AutoFillUITests {
 }
 
 // DIAGNOSTIC BRANCH ONLY. Append this extension to AutoFillUITests.swift.
-// In testSavedCredentialSelection, insert the following line immediately after
-// the existing `pickerButton.tap()` and BEFORE recordFullPickerDiagnostic(after_tap):
-//     guard emitPickerMatchRequest() else { return }
+// In testSavedCredentialSelection, request one response only after the bounded
+// visible native Face ID prompt gate, after_tap capture, and fresh prompt recheck.
 // Preserve all existing capture, query, selection, fill and login assertions.
 // Host forwards TEST_RUNNER_NIDAA_PICKER_MATCH_NONCE and
 // TEST_RUNNER_NIDAA_PICKER_MATCH_OWNED_UDID through xcodebuild's test-runner env.
-// This is a one-time experimental request, NOT evidence of an exposed prompt or
-// completed biometric action. The host report is authoritative about its action.
+// This one-time request records prompt observation, not authentication success
+// or completion of the host action. The host report is authoritative about its action.
 // There is no sleep, stdin, app-container/network handshake, or success bypass.
 // Raw logs remain runner-private; only fixed validated reports may be exported.
 
 extension AutoFillUITests {
+    private func hasVisibleNativeFaceIDPrompt(in springboard: XCUIApplication) -> Bool {
+        guard let root = try? springboard.snapshot() else { return false }
+        let viewport = root.frame
+        guard [viewport.minX, viewport.minY, viewport.width, viewport.height].allSatisfy({ $0.isFinite }),
+              viewport.width > 0, viewport.height > 0 else { return false }
+        var visited = 0
+        var complete = true
+        var observed = false
+        func visit(_ node: XCUIElementSnapshot, depth: Int) {
+            guard complete else { return }
+            guard visited < 2000, depth < 50 else { complete = false; return }
+            visited += 1
+            if node.elementType == .staticText, node.label == "Face ID" {
+                let frame = node.frame
+                if [frame.minX, frame.minY, frame.width, frame.height].allSatisfy({ $0.isFinite }),
+                   frame.width > 0, frame.height > 0, viewport.contains(frame) {
+                    observed = true
+                }
+            }
+            for child in node.children { visit(child, depth: depth + 1) }
+        }
+        visit(root, depth: 0)
+        return complete && observed
+    }
+
     func emitPickerMatchRequest() -> Bool {
         #if targetEnvironment(simulator)
         let environment = ProcessInfo.processInfo.environment
@@ -884,7 +918,7 @@ extension AutoFillUITests {
         }
         // Write directly to the stdout file descriptor: no stdio buffering and
         // no credential-bearing content. Host accepts one exact complete line.
-        let line = "NIDAA_PICKER_MATCH_REQUEST:\(nonce):passwords_picker_tapped\n"
+        let line = "NIDAA_PICKER_MATCH_REQUEST:\(nonce):face_id_prompt_observed\n"
         FileHandle.standardOutput.write(Data(line.utf8))
         return true
         #else

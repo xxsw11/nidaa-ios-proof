@@ -4,7 +4,7 @@
 Imports the successful capability driver without invoking its CLI until the
 single after-phase hook is installed. All raw saved-password evidence remains
 private; only fixed result fields and a strictly validated early-entry tree
-leave PrivateEvidence. Raw screenshots, logs and ciphertext are never exported. This separate experiment requests one official Matching Face response after a nonce-bound native Passwords tap; it does not claim an observed authentication prompt.
+leave PrivateEvidence. Raw screenshots, logs and ciphertext are never exported. This separate experiment requests one official Matching Face response after a nonce-bound XCTest observation of a visible Face ID prompt and its after-tap capture. Menu success alone is not authentication proof.
 """
 import hashlib
 import importlib.util
@@ -194,7 +194,7 @@ def run_saved_selection(driver, base, owned, project, temporary):
               and driver.matching_experiment_completed())
     result['status'] = 'Passed' if passed else 'Failed'
     result['matchingExperimentCompleted'] = driver.matching_experiment_completed()
-    result['acceptanceGate'] = 'One nonce-bound official Matching Face action, without inferring a prompt or authentication from the action alone. Original saved-credential selector: exactly one passed test and no skips/failures; Release build passed; fixed-field result and strictly validated early-entry tree exported. No raw or encrypted credential evidence exported.'
+    result['acceptanceGate'] = 'One nonce-bound official Matching Face action after XCTest observes a visible Face ID prompt. Authentication is not inferred from the menu action alone. Original saved-credential selector: exactly one passed test and no skips/failures; Release build passed; fixed-field result and strictly validated early-entry tree exported. No raw or encrypted credential evidence exported.'
     report['autoFillValidated'] = passed
     if not passed:
         raise base.Blocked('enrolled_saved_credential_diagnostic_failed')
@@ -227,7 +227,7 @@ def main():
         def __init__(self, report):
             super().__init__(report)
             self.deadline = time.monotonic()+1800
-            report.update(executionBudgetSeconds=1800, scope='Controlled one-shot official Matching Face response after native Passwords tap on verified enrolled owned Simulator',
+            report.update(executionBudgetSeconds=1800, scope='Controlled one-shot official Matching Face response after observed visible Face ID prompt on verified enrolled owned Simulator',
                           orchestrationSHA256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(), realAccountsCreated=False,
                           fictionalCredentialFixtureAttempted=False)
             report.pop('appCredentialsCreated', None)
