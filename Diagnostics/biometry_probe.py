@@ -42,7 +42,9 @@ guard trusted && enabled.booleanValue else { emit(result); exit(3) }
 if CommandLine.arguments.count == 1 { emit(result); exit(0) }
 let name = CommandLine.arguments[1]
 guard name.hasPrefix("NIDAA Biometry Probe ") && name.allSatisfy({ $0.isLetter || $0.isNumber || $0 == " " || $0 == "-" }) else { exit(4) }
-guard CommandLine.arguments.count == 3 else { exit(4) }
+guard CommandLine.arguments.count == 3 || CommandLine.arguments.count == 4 else { exit(4) }
+let windowOnly = CommandLine.arguments.count == 4
+guard !windowOnly || CommandLine.arguments[3] == "--window-only" else { exit(4) }
 let bundle = CommandLine.arguments[2]
 guard bundle.hasPrefix("com.apple.") && bundle.allSatisfy({ $0.isLetter || $0.isNumber || $0 == "." || $0 == "-" }) else { exit(4) }
 result["queryStage"] = "running_application_wait"
@@ -187,6 +189,13 @@ do {
     try action(ownedWindow, kAXRaiseAction, "raise_owned_AX_window")
     Thread.sleep(forTimeInterval: 0.25)
     try requireOwnedFocus("verify_owned_AX_focus")
+    result["ownedFocusVerified"] = true
+    if windowOnly {
+        result["windowOnly"] = true
+        result["enrollmentActionAttempted"] = false
+        result["queryStage"] = "owned_window_ready"
+        emit(result); exit(0)
+    }
     let bar = try oneElement(readAX(appAX, kAXMenuBarAttribute, "AX_menu_bar"), "AX_menu_bar")
     let topItems = try children(bar, "AX_menu_bar_children")
     let features = try fixedItem(topItems, "Features", "features_presence")
@@ -414,17 +423,54 @@ def build_observer(directory, report):
     return app
 
 
-def observe_local_authentication(owned, phase, report, minimum_remaining=30):
+def parse_observation(stdout, phase, nonce):
+    # TimeoutExpired.stdout is bytes even when subprocess uses text=True.
+    # Accept only complete newline-terminated records; never publish noise.
+    if stdout is None:
+        return None, 'No-complete-record'
+    raw = stdout.encode('utf-8') if isinstance(stdout, str) else stdout
+    if not isinstance(raw, bytes) or len(raw) > 1024*1024:
+        return None, 'Output-size-or-type'
+    prefix = b'NIDAA_BIOMETRY_OBSERVATION:'
+    records = [line[len(prefix):].rstrip(b'\r\n') for line in raw.splitlines(keepends=True)
+               if line.startswith(prefix) and line.endswith(b'\n')]
+    if len(records) != 1 or len(records[0]) > 2048:
+        return None, 'Record-count-or-size'
+    try:
+        value = json.loads(records[0])
+    except (ValueError, UnicodeDecodeError):
+        return None, 'Schema'
+    expected = {'schemaVersion', 'phase', 'nonce', 'policy', 'canEvaluate', 'laErrorCode', 'errorIsLocalAuthentication',
+                'biometryType', 'authenticationPromptRequested'}
+    if (not isinstance(value, dict) or set(value) != expected or type(value['schemaVersion']) is not int
+            or value['schemaVersion'] != 1 or value['phase'] != phase or value['nonce'] != nonce
+            or type(value['policy']) is not int or value['policy'] != 1 or value['authenticationPromptRequested'] is not False
+            or type(value['canEvaluate']) is not bool or type(value['errorIsLocalAuthentication']) is not bool
+            or type(value['laErrorCode']) is not int or type(value['biometryType']) is not int):
+        return None, 'Schema-or-freshness'
+    value.pop('nonce')
+    return value, None
+
+
+def observe_local_authentication(owned, phase, report, minimum_remaining=120):
     observation = report['localAuthenticationObserver']
     entry = observation[phase] = {'status': 'Notexecuted-budget'}
     if remaining_seconds() < minimum_remaining:
         return
     nonce = uuid4().hex
+    def recover_partial(stdout):
+        value, reason = parse_observation(stdout, phase, nonce)
+        entry['timeoutObservationParseStatus'] = reason or 'Validated'
+        if value is not None:
+            entry['partialObservation'] = value
+            entry['observationRecoveredFromTimedOutCommand'] = True
+            entry['nonceMatched'] = True
     report['stage'] = 'observer_'+phase+'_console_launch'
     entry['status'] = 'Running-console-launch'
     try:
         launched = command(['xcrun', 'simctl', 'launch', '--console', '--terminate-running-process', owned,
-                            OBSERVER_BUNDLE, '--phase', phase, '--observation-nonce', nonce], timeout=45)
+                            OBSERVER_BUNDLE, '--phase', phase, '--observation-nonce', nonce], timeout=120,
+                            timeout_stdout_handler=recover_partial)
     except ProbeTimeout:
         entry['status'] = 'Failed-console-launch-timeout'
         raise
@@ -434,33 +480,16 @@ def observe_local_authentication(owned, phase, report, minimum_remaining=30):
         return
     report['stage'] = 'observer_'+phase+'_console_readback'
     entry['status'] = 'Running-console-readback'
-    prefix = 'NIDAA_BIOMETRY_OBSERVATION:'
-    # Never publish raw stdout/stderr: simctl can include unrelated diagnostic
-    # noise and process identifiers. Accept exactly one owned-app record only.
-    records = [line[len(prefix):] for line in launched.stdout.splitlines() if line.startswith(prefix)]
-    if len(records) != 1 or len(records[0]) > 2048:
-        entry['status'] = 'Failed-console-record-count-or-size'
+    value, reason = parse_observation(launched.stdout, phase, nonce)
+    if value is None:
+        entry['status'] = 'Failed-output-'+reason
         return
-    try:
-        value = json.loads(records[0])
-    except ValueError:
-        entry['status'] = 'Failed-output-schema'
-        return
-    expected = {'schemaVersion', 'phase', 'nonce', 'policy', 'canEvaluate', 'laErrorCode', 'errorIsLocalAuthentication',
-                'biometryType', 'authenticationPromptRequested'}
-    if (not isinstance(value, dict) or set(value) != expected or value['schemaVersion'] != 1 or value['phase'] != phase
-            or value['nonce'] != nonce or value['policy'] != 1 or value['authenticationPromptRequested'] is not False
-            or type(value['canEvaluate']) is not bool or type(value['errorIsLocalAuthentication']) is not bool
-            or type(value['laErrorCode']) is not int or type(value['biometryType']) is not int):
-        entry['status'] = 'Failed-output-schema-or-freshness'
-        return
-    value.pop('nonce')
     entry['status'] = 'Observed'
     entry['nonceMatched'] = True
     entry['result'] = value
 
 
-def command(argv, timeout=30):
+def command(argv, timeout=30, timeout_stdout_handler=None):
     # Only fixed command/subcommand tokens are published. Paths, device UUIDs
     # and arguments are excluded even from timeout diagnostics.
     allowed = {'--find', 'simctl', 'help', 'swiftc', 'list', 'devices', 'available',
@@ -481,8 +510,10 @@ def command(argv, timeout=30):
         result = subprocess.run(argv, capture_output=True, text=True, timeout=timeout)
         record['exitCode'] = result.returncode
         return result
-    except subprocess.TimeoutExpired:
+    except subprocess.TimeoutExpired as error:
         record['timedOut'] = True
+        if timeout_stdout_handler is not None:
+            timeout_stdout_handler(error.stdout)
         raise ProbeTimeout(record) from None
     finally:
         record['elapsedSeconds'] = round(time.monotonic()-started, 3)
@@ -492,7 +523,7 @@ def install_observer(owned, app, report):
     observation = report['localAuthenticationObserver']
     # Reserve the existing before-phase entry budget after a full install
     # window. The global deadline still clamps every subsequent operation.
-    if remaining_seconds() < 185:
+    if remaining_seconds() < 300:
         observation['installStatus'] = 'Notexecuted-budget'
         observation['before']['status'] = 'Notexecuted-budget'
         observation['after']['status'] = 'Notexecuted-budget'
@@ -550,14 +581,14 @@ def main():
     args = parser.parse_args()
     COMMAND_TRACE.clear()
     # Leave up to 60 seconds for exact-owned-device cleanup and 30 seconds for
-    # artifact upload within the workflow's eight-minute limit.
-    COMMAND_DEADLINE = time.monotonic()+390
+    # artifact upload; the thirteen-minute workflow also reserves setup margin.
+    COMMAND_DEADLINE = time.monotonic()+630
     report = {'schemaVersion': 1, 'status': 'Blocked', 'capabilityOnly': True, 'appCredentialsCreated': False,
               'privateAPIsUsed': False, 'TCCChanged': False, 'physicalBiometryProven': False,
               'ownedDeviceCreated': False, 'ownedDeviceDeleted': False,
               'localAuthenticationObserver': {'buildStatus': 'Notexecuted', 'before': {'status': 'Notexecuted'},
                                               'after': {'status': 'Notexecuted'}, 'evaluatesAuthentication': False},
-              'commandTrace': COMMAND_TRACE,
+              'commandTrace': COMMAND_TRACE, 'executionBudgetSeconds': 630, 'cleanupBudgetSeconds': 60,
               'probeSHA256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}
     owned = None
     try:
@@ -639,15 +670,10 @@ def main():
             report['bootExitCode'] = boot.returncode
             if boot.returncode:
                 raise Blocked('owned_simulator_boot_failed')
-            ready = command(['xcrun', 'simctl', 'bootstatus', owned, '-b'], timeout=150)
+            ready = command(['xcrun', 'simctl', 'bootstatus', owned, '-b'], timeout=240)
             report['bootstatusExitCode'] = ready.returncode
             if ready.returncode:
                 raise Blocked('owned_simulator_not_ready')
-            observer_installed = False
-            if observer_app is not None:
-                observer_installed = install_observer(owned, observer_app, report)
-                if observer_installed:
-                    observe_local_authentication(owned, 'before', report, minimum_remaining=95)
             developer = command(['xcode-select', '-p'])
             if developer.returncode:
                 raise Blocked('developer_directory_unavailable')
@@ -663,6 +689,19 @@ def main():
             report['openExactDeviceExitCode'] = opened.returncode
             if opened.returncode:
                 raise Blocked('owned_simulator_window_unavailable')
+            report['stage'] = 'verify_owned_window_before_observer'
+            window_ready = command([str(binary), name, bundle_identifier, '--window-only'], timeout=60)
+            report['windowReadinessExitCode'] = window_ready.returncode
+            report['windowReadiness'] = json.loads(window_ready.stdout)
+            if (window_ready.returncode or report['windowReadiness'].get('ownedWindowVerified') is not True
+                    or report['windowReadiness'].get('ownedFocusVerified') is not True
+                    or report['windowReadiness'].get('enrollmentActionAttempted') is not False):
+                raise Blocked('owned_window_not_verified_before_observer')
+            observer_installed = False
+            if observer_app is not None:
+                observer_installed = install_observer(owned, observer_app, report)
+                if observer_installed:
+                    observe_local_authentication(owned, 'before', report, minimum_remaining=210)
             report['stage'] = 'official_Face_ID_menu'
             inspected = command([str(binary), name, bundle_identifier], timeout=90)
             report['menuHelperExitCode'] = inspected.returncode

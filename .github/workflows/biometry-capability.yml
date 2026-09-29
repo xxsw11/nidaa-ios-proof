@@ -8,8 +8,8 @@ permissions:
 jobs:
   capability:
     if: ${{ github.event.repository.private == false && github.ref == 'refs/heads/codex/biometry-capability' && !contains(github.event.head_commit.message, '[diagnostic:host-only]') }}
-    runs-on: macos-15-intel
-    timeout-minutes: 8
+    runs-on: macos-15
+    timeout-minutes: 13
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
@@ -23,7 +23,7 @@ jobs:
           path: artifacts/biometry-capability/report.json
           retention-days: 7
   intel-host:
-    if: ${{ github.event.repository.private == false && github.ref == 'refs/heads/codex/biometry-capability' }}
+    if: ${{ github.event.repository.private == false && github.ref == 'refs/heads/codex/biometry-capability' && contains(github.event.head_commit.message, '[diagnostic:host-only]') }}
     runs-on: macos-15-intel
     timeout-minutes: 3
     steps:
