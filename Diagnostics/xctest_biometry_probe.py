@@ -310,6 +310,9 @@ def cleanup(driver, owned):
         driver.report.setdefault('blocker', 'owned_device_cleanup_incomplete')
 
 
+OWNED_DEVICE_PREFIX = 'NIDAA Biometry Probe '
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--project-root', type=Path, default=Path.cwd())
@@ -371,7 +374,7 @@ def main():
             return (0 if name in ('iPhone 16 Pro', 'iPhone 17 Pro', 'iPhone 15 Pro') else 1,
                     'Max' in name, 'SE' in name, name)
         runtime, template = sorted(devices, key=priority)[0]
-        name = 'NIDAA Biometry Probe '+uuid4().hex
+        name = OWNED_DEVICE_PREFIX+uuid4().hex
         created = driver.run('create_owned_simulator', ['xcrun', 'simctl', 'create', name, template['deviceTypeIdentifier'], runtime])
         if created.returncode:
             raise Blocked('owned_simulator_creation_failed')

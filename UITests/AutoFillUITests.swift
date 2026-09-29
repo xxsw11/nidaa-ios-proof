@@ -714,8 +714,8 @@ extension AutoFillUITests {
             tree.name = "autofill-passwords-entry-accessibility-tree"
             tree.lifetime = .keepAlways; add(tree)
         }
-        // ORIGINAL FULL SCREEN, PRIVATE ONLY. The diagnostic driver must seal
-        // this in the existing CMS-encrypted archive and never publish it raw.
+        // ORIGINAL FULL SCREEN, PRIVATE ONLY. The diagnostic driver keeps this
+        // on the disposable runner; neither raw nor encrypted images are uploaded.
         // Snapshot collection can lag UI transitions, so no masking claim is
         // made. This runs before any fixture credential creation or entry.
         let screen = XCTAttachment(screenshot: XCUIScreen.main.screenshot())

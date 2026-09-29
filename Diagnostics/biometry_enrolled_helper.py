@@ -41,7 +41,7 @@ result["uiElementsEnabled"] = enabled.booleanValue
 guard trusted && enabled.booleanValue else { emit(result); exit(3) }
 if CommandLine.arguments.count == 1 { emit(result); exit(0) }
 let name = CommandLine.arguments[1]
-guard name.hasPrefix("NIDAA Biometry Probe ") && name.allSatisfy({ $0.isLetter || $0.isNumber || $0 == " " || $0 == "-" }) else { exit(4) }
+guard name.hasPrefix("NIDAA-Disposable-Biometry-") && name.allSatisfy({ $0.isLetter || $0.isNumber || $0 == " " || $0 == "-" }) else { exit(4) }
 guard CommandLine.arguments.count == 3 || CommandLine.arguments.count == 4 else { exit(4) }
 let windowOnly = CommandLine.arguments.count == 4
 guard !windowOnly || CommandLine.arguments[3] == "--window-only" else { exit(4) }
@@ -659,7 +659,7 @@ def main():
                 return (0 if device['name'] in ['iPhone 16 Pro','iPhone 17 Pro','iPhone 15 Pro'] else 1,
                         'Max' in device['name'], 'SE' in device['name'], device['name'])
             runtime, template = sorted(devices, key=priority)[0]
-            name = 'NIDAA Biometry Probe '+uuid4().hex
+            name = 'NIDAA-Disposable-Biometry-'+uuid4().hex
             created = command(['xcrun', 'simctl', 'create', name, template['deviceTypeIdentifier'], runtime])
             if created.returncode:
                 raise Blocked('owned_simulator_creation_failed')

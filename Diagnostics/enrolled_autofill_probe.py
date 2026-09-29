@@ -199,6 +199,9 @@ def main():
                 driver.report['afterCanEvaluate'] = True
                 run_saved_selection(driver, base, owned, project, temporary)
         return value
+    # Match the existing AutoFill fixture's disposable-name guard without
+    # relaxing it. This exact name is created, focused and deleted by the driver.
+    base.OWNED_DEVICE_PREFIX = 'NIDAA-Disposable-Biometry-'
     base.Driver = EnrolledDriver
     base.run_phase = extended_phase
     if '--helper-path' not in sys.argv:
