@@ -99,5 +99,80 @@
         "sha256": "bd5980a710e99ec6781f911af8f2595fd1e80e7eb3b5cf2660cb0eadfac5df8e"
       }
     ]
+  },
+  {
+    "run": 36513217922,
+    "attempt": 1,
+    "job": 109229717353,
+    "commit": "3759e291e963dced98b41d6d04102f0ac56dd4e7",
+    "category": "Product input failure; diagnosed separately from infrastructure",
+    "result": "AutoFill actually ON; paste login/recovery passed, manual registration and visibility failed, saved selection skipped; Release succeeded",
+    "observed": "AutoFillUITests.swift:37 signup disabled after manual input; line83 noncredential demonstration differs after visibility toggle. Passwords probe reached Notifications onboarding, not a proven account requirement.",
+    "artifact": 11009588076,
+    "artifactSHA256": "06bddfa4247d8a9db4b821dd54e161384c604f0c68c35b040a404e78c8794cf1",
+    "changeBeforeRetry": "Diagnose UIKit manual input retention and preserve validation; extend observed disposable Passwords onboarding; keep AutoFill enabled."
+  },
+  {
+    "run": 36513218045,
+    "attempt": 1,
+    "job": 109229718078,
+    "commit": "3759e291e963dced98b41d6d04102f0ac56dd4e7",
+    "category": "Shared input failure; not infrastructure",
+    "result": "8 integration MOCK UI failed; Release succeeded",
+    "observed": "Failures at shared helper170 disabled action and205 password-draft validation. No runner/compiler infrastructure signals.",
+    "artifact": 11010635225,
+    "artifactSHA256": "eefe30a33e8f26bae068b07ec0100ec214eebef86597a66358618aef6a2413b2"
+  },
+  {
+    "run": 36513218045,
+    "attempt": 1,
+    "job": 109229718325,
+    "commit": "3759e291e963dced98b41d6d04102f0ac56dd4e7",
+    "artifact": 11010581252,
+    "artifactSHA256": "d85f2a1c71a591398f556e9e9aa5bd0b38c304b6573d518ff5f65053ebb1da41",
+    "suite": "local-b",
+    "result": "7 passed, 1 failed; Release succeeded",
+    "failure": "testContactAddEditDeleteAndBlock: LocalExperienceUITests.swift77 immediate assertion that deleted contact row no longer exists",
+    "evidence": [
+      "2026-09-29T02:51:05.4950340Z /Users/runner/work/nidaa-ios-proof/nidaa-ios-proof/UITests/LocalExperienceUITests.swift:77: error: -[NidaaUITests.LocalExperienceUITests testContactAddEditDeleteAndBlock] : XCTAssertFalse failed",
+      "2026-09-29T02:54:23.7235210Z \t Executed 8 tests, with 1 failure (0 unexpected) in 649.616 (649.624) seconds",
+      "2026-09-29T02:54:23.7573840Z \t Executed 8 tests, with 1 failure (0 unexpected) in 649.616 (649.626) seconds",
+      "2026-09-29T02:54:23.9822940Z \t Executed 8 tests, with 1 failure (0 unexpected) in 649.616 (649.634) seconds",
+      "2026-09-29T02:56:56.4944440Z ** BUILD SUCCEEDED **"
+    ]
+  },
+  {
+    "run": 36514868231,
+    "attempt": 1,
+    "job": 109234803353,
+    "commit": "aff2323d33cbe07702f293252efd1a4bac96bccf",
+    "artifact": 11011585233,
+    "artifactSHA256": "123065d3ad68bae348bdc1cd53fea86b52d6f130a7bc853f712d6bf95dd1703d",
+    "category": "Input defect not fixed by stable traits",
+    "result": "Manual registration and visibility still fail; paste/recovery passes; Release passes; selection skipped",
+    "observed": "Native and binding drafts below validation threshold before and after Done; native buffer nonempty, ASCII keyboard, fewer than8editingChanged events. No evidence of loss on keyboard dismissal. Passwords actualmainlist available without personal account.",
+    "changeBeforeRetry": "Isolate simultaneously mounted password/token steps; capture never-authenticated demonstration input to diagnose system UI; inspect observed New Password form."
+  },
+  {
+    "run": 36514868199,
+    "attempt": 1,
+    "job": 109234803119,
+    "commit": "aff2323d33cbe07702f293252efd1a4bac96bccf",
+    "artifact": 11010972261,
+    "artifactSHA256": "37d185699399552d0cfbc89828cff285cec94897fbcc6f381c85d16b6e407947",
+    "category": "Shared input defect; stability candidate not sufficient",
+    "result": "8 MOCK integration tests failed; Release passed",
+    "observed": "All8 manual password fills have nativeReady=false,bindingReady=false,receivedSeveralEdits=false before and after Done, with hasText=true and nativeASCIIKeyboard=true. Disabled action and minimum-password assertions still fail."
+  },
+  {
+    "run": 36516431643,
+    "attempt": 1,
+    "commit": "031ffd5f5177b41fa2717409ac15a7e50ad8b4fa",
+    "artifact": 11010673596,
+    "artifactSHA256": "0c11d555984f44edaf74ac59337d28bba0dbc4465f420ab0657874e18a1a1ed8",
+    "category": "Bounded correction of bind-only inference; no backend setup repeated",
+    "result": "Wildcard IPv4 and IPv6 bind AND listen allowed; external TCP/UDP denied; loopback works",
+    "observed": "Configured profile does not prevent wildcard listening. Remote accept/reachability was not measured; sockets immediately closed with no credentials/services.",
+    "next": "Retain failed runtime gate and no unchanged retries; require an isolation mechanism meeting the declared runtime boundary."
   }
 ]

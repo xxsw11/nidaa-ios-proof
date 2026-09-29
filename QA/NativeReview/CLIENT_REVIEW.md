@@ -1,6 +1,6 @@
 # Swift client review
 
-Reviewed source `180d9650b88e90b604d6837b5f2eea78ee83257d`. Tests below are deterministic injected-transport regressions, not live integration evidence. New execution is pending the associated cloud run.
+Reviewed source `180d9650b88e90b604d6837b5f2eea78ee83257d`. Tests below are deterministic injected-transport regressions, not live integration evidence. All24 client tests (including these5 new regressions) passed on Linux at `966f80abae825e9e8ca9c55fa659c3cd76ef4527` in run36511820301 attempt1, followed by the actual official Swift SDK multi-account journey. The complete gate passed again at `ea63b0f48bdc8e508792f065e3ccd3822893cdfb` in run36512065013 attempt1. The initial revoked-refresh failure is preserved in attempt-history.json; it exposed C4 below rather than being rerun unchanged until passing.
 
 | Finding | Impact and reproduction | Change and regression |
 |---|---|---|

@@ -1,0 +1,11 @@
+{
+  "run": 36514868199,
+  "attempt": 1,
+  "job": 109234803119,
+  "commit": "aff2323d33cbe07702f293252efd1a4bac96bccf",
+  "artifact": 11010972261,
+  "artifactSHA256": "37d185699399552d0cfbc89828cff285cec94897fbcc6f381c85d16b6e407947",
+  "category": "Shared input defect; stability candidate not sufficient",
+  "result": "8 MOCK integration tests failed; Release passed",
+  "observed": "All8 manual password fills have nativeReady=false,bindingReady=false,receivedSeveralEdits=false before and after Done, with hasText=true and nativeASCIIKeyboard=true. Disabled action and minimum-password assertions still fail."
+}

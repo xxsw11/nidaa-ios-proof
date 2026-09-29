@@ -2,7 +2,7 @@
 
 Reviewed 2026-09-29 against implementation head `180d9650b88e90b604d6837b5f2eea78ee83257d`, including PR #2's contract/design and PR #3's implementation/evidence. Scope: identity/session checks, SQL roles/RLS, consent, serialized transactions, receipts/outbox, expiry, retention and restore. This review preserves the existing architecture and published migrations 001–004. It adds migration 005 and focused regressions.
 
-Python compilation and whitespace checks passed locally. Cloud [run 36511223671](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36511223671), commit `6fce9bb00f10a4fe127d71c2b77ddbe9b4398af9`, passed **54 real Auth/HTTP/PostgreSQL tests**, including all seven review regressions and the expanded actual backup/restore drill, plus 45 reference and 13 local QA tests. The overall run failed later in the Swift revoked-refresh regression, so it is not a complete delivery pass. A further real-provider gateway API-version regression was added after that run and still awaits execution; the corresponding transport fix is owned by the parent review.
+Python compilation and whitespace checks passed locally. Cloud [run 36511223671](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36511223671), commit `6fce9bb00f10a4fe127d71c2b77ddbe9b4398af9`, passed **54 real Auth/HTTP/PostgreSQL tests**, including all seven review regressions and the expanded actual backup/restore drill, plus 45 reference and 13 local QA tests. The overall run failed later in the Swift revoked-refresh regression, so it is not a complete delivery pass. A further real-provider gateway API-version regression was added after that run and passed in the latest 55-test execution recorded below; the initial failure remains in the attempt history.
 
 ## Material findings and fixes
 
@@ -43,3 +43,7 @@ The exported barriers cover domain deletion, consent withdrawal/block and sessio
 - The global advisory lock, read-time sweeps and bounded snapshots are deliberate local-trial limits. The new cap is not a production scaling claim, and an overflow needs explicit maintenance or a future paging contract rather than silent truncation.
 
 No public service, external email, push notification, purchase, branch merge or physical-device operation occurred in this review scope.
+
+## Latest execution
+
+[Run36512065013 attempt1](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36512065013), commit `ea63b0f48bdc8e508792f065e3ccd3822893cdfb`, passed all55 real backend tests,45 reference checks,13 QA checks,24 Swift-client tests and the real official Swift multi-account journey. Original logs and provenance are in `evidence/backend-ea63b0f`. This includes the new provider API-version gateway regression. Native UI execution is a separate environment-blocked scope.

@@ -1,0 +1,12 @@
+{
+  "run": 36514868231,
+  "attempt": 1,
+  "job": 109234803353,
+  "commit": "aff2323d33cbe07702f293252efd1a4bac96bccf",
+  "artifact": 11011585233,
+  "artifactSHA256": "123065d3ad68bae348bdc1cd53fea86b52d6f130a7bc853f712d6bf95dd1703d",
+  "category": "Input defect not fixed by stable traits",
+  "result": "Manual registration and visibility still fail; paste/recovery passes; Release passes; selection skipped",
+  "observed": "Native and binding drafts below validation threshold before and after Done; native buffer nonempty, ASCII keyboard, fewer than8editingChanged events. No evidence of loss on keyboard dismissal. Passwords actualmainlist available without personal account.",
+  "changeBeforeRetry": "Isolate simultaneously mounted password/token steps; capture never-authenticated demonstration input to diagnose system UI; inspect observed New Password form."
+}

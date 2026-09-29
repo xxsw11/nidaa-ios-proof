@@ -1,0 +1,11 @@
+{
+  "run": 36516431643,
+  "attempt": 1,
+  "commit": "031ffd5f5177b41fa2717409ac15a7e50ad8b4fa",
+  "artifact": 11010673596,
+  "artifactSHA256": "0c11d555984f44edaf74ac59337d28bba0dbc4465f420ab0657874e18a1a1ed8",
+  "category": "Bounded correction of bind-only inference; no backend setup repeated",
+  "result": "Wildcard IPv4 and IPv6 bind AND listen allowed; external TCP/UDP denied; loopback works",
+  "observed": "Configured profile does not prevent wildcard listening. Remote accept/reachability was not measured; sockets immediately closed with no credentials/services.",
+  "next": "Retain failed runtime gate and no unchanged retries; require an isolation mechanism meeting the declared runtime boundary."
+}

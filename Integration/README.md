@@ -13,7 +13,7 @@ git clone --branch codex/native-integration-review https://github.com/xxsw11/nid
 cd nidaa-local-trial
 ```
 
-For an exact tested snapshot, use the executable commit recorded in `LOCAL_INTEGRATION_STATUS.md`. From that repository root, create a private tooling environment and install the pinned requirements:
+For an exact tested review snapshot, use the executable commits recorded in `NATIVE_REVIEW_STATUS.md`; `LOCAL_INTEGRATION_STATUS.md` preserves the prior stage. From that repository root, create a private tooling environment and install the pinned requirements:
 
 ```sh
 python3.12 -m venv .venv-integration
@@ -91,6 +91,6 @@ The server derives identity and recent authentication from verified provider ses
 
 Tests use separate sessions and HTTP/database connections. Administrative fixture access is restricted to arranging expiry, revocation and crash scenarios and asserting database state; ordinary journeys verify through the inbox. The backup drill creates a separate randomly named database, restores a private temporary pre-deletion dump, and replays a separately exported newer deletion ledger before reads. Dumps, ledger files, credentials and mailbox contents are not evidence artifacts.
 
-The workflow collects test names/results, runtime versions, image identities and isolation checks. A passing test report is distinct from a successful build or an unexecuted test definition. See `LOCAL_INTEGRATION_STATUS.md` for observed outcomes once recorded. Existing reference-model tests remain regression checks, not proof of live integration.
+The workflow collects test names/results, runtime versions, image identities and isolation checks. A passing test report is distinct from a successful build or an unexecuted test definition. See `NATIVE_REVIEW_STATUS.md` for current review outcomes and `LOCAL_INTEGRATION_STATUS.md` for the previous stage. Existing reference-model tests remain regression checks, not proof of live integration.
 
 Provisional decisions and known design limitations are in [DECISIONS.md](DECISIONS.md). Production rollout, hosted services, external email, real push and physical-device validation are outside this trial.

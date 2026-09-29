@@ -1,0 +1,186 @@
+{
+  "suite": "autofill",
+  "exitCode": 65,
+  "commit": "aff2323d33cbe07702f293252efd1a4bac96bccf",
+  "run": "36514868231",
+  "attempt": "1",
+  "scope": "MOCK network with native AutoFill enabled",
+  "rawEvidence": "Private XCTest logs/xcresult/recordings excluded from publication",
+  "physicalDevice": "Not tested",
+  "savedCredentialSelection": "See bounded availability probe; not inferred from manual typing",
+  "summary": {
+    "result": "Failed",
+    "totalTestCount": 4,
+    "passedTests": 1,
+    "failedTests": 2,
+    "skippedTests": 1,
+    "expectedFailures": 0,
+    "startTime": 1790650901.903,
+    "finishTime": 1790651240.052,
+    "devicesAndConfigurations": [
+      {
+        "device": {
+          "architecture": "arm64",
+          "deviceId": "F3663C1B-1D94-4EA7-911C-D686A3A1FD32",
+          "deviceName": "NIDAA-Disposable-0A002B55-1487-458C-A46E-B4B5148F1E30",
+          "modelName": "iPhone 16 Pro",
+          "osBuildNumber": "22F77",
+          "osVersion": "18.5",
+          "platform": "iOS Simulator"
+        },
+        "expectedFailures": 0,
+        "failedTests": 2,
+        "passedTests": 1,
+        "skippedTests": 1,
+        "testPlanConfiguration": {
+          "configurationId": "1",
+          "configurationName": "Test Scheme Action"
+        }
+      }
+    ],
+    "environmentDescription": "NidaaProof-Local \u00b7 Built with macOS 15.7.9"
+  },
+  "failedTestIdentifiers": [
+    "AutoFillUITests/testEnabledManualRegistrationAndFieldNavigation()",
+    "AutoFillUITests/testEnabledVisibilityUsesOnlyNonCredentialDemonstration()"
+  ],
+  "testCaseResults": [
+    [
+      "NidaaUITests.AutoFillUITests",
+      "testEnabledManualRegistrationAndFieldNavigation",
+      "failed"
+    ],
+    [
+      "NidaaUITests.AutoFillUITests",
+      "testEnabledPasteLoginAndRecovery",
+      "passed"
+    ],
+    [
+      "NidaaUITests.AutoFillUITests",
+      "testEnabledVisibilityUsesOnlyNonCredentialDemonstration",
+      "failed"
+    ],
+    [
+      "NidaaUITests.AutoFillUITests",
+      "testSavedCredentialEnvironmentProbe",
+      "skipped"
+    ]
+  ],
+  "failureLocations": [
+    [
+      "AutoFillUITests.swift",
+      "47"
+    ],
+    [
+      "AutoFillUITests.swift",
+      "93"
+    ]
+  ],
+  "infrastructureSignals": {
+    "runnerBootstrapFailure": false,
+    "runnerKilledBeforeTests": false,
+    "runnerEarlyExit": false,
+    "failedLaunch": false,
+    "failedInstall": false,
+    "testRunnerLost": false,
+    "timedOut": false,
+    "simulatorBootFailure": false,
+    "compileFailure": false,
+    "testFailed": true
+  },
+  "compilerDiagnostics": [],
+  "debugTestSucceeded": false,
+  "releaseBuildSucceeded": true,
+  "xcode": "Xcode 16.4\nBuild version 16F6",
+  "screenshots": [
+    {
+      "name": "disposable-simulator-autofill-passwords-and-passkeys-on.png",
+      "originalExport": "4AD39B9E-B5FD-4306-8451-5A7FD8CF1386.png",
+      "sha256": "ad349b1f6fe49b49c07c2fbf94fbe8a2177d769bfd05b615f1c425d57a82e9ec"
+    },
+    {
+      "name": "integration-mock-autofill-enabled-recovery-complete-mock.png",
+      "originalExport": "541D7738-A28A-4AED-9476-10F69951BED4.png",
+      "sha256": "f3f8fa3230f54ff8a17e77a9170838a15dd9e095914206fd87d046cd36df2695"
+    },
+    {
+      "name": "autofill-saved-credential-availability-screen.png",
+      "originalExport": "4034EEF2-2E2E-442E-8038-AA8C09D9D709.png",
+      "sha256": "60c7a7a6a7037e747036223ce7e58adad6b48d7d98da6df537b1c292e2c83430"
+    }
+  ],
+  "draftReadiness": [
+    [
+      {
+        "phase": "before_keyboard_done",
+        "login_exists": true,
+        "login_enabled": true,
+        "signup_exists": true,
+        "signup_enabled": false,
+        "busy": false,
+        "native": {
+          "nativeReady": false,
+          "hasText": true,
+          "firstResponder": true,
+          "asciiKeyboard": true,
+          "secure": true,
+          "receivedSeveralEdits": false,
+          "bindingReady": false
+        }
+      },
+      {
+        "phase": "after_keyboard_done",
+        "login_exists": true,
+        "login_enabled": true,
+        "signup_exists": true,
+        "signup_enabled": false,
+        "busy": false,
+        "native": {
+          "nativeReady": false,
+          "hasText": true,
+          "firstResponder": false,
+          "asciiKeyboard": true,
+          "secure": true,
+          "receivedSeveralEdits": false,
+          "bindingReady": false
+        }
+      }
+    ],
+    [
+      {
+        "phase": "before_keyboard_done",
+        "login_exists": true,
+        "login_enabled": false,
+        "signup_exists": true,
+        "signup_enabled": false,
+        "busy": false,
+        "native": {
+          "nativeReady": false,
+          "hasText": true,
+          "firstResponder": true,
+          "asciiKeyboard": true,
+          "secure": true,
+          "receivedSeveralEdits": false,
+          "bindingReady": false
+        }
+      },
+      {
+        "phase": "after_keyboard_done",
+        "login_exists": true,
+        "login_enabled": false,
+        "signup_exists": true,
+        "signup_enabled": false,
+        "busy": false,
+        "native": {
+          "nativeReady": false,
+          "hasText": true,
+          "firstResponder": false,
+          "asciiKeyboard": true,
+          "secure": true,
+          "receivedSeveralEdits": false,
+          "bindingReady": false
+        }
+      }
+    ]
+  ]
+}

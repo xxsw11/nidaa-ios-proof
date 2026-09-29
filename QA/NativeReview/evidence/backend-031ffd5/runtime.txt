@@ -1,0 +1,3 @@
+28.0.4
+Docker Compose version v2.38.2
+Supabase CLI: not installed; pinned Auth containers used directly

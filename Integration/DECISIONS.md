@@ -1,20 +1,56 @@
 # Local trial amendments — 2026-09-28
 
+
+
 Base is the latest open PR #2 head `ab479a345aa6f5c2a98a369a7f7ed23819957a48`, not main. Implementation branch `codex/local-supabase-integration` depends on PR #2. Neither PR may be merged automatically.
+
+
 
 The following resolve material design gaps before implementation; retention periods remain provisional product choices, not legal requirements.
 
+
+
 1. **Authentication journey:** this trial uses established Supabase Auth verified-email/password signup and login, plus the provider's email recovery flow. This amends the prior OTP-only preference so registration/verification/recovery can all be exercised. Password handling belongs entirely to GoTrue and its official Swift SDK; NIDAA never implements password storage/cryptography. Test accounts use random fictional `.invalid` email addresses and runtime-generated passwords. Verification must consume the actual local inbox message, not admin confirmation.
+
 2. **Transport:** HTTP is permitted only inside the isolated Docker network and loopback-published test endpoints. It is not a production transport policy. No public tunnel/LAN binding. Any native HTTP exception must be loopback-local and integration-only; Release local experience remains the default.
+
 3. **Runtime:** Docker/Supabase CLI were not found on this Windows machine. Use a standard Ubuntu container-capable GitHub Actions runner. Compose launches pinned official Supabase Auth, PostgreSQL and Mailpit images directly; Supabase CLI is not required for this reduced stack. This is real GoTrue/PostgreSQL integration, not a Supabase emulator or hosted project.
+
 4. **Authority:** body actor/device/auth-time/biometric assertions are forbidden. Verify JWT signature, issuer/audience/expiration and provider/domain session state. Recent auth uses provider AMR authentication timestamps; a refresh, JWT `iat` or local Face ID does not renew it.
+
 5. **Transactions:** a database advisory transaction lock initially serializes domain commands/worker decisions across independent PostgreSQL connections. This is an intentional throughput limitation for the trial, not a scalable production design. State, operation receipt, synchronization cursor and outbox commit atomically.
+
 6. **Synchronization:** return complete, account-scoped snapshots as contracted. Never label an incomplete page `full_snapshot`. Paging is unnecessary for bounded fixtures; a future larger deployment must introduce a stable-snapshot paging contract before truncation.
+
 7. **Notification adapter:** a database-backed fake sink is the only delivery adapter. Its atomic/deduplicated behavior cannot establish exactly-once external delivery. No APNs endpoint, credentials or real notification code is enabled.
+
 8. **Deletion/restore:** immediate domain disable/revocation precedes provider cleanup. A pre-deletion database backup is restored into a distinct isolated database; replay a separately retained post-backup deletion ledger before allowing reads. Restoring the ledger from the same old backup is insufficient.
+
 9. **Secrets:** ephemeral credentials live only in ignored runtime environment files and containers, never app source or test artifacts. Invitation receipts must encrypt any recoverable bearer value with an established encryption primitive. Runtime logs omit headers/bodies/URLs/tokens. Neither raw database dumps nor local mailboxes are uploaded as evidence.
+
 10. **Host connectivity:** observed Docker internal networks omitted published port bindings despite healthy services. Keep every container isolated; use a loopback-only host relay that passes HTTP through Docker exec standard input to a fixed internal gateway. No external route, arbitrary upstream, Docker socket mount or LAN listener is added. This is a deliberately slow local-test bridge.
+
 11. **Email changes:** changing identity email/phone is not enabled at the trial gateway. Password recovery remains enabled. Provider/domain email mismatch suppresses existing consent and fake jobs. A production verified-email-change and session-revocation journey remains future work.
+
 12. **Restored revocations:** the separately retained ledger includes ordered withdrawal/block/unblock events as well as account deletions. Replay preserves revocations conservatively: any previously withdrawn or blocked relationship requires fresh consent after restore, even when a backup contains later acceptance. Unblocking never grants consent. Ledger expiration awaits a verified backup inventory and is not enabled in this trial.
 
+
+
 Official documentation consulted: [Supabase local development](https://supabase.com/docs/guides/local-development), [official pinned Auth configuration](https://github.com/supabase/supabase/blob/master/docker/docker-compose.yml), [Auth configuration and endpoints](https://github.com/supabase/auth), [provider JWT/AMR claims](https://supabase.com/docs/guides/auth/jwt-fields), [Swift signup](https://supabase.com/docs/reference/swift/auth-signup), [Mailpit API](https://mailpit.axllent.org/docs/api-v1/). Version pins are in compose/Dockerfile/requirements; observed runtime/image identities belong in run evidence.
+
+
+
+## Review amendments — 2026-09-29
+
+
+
+These supersede the earlier trial wording where explicitly described; prior archives are unchanged.
+
+
+
+- Item6 is now enforced with at most128 entries in each alert/removal/invitation/grant collection. Overflow returns the existing `limit_reached` error (HTTP409), never a partial full snapshot. Stable paging remains deferred. Live provider visibility changes advance the affected account projection cursor even without a domain command.
+
+- Items8/12 now use a format2 ledger with logout/session barriers, complete revocation contents, an export identity and a source-wide cursor watermark. Export quiesces the source; replay verifies that same live quiesced source under transaction locks and sets destination cursors strictly above the watermark before reopening reads. Missing/stale/legacy/truncated ledgers and same-database restore are rejected. Arbitrary recovery with an unavailable source or raw provider-admin audit history is not proven; see the exact [restore procedure and limits](../QA/NativeReview/BACKEND_REVIEW.md).
+
+- Native macOS components and sequential native UI scripts are prepared separately from the passing Linux backend/official Swift SDK journey. The configured native isolation policy failed its gate; a bounded follow-up also observed wildcard listening permitted. No native UI/backend pass is inferred. See [actual environment evidence](../QA/NativeReview/NATIVE_ENVIRONMENT.md).
+
