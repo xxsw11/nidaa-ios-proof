@@ -39,6 +39,10 @@ class RevealSurfaceSchemaTests(unittest.TestCase):
                       actualStart=[201, 673.5], actualEnd=[201, 272.5])
         checkpoint = {**base, 'steps': [before]}
         self.assertTrue(valid(checkpoint), 'A checkpoint must survive an aborted gesture')
+        first_without_snapshot = {**before, 'snapshotAvailable': False, 'snapshotComplete': False,
+            'nodes': [], 'appFrame': [], 'windowFrame': [], 'selectedScrollFrame': [],
+            'actualStart': [], 'actualEnd': []}
+        self.assertTrue(valid({**base, 'steps': [first_without_snapshot]}))
         for completed in (0, 1):
             self.assertTrue(valid({**base, 'steps': [before, {**step, 'completedDrags': completed}]}))
         unknown = {**step, 'snapshotAvailable': False, 'snapshotComplete': False, 'nodes': []}

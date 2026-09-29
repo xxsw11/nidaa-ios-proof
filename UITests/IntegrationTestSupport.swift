@@ -247,9 +247,31 @@ class IntegrationTestCase: XCTestCase {
             let upper = viewport.minY + viewport.height * 0.25
             let lower = viewport.minY + viewport.height * 0.75
             if controlID == "integrationLogout" {
-                surfaceSteps.append(revealSurfaceStep(phase: "before_drag", completedDrags: completedDrags,
-                    element: element, scroll: scroll, lastTarget: lastObservedTargetFrame,
-                    start: CGPoint(x: x, y: above ? upper : lower), end: CGPoint(x: x, y: above ? lower : upper)))
+                if completedDrags == 0 {
+                    // Preserve a small first-drag checkpoint without querying
+                    // XCTest again. These flags/frames were already sampled by
+                    // the unchanged loop; reaching here means not hittable.
+                    let initialTarget = lastObservedTargetFrame.map {
+                        [Double($0.minX), Double($0.minY), Double($0.width), Double($0.height)]
+                    } ?? []
+                    let firstStep: [String: Any] = [
+                        "phase": "before_drag", "completedDrags": completedDrags,
+                        "appForeground": appForeground, "scrollExists": scrollExists,
+                        "windowExists": windowExists, "targetExists": targetExists, "targetHittable": false,
+                        "snapshotAvailable": false, "snapshotComplete": false, "truncated": false,
+                        "appFrame": [Double](), "windowFrame": [Double](), "selectedScrollFrame": [Double](),
+                        "viewport": [Double(viewport.minX), Double(viewport.minY), Double(viewport.width), Double(viewport.height)],
+                        "lastTargetFrame": initialTarget,
+                        "requestedStart": [Double(x), Double(above ? upper : lower)],
+                        "requestedEnd": [Double(x), Double(above ? lower : upper)],
+                        "actualStart": [Double](), "actualEnd": [Double](),
+                        "nodes": [[String: Any]](), "scrollNodeIndices": [Int]()]
+                    surfaceSteps.append(firstStep)
+                } else {
+                    surfaceSteps.append(revealSurfaceStep(phase: "before_drag", completedDrags: completedDrags,
+                        element: element, scroll: scroll, lastTarget: lastObservedTargetFrame,
+                        start: CGPoint(x: x, y: above ? upper : lower), end: CGPoint(x: x, y: above ? lower : upper)))
+                }
                 // Persist a bounded prefix before XCTest can abort the gesture.
                 emitSurfaceEvidence()
             }
