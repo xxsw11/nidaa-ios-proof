@@ -22,5 +22,32 @@
     "changeBeforeRetry": "Activate official Python3.12 explicitly; retain pinned project dependencies.",
     "artifact": 11008909283,
     "artifactSHA256": "0e6794b4bdebb14e7851e625f059fdf3c658715be8059374ba16a614a5cdfb6e"
+  },
+  {
+    "run": 36511434710,
+    "attempt": 1,
+    "job": 109224221262,
+    "commit": "34ce20da23659981e803a507fe52b4d509c805ff",
+    "result": "Native dependencies built; policy probe failed before any backend starts",
+    "observed": "sandbox-exec probe exit65; no JSON or secret-bearing runtime yet",
+    "category": "Policy setup diagnosis pending",
+    "artifact": 11009305250,
+    "artifactSHA256": "06bcde31c76f9445963f50128c13af5656ed6b24915fff2c10ad5c19cf549cd4"
+  },
+  {
+    "runs": [
+      36511223723,
+      36511223783,
+      36511223671,
+      36511434710
+    ],
+    "attempt": 1,
+    "commits": [
+      "6fce9bb00f10a4fe127d71c2b77ddbe9b4398af9",
+      "34ce20da23659981e803a507fe52b4d509c805ff"
+    ],
+    "result": "Client suite 23 of24 passed; revoked-refresh test failed two assertions; UI gates not reached",
+    "category": "Product protocol defect",
+    "changeBeforeRetry": "Preserve provider API-version metadata end-to-end and exercise real versioned error response; keep original assertions."
   }
 ]

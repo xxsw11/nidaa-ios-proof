@@ -35,7 +35,9 @@ public actor NidaaClient: NidaaClientProtocol {
                    localStorage: storage, logger: nil, fetch: { request in
             guard let url = request.url, environment.permits(url) else { throw ClientError.invalidEnvironment }
             let result = try await transport.send(request)
-            guard let response = HTTPURLResponse(url: url, statusCode: result.status, httpVersion: "HTTP/1.1", headerFields: ["Content-Type": "application/json"]) else { throw ClientError.invalidResponse }
+            var headers = ["Content-Type": "application/json"]
+            if let version = result.authAPIVersion { headers["X-Supabase-Api-Version"] = version }
+            guard let response = HTTPURLResponse(url: url, statusCode: result.status, httpVersion: "HTTP/1.1", headerFields: headers) else { throw ClientError.invalidResponse }
             return (result.body, response)
         }, autoRefreshToken: false, emitLocalSessionAsInitialSession: true)
     }

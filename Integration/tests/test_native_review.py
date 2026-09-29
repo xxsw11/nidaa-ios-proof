@@ -10,11 +10,21 @@ from uuid import uuid4
 import jwt
 import psycopg
 
-from harness import admin, check, mutate, sql
+from harness import BASE, admin, check, mutate, sql
 from test_integration import IntegrationCase
 
 
 class NativeReviewIntegration(IntegrationCase):
+    def test_gateway_preserves_auth_api_version_and_typed_refresh_error(self):
+        # Actual GoTrue response through the gateway consumed by the official
+        # Swift Auth SDK; no manufactured provider response or valid secret.
+        response=check(self.a.http.post(BASE+'/auth/v1/token?grant_type=refresh_token',
+            headers={'X-Supabase-Api-Version':'2024-01-01'},
+            json={'refresh_token':'invalid-local-review-refresh-token'}),400,'versioned invalid refresh')
+        self.assertEqual(response.headers.get('X-Supabase-Api-Version'),'2024-01-01')
+        self.assertIsInstance(response.json().get('code'),str)
+        self.assertTrue(response.json()['code'])
+
     def test_restore_control_tables_are_not_readable_or_mutable_by_client_role(self):
         with admin() as connection:
             connection.execute('SET LOCAL ROLE authenticated')

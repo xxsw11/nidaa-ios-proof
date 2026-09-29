@@ -38,13 +38,13 @@ async def proxy(path: str, request: Request):
                 return JSONResponse({'error':'not_enabled'},status_code=403)
         except (ValueError, UnicodeDecodeError):
             return JSONResponse({'error':'invalid_request'},status_code=400)
-    headers = {k: v for k, v in request.headers.items() if k.lower() in ('authorization', 'content-type', 'apikey', 'x-client-info')}
+    headers = {k: v for k, v in request.headers.items() if k.lower() in ('authorization', 'content-type', 'apikey', 'x-client-info', 'x-supabase-api-version')}
     # Never trust client forwarded IP/host or permit an arbitrary proxy destination.
     try:
         async with httpx.AsyncClient(timeout=15, follow_redirects=False, trust_env=False) as client:
             result = await client.request(request.method, target, params=request.query_params, content=bytes(body), headers=headers)
         safe_headers = {'cache-control': 'no-store'}
-        for key in ('content-type', 'location', 'retry-after'):
+        for key in ('content-type', 'location', 'retry-after', 'x-supabase-api-version'):
             if key in result.headers:
                 safe_headers[key] = result.headers[key]
         return Response(result.content, status_code=result.status_code, headers=safe_headers)

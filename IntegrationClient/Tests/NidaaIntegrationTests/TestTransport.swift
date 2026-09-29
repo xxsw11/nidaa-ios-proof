@@ -63,7 +63,8 @@ actor TestTransport: HTTPTransport {
         if path == "/auth/v1/token" || path == "/auth/v1/verify" {
             let body = request.httpBody.flatMap { try? JSONSerialization.jsonObject(with: $0) as? [String: Any] } ?? [:]
             if body["refresh_token"] != nil, let refreshError {
-                return HTTPResult(status: 400, body: try JSONSerialization.data(withJSONObject: ["code":400,"error_code":refreshError,"msg":"Fictional revoked session"]))
+                guard request.value(forHTTPHeaderField: "X-Supabase-Api-Version") == "2024-01-01" else { throw ClientError.invalidResponse }
+                return HTTPResult(status: 400, body: try JSONSerialization.data(withJSONObject: ["code":refreshError,"message":"Fictional revoked session"]), authAPIVersion: "2024-01-01")
             }
             let isB = (body["email"] as? String == "b@example.invalid") || (body["refresh_token"] as? String == "fixture-refresh-b") || (body["token_hash"] as? String == "fixture-verify-b")
             let id = isB ? fixtureB : fixtureA

@@ -111,8 +111,21 @@ class Runtime:
         self.stage = 'sandbox_policy_probe'
         probe = subprocess.run(['/usr/bin/sandbox-exec','-f',str(PROFILE),str(self.python),str(HERE/'isolation_probe.py')],
                                env=env, capture_output=True, text=True, timeout=10)
-        # Never publish a traceback or raw sandbox diagnostic.
+        # This probe runs before credential generation or service startup and has
+        # only static socket operations. Its bounded stderr is safe to diagnose
+        # profile compilation/exec errors; service stderr stays private below.
         self.report['sandboxProbeExitCode'] = probe.returncode
+        diagnostic = probe.stderr.strip()
+        for path,label in [(str(tools),'[NATIVE_TOOLS]'),(str(ROOT),'[REPOSITORY]'),
+                           (str(self.private),'[PRIVATE_RUNTIME]'),(str(Path.home()),'[HOME]')]:
+            diagnostic = diagnostic.replace(path,label)
+        self.report['sandboxProbePrecredentialStderr'] = diagnostic[:8192]
+        self.report['sandboxProbeStderrTruncated'] = len(diagnostic)>8192
+        self.report['sandboxProbeDiagnosticScope'] = 'Static isolation probe before credentials/services; runtime service logs excluded'
+        categories = {'syntax error':'profile_syntax_error','unbound variable':'profile_symbol_error',
+                      'invalid':'profile_or_argument_invalid','sandbox_init':'sandbox_initialization_error',
+                      'operation not permitted':'policy_denied','no such file':'probe_executable_missing'}
+        self.report['sandboxProbeDiagnosticCategories'] = sorted({code for phrase,code in categories.items() if phrase in diagnostic.lower()})
         try:
             observed = json.loads(probe.stdout)
             if isinstance(observed,dict) and all(isinstance(value,bool) for value in observed.values()):

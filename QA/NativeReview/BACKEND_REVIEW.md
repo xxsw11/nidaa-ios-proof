@@ -2,7 +2,7 @@
 
 Reviewed 2026-09-29 against implementation head `180d9650b88e90b604d6837b5f2eea78ee83257d`, including PR #2's contract/design and PR #3's implementation/evidence. Scope: identity/session checks, SQL roles/RLS, consent, serialized transactions, receipts/outbox, expiry, retention and restore. This review preserves the existing architecture and published migrations 001–004. It adds migration 005 and focused regressions.
 
-At authoring time, Python compilation and whitespace checks passed locally. The new real-stack regressions were not executed on this Windows host; they await the associated cloud run. Previous passing evidence does not prove the fixes below. The final stage status must link the actual tested commit/run and replace this pending execution statement when results are available.
+Python compilation and whitespace checks passed locally. Cloud [run 36511223671](https://github.com/xxsw11/nidaa-ios-proof/actions/runs/36511223671), commit `6fce9bb00f10a4fe127d71c2b77ddbe9b4398af9`, passed **54 real Auth/HTTP/PostgreSQL tests**, including all seven review regressions and the expanded actual backup/restore drill, plus 45 reference and 13 local QA tests. The overall run failed later in the Swift revoked-refresh regression, so it is not a complete delivery pass. A further real-provider gateway API-version regression was added after that run and still awaits execution; the corresponding transport fix is owned by the parent review.
 
 ## Material findings and fixes
 

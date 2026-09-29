@@ -130,7 +130,7 @@ class Proxy(QuietHandler):
             if not self.path.startswith('/') or self.path.startswith('//'):
                 return self.reply(400, {'error': 'invalid_request'})
             connection = http.client.HTTPConnection('127.0.0.1', 55421, timeout=15)
-            headers = {key: value for key, value in self.headers.items() if key.lower() in ('authorization', 'content-type', 'apikey', 'x-client-info')}
+            headers = {key: value for key, value in self.headers.items() if key.lower() in ('authorization', 'content-type', 'apikey', 'x-client-info', 'x-supabase-api-version')}
             connection.request(self.command, self.path, body=body, headers=headers)
             response = connection.getresponse()
             data = response.read()
@@ -142,6 +142,9 @@ class Proxy(QuietHandler):
                 return
             self.send_response(response.status)
             self.send_header('Content-Type', response.getheader('Content-Type', 'application/json'))
+            version = response.getheader('X-Supabase-Api-Version')
+            if version:
+                self.send_header('X-Supabase-Api-Version', version)
             self.send_header('Cache-Control', 'no-store')
             self.send_header('Content-Length', str(len(data)))
             self.end_headers()
