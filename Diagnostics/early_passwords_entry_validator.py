@@ -116,7 +116,8 @@ def export_early_passwords_entry(attachment_directory, output_file, owned_udid):
         return {'status': 'Rejected', 'reason': 'read-or-schema'}
 
 
-PICKER_PHASES = {'before_tap', 'after_tap', 'selection_failure'}
+PICKER_PHASES = {'before_tap', 'after_tap', 'selection_failure', 'before_selection', 'after_fill_wait'}
+PICKER_LABELS = PICKER_LABELS | {'Use Password', 'Use This Password', 'استخدام كلمة السر', 'استخدام كلمة المرور', 'استخدام كلمة السر هذه', 'استخدام كلمة المرور هذه', 'تعبئة كلمة السر', 'تعبئة كلمة المرور'}
 
 
 def valid_picker_tree(value):
@@ -158,7 +159,7 @@ def valid_picker_tree(value):
 
 
 def export_picker_trees(attachment_directory, output_directory, owned_udid):
-    """Export at most three fixed-name, schema-validated JSON trees; no images."""
+    """Export at most five fixed-name, schema-validated JSON trees; no images."""
     report = {'status': 'Unavailable', 'reason': 'attachment-count',
               'before_tap': False, 'after_tap': False, 'selection_failure': False}
     directory = Path(attachment_directory).resolve()
@@ -214,3 +215,58 @@ def export_picker_trees(attachment_directory, output_directory, owned_udid):
         return report
     except (OSError, ValueError, TypeError, UnicodeError):
         report.update(status='Rejected', reason='read-or-schema'); return report
+
+
+def valid_selection_state(value):
+    flags = {'selectedLabelContainsEmail', 'selectedLabelContainsSite', 'selectedLabelEqualsEmail',
+             'selectedLabelEqualsSite', 'emailFieldExists', 'emailMatchesExpected', 'emailBlank', 'signupEnabled'}
+    return (isinstance(value, dict) and set(value) == flags | {'selectedRole'}
+            and type(value['selectedRole']) is int and 0 <= value['selectedRole'] <= 1000
+            and all(type(value[key]) is bool for key in flags))
+
+
+def export_selection_state(attachment_directory, owned_udid):
+    """Return only validated fixed booleans/role from the exact owned XCTest."""
+    rejected = {'status': 'Rejected', 'reason': 'origin-or-schema'}
+    if not isinstance(owned_udid, str) or not re.fullmatch(r'[0-9A-F]{8}(?:-[0-9A-F]{4}){3}-[0-9A-F]{12}', owned_udid):
+        return rejected
+    try:
+        directory = Path(attachment_directory).resolve()
+        manifest_path = directory / 'manifest.json'
+        if not manifest_path.is_file():
+            return {'status': 'Unavailable', 'reason': 'manifest-missing'}
+        if manifest_path.stat().st_size > 1024 * 1024:
+            return rejected
+        manifest = json.loads(manifest_path.read_text(encoding='utf-8'), object_pairs_hook=_unique_object)
+        if not isinstance(manifest, list):
+            return rejected
+        pattern = r'autofill-native-selection-state(?:_0_[0-9A-Fa-f-]{36})?(?:\.txt|\.text)?'
+        candidates = []
+        for test in manifest:
+            if not isinstance(test, dict) or not isinstance(test.get('attachments', []), list):
+                return rejected
+            for item in test.get('attachments', []):
+                if not isinstance(item, dict):
+                    return rejected
+                human = item.get('suggestedHumanReadableName', '')
+                if not isinstance(human, str) or not re.fullmatch(pattern, human):
+                    continue
+                if test.get('testIdentifier') != TEST_IDENTIFIER or item.get('deviceId') != owned_udid:
+                    return rejected
+                exported = item.get('exportedFileName')
+                if not isinstance(exported, str) or Path(exported).name != exported:
+                    return rejected
+                source = (directory / exported).resolve()
+                if source.parent != directory or source.suffix not in ('.txt', '.text') or source.stat().st_size > 4096:
+                    return rejected
+                value = json.loads(source.read_text(encoding='utf-8'), object_pairs_hook=_unique_object)
+                if not valid_selection_state(value):
+                    return rejected
+                candidates.append(value)
+        if not candidates:
+            return {'status': 'Unavailable', 'reason': 'attachment-missing'}
+        if len(candidates) != 1:
+            return rejected
+        return {'status': 'Exported', 'reason': 'validated-fixed-schema', 'values': candidates[0]}
+    except (OSError, ValueError, TypeError, UnicodeError):
+        return rejected

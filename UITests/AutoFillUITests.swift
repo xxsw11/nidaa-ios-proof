@@ -177,9 +177,40 @@ final class AutoFillUITests: IntegrationTestCase {
             }
             XCTFail("Fictional saved account not found in native picker"); return
         }
+        let selectedRole = Int(selectedTarget.elementType.rawValue)
+        let selectedLabel = selectedTarget.label
+        let selectedLabelContainsEmail = selectedLabel.contains(email)
+        let selectedLabelContainsSite = selectedLabel.contains(site)
+        let selectedLabelEqualsEmail = selectedLabel == email
+        let selectedLabelEqualsSite = selectedLabel == site
+        recordFullPickerDiagnostic(phase: "before_selection", app: nativeApp, springboard: springboard, passwords: passwords)
         selectedTarget.tap()
         let emailFilled = XCTNSPredicateExpectation(predicate: NSPredicate(format: "value == %@", email), object: emailField)
-        XCTAssertEqual(XCTWaiter.wait(for: [emailFilled], timeout: 8), .completed)
+        let emailFillResult = XCTWaiter.wait(for: [emailFilled], timeout: 8)
+        let emailFieldExists = emailField.exists
+        // Only this fictional email is inspected. Never inspect a password
+        // field value or attach any label/value string from the native picker.
+        let emailValue = emailFieldExists ? emailField.value as? String : nil
+        let signup = app.buttons["integrationSignup"]
+        let selectionState: [String: Any] = [
+            "selectedRole": selectedRole,
+            "selectedLabelContainsEmail": selectedLabelContainsEmail,
+            "selectedLabelContainsSite": selectedLabelContainsSite,
+            "selectedLabelEqualsEmail": selectedLabelEqualsEmail,
+            "selectedLabelEqualsSite": selectedLabelEqualsSite,
+            "emailFieldExists": emailFieldExists,
+            "emailMatchesExpected": emailFieldExists && emailValue == email,
+            "emailBlank": emailFieldExists && (emailValue.map { $0.isEmpty || $0 == emailField.placeholderValue } ?? false),
+            "signupEnabled": signup.exists && signup.isEnabled
+        ]
+        if let data = try? JSONSerialization.data(withJSONObject: selectionState, options: [.sortedKeys]),
+           let text = String(data: data, encoding: .utf8) {
+            let attachment = XCTAttachment(string: text)
+            attachment.name = "autofill-native-selection-state"
+            attachment.lifetime = .keepAlways; add(attachment)
+        }
+        recordFullPickerDiagnostic(phase: "after_fill_wait", app: nativeApp, springboard: springboard, passwords: passwords)
+        XCTAssertEqual(emailFillResult, .completed)
         let passwordFilled = XCTNSPredicateExpectation(predicate: NSPredicate(format: "enabled == true"), object: app.buttons["integrationSignup"])
         XCTAssertEqual(XCTWaiter.wait(for: [passwordFilled], timeout: 8), .completed, "Saved password did not fill the real validation gate")
         dismissKeyboard(after: emailField)
@@ -274,13 +305,14 @@ final class AutoFillUITests: IntegrationTestCase {
         }
     }
     private func pickerDiagnosticAllowedStrings() -> Set<String> {
-        ["", "[redacted]", "Passwords", "Password", "Password AutoFill", "AutoFill Password", "Fill Password",
+        ["", "[redacted]", "Passwords", "Password", "Password AutoFill", "AutoFill Password", "Fill Password", "Use Password", "Use This Password",
          "AutoFill", "AutoFill…", "Other Passwords", "Other Passwords…", "Open Passwords", "Search", "Search Passwords",
          "Allow", "Don’t Allow", "Don't Allow", "Continue", "Cancel", "Done", "Close", "Back", "Save", "New Password",
          "User Name", "Username", "Website or Label", "Website or App", "Notes", "All", "Passkeys", "Codes", "Deleted",
          "Sign In to iCloud", "Sign in to your Apple Account", "Set Up a Passcode", "Enter iPhone Passcode", "Use Passcode",
          "Face ID", "Touch ID", "Authentication Required", "Unlock Passwords", "Select All", "Select", "Paste", "Copy", "Cut",
          "كلمات السر", "كلمات المرور", "تعبئة كلمات السر", "تعبئة تلقائية", "تعبئة تلقائية…", "كلمات سر أخرى", "كلمات مرور أخرى",
+         "استخدام كلمة السر", "استخدام كلمة المرور", "استخدام كلمة السر هذه", "استخدام كلمة المرور هذه", "تعبئة كلمة السر", "تعبئة كلمة المرور",
          "بحث", "إلغاء", "تم", "متابعة", "السماح", "عدم السماح", "فتح كلمات السر", "تسجيل الدخول إلى iCloud", "إدخال رمز دخول iPhone",
          "NIDAA", "نداء", "تجربة الربط المحلي", "MOCK · محاكاة واجهة فقط", "حساب خيالي مستقل", "البريد الإلكتروني", "كلمة المرور",
          "تسجيل الدخول", "إنشاء حساب تجريبي", "طلب استعادة كلمة المرور", "لديّ رمز تحقق أو استعادة", "إغلاق", "إظهار كلمة المرور", "إخفاء كلمة المرور",
@@ -338,9 +370,9 @@ final class AutoFillUITests: IntegrationTestCase {
             evidence.name = "autofill-native-picker-accessibility-tree"
             evidence.lifetime = .keepAlways; add(evidence)
         }
-        // Full screen, retaining native layout. Snapshot-based masks are not
-        // atomic with a changing screen: the exporter also encrypts these images
-        // for local inspection before publication. They are diagnostic captures.
+        // Full screen, runner-private only. Snapshot masks are not atomic with a
+        // changing screen. Neither raw nor encrypted images may be uploaded;
+        // only the strictly validated fixed-schema JSON is exportable.
         guard newPasswordFormClosed, emailBlank, complete, !truncated else { return }
         let original = XCUIScreen.main.screenshot().image
         guard let pixels = original.cgImage else { return }
