@@ -50,6 +50,7 @@ PY
     while IFS= read -r name; do test_selection+=("-only-testing:NidaaUITests/LocalExperienceUITests/$name"); done < "$proof_evidence/ui-test-names.txt"
     ;;
   autofill) test_selection=(-only-testing:NidaaUITests/AutoFillUITests) ;;
+  autofill-saved) test_selection=(-only-testing:NidaaUITests/AutoFillUITests/testSavedCredentialSelection) ;;
   live) test_selection=(-only-testing:NidaaUITests/NativeIntegrationUITests) ;;
   all) test_selection=(-skip-testing:NidaaUITests/NativeIntegrationUITests) ;;
   *) echo 'Unknown UI test suite'; exit 2 ;;

@@ -60,7 +60,9 @@ jobs:
           set -o pipefail
           swift test --package-path IntegrationClient 2>&1 | tee artifacts/client-review-tests.log
       - name: Verify enabled AutoFill input and Release build
-        run: bash Scripts/ci_native_review.sh autofill
+        env:
+          INPUT_SUITE: ${{ contains(github.event.head_commit.message, '[ui:saved]') && 'autofill-saved' || 'autofill' }}
+        run: bash Scripts/ci_native_review.sh "$INPUT_SUITE"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: ${{ always() }}
         with:

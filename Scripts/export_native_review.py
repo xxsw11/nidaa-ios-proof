@@ -2,6 +2,7 @@
 from pathlib import Path
 import hashlib
 import json
+import math
 import os
 import re
 import shutil
@@ -11,7 +12,7 @@ import sys
 root = Path(__file__).resolve().parents[1]
 private, suite, code = sys.argv[1:]
 private = (root/private).resolve()
-assert private.is_relative_to(root/'PrivateEvidence') and suite in ('integration', 'autofill', 'live')
+assert private.is_relative_to(root/'PrivateEvidence') and suite in ('integration', 'autofill', 'autofill-saved', 'live')
 output = root/'artifacts/native-review'/suite
 output.mkdir(parents=True, exist_ok=False)
 report = {'suite': suite, 'exitCode': int(code), 'commit': os.environ.get('GITHUB_SHA'),
@@ -43,7 +44,7 @@ logs=log_path.read_text(errors='replace') if log_path.exists() else ''
 diagnostics = logs + '\n' + '\n'.join(failure_text)
 report['testCaseResults'] = re.findall(r"Test Case '-\[([A-Za-z0-9_.]+) ([A-Za-z0-9_]+)\]' (passed|failed|skipped)", logs)
 saved_results = [result for _, name, result in report['testCaseResults'] if name == 'testSavedCredentialSelection']
-if suite == 'autofill':
+if suite in ('autofill', 'autofill-saved'):
     report['savedCredentialSelection'] = saved_results[-1] if saved_results else 'Not executed'
 report['failureLocations'] = sorted(set(re.findall(r'([A-Za-z0-9_]+\.swift):([0-9]+):(?:[0-9]+:)? error:', logs)))
 report['infrastructureSignals'] = {name: pattern.lower() in diagnostics.lower() for name, pattern in {
@@ -61,6 +62,8 @@ report['infrastructureSignals'] = {name: pattern.lower() in diagnostics.lower() 
 # location/category, not arbitrary quoted values, token-like strings or URLs.
 report['compilerDiagnostics'] = [re.sub(r'"[^"\n]*"|\x27[^\x27\n]*\x27', '<quoted source>', line.split('/nidaa-ios-proof/')[-1])
     for line in logs.splitlines() if re.search(r'\.swift:\d+:\d+: error:', line)][:30]
+if report['compilerDiagnostics']:
+    report['infrastructureSignals']['compileFailure'] = True
 release = private/'xcode-release.log'
 report['debugTestSucceeded'] = '** TEST SUCCEEDED **' in logs
 report['releaseBuildSucceeded'] = release.exists() and '** BUILD SUCCEEDED **' in release.read_text(errors='replace')
@@ -79,6 +82,7 @@ allowed = {
  'autofill-saved-credential-new-password-controls-header',
  'autofill-noncredential-secure-field-crop',
  'autofill-noncredential-visible-field-crop',
+ 'autofill-native-empty-identity-fields-crop',
  'integration-mock-autofill-saved-credential-selected-mock-login',
  'integration-mock-autofill-enabled-registration-complete-mock',
  'integration-mock-autofill-enabled-recovery-complete-mock',
@@ -123,6 +127,16 @@ if manifest.exists():
                 item = '(?:'+'|'.join(re.escape(label) for label in requirements)+')'
                 if re.fullmatch('Observed personal-account/device-passcode requirement: '+item+'(?:, '+item+')*', note):
                     report['savedCredentialRequirement'] = note
+            if human=='autofill-native-form-role-geometry' and source.suffix in ('.txt','.text'):
+                try:
+                    geometry=json.loads(source.read_text(encoding='utf-8'))
+                except (ValueError, UnicodeError):
+                    geometry=None
+                flags={'websiteFound','usernameFound','userLabelFound','passwordLabelFound'}
+                if isinstance(geometry,dict) and set(geometry)==flags|{'controls'} and all(type(geometry[k]) is bool for k in flags):
+                    controls=geometry['controls']
+                    if isinstance(controls,list) and len(controls)<=30 and all(isinstance(c,dict) and set(c)=={'role','frame','hittable'} and c['role'] in ('textField','secureTextField','textView') and type(c['hittable']) is bool and isinstance(c['frame'],list) and len(c['frame'])==4 and all(type(v) in (int,float) and math.isfinite(v) and abs(v)<100000 for v in c['frame']) for c in controls):
+                        report['nativeFormRoleGeometry']=geometry
             if human=='integration-mock-draft-readiness' and source.suffix in ('.txt','.text'):
                 # Only fixed UI booleans; never publish arbitrary attachment text.
                 note=source.read_text()
@@ -152,17 +166,17 @@ assert not re.search(r'eyJ[A-Za-z0-9_-]{15,}\.[A-Za-z0-9_-]{15,}|-----BEGIN .*PR
 print(json.dumps({'suite':suite,'exitCode':int(code),'summary':report['summary'].get('result'),'safeOriginalScreenshots':len(images)}))
 if int(code)==0:
     actual=report['summary']
-    assert actual.get('totalTestCount')==({'integration':8,'autofill':4,'live':2}[suite]), 'No empty or incomplete test selection may pass'
+    assert actual.get('totalTestCount')==({'integration':8,'autofill':4,'autofill-saved':1,'live':2}[suite]), 'No empty or incomplete test selection may pass'
     assert actual.get('failedTests')==0 and report['debugTestSucceeded'] and report['releaseBuildSucceeded']
-    if suite == 'autofill':
-        required = {'testEnabledManualRegistrationAndFieldNavigation','testEnabledPasteLoginAndRecovery','testEnabledVisibilityUsesOnlyNonCredentialDemonstration'}
+    if suite in ('autofill', 'autofill-saved'):
+        required = {'testEnabledManualRegistrationAndFieldNavigation','testEnabledPasteLoginAndRecovery','testEnabledVisibilityUsesOnlyNonCredentialDemonstration'} if suite == 'autofill' else set()
         outcomes = {name: result for _, name, result in report['testCaseResults']}
         assert all(outcomes.get(name) == 'passed' for name in required)
         if report['savedCredentialSelection'] == 'passed':
-            assert actual.get('passedTests') == 4 and actual.get('skippedTests') == 0
+            assert actual.get('passedTests') == len(required)+1 and actual.get('skippedTests') == 0
         else:
             assert report['savedCredentialSelection'] == 'skipped' and report.get('savedCredentialRequirement')
-            assert actual.get('passedTests') == 3 and actual.get('skippedTests') == 1
+            assert actual.get('passedTests') == len(required) and actual.get('skippedTests') == 1
     else:
         assert actual.get('passedTests') == {'integration':8,'live':2}[suite]
         assert actual.get('skippedTests') == 0

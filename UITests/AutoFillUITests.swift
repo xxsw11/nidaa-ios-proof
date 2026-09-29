@@ -6,7 +6,7 @@ import UIKit
 final class AutoFillUITests: IntegrationTestCase {
     func testSavedCredentialSelection() throws {
         // Only a new disposable Simulator. The generated system password is
-        // never read, changed, copied, displayed by this test, or sent to a server.
+        // never read, changed, copied, published, or sent to a server.
         let passwords = XCUIApplication(bundleIdentifier: "com.apple.Passwords")
         passwords.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
         passwords.launch()
@@ -34,8 +34,10 @@ final class AutoFillUITests: IntegrationTestCase {
         recordKnownSystemControls(in: passwords, stage: "new-password-form")
 
         let websiteLabels = ["Website or App", "Website", "website", "example.com", "App or Website"]
-        let website = passwords.textFields.matching(NSPredicate(format: "label IN %@ OR placeholderValue IN %@ OR identifier IN %@", websiteLabels, websiteLabels, websiteLabels)).firstMatch
+        let namedWebsite = passwords.textFields.matching(NSPredicate(format: "label IN %@ OR placeholderValue IN %@ OR identifier IN %@", websiteLabels, websiteLabels, websiteLabels)).firstMatch
+        let website = namedWebsite.exists ? namedWebsite : websiteFieldAboveUsername(in: passwords, header: header)
         let username = labeledRowTextField("User Name", in: passwords)
+        recordEmptyFormGeometry(in: passwords, header: header, website: website, username: username)
         guard website.exists && website.isHittable, username.exists && username.isHittable else {
             XCTFail("Native fictional website/username fields could not be identified safely"); return
         }
@@ -114,17 +116,74 @@ final class AutoFillUITests: IntegrationTestCase {
     }
     private func labeledRowTextField(_ label: String, in surface: XCUIApplication) -> XCUIElement {
         let row = surface.cells.containing(.staticText, identifier: label).firstMatch
-        if row.exists && row.textFields.firstMatch.exists { return row.textFields.firstMatch }
+        if row.exists && row.textFields.count == 1 { return row.textFields.firstMatch }
+        if row.exists && row.textViews.count == 1 { return row.textViews.firstMatch }
         let direct = surface.textFields.matching(NSPredicate(format: "label IN %@ OR placeholderValue IN %@", [label, "Username"], [label, "Username"])).firstMatch
         if direct.exists { return direct }
         let title = surface.staticTexts[label].firstMatch
         if title.exists {
-            let sameRow = surface.textFields.allElementsBoundByIndex.filter {
+            let editable = surface.textFields.allElementsBoundByIndex + surface.textViews.allElementsBoundByIndex
+            let sameRow = editable.filter {
                 abs($0.frame.midY - title.frame.midY) < max(title.frame.height, 22)
             }
             if sameRow.count == 1 { return sameRow[0] }
         }
         return direct // Absent sentinel; caller fails without guessing a field.
+    }
+    private func websiteFieldAboveUsername(in surface: XCUIApplication, header: XCUIElement) -> XCUIElement {
+        let usernameLabel = surface.staticTexts["User Name"].firstMatch
+        let passwordLabel = surface.staticTexts["Password"].firstMatch
+        let absent = surface.textFields["NIDAA-absent-native-website-control"]
+        guard usernameLabel.exists, passwordLabel.exists,
+              usernameLabel.frame.maxY < passwordLabel.frame.minY else { return absent }
+        // The observed native form has a User Name row followed by Password.
+        // Resolve only a UNIQUE editable site field above User Name and below
+        // the form header. Never choose by array index or enter the password row.
+        let editable = surface.textFields.allElementsBoundByIndex + surface.textViews.allElementsBoundByIndex
+        let candidates = editable.filter {
+            $0.exists && $0.isHittable && $0.frame.minY >= header.frame.maxY
+                && $0.frame.maxY < usernameLabel.frame.minY
+        }
+        return candidates.count == 1 ? candidates[0] : absent
+    }
+    private func recordEmptyFormGeometry(in surface: XCUIApplication, header: XCUIElement, website: XCUIElement, username: XCUIElement) {
+        // Fixed role names, numeric frames and booleans only. No labels,
+        // placeholders, identifiers, field values or system-generated password.
+        var records: [[String: Any]] = []
+        for (role, elements) in [("textField", surface.textFields.allElementsBoundByIndex),
+                                 ("secureTextField", surface.secureTextFields.allElementsBoundByIndex),
+                                 ("textView", surface.textViews.allElementsBoundByIndex)] {
+            for field in elements where field.exists {
+                let f = field.frame
+                records.append(["role": role, "frame": [f.minX, f.minY, f.width, f.height], "hittable": field.isHittable])
+            }
+        }
+        let userLabel = surface.staticTexts["User Name"].firstMatch
+        let passwordLabel = surface.staticTexts["Password"].firstMatch
+        let report: [String: Any] = ["websiteFound": website.exists, "usernameFound": username.exists,
+            "userLabelFound": userLabel.exists, "passwordLabelFound": passwordLabel.exists, "controls": records]
+        if let data = try? JSONSerialization.data(withJSONObject: report, options: [.sortedKeys]), let text = String(data: data, encoding: .utf8) {
+            let evidence = XCTAttachment(string: text)
+            evidence.name = "autofill-native-form-role-geometry"
+            evidence.lifetime = .keepAlways; add(evidence)
+        }
+        // At this point no fixture text has been entered. Crop strictly above
+        // Password, with an entire extra row-height margin; fail closed on any
+        // unexpected layout. The generated password row is never captured.
+        guard userLabel.exists, userLabel.isHittable, passwordLabel.exists, passwordLabel.isHittable,
+              userLabel.frame.maxY < passwordLabel.frame.minY else { return }
+        let window = surface.windows.firstMatch.frame
+        let top = header.frame.maxY
+        let bottom = min(userLabel.frame.maxY, passwordLabel.frame.minY - max(passwordLabel.frame.height, 44))
+        guard top >= window.minY, bottom > top + 24, bottom < passwordLabel.frame.minY else { return }
+        let shot = surface.screenshot().image
+        guard let pixels = shot.cgImage else { return }
+        let scale = CGFloat(pixels.width) / window.width
+        let rect = CGRect(x: 0, y: (top - window.minY) * scale, width: CGFloat(pixels.width), height: (bottom - top) * scale).integral
+        guard rect.maxY <= CGFloat(pixels.height), let crop = pixels.cropping(to: rect) else { return }
+        let evidence = XCTAttachment(image: UIImage(cgImage: crop))
+        evidence.name = "autofill-native-empty-identity-fields-crop"
+        evidence.lifetime = .keepAlways; add(evidence)
     }
     private func skipOnlyObservedPersonalRequirement(in surfaces: [XCUIApplication]) throws {
         let requirements = ["Sign In to iCloud", "Sign in to your Apple Account", "Set Up a Passcode", "Enter iPhone Passcode", "تسجيل الدخول إلى iCloud", "إدخال رمز دخول iPhone"]

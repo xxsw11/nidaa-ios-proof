@@ -1,8 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 cd "$(dirname "$0")/.."
-suite="${1:?Choose integration, autofill or live}"
-case "$suite" in integration|autofill|live) ;; *) exit 2 ;; esac
+suite="${1:?Choose integration, autofill, autofill-saved or live}"
+case "$suite" in integration|autofill|autofill-saved|live) ;; *) exit 2 ;; esac
 private_evidence="PrivateEvidence/native-review-$suite-$(uuidgen)"
 mkdir -p "$private_evidence"
 chmod 700 "$private_evidence"

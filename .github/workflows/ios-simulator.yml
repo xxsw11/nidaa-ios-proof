@@ -27,13 +27,13 @@ permissions:
   contents: read
 
 concurrency:
-  group: nidaa-ios-proof-${{ github.ref }}-${{ inputs.ui_suite || (contains(github.event.head_commit.message, '[ui:review]') && 'review') || (contains(github.event.head_commit.message, '[ui:integration]') && 'integration') || 'all' }}
+  group: nidaa-ios-proof-${{ github.ref }}-${{ inputs.ui_suite || (contains(github.event.head_commit.message, '[ui:saved]') && 'saved') || (contains(github.event.head_commit.message, '[ui:review]') && 'review') || (contains(github.event.head_commit.message, '[ui:integration]') && 'integration') || 'all' }}
   cancel-in-progress: true
 
 jobs:
   simulator:
     name: Simulator - ${{ matrix.ui-suite }}
-    if: ${{ github.event.repository.private == false }}
+    if: ${{ github.event.repository.private == false && !contains(github.event.head_commit.message, '[ui:saved]') }}
     runs-on: macos-15
     timeout-minutes: 45
     strategy:
