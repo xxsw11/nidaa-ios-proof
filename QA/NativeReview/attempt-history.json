@@ -49,5 +49,17 @@
     "result": "Client suite 23 of24 passed; revoked-refresh test failed two assertions; UI gates not reached",
     "category": "Product protocol defect",
     "changeBeforeRetry": "Preserve provider API-version metadata end-to-end and exercise real versioned error response; keep original assertions."
+  },
+  {
+    "run": 36511820228,
+    "attempt": 1,
+    "job": 109225409609,
+    "commit": "966f80abae825e9e8ca9c55fa659c3cd76ef4527",
+    "result": "Policy profile compilation failed before services",
+    "category": "Configuration defect",
+    "observed": "sandbox-exec: host must be * or localhost in network address",
+    "changeBeforeRetry": "Use special localhost Seatbelt selector; retain deny-default, wildcard bind rejection, actual isolation probe and literal127.0.0.1 service binds.",
+    "artifact": 11009835317,
+    "artifactSHA256": "c00509dccc933b5c22b50ec5a7e60a20448424201506ff428dd98db747413370"
   }
 ]

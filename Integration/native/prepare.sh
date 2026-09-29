@@ -6,6 +6,7 @@ cd "$(dirname "$0")/../.."
 command -v brew >/dev/null
 command -v go >/dev/null
 command -v python3 >/dev/null
+python3 -c 'import sys; assert sys.version_info[:2] == (3, 12), "Use Python3.12 for pinned native trial dependencies"'
 native_tools="${NIDAA_NATIVE_TOOLS:-${RUNNER_TEMP:-${TMPDIR:-/tmp}}/nidaa-native-tools}"
 mkdir -p "$native_tools"
 chmod 700 "$native_tools"
