@@ -1,0 +1,24 @@
+name: NIDAA - Bounded Simulator biometry capability
+on:
+  push:
+    branches: ['codex/biometry-capability']
+    paths: ['Diagnostics/biometry_probe.py', '.github/workflows/biometry-capability.yml']
+permissions:
+  contents: read
+jobs:
+  capability:
+    if: ${{ github.ref == 'refs/heads/codex/biometry-capability' }}
+    runs-on: macos-15
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Inspect no-prompt host permissions and official Simulator menu
+        run: python3 Diagnostics/biometry_probe.py --output artifacts/biometry-capability/report.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: ${{ always() }}
+        with:
+          name: biometry-capability-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/biometry-capability/report.json
+          retention-days: 7
