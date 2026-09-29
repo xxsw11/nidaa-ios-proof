@@ -300,22 +300,32 @@ final class ObserverDelegate: NSObject, UIApplicationDelegate {
         guard let index = arguments.firstIndex(of: "--phase"), index + 1 < arguments.count else { return false }
         let phase = arguments[index + 1]
         guard phase == "before" || phase == "after" else { return false }
+        guard let nonceIndex = arguments.firstIndex(of: "--observation-nonce"), nonceIndex + 1 < arguments.count else { return false }
+        let nonce = arguments[nonceIndex + 1]
+        guard nonce.count == 32, nonce.allSatisfy({ $0.isHexDigit }) else { return false }
         let context = LAContext()
         var error: NSError?
         let available = context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
-        let observation: [String: Any] = ["schemaVersion": 1, "phase": phase, "policy": 1,
+        let observation: [String: Any] = ["schemaVersion": 1, "phase": phase, "nonce": nonce, "policy": 1,
             "canEvaluate": available, "laErrorCode": error?.code ?? 0,
             "errorIsLocalAuthentication": error == nil || error?.domain == LAError.errorDomain,
             "biometryType": context.biometryType.rawValue, "authenticationPromptRequested": false]
-        do {
-            let directory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-            let data = try JSONSerialization.data(withJSONObject: observation, options: [.sortedKeys])
-            try data.write(to: directory.appendingPathComponent("observer-\(phase).json"), options: [.atomic])
-        } catch { return false }
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.rootViewController = UIViewController()
         window.makeKeyAndVisible()
         self.window = window
+        // Allow UIKit's launch callback to return, then emit only this fixed
+        // diagnostic record and exit. No app-container lookup is required.
+        DispatchQueue.main.async {
+            do {
+                let data = try JSONSerialization.data(withJSONObject: observation, options: [.sortedKeys])
+                var output = Data("NIDAA_BIOMETRY_OBSERVATION:".utf8)
+                output.append(data)
+                output.append(10)
+                FileHandle.standardOutput.write(output)
+                exit(0)
+            } catch { exit(4) }
+        }
         return true
     }
 }
@@ -362,6 +372,15 @@ def build_observer(directory, report):
         observation['before']['status'] = 'Notexecuted-budget'
         observation['after']['status'] = 'Notexecuted-budget'
         return None
+    # Apple documents Simulator console attachment. Require this installed
+    # tool's exact non-PTY option rather than assuming a version's syntax.
+    report['stage'] = 'observer_launch_help'
+    help_result = command(['xcrun', 'simctl', 'help', 'launch'], timeout=30)
+    observation['launchHelpExitCode'] = help_result.returncode
+    observation['consoleOptionSupported'] = help_result.returncode == 0 and bool(re.search(r'(?<![\w-])--console(?![\w-])', help_result.stdout+help_result.stderr))
+    if not observation['consoleOptionSupported']:
+        observation['buildStatus'] = 'Notexecuted-console-option-unavailable'
+        return None
     report['stage'] = 'observer_sdk_discovery'
     sdk = command(['xcrun', '--sdk', 'iphonesimulator', '--show-sdk-path'], timeout=20)
     observation['sdkDiscoveryExitCode'] = sdk.returncode
@@ -400,61 +419,44 @@ def observe_local_authentication(owned, phase, report, minimum_remaining=30):
     entry = observation[phase] = {'status': 'Notexecuted-budget'}
     if remaining_seconds() < minimum_remaining:
         return
-    entry['status'] = 'Running-container'
-    report['stage'] = 'observer_'+phase+'_container'
-    # The measured first container lookup exceeded the old 10-second window
-    # after a successful cold install. Keep the overall 390-second clamp.
+    nonce = uuid4().hex
+    report['stage'] = 'observer_'+phase+'_console_launch'
+    entry['status'] = 'Running-console-launch'
     try:
-        container = command(['xcrun', 'simctl', 'get_app_container', owned, OBSERVER_BUNDLE, 'data'], timeout=30)
+        launched = command(['xcrun', 'simctl', 'launch', '--console', '--terminate-running-process', owned,
+                            OBSERVER_BUNDLE, '--phase', phase, '--observation-nonce', nonce], timeout=45)
     except ProbeTimeout:
-        entry['status'] = 'Failed-container-timeout'
-        raise
-    entry['containerExitCode'] = container.returncode
-    if container.returncode:
-        entry['status'] = 'Failed-container'
-        return
-    directory = Path(container.stdout.strip())
-    if not directory.is_absolute() or not directory.is_dir():
-        entry['status'] = 'Failed-container-path'
-        return
-    # The only simulator file read is this observer app's own phase-specific
-    # output. A pre-existing file is rejected, never accepted as fresh evidence.
-    output = directory/'Documents'/('observer-'+phase+'.json')
-    if output.exists():
-        entry['status'] = 'Failed-stale-output'
-        return
-    report['stage'] = 'observer_'+phase+'_launch'
-    entry['status'] = 'Running-launch'
-    try:
-        launched = command(['xcrun', 'simctl', 'launch', '--terminate-running-process', owned, OBSERVER_BUNDLE, '--phase', phase], timeout=45)
-    except ProbeTimeout:
-        entry['status'] = 'Failed-launch-timeout'
+        entry['status'] = 'Failed-console-launch-timeout'
         raise
     entry['launchExitCode'] = launched.returncode
     if launched.returncode:
-        entry['status'] = 'Failed-launch'
+        entry['status'] = 'Failed-console-launch'
         return
-    report['stage'] = 'observer_'+phase+'_readback'
-    entry['status'] = 'Running-readback'
-    deadline = min(time.monotonic()+10, COMMAND_DEADLINE)
-    while not output.is_file() and time.monotonic() < deadline:
-        time.sleep(0.2)
-    if not output.is_file():
-        entry['status'] = 'Failed-output-timeout'
+    report['stage'] = 'observer_'+phase+'_console_readback'
+    entry['status'] = 'Running-console-readback'
+    prefix = 'NIDAA_BIOMETRY_OBSERVATION:'
+    # Never publish raw stdout/stderr: simctl can include unrelated diagnostic
+    # noise and process identifiers. Accept exactly one owned-app record only.
+    records = [line[len(prefix):] for line in launched.stdout.splitlines() if line.startswith(prefix)]
+    if len(records) != 1 or len(records[0]) > 2048:
+        entry['status'] = 'Failed-console-record-count-or-size'
         return
-    if output.stat().st_size > 2048:
-        entry['status'] = 'Failed-output-size'
-        return
-    value = json.loads(output.read_text(encoding='utf-8'))
-    expected = {'schemaVersion', 'phase', 'policy', 'canEvaluate', 'laErrorCode', 'errorIsLocalAuthentication',
-                'biometryType', 'authenticationPromptRequested'}
-    if (not isinstance(value, dict) or set(value) != expected or value['schemaVersion'] != 1 or value['phase'] != phase
-            or value['policy'] != 1 or value['authenticationPromptRequested'] is not False
-            or type(value['canEvaluate']) is not bool or type(value['errorIsLocalAuthentication']) is not bool
-            or type(value['laErrorCode']) is not int or type(value['biometryType']) is not int):
+    try:
+        value = json.loads(records[0])
+    except ValueError:
         entry['status'] = 'Failed-output-schema'
         return
+    expected = {'schemaVersion', 'phase', 'nonce', 'policy', 'canEvaluate', 'laErrorCode', 'errorIsLocalAuthentication',
+                'biometryType', 'authenticationPromptRequested'}
+    if (not isinstance(value, dict) or set(value) != expected or value['schemaVersion'] != 1 or value['phase'] != phase
+            or value['nonce'] != nonce or value['policy'] != 1 or value['authenticationPromptRequested'] is not False
+            or type(value['canEvaluate']) is not bool or type(value['errorIsLocalAuthentication']) is not bool
+            or type(value['laErrorCode']) is not int or type(value['biometryType']) is not int):
+        entry['status'] = 'Failed-output-schema-or-freshness'
+        return
+    value.pop('nonce')
     entry['status'] = 'Observed'
+    entry['nonceMatched'] = True
     entry['result'] = value
 
 
